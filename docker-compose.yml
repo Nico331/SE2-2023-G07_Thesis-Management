@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  mongoDB:
+    image: 'mongo'
+    restart: 'always'
+    container_name: mongo_db_se
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - mynetwork
+
+  backend:
+    image: "server:0.0.1-SNAPSHOT"
+    container_name: serverContainer
+    ports:
+      - '8081:8081'
+    depends_on:
+      - mongoDB
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_db:27017 #/mongo_db
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+    networks:
+      - mynetwork
+
+volumes:
+  mongodata:
+
+networks:
+  mynetwork:

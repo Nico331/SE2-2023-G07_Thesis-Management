@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import {AdminRoutes} from "./components/administrator/AdminRoutes";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Container} from "react-bootstrap";
+import {AdminMain} from "./components/administrator/AdminMain";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+        <Container fluid className="App">
+          <Routes>
+            <Route path="/*" element={<Main />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+
   );
 }
-
+function Main() {
+    return(
+        <div style={{paddingTop: "75px"}}>
+            <AdminRoutes/>
+        </div>
+)
+}
 export default App;

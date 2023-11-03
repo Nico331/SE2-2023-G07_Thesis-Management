@@ -1,0 +1,23 @@
+
+.MainContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.formRow{
+    margin-bottom: 30px;
+}
+
+.resultToast{
+position: absolute;
+    left:0;
+    right:0;
+    top:300px;
+    margin: auto;
+    width:100px;
+}
+
+.NavItem{
+    cursor: pointer;
+}
