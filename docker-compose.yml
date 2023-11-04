@@ -6,9 +6,9 @@ services:
     container_name: mongo_db_se
     ports:
       - '27017:27017'
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: password
+    #environment:
+      #MONGO_INITDB_ROOT_USERNAME: mongo
+      #MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodata:/data/db
     networks:
