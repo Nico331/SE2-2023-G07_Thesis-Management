@@ -8,7 +8,7 @@ import kotlin.reflect.full.declaredMemberProperties
 @Service
 class ProposalService (private val proposalRepository : ProposalRepository ) {
 
-    fun updateProposal (id : String, update : ProposalDTO, actualDate : Date) : ProposalDTO? {
+    fun updateProposal (id : String, update : ProposalDTO) : ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
 
         proposal.title = update.title
@@ -24,9 +24,14 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         proposal.level = update.level
         proposal.cdS = update.cdS
 
-        var isExpired = update.expiration.after( actualDate )
+        var isExpired = false
         proposal.archived = isExpired
 
         return proposalRepository.save(proposal).toDTO()
+    }
+
+    fun createProposal (proposal: Proposal) : ProposalDTO {
+        val savedProposal = proposalRepository.save(proposal)
+        return savedProposal.toDTO()
     }
 }

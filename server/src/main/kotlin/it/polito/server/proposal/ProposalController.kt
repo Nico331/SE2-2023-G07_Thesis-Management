@@ -11,8 +11,14 @@ class ProposalController (private val proposalService: ProposalService){
 
     @PutMapping("/{id}")
     fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO, actualDate: Date) : ResponseEntity<ProposalDTO> {
-        val updatedProposal = proposalService.updateProposal(id, update, actualDate ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val updatedProposal = proposalService.updateProposal(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(updatedProposal)
+    }
+
+    @PostMapping("")
+    fun createProposal(@RequestBody proposal: Proposal): ResponseEntity<ProposalDTO> {
+        val newProposal = proposalService.createProposal(proposal)
+        return ResponseEntity(newProposal, HttpStatus.CREATED)
     }
 
 }
