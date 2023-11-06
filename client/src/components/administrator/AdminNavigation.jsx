@@ -33,9 +33,14 @@ const AdminNavigation = () => {
                         <NavDropdown.Item href={"/admin/addStudent"} > New student </NavDropdown.Item>
                         <NavDropdown.Divider /> {}
                     </NavDropdown>
+
                     &nbsp;&nbsp;
                     &nbsp;&nbsp;
                     &nbsp;&nbsp;
+
+                    <NavDropdown title={'Student Access'} >
+                        <NavDropdown.Item href={"/student/search"} > Search proposals </NavDropdown.Item>
+                    </NavDropdown>
 
                 </Navbar.Collapse>
             </Container>
