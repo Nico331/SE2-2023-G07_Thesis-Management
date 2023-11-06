@@ -25,6 +25,7 @@ function StudentSearch() {
 }
 
 function ModalOfProposal(props) {
+    console.log(props.propsalData);
 
     return (
         <>
@@ -41,9 +42,9 @@ function ModalOfProposal(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <div>{props.propsalData[props.proposalID].proposalid}</div>
-                    <div>{props.propsalData[props.proposalID].name}</div>
-                    <div>{props.propsalData[props.proposalID].teacher}</div>
+                    {/*<div>{props.propsalData[props.proposalID].id}</div>*/}
+                    <div>Proposal Title: {props.propsalData[props.proposalID].title}</div>
+                    <div>Supervisor: {props.propsalData[props.proposalID].supervisor}</div>
                 </Modal.Body>
 
                 <Modal.Footer>
