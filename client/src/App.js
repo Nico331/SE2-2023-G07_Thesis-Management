@@ -4,6 +4,7 @@ import {ProposalList} from "./components/student/proposalList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Container} from "react-bootstrap";
 import {AdminMain} from "./components/administrator/AdminMain";
+import ProposalForm, from "./components/professor/ProposalForm";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Routes>
             <Route path="/*" element={<Main />} />
             <Route path="/ProposalList" element={<ProposalList />} />
+              <Route path="/professor/addProposal" element={<ProposalForm />} />
           </Routes>
         </Container>
       </BrowserRouter>
