@@ -4,7 +4,7 @@ import {ProposalList} from "./components/student/proposalList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Container} from "react-bootstrap";
 import {AdminMain} from "./components/administrator/AdminMain";
-import ProposalForm, from "./components/professor/ProposalForm";
+import ProposalForm from "./components/professor/ProposalForm";
 
 function App() {
   return (
