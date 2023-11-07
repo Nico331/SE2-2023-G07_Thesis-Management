@@ -42,3 +42,7 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+#Stu-Modal-Details > div > div {
+  margin-bottom: 10px;
+}

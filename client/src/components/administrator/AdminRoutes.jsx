@@ -15,7 +15,7 @@ function AdminRoutes(){
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/admin/addStudent" element={ <NewStudent/> } />
-                <Route path="/student/search" element={<StudentSearch/>} />
+                {/*<Route path="/student/search" element={<StudentSearch/>} />*/}
             </Routes>
         </>
     )
