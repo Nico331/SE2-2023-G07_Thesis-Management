@@ -42,9 +42,16 @@ function ModalOfProposal(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    {/*<div>{props.propsalData[props.proposalID].id}</div>*/}
-                    <div>Proposal Title: {props.propsalData[props.proposalID].title}</div>
+                    <div>Thesis Title: {props.propsalData[props.proposalID].title}</div>
                     <div>Supervisor: {props.propsalData[props.proposalID].supervisor}</div>
+                    <div>Co-Supervisor: list of co-supervisors</div>
+                    <div>Type: {props.propsalData[props.proposalID].type}</div>
+                    <div>Description: {props.propsalData[props.proposalID].description}</div>
+                    <div>Required Knowledge: {props.propsalData[props.proposalID].required_knowledge}</div>
+                    <div>Notes: {props.propsalData[props.proposalID].notes}</div>
+                    <div>Expiration Date: {props.propsalData[props.proposalID].expiration}</div>
+                    <div>Level: {props.propsalData[props.proposalID].level}</div>
+                    <div>Corso Di Studi: {props.propsalData[props.proposalID].cds}</div>
                 </Modal.Body>
 
                 <Modal.Footer>

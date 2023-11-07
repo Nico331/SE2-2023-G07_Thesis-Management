@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
-import { Navbar, Container, Modal, Image, Button, Collapse, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {
+    Navbar,
+    Container,
+    Image,
+    Button,
+    Collapse,
+    ListGroup,
+    ListGroupItem,
+    Card,
+    CardHeader, CardBody, Table
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {ModalOfProposal} from "./StudentSearch";
 
@@ -41,39 +51,34 @@ const ProposalList = () => {
                     </Link>
                 </Container>
             </Navbar>
-            <ListGroup className="" style={{marginTop:"80px"}} variant="flush">
+            <Table className="" style={{marginTop:"80px"}} variant="flush">
                 {proposals.map((p) =>
-                    <ListGroupItem onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
-                        <h3>
-                            {p.title}
-                            {collapseState[p.id] ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
-                                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                                                    </svg> :
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
-                                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                                                    </svg>
-                            }
-                        </h3>
-                        <Collapse in={collapseState[p.id]}>
-                            <Container className="ms-0 p-0">
-                                <Container>
-                                    Supervisor: {p.supervisor}
-                                    <Button className="ms-5" onClick={() => handleshow(p.id)}>Show Proposal</Button>
-                                </Container>
-                                <Container>Co-supervisor: ?</Container>
-                                <Container>Type: {p.type}</Container>
-                                <Container>Type: {p.type}</Container>
-                                <Container>Description: {p.description}</Container>
-                                <Container>Required Knowledge: {p.required_knowledge}</Container>
-                                <Container>Notes: {p.notes}</Container>
-                                <Container>Expiration Date: {p.expiration}</Container>
-                                <Container>Level: {p.level}</Container>
-                                <Container>CDS: {p.cds}</Container>
-                            </Container>
-                        </Collapse>
+                    <ListGroupItem className="mt-2" onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
+                        <Card>
+                            <CardHeader>
+                                {p.title}
+                                {collapseState[p.id] ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
+                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                    </svg> :
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
+                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                    </svg>
+                                }
+                            </CardHeader>
+                            <Collapse in={collapseState[p.id]}>
+                                <CardBody>
+                                    <Container className="ms-0 p-0">
+                                        <Container>Supervisor: {p.supervisor}</Container>
+                                        <Container>Expiration Date: {p.expiration}</Container>
+                                        <Container>CDS: {p.cds}</Container>
+                                        <Button className="ms-2 mt-2" onClick={() => handleshow(p.id)}>Show Proposal Details</Button>
+                                    </Container>
+                                </CardBody>
+                            </Collapse>
+                        </Card>
                     </ListGroupItem>
                 )}
-            </ListGroup>
+            </Table>
             {showModal ? <ModalOfProposal showModal={showModal} setShowModal={setShowModal} propsalData={propTest} proposalID={proposalID}/> : null}
         </>
     );
