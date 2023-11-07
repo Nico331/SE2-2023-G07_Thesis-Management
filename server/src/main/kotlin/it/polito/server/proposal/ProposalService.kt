@@ -1,5 +1,7 @@
 package it.polito.server.proposal
 
+import it.polito.server.student.Student
+import it.polito.server.student.StudentDTO
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
@@ -8,7 +10,7 @@ import kotlin.reflect.full.declaredMemberProperties
 @Service
 class ProposalService (private val proposalRepository : ProposalRepository ) {
 
-    fun updateProposal (id : String, update : ProposalDTO) : ProposalDTO? {
+    fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
 
         proposal.title = update.title
@@ -30,8 +32,16 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.save(proposal).toDTO()
     }
 
-    fun createProposal (proposal: Proposal) : ProposalDTO {
+    fun createProposal(proposal: Proposal): ProposalDTO {
         val savedProposal = proposalRepository.save(proposal)
         return savedProposal.toDTO()
+    }
+
+    fun findProposalById(id: String): ProposalDTO? {
+        return proposalRepository.findById(id).map(Proposal::toDTO).orElse(null)
+    }
+
+    fun deleteProposal(id: String) {
+        return proposalRepository.deleteById(id)
     }
 }
