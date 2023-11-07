@@ -19,7 +19,7 @@ data class Proposal(
     var groups: List<String>,
     var description: String,
     var requiredKnowledge : String,
-    var notes : List<Note>,
+    var notes : String,
     var expiration : Date,
     var level: String,
     var cdS : List<String>,
@@ -42,8 +42,3 @@ data class Proposal(
         cdS = this.cdS
     )
 }
-
-class Note (
-    title : String,
-    body : String
-)

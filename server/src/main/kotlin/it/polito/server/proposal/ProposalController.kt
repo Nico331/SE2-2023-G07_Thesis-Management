@@ -10,7 +10,7 @@ import java.util.Date
 class ProposalController (private val proposalService: ProposalService){
 
     @PutMapping("/{id}")
-    fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO, actualDate: Date) : ResponseEntity<ProposalDTO> {
+    fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
         val updatedProposal = proposalService.updateProposal(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(updatedProposal)
     }

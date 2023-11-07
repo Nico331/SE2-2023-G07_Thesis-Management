@@ -14,7 +14,7 @@ data class ProposalDTO (
     var groups: List<String>,
     var description: String,
     var requiredKnowledge : String,
-    var notes : List<Note>,
+    var notes : String,
     var expiration : Date,
     var level: String,
     var cdS : List<String>,

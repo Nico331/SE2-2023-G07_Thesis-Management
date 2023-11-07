@@ -24,16 +24,12 @@ class StudentService (private val studentRepository: StudentRepository) {
     fun updateStudent(id: String, update: StudentDTO): StudentDTO? {
         val student = studentRepository.findById(id).orElse(null) ?: return null
 
-        println(student)
-
         student.name = update.name
         student.surname = update.surname
         student.email = update.email
         student.gender = update.gender
         student.codDegree = update.codDegree
         student.nationality = update.nationality
-
-        println(student)
 
         return studentRepository.save(student).toDTO()
     }
