@@ -18,4 +18,5 @@ data class ProposalDTO (
     var expiration : Date,
     var level: String,
     var cdS : List<String>,
+    var archived : Boolean,
 )

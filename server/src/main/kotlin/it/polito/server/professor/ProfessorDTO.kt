@@ -1,7 +1,6 @@
-package it.polito.server.teacher
+package it.polito.server.professor
 
-import java.util.*
-data class TeacherDTO (
+data class ProfessorDTO (
     val id: String? = null,
     val name : String,
     val surname : String,

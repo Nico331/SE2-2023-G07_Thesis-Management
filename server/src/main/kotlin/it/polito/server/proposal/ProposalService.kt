@@ -26,7 +26,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         proposal.level = update.level
         proposal.cdS = update.cdS
 
-        var isExpired = false
+        val isExpired = false
         proposal.archived = isExpired
 
         return proposalRepository.save(proposal).toDTO()
@@ -39,6 +39,9 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
 
     fun findProposalById(id: String): ProposalDTO? {
         return proposalRepository.findById(id).map(Proposal::toDTO).orElse(null)
+    }
+    fun findAll() : List<ProposalDTO> {
+        return proposalRepository.findAll().map{ (it.toDTO())}
     }
 
     fun deleteProposal(id: String) {

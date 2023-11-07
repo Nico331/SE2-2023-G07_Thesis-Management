@@ -10,7 +10,8 @@ services:
       #MONGO_INITDB_ROOT_USERNAME: mongo
       #MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
-      - mongodata:/data/db
+      - ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      #- mongodata:/data/db
     networks:
       - mynetwork
 

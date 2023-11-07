@@ -27,6 +27,11 @@ class ProposalController (private val proposalService: ProposalService){
         val proposal = proposalService.findProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(proposal)
     }
+    @GetMapping("/")
+    fun getAll(): ResponseEntity<List<ProposalDTO>>{
+        val proposals = proposalService.findAll()
+        return ResponseEntity.ok(proposals)
+    }
 
     @DeleteMapping("/{id}")
     fun deleteProposal(@PathVariable id: String):ResponseEntity<Void>{
