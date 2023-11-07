@@ -19,21 +19,22 @@ import {Sidebar} from "./FiltersSidebar";
 
 const ProposalList = () => {
 
-    const proposals = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
-                                                {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1, key2"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
-                                                {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"},
-                                                {id: 4, title: "prop4", supervisor: "sup1", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
-                                                {id: 5, title: "prop5", supervisor: "sup2", keywords:["key1, key2"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
-                                                {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"}]
+    const props = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1, key2, key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
+                                                {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1, key2"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
+                                                {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1, key2, key3"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"},
+                                                {id: 4, title: "prop4", supervisor: "sup1", keywords:["key1, key2, key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
+                                                {id: 5, title: "prop5", supervisor: "sup3", keywords:["key1, key2"], type: "development", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
+                                                {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1, key2, key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "14/09/2024", level: "bachelor", cds: "Chemical engineering"}]
 
-    const [propTest, setproptest] = useState(proposals.reduce((a, v) => ({ ...a, [v.id]: v }), {}));
-    const [collapseState, setCollapseState] = useState(proposals.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
+    const [proposals, setProposals] = useState(props)
+    const [propsOnScreen, setPropsOnScreen] = useState(props.reduce((a, v) => ({ ...a, [v.id]: v }), {}));
+    const [collapseState, setCollapseState] = useState(props.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
 
-    const handleshow = (proid) => {
+    const handleShow = (proId) => {
         setShowModal(true);
-        setProposalID(proid);
+        setProposalID(proId);
     }
 
     const handleClick = (navId) =>
@@ -56,23 +57,23 @@ const ProposalList = () => {
             </Navbar>
             <Container fluid className="p-0" style={{height:"100vh"}}>
                 <Row className="h-100">
-                    <Sidebar/>
+                    <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen}/>
                     <Col sm={9}>
                         <Container className="mx-0 ms-2 d-flex" style={{marginTop:"80px"}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
                                 <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
                             </svg>
                             <Container>
-                                <h4 className="ms-1" style={{borderBotto:""}}>Thesis Proposals</h4>
-                                <Container style={{position:"relative", height:"1px", backgroundColor:"black"}}></Container>
+                                <h4 className="ms-1">Thesis Proposals</h4>
+                                <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
                         <ListGroup className="mt-3" variant="flush" style={{maxHeight:"82vh", overflowY:"auto"}}>
                             {proposals.map((p) =>
-                                <ListGroupItem className="mt-2" onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
+                                <ListGroupItem className="mt-2 p-3">
                                     <Card>
-                                        <CardHeader>
+                                        <CardHeader onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
                                             {p.title}
                                             {collapseState[p.id] ?
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
@@ -89,7 +90,7 @@ const ProposalList = () => {
                                                     <Container>Supervisor: {p.supervisor}</Container>
                                                     <Container>CDS: {p.cds}</Container>
                                                     <Container>Expiration Date: {p.expiration}</Container>
-                                                    <Button className="ms-2 mt-2" onClick={() => handleshow(p.id)}>Show Proposal Details</Button>
+                                                    <Button className="ms-2 mt-2" onClick={() => handleShow(p.id)}>Show Proposal Details</Button>
                                                 </Container>
                                             </CardBody>
                                         </Collapse>
@@ -100,7 +101,7 @@ const ProposalList = () => {
                     </Col>
                 </Row>
             </Container>
-            {showModal ? <ModalOfProposal showModal={showModal} setShowModal={setShowModal} propsalData={propTest} proposalID={proposalID}/> : null}
+            {showModal ? <ModalOfProposal showModal={showModal} setShowModal={setShowModal} propsalData={propsOnScreen} proposalID={proposalID}/> : null}
         </>
     );
 }
