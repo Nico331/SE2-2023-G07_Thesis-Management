@@ -11,17 +11,20 @@ import {
     ListGroup,
     ListGroupItem,
     Card,
-    CardHeader, CardBody, Table
+    CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {ModalOfProposal} from "./StudentSearch";
+import {Sidebar} from "./FiltersSidebar";
 
 const ProposalList = () => {
 
     const proposals = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
                                                 {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1, key2"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
-                                                {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"}]
-
+                                                {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"},
+                                                {id: 4, title: "prop4", supervisor: "sup1", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
+                                                {id: 5, title: "prop5", supervisor: "sup2", keywords:["key1, key2"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
+                                                {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1, key2, key3"], type: "master", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"}]
 
     const [propTest, setproptest] = useState(proposals.reduce((a, v) => ({ ...a, [v.id]: v }), {}));
     const [collapseState, setCollapseState] = useState(proposals.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
@@ -51,34 +54,52 @@ const ProposalList = () => {
                     </Link>
                 </Container>
             </Navbar>
-            <Table className="" style={{marginTop:"80px"}} variant="flush">
-                {proposals.map((p) =>
-                    <ListGroupItem className="mt-2" onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
-                        <Card>
-                            <CardHeader>
-                                {p.title}
-                                {collapseState[p.id] ? <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
-                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                                    </svg> :
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
-                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                                    </svg>
-                                }
-                            </CardHeader>
-                            <Collapse in={collapseState[p.id]}>
-                                <CardBody>
-                                    <Container className="ms-0 p-0">
-                                        <Container>Supervisor: {p.supervisor}</Container>
-                                        <Container>Expiration Date: {p.expiration}</Container>
-                                        <Container>CDS: {p.cds}</Container>
-                                        <Button className="ms-2 mt-2" onClick={() => handleshow(p.id)}>Show Proposal Details</Button>
-                                    </Container>
-                                </CardBody>
-                            </Collapse>
-                        </Card>
-                    </ListGroupItem>
-                )}
-            </Table>
+            <Container fluid className="p-0" style={{height:"100vh"}}>
+                <Row className="h-100">
+                    <Sidebar/>
+                    <Col sm={9}>
+                        <Container className="mx-0 ms-2 d-flex" style={{marginTop:"80px"}}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
+                                <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                                <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                            </svg>
+                            <Container>
+                                <h4 className="ms-1" style={{borderBotto:""}}>Thesis Proposals</h4>
+                                <Container style={{position:"relative", height:"1px", backgroundColor:"black"}}></Container>
+                            </Container>
+                        </Container>
+                        <ListGroup className="mt-3" variant="flush" style={{maxHeight:"82vh", overflowY:"auto"}}>
+                            {proposals.map((p) =>
+                                <ListGroupItem className="mt-2" onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
+                                    <Card>
+                                        <CardHeader>
+                                            {p.title}
+                                            {collapseState[p.id] ?
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
+                                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                                </svg> :
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
+                                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                                </svg>
+                                            }
+                                        </CardHeader>
+                                        <Collapse in={collapseState[p.id]}>
+                                            <CardBody>
+                                                <Container className="ms-0 p-0">
+                                                    <Container>Supervisor: {p.supervisor}</Container>
+                                                    <Container>CDS: {p.cds}</Container>
+                                                    <Container>Expiration Date: {p.expiration}</Container>
+                                                    <Button className="ms-2 mt-2" onClick={() => handleshow(p.id)}>Show Proposal Details</Button>
+                                                </Container>
+                                            </CardBody>
+                                        </Collapse>
+                                    </Card>
+                                </ListGroupItem>
+                            )}
+                        </ListGroup>
+                    </Col>
+                </Row>
+            </Container>
             {showModal ? <ModalOfProposal showModal={showModal} setShowModal={setShowModal} propsalData={propTest} proposalID={proposalID}/> : null}
         </>
     );
