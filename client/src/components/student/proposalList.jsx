@@ -14,22 +14,22 @@ import {
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {ModalOfProposal} from "./StudentSearch";
+import {ModalOfProposal} from "./ModalOfProposal";
 import {Sidebar} from "./FiltersSidebar";
 import axios from 'axios';
 
-const ProposalList = () => {
+const ProposalList = (props) => {
 
-    const props = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1, key2, key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
+    const prop = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1, key2, key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
                                                 {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1, key2"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
                                                 {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1, key2, key3"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "14/09/2024", level: "bachelor", cds: "electronic engineering"},
                                                 {id: 4, title: "prop4", supervisor: "sup1", keywords:["key1, key2, key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "25/05/2024", level: "master", cds: "computer engineering"},
                                                 {id: 5, title: "prop5", supervisor: "sup3", keywords:["key1, key2"], type: "development", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "02/07/2024", level: "bachelor", cds: "computer engineering"},
                                                 {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1, key2, key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "14/09/2024", level: "bachelor", cds: "Chemical engineering"}]
 
-    const [proposals, setProposals] = useState(props)
-    const [propsOnScreen, setPropsOnScreen] = useState(props);
-    const [collapseState, setCollapseState] = useState(props.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
+    const [proposals, setProposals] = useState(prop)
+    const [propsOnScreen, setPropsOnScreen] = useState(prop);
+    const [collapseState, setCollapseState] = useState(prop.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
 
@@ -46,6 +46,7 @@ const ProposalList = () => {
     const handleShow = (proId) => {
         setShowModal(true);
         setProposalID(proId);
+        props.setStudentProposalID(proId);
     }
 
     const handleClick = (navId) =>
