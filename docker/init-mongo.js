@@ -3,7 +3,7 @@ db = new Mongo().getDB("mongo_db_se");
 db.proposals.insertMany([
     {
         title: "Advanced Robotics Control Systems",
-        supervisor: "Prof. Emily White",
+        supervisor: "12m0e9rdk2mefkw0349ikfdwde",
         coSupervisors: ["Dr. John Doe", "Dr. Jane Smith"],
         keywords: ["robotics", "control systems", "automation"],
         type: "Development",
@@ -18,7 +18,7 @@ db.proposals.insertMany([
     },
     {
         title: "Blockchain-based Supply Chain Management",
-        supervisor: "Dr. Alan Turing",
+        supervisor: "12m0e9rdk2mefkw0349ikfdwde",
         coSupervisors: ["Prof. Sarah Connor"],
         keywords: ["blockchain", "supply chain", "distributed ledger"],
         type: "Research",
@@ -33,7 +33,7 @@ db.proposals.insertMany([
     },
     {
         title: "Quantum Computing Algorithms for Cryptography",
-        supervisor: "Prof. Richard Feynman",
+        supervisor: "wocwkje029fkm3f9834j09feio",
         coSupervisors: [],
         keywords: ["quantum computing", "cryptography", "algorithms"],
         type: "Research",
@@ -48,7 +48,7 @@ db.proposals.insertMany([
     },
     {
         title: "Artificial Intelligence in Healthcare Diagnostics",
-        supervisor: "Dr. Lisa Sanders",
+        supervisor: "wocwkje029fkm3f9834j09feio",
         coSupervisors: ["Dr. Eric Foreman"],
         keywords: ["AI", "healthcare", "diagnostics"],
         type: "Application Development",
@@ -63,7 +63,7 @@ db.proposals.insertMany([
     },
     {
         title: "Deep Learning for Autonomous Vehicle Navigation",
-        supervisor: "Prof. Sebastian Thrun",
+        supervisor: "vmewokc304r3409fk305rtgi54r09",
         coSupervisors: ["Dr. Chris Urmson"],
         keywords: ["deep learning", "autonomous vehicles", "navigation"],
         type: "Research and Development",
@@ -78,7 +78,7 @@ db.proposals.insertMany([
     },
     {
         title: "Renewable Energy Systems and Grid Integration",
-        supervisor: "Dr. Nikola Tesla",
+        supervisor: "vmewokc304r3409fk305rtgi54r09",
         coSupervisors: ["Prof. Maria Skłodowska-Curie"],
         keywords: ["renewable energy", "grid integration", "sustainability"],
         type: "Research",
@@ -93,7 +93,7 @@ db.proposals.insertMany([
     },
     {
         title: "Machine Learning Optimization for E-commerce",
-        supervisor: "Prof. Jeff Bezos",
+        supervisor: "cmweijf39efk340f9i3k4f034f3ed",
         coSupervisors: [],
         keywords: ["machine learning", "e-commerce", "optimization"],
         type: "Research and Development",
@@ -108,7 +108,7 @@ db.proposals.insertMany([
     },
     {
         title: "VR-based Training Environments for Surgery",
-        supervisor: "Dr. Derek Shepherd",
+        supervisor: "cmweijf39efk340f9i3k4f034f3ed",
         coSupervisors: ["Dr. Addison Montgomery"],
         keywords: ["virtual reality", "surgical training", "interactive simulation"],
         type: "Development",
@@ -123,7 +123,7 @@ db.proposals.insertMany([
     },
     {
         title: "Big Data Analytics for Internet of Things (IoT)",
-        supervisor: "Prof. James Gosling",
+        supervisor: "coijef0932k4f09r3igf0g54f34fr3e",
         coSupervisors: ["Dr. Vinton Cerf"],
         keywords: ["big data", "IoT", "analytics"],
         type: "Data Analysis",
@@ -138,7 +138,7 @@ db.proposals.insertMany([
     },
     {
         title: "Cybersecurity Measures in Financial Technology",
-        supervisor: "Prof. Ada Lovelace",
+        supervisor: "coijef0932k4f09r3igf0g54f34fr3e",
         coSupervisors: ["Dr. Alan Kay"],
         keywords: ["cybersecurity", "fintech", "risk management"],
         type: "Research",
@@ -213,6 +213,7 @@ db.students.insertMany([
 
 db.professors.insertMany([
     {
+        id: "12m0e9rdk2mefkw0349ikfdwde",
         name: "Elizabeth",
         surname: "Taylor",
         email: "elizabeth.taylor@university.edu",
@@ -221,6 +222,7 @@ db.professors.insertMany([
         passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
     },
     {
+        id: "wocwkje029fkm3f9834j09feio",
         name: "John",
         surname: "Smith",
         email: "john.smith@university.edu",
@@ -229,6 +231,7 @@ db.professors.insertMany([
         passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
     },
     {
+        id: "vmewokc304r3409fk305rtgi54r09",
         name: "Susan",
         surname: "Brown",
         email: "susan.brown@university.edu",
@@ -237,6 +240,7 @@ db.professors.insertMany([
         passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
     },
     {
+        id: "cmweijf39efk340f9i3k4f034f3ed",
         name: "Robert",
         surname: "Wilson",
         email: "robert.wilson@university.edu",
@@ -245,6 +249,7 @@ db.professors.insertMany([
         passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
     },
     {
+        id: "coijef0932k4f09r3igf0g54f34fr3e",
         name: "Patricia",
         surname: "Garcia",
         email: "patricia.garcia@university.edu",
