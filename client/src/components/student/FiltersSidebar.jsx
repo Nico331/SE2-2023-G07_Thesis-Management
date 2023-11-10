@@ -8,6 +8,8 @@ import {Container, Col, Form, Button, Row} from 'react-bootstrap';
 
 function Sidebar(props) {
     const [flag, setFlag] = useState(true);
+    const [search, setSearch] = useState("");
+    const [keyWord, setKeyWord] = useState("");
     const [supervisors, setSupervisors] = useState([]);
     const [types, setTypes] = useState([]);
     const [groups, setGroups] = useState([]);
@@ -34,21 +36,21 @@ function Sidebar(props) {
         if(flag) setFlag(false);
         else {
             let proposals = props.proposals;
+            if(keyWord !== "") proposals = proposals.filter((p) => p.keywords.find((k) => k === keyWord));
             if(supervisors.length > 0) proposals = proposals.filter((p) => supervisors.find((s) => s.value === p.supervisor));
             if(types.length > 0) proposals = proposals.filter((p) => types.find((s) => s.value === p.type));
             if(groups.length > 0) proposals = proposals.filter((p) => groups.find((s) => s.value === p.group));
             if(courses.length > 0) proposals = proposals.filter((p) => courses.find((s) => s.value === p.cds));
             if(levels.length > 0) proposals = proposals.filter((p) => levels.find((s) => s.value === p.level));
-            if(expiration != "") proposals = proposals.filter((p) => {
+            if(expiration !== "") proposals = proposals.filter((p) => {
                 const itemDate = dayjs(dayjs(p.expiration).format('YYYY-MM-DD'));
                 const filterDateObj = dayjs(dayjs(expiration).format('YYYY-MM-DD'));
                 const diff = filterDateObj.diff(itemDate);
-                console.log(diff);
                 return diff >= 0;
             });
             props.setPropsOnScreen(proposals);
         }
-    }, [supervisors, types, groups, courses, levels, expiration]);
+    }, [keyWord, supervisors, types, groups, courses, levels, expiration]);
 
     return (
         <Col className="ms-0 px-4" sm={4} style={{backgroundColor:"#e0e0e0"}}>
@@ -57,7 +59,14 @@ function Sidebar(props) {
                 <Container style={{maxHeight:"80vh", overflowY:"auto"}}>
                     <Form.Group className="mt-2" controlId="">
                         <Form.Label>Search</Form.Label>
-                        <Form.Control type="" placeholder="Search" />
+                        <Row className="mt-2">
+                            <Col sm={9}>
+                                <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
+                            </Col>
+                            <Col sm={3}>
+                                <Button variant="primary" onClick={() => setKeyWord(search)}>Search</Button>
+                            </Col>
+                        </Row>
                     </Form.Group>
 
                     <Form.Group className="mt-2">
@@ -101,6 +110,8 @@ function Sidebar(props) {
                     </Form.Group>
 
                     <Button className="mt-4" variant="danger" onClick={()  => {
+                        setSearch("");
+                        setKeyWord("");
                         setSupervisors([]);
                         setCourses([]);
                         setGroups([]);
