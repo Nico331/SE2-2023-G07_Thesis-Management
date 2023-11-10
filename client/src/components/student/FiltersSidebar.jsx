@@ -12,7 +12,7 @@ function Sidebar(props) {
     const [types, setTypes] = useState([]);
     const [groups, setGroups] = useState([]);
     const [courses, setCourses] = useState([]);
-    const [expiration, setExpiration] = useState(dayjs());
+    const [expiration, setExpiration] = useState("");
     const [levels, setLevels] = useState([]);
 
     function extractUniqueOptions(array, attr) {
@@ -34,21 +34,27 @@ function Sidebar(props) {
         if(flag) setFlag(false);
         else {
             let proposals = props.proposals;
-            console.log(supervisors);
             if(supervisors.length > 0) proposals = proposals.filter((p) => supervisors.find((s) => s.value === p.supervisor));
             if(types.length > 0) proposals = proposals.filter((p) => types.find((s) => s.value === p.type));
             if(groups.length > 0) proposals = proposals.filter((p) => groups.find((s) => s.value === p.group));
             if(courses.length > 0) proposals = proposals.filter((p) => courses.find((s) => s.value === p.cds));
             if(levels.length > 0) proposals = proposals.filter((p) => levels.find((s) => s.value === p.level));
+            if(expiration != "") proposals = proposals.filter((p) => {
+                const itemDate = dayjs(dayjs(p.expiration).format('YYYY-MM-DD'));
+                const filterDateObj = dayjs(dayjs(expiration).format('YYYY-MM-DD'));
+                const diff = filterDateObj.diff(itemDate);
+                console.log(diff);
+                return diff >= 0;
+            });
             props.setPropsOnScreen(proposals);
         }
-    }, [supervisors, types, groups, courses, levels]);
+    }, [supervisors, types, groups, courses, levels, expiration]);
 
     return (
         <Col className="ms-0 px-4" sm={4} style={{backgroundColor:"#e0e0e0"}}>
             <Form style={{marginTop:"80px"}}>
                 <Container><h3>Filters</h3></Container>
-                <Container style={{maxHeight:"82vh", overflowY:"auto"}}>
+                <Container style={{maxHeight:"80vh", overflowY:"auto"}}>
                     <Form.Group className="mt-2" controlId="">
                         <Form.Label>Search</Form.Label>
                         <Form.Control type="" placeholder="Search" />
@@ -91,7 +97,7 @@ function Sidebar(props) {
 
                     <Form.Group className="mt-2">
                         <Form.Label>Expiration Date</Form.Label>
-                        <Form.Control type="date" value={expiration}/>
+                        <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
                     <Button className="mt-4" variant="danger" onClick={()  => {
@@ -100,6 +106,7 @@ function Sidebar(props) {
                         setGroups([]);
                         setLevels([]);
                         setTypes([]);
+                        setExpiration("");
                     }}>Cancel Filters</Button>
                 </Container>
             </Form>
