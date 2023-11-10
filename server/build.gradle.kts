@@ -28,6 +28,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation ("com.google.code.gson:gson:2.8.9")
+    testImplementation ("org.testcontainers:junit-jupiter:1.16.3")
+    testImplementation("org.testcontainers:mongodb:1.19.1")
+
 
 }
 

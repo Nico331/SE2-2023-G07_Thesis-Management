@@ -39,6 +39,7 @@ data class Proposal(
         notes = this.notes,
         expiration = this.expiration,
         level = this.level,
-        cdS = this.cdS
+        cdS = this.cdS,
+        archived = this.archived,
     )
 }

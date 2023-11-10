@@ -6,16 +6,20 @@ import {Container} from "react-bootstrap";
 import {AdminMain} from "./components/administrator/AdminMain";
 import ProposalForm from "./components/professor/ProposalForm";
 import StudentApplyForm from "./components/student/StudentApplyForm";
+import {useState} from "react";
 
 function App() {
+
+    const [studentproposalID, setStudentProposalID] = useState('');
+
   return (
       <BrowserRouter>
         <Container fluid className="App">
           <Routes>
             <Route path="/*" element={<Main />} />
-            <Route path="/ProposalList" element={<ProposalList />} />
-              <Route path="/professor/addProposal" element={<ProposalForm />} />
-              <Route path="/apply" element={<StudentApplyForm />} />
+            <Route path="/ProposalList" element={<ProposalList setStudentProposalID={setStudentProposalID}/>} />
+          <Route path="/professor/addProposal" element={<ProposalForm />} />
+          <Route path="/apply" element={<StudentApplyForm studentproposalID={studentproposalID} />} />
           </Routes>
         </Container>
       </BrowserRouter>

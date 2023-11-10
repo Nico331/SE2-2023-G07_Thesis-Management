@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Form, Button, Table} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
 
-function StudentApplyForm() {
+function StudentApplyForm(props) {
     const [studentData, setStudentData] = useState({
         id: '',
         surname: '',

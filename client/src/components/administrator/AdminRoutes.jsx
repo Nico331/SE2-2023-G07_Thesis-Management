@@ -3,7 +3,7 @@ import { AdminNavigation } from "./AdminNavigation";
 import {AdminMain} from "./AdminMain";
 import {NewStudent} from "./NewStudent";
 import { NotFound } from "../Layouts";
-import { StudentSearch } from "../student/StudentSearch";
+import {ProposalList} from "../student/proposalList"
 
 function AdminRoutes(){
     return(
@@ -15,7 +15,7 @@ function AdminRoutes(){
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/admin/addStudent" element={ <NewStudent/> } />
-                {/*<Route path="/student/search" element={<StudentSearch/>} />*/}
+                <Route path="/proposallist" element={<ProposalList/>} />
             </Routes>
         </>
     )
