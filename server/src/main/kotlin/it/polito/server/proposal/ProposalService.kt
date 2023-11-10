@@ -47,4 +47,8 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
     fun deleteProposal(id: String) {
         return proposalRepository.deleteById(id)
     }
+
+    fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{
+        return proposalRepository.findByArchivedFalseAndSupervisor(supervisor).map{(it.toDTO())}
+    }
 }

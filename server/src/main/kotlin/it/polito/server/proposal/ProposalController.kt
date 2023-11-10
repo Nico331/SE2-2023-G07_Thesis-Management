@@ -27,6 +27,7 @@ class ProposalController (private val proposalService: ProposalService){
         val proposal = proposalService.findProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(proposal)
     }
+
     @GetMapping("/")
     fun getAll(): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findAll()
@@ -37,6 +38,13 @@ class ProposalController (private val proposalService: ProposalService){
     fun deleteProposal(@PathVariable id: String):ResponseEntity<Void>{
         proposalService.deleteProposal(id)
         return ResponseEntity(HttpStatus.OK)
+    }
+
+    @GetMapping("/{supervisor}")
+    fun getActiveProposalsBySupervisor(@PathVariable supervisor: String): ResponseEntity<List<ProposalDTO>> {
+        val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
+
+        return ResponseEntity.ok(activeProposalDTOs)
     }
 
 }
