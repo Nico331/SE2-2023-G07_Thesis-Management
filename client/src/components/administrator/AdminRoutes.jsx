@@ -4,6 +4,7 @@ import {AdminMain} from "./AdminMain";
 import {NewStudent} from "./NewStudent";
 import { NotFound } from "../Layouts";
 import {ProposalList} from "../student/proposalList"
+import StudentApplyForm from "../student/StudentApplyForm";
 
 function AdminRoutes(){
     return(
@@ -16,6 +17,7 @@ function AdminRoutes(){
                 </Route>
                 <Route path="/admin/addStudent" element={ <NewStudent/> } />
                 <Route path="/proposallist" element={<ProposalList/>} />
+                <Route path="/apply" element={<StudentApplyForm />} />
             </Routes>
         </>
     )
