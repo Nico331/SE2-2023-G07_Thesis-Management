@@ -3,7 +3,6 @@ import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
 
 function ModalOfProposal(props) {
-    const supervisor = props.professorData[props.propsalData[props.proposalID].supervisor];
 
     return (
         <>
@@ -16,7 +15,7 @@ function ModalOfProposal(props) {
                 scrollable={true}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title> Details of Proposal </Modal.Title>
+                    <Modal.Title> Details of Application </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body style={{wordWrap: 'break-word'}} id={'Stu-Modal-Details'}>
@@ -25,7 +24,7 @@ function ModalOfProposal(props) {
                             <b>Thesis Title:</b> {props.propsalData[props.proposalID].title}
                         </Col>
                         <Col md={6}>
-                            <b>Supervisor:</b> {supervisor.name+" "+supervisor.surname}
+                            <b>Supervisor:</b> {props.propsalData[props.proposalID].supervisor}
                         </Col>
                     </Row>
                     <Row>
@@ -38,7 +37,7 @@ function ModalOfProposal(props) {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].requiredKnowledge}
+                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].required_knowledge}
                         </Col>
                         <Col md={6}>
                             <b>Level:</b> {props.propsalData[props.proposalID].level}
@@ -46,14 +45,14 @@ function ModalOfProposal(props) {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cdS}
+                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cds}
                         </Col>
                         <Col md={6}>
-                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration.toDateString()}
+                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration}
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="mt-1">
+                        <Col>
                             <b>Description:</b> {props.propsalData[props.proposalID].description}
                         </Col>
                     </Row>

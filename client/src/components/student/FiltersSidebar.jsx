@@ -16,18 +16,36 @@ function Sidebar(props) {
     const [courses, setCourses] = useState([]);
     const [expiration, setExpiration] = useState("");
     const [levels, setLevels] = useState([]);
+    const [professors, setProfessors] = useState(() => {
+        const profList = [];
+        props.professors.map((p) => profList.push({value: p.id, label: p.name + " " + p.surname}));
+        console.log(profList);
+        return profList;
+    });
 
     function extractUniqueOptions(array, attr) {
         let unique = [];
         let existent = {};
 
-        array.forEach((e) => {
-            let val = e[attr];
-            if (!existent[val]) {
-                unique.push({value: val, label: val});
-                existent[val] = true;
-            }
-        });
+        if(attr === "supervisor" || attr === "type") {
+            array.forEach((e) => {
+                let val = e[attr];
+                if (!existent[val]) {
+                    unique.push({value: val, label: val});
+                    existent[val] = true;
+                }
+            });
+        }
+        else {
+            array.forEach((a) => {
+                a[attr].forEach((e) => {
+                    if (!existent[e]) {
+                        unique.push({value: e, label: e});
+                        existent[e] = true;
+                    }
+                })
+            });
+        }
 
         return unique;
     }
@@ -39,8 +57,8 @@ function Sidebar(props) {
             if(keyWord !== "") proposals = proposals.filter((p) => p.keywords.find((k) => k === keyWord));
             if(supervisors.length > 0) proposals = proposals.filter((p) => supervisors.find((s) => s.value === p.supervisor));
             if(types.length > 0) proposals = proposals.filter((p) => types.find((s) => s.value === p.type));
-            if(groups.length > 0) proposals = proposals.filter((p) => groups.find((s) => s.value === p.group));
-            if(courses.length > 0) proposals = proposals.filter((p) => courses.find((s) => s.value === p.cds));
+            if(groups.length > 0) proposals = proposals.filter((p) => groups.find((s) => p.groups.find((g) => g === s.value)));
+            if(courses.length > 0) proposals = proposals.filter((p) => courses.find((s) => p.cdS.find((c) => c === s.value)));
             if(levels.length > 0) proposals = proposals.filter((p) => levels.find((s) => s.value === p.level));
             if(expiration !== "") proposals = proposals.filter((p) => {
                 const itemDate = dayjs(dayjs(p.expiration).format('YYYY-MM-DD'));
@@ -56,7 +74,7 @@ function Sidebar(props) {
         <Col className="ms-0 px-4" sm={4} style={{backgroundColor:"#e0e0e0"}}>
             <Form style={{marginTop:"80px"}}>
                 <Container><h3>Filters</h3></Container>
-                <Container style={{maxHeight:"80vh", overflowY:"auto"}}>
+                <Container style={{height:"86vh", overflowY:"auto"}}>
                     <Form.Group className="mt-2" controlId="">
                         <Form.Label>Search</Form.Label>
                         <Row className="mt-2">
@@ -71,7 +89,8 @@ function Sidebar(props) {
 
                     <Form.Group className="mt-2">
                         <Form.Label>Supervisor</Form.Label>
-                        <Select options={extractUniqueOptions(props.proposals, "supervisor")} isMulti value={supervisors} onChange={(selectedOptions) => setSupervisors(selectedOptions)}/>
+                        <Select options={professors}
+                        isMulti value={supervisors} onChange={(selectedOptions) => setSupervisors(selectedOptions)}/>
                     </Form.Group>
 
                     <Row className="mt-2 p-0">
@@ -84,7 +103,7 @@ function Sidebar(props) {
                         <Col sm={6}>
                             <Form.Group className="">
                                 <Form.Label>Group</Form.Label>
-                                <Select options={extractUniqueOptions(props.proposals, "group")} isMulti value={groups} onChange={(selectedOptions) => setGroups(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(props.proposals, "groups")} isMulti value={groups} style={{ maxHeight: '10px', overflowY:"auto" }} onChange={(selectedOptions) => setGroups(selectedOptions)}/>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -93,13 +112,13 @@ function Sidebar(props) {
                         <Col sm={6}>
                             <Form.Group className="mt-2">
                                 <Form.Label>Level</Form.Label>
-                                <Select options={[{value:"bachelor", label:"bachelor"},{value:"master", label:"master"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)}/>
+                                <Select options={[{value:"PhD", label:"PhD"},{value:"Master", label:"Master"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)}/>
                             </Form.Group>
                         </Col>
                         <Col sm={6}>
                             <Form.Group className="mt-2">
                                 <Form.Label>Course Of Study</Form.Label>
-                                <Select options={extractUniqueOptions(props.proposals, "cds")} isMulti value={courses} onChange={(selectedOptions) => setCourses(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(props.proposals, "cdS")} isMulti value={courses} onChange={(selectedOptions) => setCourses(selectedOptions)}/>
                             </Form.Group>
                         </Col>
                     </Row>

@@ -3,7 +3,7 @@ import { AdminNavigation } from "./AdminNavigation";
 import {AdminMain} from "./AdminMain";
 import {NewStudent} from "./NewStudent";
 import { NotFound } from "../Layouts";
-import {ProposalList} from "../student/proposalList"
+import {ProposalList} from "../student/ProposalList"
 import StudentApplyForm from "../student/StudentApplyForm";
 
 function AdminRoutes(){

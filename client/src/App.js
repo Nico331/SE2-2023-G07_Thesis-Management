@@ -1,6 +1,6 @@
 import './App.css';
 import {AdminRoutes} from "./components/administrator/AdminRoutes";
-import {ProposalList} from "./components/student/proposalList";
+import {ProposalList} from "./components/student/ProposalList";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Container} from "react-bootstrap";
 import {AdminMain} from "./components/administrator/AdminMain";
@@ -18,8 +18,8 @@ function App() {
           <Routes>
             <Route path="/*" element={<Main />} />
             <Route path="/ProposalList" element={<ProposalList setStudentProposalID={setStudentProposalID}/>} />
-          <Route path="/professor/addProposal" element={<ProposalForm />} />
-          <Route path="/apply" element={<StudentApplyForm studentproposalID={studentproposalID} />} />
+            <Route path="/professor/addProposal" element={<ProposalForm />} />
+            <Route path="/apply" element={<StudentApplyForm studentproposalID={studentproposalID} />} />
           </Routes>
         </Container>
       </BrowserRouter>
