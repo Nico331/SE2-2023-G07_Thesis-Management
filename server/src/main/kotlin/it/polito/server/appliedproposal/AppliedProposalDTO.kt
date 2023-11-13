@@ -1,4 +1,8 @@
 package it.polito.server.appliedproposal
 
-class AppliedProposalDTO {
-}
+data class AppliedProposalDTO (
+        val id: String? = null,
+        val proposalId: String,
+        val studentId: String,
+        val status: ApplicationStatus
+)
