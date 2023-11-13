@@ -22,7 +22,7 @@ function Sidebar(props) {
         let existent = {};
 
         array.forEach((e) => {
-            var val = e[attr];
+            let val = e[attr];
             if (!existent[val]) {
                 unique.push({value: val, label: val});
                 existent[val] = true;
