@@ -1,6 +1,6 @@
 db = new Mongo().getDB("mongo_db_se");
 
-db.proposals.insertMany([
+db.proposal.insertMany([
     {
         title: "Advanced Robotics Control Systems",
         supervisor: "12m0e9rdk2mefkw0349ikfdwde",
@@ -153,7 +153,7 @@ db.proposals.insertMany([
     }
 ]);
 
-db.students.insertMany([
+db.student.insertMany([
     {
         id: "4grf45tg6yhg7hj7wrcr",
         surname: "Johnson",
@@ -211,7 +211,7 @@ db.students.insertMany([
     }
 ]);
 
-db.professors.insertMany([
+db.professor.insertMany([
     {
         id: "12m0e9rdk2mefkw0349ikfdwde",
         name: "Elizabeth",
@@ -259,7 +259,7 @@ db.professors.insertMany([
     }
 ]);
 
-db.degrees.insertMany([
+db.degree.insertMany([
     {
         codDegree: "MLAI-01",
         titleDegree: "MSc in Machine Learning and Artificial Intelligence"
@@ -352,4 +352,4 @@ for (let i = 0; i < 50; i++) {
     careers.push(career);
 }
 
-db.careers.insertMany(careers);
+db.career.insertMany(careers);

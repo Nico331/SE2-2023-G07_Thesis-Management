@@ -50,3 +50,14 @@ data class LoginCredentials(
 data class JwtResponse(
     val jwt: String
 )
+
+data class JwtSimple(
+    val jwt: String,
+    val roles: String,
+    val email: String,
+    val preferred_username: String,
+    val realm_access: RealmAccess
+)
+data class RealmAccess(
+    val roles: List<String>
+)

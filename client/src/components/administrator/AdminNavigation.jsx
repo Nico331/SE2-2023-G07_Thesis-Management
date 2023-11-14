@@ -40,6 +40,7 @@ const AdminNavigation = () => {
 
                     <NavDropdown title={'Student Access'} >
                         <NavDropdown.Item href={"/proposallist"} > Search proposals </NavDropdown.Item>
+                        <NavDropdown.Item href={"/login"} > Login </NavDropdown.Item>
                     </NavDropdown>
 
                 </Navbar.Collapse>
