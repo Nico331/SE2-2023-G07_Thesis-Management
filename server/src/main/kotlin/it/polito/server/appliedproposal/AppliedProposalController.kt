@@ -10,19 +10,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/API/appliedProposal")
 class AppliedProposalController(private val appliedProposalService: AppliedProposalService) {
 
-    @PostMapping("")
-    fun createAppliedProposal(@RequestBody appliedProposal: AppliedProposal): ResponseEntity<AppliedProposalDTO> {
-        val newAppliedProposal = appliedProposalService.createAppliedProposal(appliedProposal)
-        return ResponseEntity(newAppliedProposal, HttpStatus.CREATED)
-    }
-
     @GetMapping("/{id}")
     fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
         val appliedproposal = appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(appliedproposal)
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     fun getAll(): ResponseEntity<List<AppliedProposalDTO>>{
         val appliedproposals = appliedProposalService.findAll()
         return ResponseEntity.ok(appliedproposals)
@@ -50,5 +44,19 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     fun getAppliedProposalByStudent (@PathVariable studentId: String) : ResponseEntity<List<AppliedProposalDTO>> {
         val appliesByStudent = appliedProposalService.appliesByStudent(studentId)
         return ResponseEntity.ok(appliesByStudent)
+    }
+
+    @PutMapping("/accept/{id}")
+    fun acceptProposal(@PathVariable id: String): ResponseEntity<Void>{
+        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity<Void>(HttpStatus.NOT_FOUND)
+        appliedProposalService.acceptProposal(id)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/reject/{id}")
+    fun rejectProposal(@PathVariable id: String): ResponseEntity<Void>{
+        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity<Void>(HttpStatus.NOT_FOUND)
+        appliedProposalService.rejectProposal(id)
+        return ResponseEntity.ok().build()
     }
 }
