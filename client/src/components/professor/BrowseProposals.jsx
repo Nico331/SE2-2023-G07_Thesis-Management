@@ -28,23 +28,28 @@ function ProfessorBrowseProposals (props){
     const [collapseState, setCollapseState] = useState(prop.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
+    const [showAlertModal, setShowAlertModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
 
 
+    setTimeout(() => {
+        setShowAlertModal(false);
+    }, 10000);
     const handleShow = (proId) => {
         setShowModal(true);
         setProposalID(proId);
         props.setProfessorProposalID(proId);
     }
 
+    const handledelete = (proId) => {
+        setShowPopUp(true);
+        setProposalID(proId);
+    }
+
     const handleClick = (navId) =>
         setCollapseState((prev) => {
             return { ...prev, [navId]: !prev[navId] };
         });
-
-    const deleteproposal = (proid) => {
-
-    }
 
     return(
         <>
@@ -89,7 +94,7 @@ function ProfessorBrowseProposals (props){
                                                     <Container>Expiration Date: {p.expiration}</Container>
                                                     <Button className="ms-2 mt-2" onClick={() => handleShow(p.id)}>Show Proposal Details</Button>
                                                     <Button className="ms-2 mt-2" variant={'secondary'} > Modify </Button>
-                                                    <Button className="ms-2 mt-2" variant={'danger'} onClick={() => setShowPopUp(true)}> Delete </Button>
+                                                    <Button className="ms-2 mt-2" variant={'danger'} onClick={() => handledelete(p.id)}> Delete </Button>
                                                 </Container>
                                             </CardBody>
                                         </Collapse>
@@ -102,27 +107,57 @@ function ProfessorBrowseProposals (props){
             </Container>
             {showModal ? <ProfessorModalOfProposal showModal={showModal} setShowModal={setShowModal} proposalID={proposalID} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: v }), {})}/> : null}
 
-            {showPopUp ? <DeleteProposal setShowPopUp={setShowPopUp} /> : null}
+            {showPopUp ? <DeleteProposal setShowPopUp={setShowPopUp} proposalID={proposalID} setShowAlertModal={setShowAlertModal} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: v }), {})}/> : null}
+
+            {showAlertModal ? <Finalpopup setShowAlertModal={setShowAlertModal} showAlertModal={showAlertModal} proposalID={proposalID} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: v }), {})}/> : null}
         </>
     )
 }
 
 const DeleteProposal = (props) => {
+
+    const deletepro = (proid) => {
+        props.setShowPopUp(false);
+        props.setShowAlertModal(true);
+    }
+
     return (
         <>
-            <Modal show={props.setShowPopUp}>
+            <Modal
+                show={props.setShowPopUp}
+                onHide={() => props.setShowPopUp(false)}
+                aria-labelledby = 'contained-modal-title-vcenter'
+            >
                 <Modal.Header>
                     <Modal.Title>
-                        Are you sure you want to delete the proposal?
+                        Delete
                     </Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete the proposal "<b>{props.propsalData[props.proposalID].title}</b>"?
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => props.setShowPopUp(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => }>Yes</Button>
+                    <Button variant={"danger"} onClick={() => deletepro(props.proposalID) }>Yes</Button>
                 </Modal.Footer>
             </Modal>
         </>
     )
 }
 
-export {ProfessorBrowseProposals, DeleteProposal};
+const Finalpopup = (props) => {
+    return (
+        <>
+            <Modal show={props.showAlertModal}>
+                <Modal.Body>
+                    Proposal "<b>{props.propsalData[props.proposalID].title}</b>" deleted.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => props.setShowAlertModal(false)}> Close </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    )
+}
+
+export {ProfessorBrowseProposals, DeleteProposal, Finalpopup};
