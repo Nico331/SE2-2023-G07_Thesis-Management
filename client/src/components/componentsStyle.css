@@ -24,3 +24,7 @@ position: absolute;
 .below-nav{
     margin-top: 80px;
 }
+
+.content-container {
+    margin-top: 100px;
+}

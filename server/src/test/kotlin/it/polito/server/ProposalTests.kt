@@ -234,4 +234,82 @@ class ProductTests {
     }
 
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    fun testGetActiveProposalsBySupervisor() {
+
+        proposalRepository.save(myProposal1)
+        proposalRepository.save(myProposal2)
+        proposalRepository.save(myProposal3)
+
+        val supervisor = "Prof. Roberto Verde"
+
+        val baseUrl = "http://localhost:$port/API/proposals/$supervisor"
+        val uri = URI(baseUrl)
+
+        val result: ResponseEntity<String> = restTemplate.exchange(
+                uri,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                String::class.java
+        )
+
+        Assertions.assertEquals(HttpStatus.OK, result.statusCode)
+
+        val gson = GsonBuilder()
+                .registerTypeAdapter(Date::class.java, JsonDeserializer<Date> { json, _, _ ->
+                    if (json.isJsonPrimitive && json.asJsonPrimitive.isNumber) {
+                        Date(json.asJsonPrimitive.asLong)
+                    } else {
+                        null
+                    }
+                })
+                .create()
+        val arrayProposalType = object : TypeToken<List<ProposalDTO>>() {}.type
+        val proposals: List<ProposalDTO> = gson.fromJson(result.body, arrayProposalType)
+
+
+        proposals.forEach { Assertions.assertFalse(it.archived) }
+
+        proposals.forEach { Assertions.assertEquals(supervisor,it.supervisor) }
+
+
+        proposalRepository.deleteAll()
+    }
+
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    fun testGetProposal() {
+
+        val savedProposal = proposalRepository.save(myProposal1)
+
+        val result: ResponseEntity<ProposalDTO> = restTemplate.exchange(
+                "http://localhost:$port/API/proposals/${savedProposal.id}",
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                ProposalDTO::class.java
+        )
+
+        assertEquals(HttpStatus.OK, result.statusCode)
+
+        val returnedProposal = result.body !!
+        assertEquals(myProposal1.title, returnedProposal.title)
+        assertEquals(myProposal1.supervisor, returnedProposal.supervisor)
+        assertIterableEquals(myProposal1.coSupervisors, returnedProposal.coSupervisors)
+        assertIterableEquals(myProposal1.keywords, returnedProposal.keywords)
+        assertEquals(myProposal1.type, returnedProposal.type)
+        assertIterableEquals(myProposal1.groups, returnedProposal.groups)
+        assertEquals(myProposal1.description,returnedProposal.description)
+        assertEquals(myProposal1.requiredKnowledge,returnedProposal.requiredKnowledge)
+        assertEquals(myProposal1.notes, returnedProposal.notes)
+        assertEquals(myProposal1.expiration,returnedProposal.expiration)
+        assertEquals(myProposal1.level, returnedProposal.level)
+        assertIterableEquals(myProposal1.cdS,returnedProposal.cdS)
+        assertEquals(myProposal1.archived,returnedProposal.archived)
+
+        proposalRepository.deleteAll()
+    }
+
+
 }

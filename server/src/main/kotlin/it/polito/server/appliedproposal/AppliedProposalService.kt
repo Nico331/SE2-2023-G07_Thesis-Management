@@ -7,11 +7,6 @@ import org.springframework.stereotype.Service
 @Service
 class AppliedProposalService(private val appliedProposalRepository: AppliedProposalRepository, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
 
-    fun createAppliedProposal(appliedProposal: AppliedProposal): AppliedProposalDTO {
-        val savedAppliedProposal = appliedProposalRepository.save(appliedProposal)
-        return savedAppliedProposal.toDTO()
-    }
-
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
         return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
     }
@@ -46,4 +41,20 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
     fun appliesByStudent(studentId: String): List<AppliedProposalDTO> {
         return appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
     }
+
+    fun acceptProposal(applicationId: String) {
+        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+
+        appliedProposal.status = ApplicationStatus.APPROVED
+        appliedProposalRepository.save(appliedProposal)
+    }
+
+    fun rejectProposal(applicationId: String) {
+        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+
+        appliedProposal.status = ApplicationStatus.REJECTED
+        appliedProposalRepository.save(appliedProposal)
+    }
+
+
 }
