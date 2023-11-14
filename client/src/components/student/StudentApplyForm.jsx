@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Form, Button, Table} from 'react-bootstrap';
+import {Form, Button, Table, Container, Navbar, Image} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
 import Modal from 'react-bootstrap/Modal';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import DegreeService from "../../services/DegreeService";
+import '../componentsStyle.css'
 
 function StudentApplyForm(props) {
     const [studentData, setStudentData] = useState({
@@ -168,7 +169,19 @@ function StudentApplyForm(props) {
 
 
     return (
-        <div>
+       <>
+            <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
+                <Container>
+                    <Link to={"/"}>
+                        <Navbar.Brand>
+                            <Navbar.Text>
+                                <Image style={{ width: 160, height: 40 }} src={"../logo_thesis_management.png"}/>
+                            </Navbar.Text>
+                        </Navbar.Brand>
+                    </Link>
+                </Container>
+            </Navbar>
+           <Container className="content-container">
             {showForm ? (
                     <>
                         <h1>Your data:</h1>
@@ -278,7 +291,7 @@ function StudentApplyForm(props) {
                 )
                 :
                 (
-                    <>
+                    <div>
                         <Table striped bordered hover>
                             <caption>Student Data</caption>
                             <thead>
@@ -337,7 +350,6 @@ function StudentApplyForm(props) {
                             <caption>Degree info</caption>
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Code</th>
                                 <th>Title</th>
                             </tr>
@@ -371,7 +383,7 @@ function StudentApplyForm(props) {
                         </Button>
 
 
-                    </>
+                    </div>
                 )}
 
             <Modal show={showModal} onHide={handleCloseModal}>
@@ -387,8 +399,9 @@ function StudentApplyForm(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
 
+           </Container>
+       </>
 
     );
 }
