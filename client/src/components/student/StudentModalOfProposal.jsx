@@ -2,7 +2,9 @@ import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
 
-function ModalOfProposal(props) {
+
+function StudentModalOfProposal(props) {
+    const supervisor = props.professorData[props.propsalData[props.proposalID].supervisor];
 
     return (
         <>
@@ -24,7 +26,7 @@ function ModalOfProposal(props) {
                             <b>Thesis Title:</b> {props.propsalData[props.proposalID].title}
                         </Col>
                         <Col md={6}>
-                            <b>Supervisor:</b> {props.propsalData[props.proposalID].supervisor}
+                            <b>Supervisor:</b> {supervisor.name+" "+supervisor.surname}
                         </Col>
                     </Row>
                     <Row>
@@ -37,7 +39,7 @@ function ModalOfProposal(props) {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].required_knowledge}
+                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].requiredKnowledge}
                         </Col>
                         <Col md={6}>
                             <b>Level:</b> {props.propsalData[props.proposalID].level}
@@ -45,14 +47,14 @@ function ModalOfProposal(props) {
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cds}
+                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cdS}
                         </Col>
                         <Col md={6}>
-                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration}
+                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration.toDateString()}
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col className="mt-1">
                             <b>Description:</b> {props.propsalData[props.proposalID].description}
                         </Col>
                     </Row>
@@ -74,4 +76,4 @@ function ModalOfProposal(props) {
     )
 }
 
-export {ModalOfProposal};
+export {StudentModalOfProposal};

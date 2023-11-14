@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {Form, Button, Table} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
+import Modal from 'react-bootstrap/Modal';
+import {useNavigate} from 'react-router-dom';
+import DegreeService from "../../services/DegreeService";
 
 function StudentApplyForm(props) {
     const [studentData, setStudentData] = useState({
@@ -14,16 +17,31 @@ function StudentApplyForm(props) {
         enrollmentYear: '',
     });
 
+
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
     //non so quanto è lungo -> non so quanti esami abbia sostenuto lo studente
     const [studentCareer, setStudentCareer] = useState([]);
+    const [studentDegree, setStudentDegree] = useState({
+        codDegree: '',
+        titleDegree: ''
+    });
 
     //flag che uso per distinguere due possibili viste: form di inserimento dati oppure riepilogo dati + attach file
     const [showForm, setShowForm] = useState(true);
 
+    //per disabilitare il pulsante Apply mentre sto parlando con il server
+    const [isApplying, setIsApplying] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
     const getCareer = async (id) => {
         const response = await CareerService.fetchCareer(id);
         setStudentCareer(response.data);
+    }
+
+    const getDegree = async (codDegree) => {
+        const response = await DegreeService.fetchDegree(codDegree);
+        setStudentDegree(response.data);
     }
 
     const handleChange = (e) => {
@@ -32,13 +50,68 @@ function StudentApplyForm(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+
         //await getCareer(studentData.id);
 
         //dati statici temporanei, poi va settata con quello che mi restituisce il server nella get subito sopra
         setStudentCareer(
             [
-                {codCorso: 'AX345678', titCorso: 'Web Application 1', CFU: '6', voto: '29', data: '01-09-2023'},
-                {codCorso: "AY675432", titCorso: "Software Engineering 1", CFU: "8", voto: "30", data: "28-06-2023"}]
+                {codCorso: "01PDWOV", titCorso: "Information System", CFU: "6", voto: "27", data: "28-01-2023"},
+                {codCorso: "02LSEOV", titCorso: "Computer Architecture", CFU: "10", voto: "26", data: "02-02-2023"},
+                {
+                    codCorso: 'AX345678',
+                    titCorso: 'Data Science and Database Technology',
+                    CFU: '8',
+                    voto: '24',
+                    data: '23-01-2023'
+                },
+                {
+                    codCorso: "01OTWOV",
+                    titCorso: "Computer Network Technologies and Services",
+                    CFU: "6",
+                    voto: "28",
+                    data: "06-02-2023"
+                },
+                {
+                    codCorso: "02JEUOV",
+                    titCorso: "Formal Languages and Compilers",
+                    CFU: "6",
+                    voto: "25",
+                    data: "01-07-2023"
+                },
+                {codCorso: "04GSPOV", titCorso: "Software Engineering 1", CFU: "8", voto: "30", data: "28-06-2023"},
+                {codCorso: "01TXYOV", titCorso: "Web Application 1", CFU: "6", voto: "29", data: "10-07-2023"},
+                {
+                    codCorso: "01NYHOV",
+                    titCorso: "System and Device Programming",
+                    CFU: "10",
+                    voto: "26",
+                    data: "01-09-2023"
+                },
+                {codCorso: "02JSKOV", titCorso: "Human Computer Interaction", CFU: "6", voto: "30", data: "28-01-2024"},
+                {
+                    codCorso: "01TYMOV",
+                    titCorso: "Information System Security",
+                    CFU: "6",
+                    voto: "25",
+                    data: "01-02-2024"
+                },
+                {codCorso: "01SQNOV", titCorso: "Software Engineering 2", CFU: "6", voto: "28", data: "07-02-2024"},
+                {codCorso: "01QYDOV", titCorso: "Big data", CFU: "6", voto: "30", data: "29-06-2024"},
+                {
+                    codCorso: "01PFPOV",
+                    titCorso: "Mobile Application Development",
+                    CFU: "6",
+                    voto: "27",
+                    data: "03-07-2024"
+                }]
+        )
+        //stessa cosa di sopra
+        //await getDegree(studentData.codDegree);
+        setStudentDegree({
+                codDegree: "LM-32 (DM270)", titleDegree: "Computer Engineering - Software"
+            }
         )
 
         setShowForm(false);
@@ -51,11 +124,54 @@ function StudentApplyForm(props) {
         setFile(e.target.files[0]);
     };
 
+    const handleApply = async () => {
+        setIsApplying(true);
+
+        try {
+
+            //api per fare apply: sarà una post su qualche url tipo application.
+            //avrà nel body i dati dello studente, la sua carriera, i dati sul degree
+            // e un qualche identificativo della tesi a cui sto facendo l'apply
+            const requestData = {
+                studentData,
+                studentCareer,
+            };
+
+            // Aggiungi il file alla richiesta solo se è presente
+            if (file) {
+                requestData.file = file;
+            }
+
+            //const response = await axios.post('url_del_tuo_server', requestData);
+
+            // Esegui altre azioni dopo il successo, se necessario
+
+            setShowModal(true);
+        } catch (error) {
+            console.error('Errore durante l\'invio al server:', error);
+        } finally {
+            setIsApplying(false);
+        }
+    };
+    const navigate = useNavigate();
+    const handleCloseModal = () => {
+        setShowModal(false);
+        navigate('/proposallist'); // Utilizza il hook useNavigate per il reindirizzamento
+    };
+
+    const handleCancel = () => {
+        setShowForm(true);
+    }
+    const handleBack = () => {
+        navigate('/proposallist');
+    }
+
+
     return (
         <div>
             {showForm ? (
                     <>
-                        <h1>Inserisci i tuoi dati:</h1>
+                        <h1>Your data:</h1>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formId">
                                 <Form.Control
@@ -63,7 +179,7 @@ function StudentApplyForm(props) {
                                     name="id"
                                     value={studentData.id}
                                     onChange={handleChange}
-                                    placeholder="Matricola"
+                                    placeholder="Student ID"
                                     required
                                 />
                             </Form.Group>
@@ -73,7 +189,7 @@ function StudentApplyForm(props) {
                                     name="surname"
                                     value={studentData.surname}
                                     onChange={handleChange}
-                                    placeholder="Cognome"
+                                    placeholder="Surname"
                                     required
                                 />
                             </Form.Group>
@@ -84,7 +200,7 @@ function StudentApplyForm(props) {
                                     name="name"
                                     value={studentData.name}
                                     onChange={handleChange}
-                                    placeholder="Nome"
+                                    placeholder="Name"
                                     required
                                 />
                             </Form.Group>
@@ -97,10 +213,10 @@ function StudentApplyForm(props) {
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="">Seleziona genere</option>
-                                    <option value="maschio">Maschio</option>
-                                    <option value="femmina">Femmina</option>
-                                    <option value="altro">Altro</option>
+                                    <option value="">Select you gender</option>
+                                    <option value="maschio">Male</option>
+                                    <option value="femmina">Female</option>
+                                    <option value="altro">Other</option>
                                 </Form.Control>
                             </Form.Group>
 
@@ -110,7 +226,7 @@ function StudentApplyForm(props) {
                                     name="nationality"
                                     value={studentData.nationality}
                                     onChange={handleChange}
-                                    placeholder="Nazionalità"
+                                    placeholder="Nationality"
                                     required
                                 />
                             </Form.Group>
@@ -132,7 +248,7 @@ function StudentApplyForm(props) {
                                     name="codDegree"
                                     value={studentData.codDegree}
                                     onChange={handleChange}
-                                    placeholder="Codice Corso di Laurea"
+                                    placeholder="Degree code"
                                     required
                                 />
                             </Form.Group>
@@ -143,13 +259,19 @@ function StudentApplyForm(props) {
                                     name="enrollmentYear"
                                     value={studentData.enrollmentYear}
                                     onChange={handleChange}
-                                    placeholder="Anno di immatricolazione"
+                                    placeholder="Year of enrollment"
                                     required
                                 />
                             </Form.Group>
 
-                            <Button variant="primary" type="submit">
-                                Salva
+                            <Button variant="primary" type="submit" onClick={handleSubmit}
+                                    style={{marginTop: '100px', marginBottom: '10px', marginRight: '20px'}}>
+                                Save
+                            </Button>
+
+                            <Button variant="secondary" type="button" onClick={handleBack}
+                                    style={{marginTop: '100px', marginBottom: '10px'}}>
+                                Back to proposal list
                             </Button>
                         </Form>
                     </>
@@ -158,17 +280,17 @@ function StudentApplyForm(props) {
                 (
                     <>
                         <Table striped bordered hover>
-                            <caption>Dati studente</caption>
+                            <caption>Student Data</caption>
                             <thead>
                             <tr>
-                                <th>Matricola</th>
-                                <th>Cognome</th>
-                                <th>Nome</th>
-                                <th>Sesso</th>
-                                <th>Nazionalità</th>
+                                <th>Student ID</th>
+                                <th>Surname</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Nationality</th>
                                 <th>Email</th>
-                                <th>Codice CdS</th>
-                                <th>Anno di Immatricolazione</th>
+                                <th>Degree code</th>
+                                <th>Year of enrollment</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -190,11 +312,11 @@ function StudentApplyForm(props) {
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Codice</th>
-                                <th>Titolo</th>
+                                <th>Code</th>
+                                <th>Title</th>
                                 <th>CFU</th>
-                                <th>Voto</th>
-                                <th>Data</th>
+                                <th>Vote</th>
+                                <th>Date</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -211,8 +333,25 @@ function StudentApplyForm(props) {
                             </tbody>
                         </Table>
 
+                        <Table striped bordered hover>
+                            <caption>Degree info</caption>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Code</th>
+                                <th>Title</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{studentDegree.codDegree}</td>
+                                <td>{studentDegree.titleDegree}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
+
                         <Form.Group controlId="formFile">
-                            <Form.Label>Allega un file (opzionale)</Form.Label>
+                            <Form.Label>Attach a file (optional)</Form.Label>
                             <Form.Control
                                 type="file"
                                 name="file"
@@ -220,9 +359,34 @@ function StudentApplyForm(props) {
                             />
                         </Form.Group>
 
+                        <Button variant="primary" type="button" onClick={handleApply} disabled={isApplying}
+                                style={{marginTop: '10px', marginBottom: '100px', marginRight: '20px'}}>
+                            {isApplying ? 'Applying...' : 'Apply'}
+                        </Button>
+
+
+                        <Button variant="secondary" type="button" onClick={handleCancel}
+                                style={{marginTop: '10px', marginBottom: '100px'}}>
+                            Cancel
+                        </Button>
+
 
                     </>
                 )}
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Application Submitted</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    You applied! Thank you for your submission.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
 
 

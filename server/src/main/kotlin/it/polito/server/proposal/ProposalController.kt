@@ -38,4 +38,13 @@ class ProposalController (private val proposalService: ProposalService){
         proposalService.deleteProposal(id)
         return ResponseEntity(HttpStatus.OK)
     }
+
+    @GetMapping("/{supervisor}")
+    fun getActiveProposalsBySupervisor(@PathVariable supervisor: String): ResponseEntity<List<ProposalDTO>> {
+        val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
+
+        return ResponseEntity.ok(activeProposalDTOs)
+    }
+
 }
+

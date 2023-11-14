@@ -5,6 +5,7 @@ import {FaTimes} from "react-icons/fa";
 import GroupInput from "./GroupInput";
 import CdsInput from "./CdsInput";
 import dayjs from "dayjs";
+import ProposalService from "../../services/ProposalService";
 
 const ProposalForm = () => {
     const [proposal, setProposal] = useState({
@@ -26,7 +27,7 @@ const ProposalForm = () => {
     const [newKeyword, setNewKeyword] = useState('');
 
     const addCoSupervisor = (coSupervisor) => {
-        setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, {...coSupervisor}]});
+        setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, coSupervisor]});
     };
 
     const removeCoSupervisor = (index) => {
@@ -59,7 +60,7 @@ const ProposalForm = () => {
         setProposal({...proposal, groups: updatedGroups});
     };
     const addCds = (cds) => {
-        setProposal({...proposal, cdS: [...proposal.cdS, {...cds}]});
+        setProposal({...proposal, cdS: [...proposal.cdS, cds]});
     };
 
     const removeCds = (index) => {
@@ -68,11 +69,9 @@ const ProposalForm = () => {
         setProposal({...proposal, cdS: updatedCds});
     };
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Send `proposal` data to the server via a POST request here
-        console.log(proposal);
+        await ProposalService.createProposal(proposal);
     };
 
     return (
@@ -80,7 +79,7 @@ const ProposalForm = () => {
             <Form onSubmit={handleSubmit}>
                 <Row>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="title">
+                        <Form.Group controlid="title">
                             <Form.Label className="h3">Title</Form.Label>
                             <Form.Control
                                 type="text"
@@ -91,31 +90,34 @@ const ProposalForm = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="type">
+                        <Form.Group controlid="type">
                             <Form.Label className="h3">Type</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter type"
-                                value={proposal.type}
-                                onChange={(e) => setProposal({...proposal, type: e.target.value})}
-                            />
+                            <Form.Control as="select" custom value={proposal.type}
+                                          onChange={(e) => setProposal({...proposal, type: e.target.value})}>
+                                <option value="">Select the type</option>
+                                <option value="In company">In company</option>
+                                <option value="Experimental">Experimental</option>
+                                <option value="Literature based">Literature based</option>
+                                <option value="Theoretical">Theoretical</option>
+                                <option value="Development">Development</option>
+                            </Form.Control>
                         </Form.Group>
                     </div>
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="level">
+                        <Form.Group controlid="level">
                             <Form.Label className="h3">Level</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter level"
-                                value={proposal.level}
-                                onChange={(e) => setProposal({...proposal, level: e.target.value})}
-                            />
+                            <Form.Control as="select" custom value={proposal.level}
+                                          onChange={(e) => setProposal({...proposal, level: e.target.value})}>
+                                <option value="">Select the type</option>
+                                <option value="Bachelor">Bachelor</option>
+                                <option value="Master">Master</option>
+                            </Form.Control>
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="expiration">
+                        <Form.Group controlid="expiration">
                             <Form.Label className="h3">Expiration</Form.Label>
                             <Form.Control
                                 type="date"
@@ -128,14 +130,14 @@ const ProposalForm = () => {
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="supervisor">
+                        <Form.Group controlid="supervisor">
                             <Form.Label className="h3">Supervisor</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter supervisor"
-                                value={proposal.supervisor}
-                                onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}
-                            />
+                            <Form.Control as="select" custom value={proposal.supervisor}
+                                          onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
+                                <option value="">Select the supervisor</option>
+                                <option value="1">Marco Torchiano</option>
+                                <option value="2">Riccardo Sisto</option>
+                            </Form.Control>
                         </Form.Group>
                         <Form.Label className="h3">Co-Supervisors</Form.Label>
                         <Card className={"mt-3 mb-3"}>
@@ -144,7 +146,7 @@ const ProposalForm = () => {
 
                                 <ListGroup className={"mt-3"}>
                                     {proposal.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
-                                        {cs.name} {cs.surname} - {cs.email} &nbsp;
+                                        {cs} Nome {cs} Cognome  - {cs} Email &nbsp;
                                         <Button
                                             variant="danger"
                                             size="sm"
@@ -191,7 +193,7 @@ const ProposalForm = () => {
                         <Card className={"mb-3"}>
                             <Card.Body>
 
-                                <ListGroup controlId="newKeyword">
+                                <ListGroup controlid="newKeyword">
                                     <div className="d-flex align-items-center">
                                         <div className="col-lg-8">
                                             <Form.Control
@@ -221,7 +223,7 @@ const ProposalForm = () => {
                         </Card>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="description">
+                        <Form.Group controlid="description">
                             <Form.Label className="h3">Description</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -235,7 +237,7 @@ const ProposalForm = () => {
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="requiredKnoledge">
+                        <Form.Group controlid="requiredKnoledge">
                             <Form.Label className="h3">Required Knowledge</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -247,7 +249,7 @@ const ProposalForm = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlId="notes">
+                        <Form.Group controlid="notes">
                             <Form.Label className="h3">Notes</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -267,7 +269,7 @@ const ProposalForm = () => {
 
                         <ListGroup className={"mt-3"}>
                             {proposal.cdS.map((cds, index) => (<ListGroup.Item key={index}>
-                                {cds.name} &nbsp;
+                                {cds} &nbsp;
                                 <Button
                                     variant="danger"
                                     size="sm"

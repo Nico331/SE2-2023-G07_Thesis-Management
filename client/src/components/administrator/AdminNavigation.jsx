@@ -31,6 +31,7 @@ const AdminNavigation = () => {
                         onMouseLeave={() => setShowDropdown(false)} >
                         <NavDropdown.Item href={"/admin/students"} > Manage students </NavDropdown.Item>
                         <NavDropdown.Item href={"/admin/addStudent"} > New student </NavDropdown.Item>
+                        <NavDropdown.Item href={"/professor/browseproposals"} > Browse Proposals</NavDropdown.Item>
                         <NavDropdown.Divider /> {}
                     </NavDropdown>
 

@@ -6,6 +6,7 @@ import { NotFound } from "../Layouts";
 import {ProposalList} from "../student/proposalList"
 import LoginModal from "../login/LoginModal";
 import LoginBody from "../login/LoginBody";
+import StudentApplyForm from "../student/StudentApplyForm";
 
 function AdminRoutes(){
     return(
@@ -18,6 +19,7 @@ function AdminRoutes(){
                 </Route>
                 <Route path="/admin/addStudent" element={ <NewStudent/> } />
                 <Route path="/proposallist" element={<ProposalList/>} />
+                <Route path="/apply" element={<StudentApplyForm />} />
                 <Route path="/login" element={<LoginBody/>}/>
             </Routes>
         </>
