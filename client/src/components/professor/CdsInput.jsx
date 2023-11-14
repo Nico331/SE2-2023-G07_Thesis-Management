@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import {Form, Button, Accordion, Card, Row} from 'react-bootstrap';
 
 const CdsInput = ({onAddCds}) => {
-    const [cds, setCds] = useState({
-        name: '',
-    });
+    const [cds, setCds] = useState("");
 
     const addCds = () => {
-        if (cds.name) {
-            onAddCds({...cds});
-            setCds({name: ''});
+        if (cds) {
+            onAddCds(cds);
+            setCds("");
         }
     };
 
@@ -24,7 +22,7 @@ const CdsInput = ({onAddCds}) => {
                             type="text"
                             placeholder="Enter cds name"
                             value={cds.name}
-                            onChange={(e) => setCds({...cds, name: e.target.value})}
+                            onChange={(e) => setCds([...cds, e.target.value])}
                         />
                     </Form.Group>
 
