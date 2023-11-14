@@ -97,7 +97,7 @@ const ProposalForm = () => {
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
                                 <option value="Experimental">Experimental</option>
-                                <option value="Literature-based">Literature based</option>
+                                <option value="Literature based">Literature based</option>
                                 <option value="Theoretical">Theoretical</option>
                                 <option value="Development">Development</option>
                             </Form.Control>
