@@ -1,21 +1,11 @@
 package it.polito.server.appliedproposal
 
-import it.polito.server.proposal.Proposal
-import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
-import it.polito.server.student.Student
-import it.polito.server.student.StudentDTO
 import it.polito.server.student.StudentRepository
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class AppliedProposalService(private val appliedProposalRepository: AppliedProposalRepository, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
-
-    fun createAppliedProposal(appliedProposal: AppliedProposal): AppliedProposalDTO {
-        val savedAppliedProposal = appliedProposalRepository.save(appliedProposal)
-        return savedAppliedProposal.toDTO()
-    }
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
         return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
@@ -47,4 +37,24 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
         else
             return null
     }
+
+    fun appliesByStudent(studentId: String): List<AppliedProposalDTO> {
+        return appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
+    }
+
+    fun acceptProposal(applicationId: String) {
+        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+
+        appliedProposal.status = ApplicationStatus.APPROVED
+        appliedProposalRepository.save(appliedProposal)
+    }
+
+    fun rejectProposal(applicationId: String) {
+        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+
+        appliedProposal.status = ApplicationStatus.REJECTED
+        appliedProposalRepository.save(appliedProposal)
+    }
+
+
 }

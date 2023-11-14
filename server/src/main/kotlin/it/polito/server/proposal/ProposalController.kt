@@ -17,7 +17,7 @@ class ProposalController (private val proposalService: ProposalService){
     }
 
     @PostMapping("")
-    fun createProposal(@RequestBody proposal: Proposal): ResponseEntity<ProposalDTO> {
+    fun createProposal(@RequestBody proposal: ProposalDTO): ResponseEntity<ProposalDTO> {
         val newProposal = proposalService.createProposal(proposal)
         return ResponseEntity(newProposal, HttpStatus.CREATED)
     }

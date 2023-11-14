@@ -32,8 +32,8 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.save(proposal).toDTO()
     }
 
-    fun createProposal(proposal: Proposal): ProposalDTO {
-        val savedProposal = proposalRepository.save(proposal)
+    fun createProposal(proposal: ProposalDTO): ProposalDTO {
+        val savedProposal = proposalRepository.save(proposal.toDBObj())
         return savedProposal.toDTO()
     }
 
@@ -41,7 +41,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.findById(id).map(Proposal::toDTO).orElse(null)
     }
     fun findAll() : List<ProposalDTO> {
-        return proposalRepository.findAll().map{ (it.toDTO())}
+        return proposalRepository.findAll().map{(it.toDTO())}
     }
 
     fun deleteProposal(id: String) {
