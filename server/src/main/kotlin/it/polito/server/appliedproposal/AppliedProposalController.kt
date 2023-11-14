@@ -45,4 +45,10 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student has already applied for this proposal")
         }
     }
+
+    @GetMapping("/{studentId}")
+    fun getAppliedProposalByStudent (@PathVariable studentId: String) : ResponseEntity<List<AppliedProposalDTO>> {
+        val appliesByStudent = appliedProposalService.appliesByStudent(studentId)
+        return ResponseEntity.ok(appliesByStudent)
+    }
 }

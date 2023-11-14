@@ -1,12 +1,7 @@
 package it.polito.server.appliedproposal
 
-import it.polito.server.proposal.Proposal
-import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
-import it.polito.server.student.Student
-import it.polito.server.student.StudentDTO
 import it.polito.server.student.StudentRepository
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
@@ -46,5 +41,9 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
         }
         else
             return null
+    }
+
+    fun appliesByStudent(studentId: String): List<AppliedProposalDTO> {
+        return appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
     }
 }
