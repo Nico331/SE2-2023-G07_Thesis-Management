@@ -2,7 +2,8 @@ import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
 
-function ModalOfProposal(props) {
+
+function StudentModalOfProposal(props) {
     const supervisor = props.professorData[props.propsalData[props.proposalID].supervisor];
 
     return (
@@ -75,4 +76,4 @@ function ModalOfProposal(props) {
     )
 }
 
-export {ModalOfProposal};
+export {StudentModalOfProposal};

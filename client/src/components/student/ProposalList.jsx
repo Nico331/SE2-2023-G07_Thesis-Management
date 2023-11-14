@@ -14,7 +14,7 @@ import {
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {ModalOfProposal} from "./ModalOfProposal";
+import {StudentModalOfProposal} from "./StudentModalOfProposal";
 import {Sidebar} from "./FiltersSidebar";
 import axios from 'axios';
 import dayjs from "dayjs";
@@ -314,7 +314,7 @@ const ProposalList = (props) => {
                     </Col>
                 </Row>
             </Container>
-            {showModal ? <ModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID}/> : null}
+            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID}/> : null}
         </>
     );
 }
