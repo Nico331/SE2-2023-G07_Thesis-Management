@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
+import ProposalService from "../../services/ProposalService";
+import ApplicationService from "../../services/ApplicationService";
+import StudentService from "../../services/StudentService";
 import {
     Navbar,
     Container,
