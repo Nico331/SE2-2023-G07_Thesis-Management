@@ -12,6 +12,7 @@ import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertIterableEquals
@@ -97,7 +98,7 @@ class AppliedProposalTests {
         val headers = HttpHeaders()
         val httpEntity = HttpEntity(null, headers)
 
-        val baseUrl = "http://localhost:$port/API/appliedProposals/"
+        val baseUrl = "http://localhost:$port/API/appliedProposals"
         val uri = URI(baseUrl)
 
         appliedProposalRepository.save(appliedProposal1)
@@ -106,7 +107,7 @@ class AppliedProposalTests {
         val result: ResponseEntity<String> = restTemplate.exchange(
                 uri,
                 HttpMethod.GET,
-                httpEntity,
+                HttpEntity.EMPTY,
                 String::class.java
         )
         println(result)
@@ -149,7 +150,10 @@ class AppliedProposalTests {
 
         assertEquals(HttpStatus.OK, result.statusCode)
         val returnedProposal = result.body!!
-        assertEquals(appliedProposal1, returnedProposal)
+        assertEquals(appliedProposal1.proposalId, returnedProposal.proposalId)
+        assertEquals(appliedProposal1.studentId, returnedProposal.studentId)
+        assertEquals(ApplicationStatus.PENDING, returnedProposal.status)
+        assertNotNull(returnedProposal.id)
 
         appliedProposalRepository.deleteAll()
     }
@@ -173,8 +177,9 @@ class AppliedProposalTests {
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testCreateApplyForProposal() {
-        val proposalId = "11111"
-        val studentId = "12345"
+        //se gli Id non sono presenti nel db i test falliscono
+        val proposalId = "6553e78fe39d7b977c9001af"
+        val studentId = "6553e78fe39d7b977c9001b9"
 
         val applyResult: ResponseEntity<String> = restTemplate.exchange(
                 "http://localhost:$port/API/appliedProposal/apply/$proposalId/$studentId",

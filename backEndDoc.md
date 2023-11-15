@@ -176,7 +176,7 @@ AppliedProposalDTO
 
 - Create an Application
 	- POST ___`/API/appliedProposal/apply/{proposalId}/{studentId}`___
-	- Return OK status if success
+	- Return the new AppliedProposalTDO if success.
 	- Return BAD_REQUEST status if the _studentId_ student has already applied for the _proposalId_ proposal. 
 - Get an existing Application
 	- GET ___`/API/appliedProposal/{id}`___

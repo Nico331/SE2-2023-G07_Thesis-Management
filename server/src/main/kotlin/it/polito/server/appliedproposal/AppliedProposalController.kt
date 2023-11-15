@@ -5,6 +5,7 @@ import it.polito.server.proposal.ProposalDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 
 @RestController
 @RequestMapping("/API/appliedProposal")
@@ -29,14 +30,14 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     }
 
     @PostMapping("/apply/{proposalId}/{studentId}")
-    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String) : ResponseEntity<String> {
+    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String) : ResponseEntity<Any> {
 
         val appliedProposalDTO = appliedProposalService.applyForProposal(proposalId,studentId)
 
         return if (appliedProposalDTO != null){
-            ResponseEntity.ok("Application successful")
+            ResponseEntity.ok(appliedProposalDTO)
         } else{
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student has already applied for this proposal")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore nella creazione dell'application (elementi non presenti nel db o application già esistente")
         }
     }
 
