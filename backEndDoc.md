@@ -130,7 +130,7 @@ Student
 "nationality" : String,
 "email" : String,
 "codDegree" : String,
-"enrollmentYear" : Int
+"enrollmentYear" : Int,
 "passwordHash" : nullable String
 }
 ```
@@ -168,7 +168,7 @@ AppliedProposalDTO
 	"id" : nullable String,
 	"proposalId" : String,
 	"studentId" : String,
-	"status" : enum {"PENDING", "APPROVED", "REJECTED"},
+	"status" : enum {"PENDING", "APPROVED", "REJECTED"}
 }
 ```
 
@@ -198,3 +198,45 @@ AppliedProposalDTO
 - Delete an existing Application
 	- DELETE ___`/API/appliedProposal/{applicationID}`___
 	- Return OK status if success.
+
+
+  ----
+
+# Career
+
+## Career Object
+A Career object represents ...
+
+```json
+CareerDTO
+{
+	"id" : nullable String,
+	"studentId" : String,
+	"codCourse" : String,
+	"titleCourse" : String,
+	"cfu" : Int,
+	"grade" : Int,
+	"date" : String
+}
+```
+
+## Career APIs
+........
+
+  ----
+
+# Degree
+
+## Degree Object
+A Degree object represents ...
+
+```json
+DegreeDTO
+{
+	"id" : nulalble String,
+	"codDegree" : String,
+	"titleDegree" : String
+}
+```
+
+## Degree APIs
