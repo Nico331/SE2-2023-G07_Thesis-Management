@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Form, Button, Table, Container, Navbar, Image} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
 import Modal from 'react-bootstrap/Modal';
 import {Link, useNavigate} from 'react-router-dom';
 import DegreeService from "../../services/DegreeService";
 import '../componentsStyle.css'
+import {UserContext} from "../../contexts/UserContexts";
 
 function StudentApplyForm(props) {
     const [studentData, setStudentData] = useState({
@@ -17,6 +18,11 @@ function StudentApplyForm(props) {
         codDegree: '',
         enrollmentYear: '',
     });
+    const {user, setUser} = useContext(UserContext)
+
+    useEffect(()=>{
+        console.log(user);
+    },[user])
 
 
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
@@ -56,6 +62,7 @@ function StudentApplyForm(props) {
         //await getCareer(studentData.id);
 
         //dati statici temporanei, poi va settata con quello che mi restituisce il server nella get subito sopra
+        // @ts-ignore
         setStudentCareer(
             [
                 {codCorso: "01PDWOV", titCorso: "Information System", CFU: "6", voto: "27", data: "28-01-2023"},

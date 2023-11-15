@@ -10,7 +10,7 @@ export type LoginProps = {
 const Login: React.FC<LoginProps> = ({setRole}) => {
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,7 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
             setRole(jwt);
 
             setUser(user);
-            console.log("Navigo")
+            console.log(user)
             navigate('/');
         } catch (error) {
             // @ts-ignore
