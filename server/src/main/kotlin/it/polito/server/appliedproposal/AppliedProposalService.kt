@@ -32,8 +32,8 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
                 return null
             }
 
-            val appliedProposal = AppliedProposal(proposalId = proposalId, studentId = studentId)
-            appliedProposalRepository.save(appliedProposal)
+            val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
+            val appliedProposal = appliedProposalRepository.save(application)
 
             return  appliedProposal.toDTO()
         }
