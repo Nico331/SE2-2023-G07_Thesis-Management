@@ -108,7 +108,7 @@ function Sidebar(props) {
                         </Col>
                     </Row>
 
-                    <Row clasName="mt-2 p-0">
+                    <Row className="mt-2 p-0">
                         <Col sm={6}>
                             <Form.Group className="mt-2">
                                 <Form.Label>Level</Form.Label>

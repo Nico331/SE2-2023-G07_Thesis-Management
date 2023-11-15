@@ -16,162 +16,9 @@ import {
 import { Link } from 'react-router-dom';
 import {StudentModalOfProposal} from "./StudentModalOfProposal";
 import {Sidebar} from "./FiltersSidebar";
-import axios from 'axios';
-import dayjs from "dayjs";
+import ProposalService from "../../services/ProposalService";
 
 const ProposalList = (props) => {
-    const prop = [
-        {
-            title: "Advanced Robotics Control Systems",
-            supervisor: "12m0e9rdk2mefkw0349ikfdwde",
-            coSupervisors: ["Dr. John Doe", "Dr. Jane Smith"],
-            keywords: ["robotics", "control systems", "automation"],
-            type: "Development",
-            groups: ["RoboTech Group"],
-            description: "Design and development of sophisticated control systems for industrial robotics.",
-            requiredKnowledge: "C++, ROS, control theory",
-            notes: "Experience with robotic arms preferred.",
-            expiration: new Date("2022-12-31"),
-            level: "PhD",
-            cdS: ["Engineering", "Robotics"],
-            archived: false
-        },
-        {
-            title: "Blockchain-based Supply Chain Management",
-            supervisor: "12m0e9rdk2mefkw0349ikfdwde",
-            coSupervisors: ["Prof. Sarah Connor"],
-            keywords: ["blockchain", "supply chain", "distributed ledger"],
-            type: "Research",
-            groups: ["BlockChain Group"],
-            description: "Exploration of blockchain technology to enhance transparency in supply chain management.",
-            requiredKnowledge: "Solidity, smart contracts, Ethereum",
-            notes: "Prior project work with blockchain platforms is a plus.",
-            expiration: new Date("2024-12-31"),
-            level: "Masters",
-            cdS: ["Computer Science", "Information Systems"],
-            archived: false
-        },
-        {
-            title: "Quantum Computing Algorithms for Cryptography",
-            supervisor: "wocwkje029fkm3f9834j09feio",
-            coSupervisors: [],
-            keywords: ["quantum computing", "cryptography", "algorithms"],
-            type: "Research",
-            groups: ["QuantumAlgo Group"],
-            description: "Development of new algorithms for cryptography using quantum computing principles.",
-            requiredKnowledge: "Quantum physics, algorithm design, Python",
-            notes: "Basic understanding of quantum mechanics is necessary.",
-            expiration: new Date("2023-09-31"),
-            level: "PhD",
-            cdS: ["Physics", "Computer Science"],
-            archived: false
-        },
-        {
-            title: "Artificial Intelligence in Healthcare Diagnostics",
-            supervisor: "wocwkje029fkm3f9834j09feio",
-            coSupervisors: ["Dr. Eric Foreman"],
-            keywords: ["AI", "healthcare", "diagnostics"],
-            type: "Application Development",
-            groups: ["AIHealth Group"],
-            description: "Application of AI techniques to improve accuracy and efficiency in healthcare diagnostics.",
-            requiredKnowledge: "Machine learning, Python, medical knowledge",
-            notes: "Experience with healthcare data sets is beneficial.",
-            expiration: new Date("2023-12-11"),
-            level: "Masters",
-            cdS: ["Biotechnology", "Health Informatics"],
-            archived: false
-        },
-        {
-            title: "Deep Learning for Autonomous Vehicle Navigation",
-            supervisor: "vmewokc304r3409fk305rtgi54r09",
-            coSupervisors: ["Dr. Chris Urmson"],
-            keywords: ["deep learning", "autonomous vehicles", "navigation"],
-            type: "Research and Development",
-            groups: ["AutoNav Group"],
-            description: "Creating deep learning models to solve problems in autonomous vehicle navigation.",
-            requiredKnowledge: "TensorFlow, Python, computer vision",
-            notes: "Background in transportation engineering is a plus.",
-            expiration: new Date("2023-12-31"),
-            level: "PhD",
-            cdS: ["Artificial Intelligence", "Automotive Engineering"],
-            archived: false
-        },
-        {
-            title: "Renewable Energy Systems and Grid Integration",
-            supervisor: "vmewokc304r3409fk305rtgi54r09",
-            coSupervisors: ["Prof. Maria Skłodowska-Curie"],
-            keywords: ["renewable energy", "grid integration", "sustainability"],
-            type: "Research",
-            groups: ["EcoEnergy Group"],
-            description: "Research into the integration of renewable energy systems into the current power grid.",
-            requiredKnowledge: "Electrical engineering, power systems, MATLAB",
-            notes: "Prior experience with solar or wind energy systems is appreciated.",
-            expiration: new Date(),
-            level: "Masters",
-            cdS: ["Electrical Engineering", "Environmental Science"],
-            archived: false
-        },
-        {
-            title: "Machine Learning Optimization for E-commerce",
-            supervisor: "cmweijf39efk340f9i3k4f034f3ed",
-            coSupervisors: [],
-            keywords: ["machine learning", "e-commerce", "optimization"],
-            type: "Research and Development",
-            groups: ["EcommAI Group"],
-            description: "Utilizing machine learning to optimize various aspects of e-commerce platforms.",
-            requiredKnowledge: "Data analysis, Python, ML frameworks",
-            notes: "Strong analytical skills and experience with large data sets required.",
-            expiration: new Date("2024-01-31"),
-            level: "Masters",
-            cdS: ["Business Informatics", "Data Science"],
-            archived: false
-        },
-        {
-            title: "VR-based Training Environments for Surgery",
-            supervisor: "cmweijf39efk340f9i3k4f034f3ed",
-            coSupervisors: ["Dr. Addison Montgomery"],
-            keywords: ["virtual reality", "surgical training", "interactive simulation"],
-            type: "Development",
-            groups: ["MediVR Group"],
-            description: "Developing interactive VR environments for training surgeons.",
-            requiredKnowledge: "Unity, C#, 3D modeling",
-            notes: "Experience with medical simulations is a plus.",
-            expiration: new Date("2024-05-31"),
-            level: "Masters",
-            cdS: ["Medical Technology", "Computer Graphics"],
-            archived: false
-        },
-        {
-            title: "Big Data Analytics for Internet of Things (IoT)",
-            supervisor: "coijef0932k4f09r3igf0g54f34fr3e",
-            coSupervisors: ["Dr. Vinton Cerf"],
-            keywords: ["big data", "IoT", "analytics"],
-            type: "Data Analysis",
-            groups: ["IoTData Group"],
-            description: "Analysis of large datasets generated by IoT devices to gain insights and improve efficiency.",
-            requiredKnowledge: "Hadoop, Spark, IoT protocols",
-            notes: "Experience with sensor data and real-time analytics preferred.",
-            expiration: new Date("2024-11-31"),
-            level: "PhD",
-            cdS: ["Information Technology", "Data Analytics"],
-            archived: false
-        },
-        {
-            title: "Cybersecurity Measures in Financial Technology",
-            supervisor: "coijef0932k4f09r3igf0g54f34fr3e",
-            coSupervisors: ["Dr. Alan Kay"],
-            keywords: ["cybersecurity", "fintech", "risk management"],
-            type: "Research",
-            groups: ["FinSec Group"],
-            description: "Studying and developing advanced cybersecurity measures for financial technology applications.",
-            requiredKnowledge: "Cryptography, network security, fintech knowledge",
-            notes: "Experience with blockchain or digital payment systems is valuable.",
-            expiration: new Date("2024-12-31"),
-            level: "Masters",
-            cdS: ["Cybersecurity", "Financial Engineering"],
-            archived: false
-        }
-    ];
     const profs = [
         {
             id: "12m0e9rdk2mefkw0349ikfdwde",
@@ -220,29 +67,23 @@ const ProposalList = (props) => {
         }
     ];
 
-    const [proposals, setProposals] = useState(prop.sort((a,b) => {
-        if(a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-        if(a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-        return 0
-    }));
+    const [proposals, setProposals] = useState([]);
     const [professors, setProfessors] = useState(profs);
-    const [propsOnScreen, setPropsOnScreen] = useState(prop);
-    const [collapseState, setCollapseState] = useState(prop.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
+    const [propsOnScreen, setPropsOnScreen] = useState([]);
+    const [collapseState, setCollapseState] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:8081/API/proposals/")
-    //         .then((response) => {
-    //             setProposals(response.data);
-    //             setPropsOnScreen(response.data);
-    //             setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
-    //             console.log(proposals);
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // }, []);
+    const refreshProposals = async () => {
+        const response = await ProposalService.fetchAllProposals();
+        setProposals(response.data);
+        setPropsOnScreen(response.data);
+        setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
+    };
+
+    useEffect(() => {
+        refreshProposals();
+    }, []);
 
     const handleShow = (proId) => {
         setShowModal(true);
@@ -302,7 +143,7 @@ const ProposalList = (props) => {
                                                 <Container className="ms-0 p-0">
                                                     <Container>Supervisor: {professors.find((prof) => prof.id === p.supervisor).name+" "+professors.find((prof) => prof.id === p.supervisor).surname}</Container>
                                                     <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
-                                                    <Container className="mt-1">Expiration Date: {p.expiration.toDateString()}</Container>
+                                                    <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
                                                     <Button className="ms-2 mt-2" onClick={() => handleShow(p.title)}>Show Proposal Details</Button>
                                                 </Container>
                                             </CardBody>
