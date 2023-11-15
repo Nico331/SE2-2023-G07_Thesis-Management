@@ -127,6 +127,8 @@ class ProfessorTests {
         assertEquals(professorToCreate.email, createdProfessor.email)
         assertEquals(professorToCreate.codGroup, createdProfessor.codGroup)
         assertEquals(professorToCreate.codDepartment, createdProfessor.codDepartment)
+
+        professorRepository.deleteAll()
     }
 
     @Test
