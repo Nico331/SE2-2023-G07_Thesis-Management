@@ -1,0 +1,28 @@
+import {Route, Routes} from "react-router-dom";
+import ProfessorNavigation  from "./ProfessorNavigation";
+import ProfessorMain from "./ProfessorMain";
+import { NotFound } from "../Layouts";
+import {ProfessorBrowseProposals} from "./BrowseProposals"
+import React, {Dispatch, SetStateAction} from "react";
+import Logout from "../login/Logout";
+type ProfessorRoutesProps = {
+    setRole: Dispatch<SetStateAction<string | null>>;
+};
+
+const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
+    return(
+        <>
+            <ProfessorNavigation setRole={setRole} />
+            <Routes>
+                <Route path="/" element={ <ProfessorMain/> } >
+                    <Route index element={<ProfessorMain/>} />
+                    <Route path="/*" element={ <NotFound/> } />
+                </Route>
+                <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
+                <Route path="/logout" element={<Logout setRole={setRole}/>} />
+            </Routes>
+        </>
+    )
+}
+
+export default ProfessorRoutes

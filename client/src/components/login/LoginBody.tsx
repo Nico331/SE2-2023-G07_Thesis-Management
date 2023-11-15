@@ -1,8 +1,13 @@
 import {Alert, Button, Form, Modal} from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
-import {TokenContext, UserContext} from "../../contexts/UserContexts";
+import {TokenContext, UserContext} from '../../contexts/UserContexts';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 //import jwtDecode from "jwt-decode";
+interface LoginBodyProps {
+    errorLogin?: string;
+    close: () => void;
+}
 const jwtDecode = (jwt) =>{
     return jwt;
 }
@@ -66,38 +71,43 @@ function LoginBody(props){
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Previeni il comportamento di default del form
         setMessage('');
-        //event.preventDefault();
-        const credentials = { username, password };
         let validate = true;
-        if (username==="" || password.length < 2)
+        if (username === "" || password.length < 2) {
             validate = false;
+        }
         if (validate) {
-            const body={
-                "username":username,
-                "password":password
+            const body = {
+                username: username,
+                password: password
             }
-            fetch('/API/login',{method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            })
-                .then((response) => {
-                    if(response.ok){
-                        response.json().then((data) => validateLogin(data)).then(props.close)
-                        setMessage('');
-                    }
-                    else{
-                        setMessage("Invalid Username or password");
-                    }
+            const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+                event.preventDefault(); // Previeni il comportamento di default del form
+                setMessage('');
+
+                if (username === "" || password.length < 2) {
+                    setMessage("Invalid Username or password");
+                    return;
+                }
+
+                axios.post('http://localhost:8081/API/login', {
+                    body
                 })
-                .catch((error) => console.log(error));
-        }
-        else {
-            setMessage("Invalid Username or password");
-        }
+                    .then((response) => {
+                        // Assicurati che il server risponda con i dati attesi
+                        validateLogin(response.data);
+                        setMessage('');
+                        props.close();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // Qui puoi controllare specifiche risposte dal server, ad esempio error.response.status
+                        setMessage("Invalid Username or password");
+                    });
+            }
+            };
     };
     return(<>
         <Modal.Body>
@@ -119,4 +129,4 @@ function LoginBody(props){
         </Modal.Footer>
     </>)
 }
-export default LoginBody
+export default LoginBody;

@@ -4,9 +4,7 @@ import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const AdminNavigation = () => {
-
-    const [showDropdown, setShowDropdown] = useState(false);
+const StudentNavigation = () => {
 
     return (
         <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
@@ -21,19 +19,6 @@ const AdminNavigation = () => {
 
                 <Navbar.Toggle />
                 <Navbar.Collapse className={"justify-content-end"}>
-                    <NavDropdown
-                        style={{
-                            fontSize : '22px',
-                        }}
-                        title= {`Hi Admin`}
-                        show={showDropdown}
-                        onMouseEnter={() => setShowDropdown(true)}
-                        onMouseLeave={() => setShowDropdown(false)} >
-                        <NavDropdown.Item href={"/admin/students"} > Manage students </NavDropdown.Item>
-                        <NavDropdown.Item href={"/admin/addStudent"} > New student </NavDropdown.Item>
-                        <NavDropdown.Item href={"/professor/browseproposals"} > Browse Proposals</NavDropdown.Item>
-                        <NavDropdown.Divider /> {}
-                    </NavDropdown>
 
                     &nbsp;&nbsp;
                     &nbsp;&nbsp;
@@ -41,7 +26,7 @@ const AdminNavigation = () => {
 
                     <NavDropdown title={'Student Access'} >
                         <NavDropdown.Item href={"/proposallist"} > Search proposals </NavDropdown.Item>
-                        <NavDropdown.Item href={"/login"} > Login </NavDropdown.Item>
+                        <NavDropdown.Item href={"/logout"} > Logout </NavDropdown.Item>
                     </NavDropdown>
 
                 </Navbar.Collapse>
@@ -50,4 +35,4 @@ const AdminNavigation = () => {
 
     );
 }
-export { AdminNavigation };
+export default StudentNavigation ;

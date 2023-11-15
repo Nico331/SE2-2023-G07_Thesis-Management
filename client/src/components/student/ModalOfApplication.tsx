@@ -1,11 +1,9 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
+import React from "react";
 
-
-function StudentModalOfProposal(props) {
-    const supervisor = props.professorData[props.propsalData[props.proposalID].supervisor];
-    const proposal = props.propsalData[props.proposalID];
+function ModalOfProposal(props) {
 
     return (
         <>
@@ -18,55 +16,50 @@ function StudentModalOfProposal(props) {
                 scrollable={true}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title> Details of Proposal </Modal.Title>
+                    <Modal.Title> Details of Application </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body style={{wordWrap: 'break-word'}} id={'Stu-Modal-Details'}>
                     <Row>
                         <Col md={6}>
-                            <b>Thesis Title:</b> {proposal.title}
+                            <b>Thesis Title:</b> {props.propsalData[props.proposalID].title}
                         </Col>
                         <Col md={6}>
-                            <b>Supervisor:</b> {supervisor.name+" "+supervisor.surname}
+                            <b>Supervisor:</b> {props.propsalData[props.proposalID].supervisor}
                         </Col>
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Co-Supervisor:</b> {proposal.coSupervisors.map((cs) => {return cs}).join(', ')}
+                            <b>Co-Supervisor:</b> list of co-supervisors
                         </Col>
                         <Col md={6}>
-                            <b>Type:</b> {proposal.type}
+                            <b>Type:</b> {props.propsalData[props.proposalID].type}
                         </Col>
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Required Knowledge:</b> {proposal.requiredKnowledge}
+                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].required_knowledge}
                         </Col>
                         <Col md={6}>
-                            <b>Level:</b> {proposal.level}
+                            <b>Level:</b> {props.propsalData[props.proposalID].level}
                         </Col>
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Corso Di Studi:</b> {proposal.cdS}
+                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cds}
                         </Col>
                         <Col md={6}>
-                            <b>Groups:</b> {proposal.groups.map((g) => {return g}).join(', ')}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="mt-1">
-                            <b>Description:</b> {proposal.description}
+                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration}
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <b>Notes:</b> {proposal.notes}
+                            <b>Description:</b> {props.propsalData[props.proposalID].description}
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={6}>
-                            <b>Expiration Date:</b> {new Date(proposal.expiration).toDateString()}
+                        <Col>
+                            <b>Notes:</b> {props.propsalData[props.proposalID].notes}
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -82,4 +75,4 @@ function StudentModalOfProposal(props) {
     )
 }
 
-export {StudentModalOfProposal};
+export default ModalOfProposal;

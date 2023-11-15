@@ -1,8 +1,12 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
+import React from "react";
 
-function ModalOfProposal(props) {
+
+function StudentModalOfProposal(props) {
+    const supervisor = props.professorData[props.propsalData[props.proposalID].supervisor];
+    const proposal = props.propsalData[props.proposalID];
 
     return (
         <>
@@ -15,50 +19,55 @@ function ModalOfProposal(props) {
                 scrollable={true}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title> Details of Application </Modal.Title>
+                    <Modal.Title> Details of Proposal </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body style={{wordWrap: 'break-word'}} id={'Stu-Modal-Details'}>
                     <Row>
                         <Col md={6}>
-                            <b>Thesis Title:</b> {props.propsalData[props.proposalID].title}
+                            <b>Thesis Title:</b> {proposal.title}
                         </Col>
                         <Col md={6}>
-                            <b>Supervisor:</b> {props.propsalData[props.proposalID].supervisor}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6}>
-                            <b>Co-Supervisor:</b> list of co-supervisors
-                        </Col>
-                        <Col md={6}>
-                            <b>Type:</b> {props.propsalData[props.proposalID].type}
+                            <b>Supervisor:</b> {supervisor.name+" "+supervisor.surname}
                         </Col>
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Required Knowledge:</b> {props.propsalData[props.proposalID].required_knowledge}
+                            <b>Co-Supervisor:</b> {proposal.coSupervisors.map((cs) => {return cs}).join(', ')}
                         </Col>
                         <Col md={6}>
-                            <b>Level:</b> {props.propsalData[props.proposalID].level}
+                            <b>Type:</b> {proposal.type}
                         </Col>
                     </Row>
                     <Row>
                         <Col md={6}>
-                            <b>Corso Di Studi:</b> {props.propsalData[props.proposalID].cds}
+                            <b>Required Knowledge:</b> {proposal.requiredKnowledge}
                         </Col>
                         <Col md={6}>
-                            <b>Expiration Date:</b> {props.propsalData[props.proposalID].expiration}
+                            <b>Level:</b> {proposal.level}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <b>Corso Di Studi:</b> {proposal.cdS}
+                        </Col>
+                        <Col md={6}>
+                            <b>Groups:</b> {proposal.groups.map((g) => {return g}).join(', ')}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="mt-1">
+                            <b>Description:</b> {proposal.description}
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <b>Description:</b> {props.propsalData[props.proposalID].description}
+                            <b>Notes:</b> {proposal.notes}
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
-                            <b>Notes:</b> {props.propsalData[props.proposalID].notes}
+                        <Col md={6}>
+                            <b>Expiration Date:</b> {new Date(proposal.expiration).toDateString()}
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -74,4 +83,4 @@ function ModalOfProposal(props) {
     )
 }
 
-export {ModalOfProposal};
+export default StudentModalOfProposal;
