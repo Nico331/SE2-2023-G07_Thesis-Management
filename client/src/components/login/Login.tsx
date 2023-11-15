@@ -28,7 +28,8 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
             setRole(jwt);
 
             setUser(user);
-            console.log(user)
+            console.log("sono in login "+ user);
+            console.log("Navigo")
             navigate('/');
         } catch (error) {
             // @ts-ignore
