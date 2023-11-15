@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 interface ProposalRepository : MongoRepository<Proposal, String> {
     fun findByArchivedFalseAndSupervisor(supervisor: String) : List<Proposal>
 
+    fun findBySupervisor (supervisor: String) : List<Proposal>
+
 }
