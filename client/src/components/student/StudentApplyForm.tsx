@@ -41,6 +41,8 @@ function StudentApplyForm(props) {
     const [isApplying, setIsApplying] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
+    const [showModalError, setShowModalError] = useState(false);
+
 
     const getCareer = async (id) => {
         const response = await CareerService.fetchCareer(id);
@@ -58,7 +60,7 @@ function StudentApplyForm(props) {
         console.dir("sono in student apply form " + user); //stampa null
         //setStudentData(user);
         setStudentData({
-            id: '316789',
+            id: '6554aad4f98c835bb30c4bb7',
             surname: 'Miller',
             name: 'Ethan',
             gender: 'male',
@@ -162,6 +164,7 @@ function StudentApplyForm(props) {
             setShowModal(true);
         } catch (error) {
             console.error('Errore durante l\'invio al server:', error);
+            setShowModalError(true);
         } finally {
             setIsApplying(false);
         }
@@ -172,6 +175,10 @@ function StudentApplyForm(props) {
         navigate('/proposallist'); // Utilizza il hook useNavigate per il reindirizzamento
     };
 
+    const handleCloseModalError = () => {
+        setShowModalError(false);
+        navigate('/proposallist'); // Utilizza il hook useNavigate per il reindirizzamento
+    };
 
     const handleBack = () => {
         navigate('/proposallist');
@@ -295,6 +302,20 @@ function StudentApplyForm(props) {
                     </Modal.Header>
                     <Modal.Body>
                         You applied! Thank you for your submission.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={showModalError} onHide={handleCloseModalError}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Application NOT Submitted</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Sorry, there's been an error, try again.
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseModal}>
