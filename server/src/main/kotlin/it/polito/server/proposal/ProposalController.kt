@@ -46,5 +46,11 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(activeProposalDTOs)
     }
 
+    @GetMapping("/filters")
+    fun getProposals(@RequestParam(required = false) filters: Map<String, String>,
+                     @RequestParam(required = false) search: String?): ResponseEntity<List<ProposalDTO>> {
+        return ResponseEntity.ok(proposalService.getProposalsWithFilters(filters, search))
+    }
+
 }
 

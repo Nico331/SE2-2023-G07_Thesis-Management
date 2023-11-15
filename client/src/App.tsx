@@ -13,7 +13,9 @@ function App() {
     const [role, setRole] = useState("");
     // @ts-ignore
     useEffect(()=>{
+        // @ts-ignore
         setRole(localStorage.getItem("role"));
+        // @ts-ignore
         setUser(localStorage.getItem('user'));
         console.log(role);
         console.log(user);

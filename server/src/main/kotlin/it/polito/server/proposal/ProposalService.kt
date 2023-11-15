@@ -1,11 +1,14 @@
 package it.polito.server.proposal
 
-import it.polito.server.student.Student
-import it.polito.server.student.StudentDTO
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
-import java.util.*
-import kotlin.reflect.full.declaredMemberProperties
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
+import java.text.SimpleDateFormat
+import java.util.regex.Pattern
 
 @Service
 class ProposalService (private val proposalRepository : ProposalRepository ) {
@@ -51,4 +54,36 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
     fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{
         return proposalRepository.findByArchivedFalseAndSupervisor(supervisor).map{(it.toDTO())}
     }
+    @Autowired
+    private lateinit var mongoTemplate: MongoTemplate
+
+    fun getProposalsWithFilters(filters: Map<String, String>, searchKeyword: String?): List<ProposalDTO> {
+        val query = Query()
+        filters.forEach { (key, value) ->
+            val decodedValue = URLDecoder.decode(value, StandardCharsets.UTF_8.toString())
+            when (key) {
+                "archived" -> query.addCriteria(Criteria.where(key).`is`(decodedValue.toBoolean()))
+                "cdS" -> {
+                    val cdSList = decodedValue.split(",").map { it.trim() }
+                    query.addCriteria(Criteria.where(key).`in`(cdSList))
+                }
+                "expiration" -> {
+                    val formatter = SimpleDateFormat("yyyy-MM-dd")
+                    val date = formatter.parse(decodedValue)
+                    query.addCriteria(Criteria.where(key).gte(date))
+                }
+                else -> query.addCriteria(Criteria.where(key).`is`(decodedValue))
+            }
+        }
+        searchKeyword?.let {
+            val regexPattern = Pattern.compile(it, Pattern.CASE_INSENSITIVE)
+            val searchCriteria = Criteria().orOperator(
+                Criteria.where("title").regex(regexPattern),
+                Criteria.where("description").regex(regexPattern)
+            )
+            query.addCriteria(searchCriteria)
+        }
+        return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO() }
+    }
+
 }
