@@ -1,6 +1,6 @@
 import axios from '../axiosInstance';
 
-const endpoint = '/applications';
+const endpoint = '/API/appliedProposal';
 
 export default {
     fetchApplication(id) {
@@ -10,4 +10,8 @@ export default {
     fetchAllApplications() {
         return axios.get(endpoint);
     },
+
+    createApplication(application){
+        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`);
+    }
 };
