@@ -2,6 +2,8 @@ package it.polito.server.appliedproposal
 
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
+import it.polito.server.proposal.ProposalRepository
+import it.polito.server.student.StudentRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -9,7 +11,7 @@ import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 
 @RestController
 @RequestMapping("/API/appliedProposal")
-class AppliedProposalController(private val appliedProposalService: AppliedProposalService) {
+class AppliedProposalController(private val appliedProposalService: AppliedProposalService, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
 
     @GetMapping("/{id}")
     fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
@@ -32,12 +34,21 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     @PostMapping("/apply/{proposalId}/{studentId}")
     fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String) : ResponseEntity<Any> {
 
+        val proposal = proposalRepository.findById(proposalId)
+        val student = studentRepository.findById(studentId)
         val appliedProposalDTO = appliedProposalService.applyForProposal(proposalId,studentId)
 
         return if (appliedProposalDTO != null){
             ResponseEntity.ok(appliedProposalDTO)
         } else{
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore nella creazione dell'application (elementi non presenti nel db o application già esistente")
+
+            if( !proposal.isPresent )
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (PROPOSAL NOT PRESENT in the database).")
+
+            else if( !student.isPresent)
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT NOT PRESENT in the database).")
+            else
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
         }
     }
 

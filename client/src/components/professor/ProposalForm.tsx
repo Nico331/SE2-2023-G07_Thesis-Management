@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Form, Button, Card, ListGroup, Row, Container} from 'react-bootstrap';
+import {Form, Button, Card, ListGroup, Row, Container, Alert} from 'react-bootstrap';
 import CoSupervisorInput from "./CoSupervisorInput";
 import {FaTimes} from "react-icons/fa";
 import GroupInput from "./GroupInput";
 import CdsInput from "./CdsInput";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
+import {useNavigate} from "react-router-dom";
 
 const ProposalForm = () => {
     const [proposal, setProposal] = useState({
@@ -25,6 +26,10 @@ const ProposalForm = () => {
         cdS: [],
     });
 
+    const navigate = useNavigate()
+
+
+    const [alert, setAlert] = useState({type:"", message:""});
 
     const [newKeyword, setNewKeyword] = useState('');
 
@@ -71,15 +76,23 @@ const ProposalForm = () => {
         setProposal({...proposal, cdS: updatedCds});
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit =  (e) => {
         e.preventDefault();
-        await ProposalService.createProposal(proposal);
+        ProposalService.createProposal(proposal).then(()=>{
+            setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
+            setTimeout(()=>{
+                navigate("/proposal-list");
+            },3000);
+        }).catch(()=>{
+            setAlert({type: "danger", message: "Error!"})
+        });
     };
 
     return (
         <Container>
             <Form onSubmit={handleSubmit}>
                 <Row>
+                    {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="title">
                             <Form.Label className="h3">Title</Form.Label>
@@ -284,6 +297,7 @@ const ProposalForm = () => {
                         </ListGroup>
                     </Card.Body>
                 </Card>
+                {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                 <br/>
                 <Button variant="primary" type="submit">
                     Submit
