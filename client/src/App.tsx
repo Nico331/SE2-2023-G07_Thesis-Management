@@ -14,6 +14,7 @@ function App() {
     // @ts-ignore
     useEffect(()=>{
         setRole(localStorage.getItem("role"));
+        setUser(localStorage.getItem('user'));
         console.log(role);
         console.log(user);
     },[])

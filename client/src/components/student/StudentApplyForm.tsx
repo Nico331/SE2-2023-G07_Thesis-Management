@@ -13,6 +13,9 @@ function StudentApplyForm(props) {
 
     const {user, setUser} = useContext(UserContext);
 
+    useEffect(()=>{
+        console.log(user)
+    },[])
 
     const [studentData, setStudentData] = useState({
         id: '',
