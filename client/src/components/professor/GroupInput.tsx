@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import {Form, Button, Accordion, Card, Row} from 'react-bootstrap';
 
 const GroupInput = ({onAddGroup}) => {
-    const [group, setGroup] = useState({
-        name: '',
-    });
+    const [group, setGroup] = useState("");
 
     const addGroup = () => {
-        if (group.name) {
-            onAddGroup({...group});
-            setGroup({name: ''});
+        if (group) {
+            onAddGroup(group);
+            setGroup("");
         }
     };
 
@@ -23,8 +21,8 @@ const GroupInput = ({onAddGroup}) => {
                         <Form.Control
                             type="text"
                             placeholder="Enter group name"
-                            value={group.name}
-                            onChange={(e) => setGroup({...group, name: e.target.value})}
+                            value={group}
+                            onChange={(e) => setGroup(e.target.value)}
                         />
                     </Form.Group>
 

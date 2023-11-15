@@ -10,4 +10,8 @@ export default {
     fetchAllProposals() {
         return axios.get(endpoint);
     },
+
+    createProposal(proposalData) {
+        return axios.post(endpoint, proposalData);
+    },
 };
