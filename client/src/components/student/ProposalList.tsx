@@ -14,11 +14,11 @@ import {
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {StudentModalOfProposal} from "./StudentModalOfProposal";
-import {Sidebar} from "./FiltersSidebar";
+import StudentModalOfProposal from "./StudentModalOfProposal";
+import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 
-const ProposalList = (props) => {
+const ProposalList = () => {
     const profs = [
         {
             id: "12m0e9rdk2mefkw0349ikfdwde",
@@ -88,7 +88,6 @@ const ProposalList = (props) => {
     const handleShow = (proId) => {
         setShowModal(true);
         setProposalID(proId);
-        props.setStudentProposalID(proId);
     }
 
     const handleClick = (navId) =>
@@ -109,11 +108,11 @@ const ProposalList = (props) => {
                     </Link>
                 </Container>
             </Navbar>
-            <Container fluid className="p-0" style={{height:"100vh"}}>
-                <Row className="h-100">
+            <Container fluid className="p-0 mt-5" >
+                <Row style={{marginTop:"0px"}}>
                     <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
-                    <Col sm={8}>
-                        <Container className="mx-0 ms-2 d-flex" style={{marginTop:"80px"}}>
+                    <Col sm={8} style={{height: "90vh"}}>
+                        <Container className="mt-4 mx-0 ms-2 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
                                 <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
@@ -159,4 +158,4 @@ const ProposalList = (props) => {
         </>
     );
 }
-export { ProposalList };
+export default ProposalList;

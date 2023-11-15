@@ -71,11 +71,11 @@ function Sidebar(props) {
     }, [keyWord, supervisors, types, groups, courses, levels, expiration]);
 
     return (
-        <Col className="ms-0 px-4" sm={4} style={{backgroundColor:"#e0e0e0"}}>
-            <Form style={{marginTop:"80px"}}>
+        <Col className="ms-0 px-4" sm={4} style={{height:"90vh", backgroundColor:"#e0e0e0"}}>
+            <Form className="mt-4">
                 <Container><h3>Filters</h3></Container>
-                <Container style={{height:"86vh", overflowY:"auto"}}>
-                    <Form.Group className="mt-2" controlId="">
+                <Container style={{height:"82vh", overflowY:"auto"}}>
+                    <Form.Group className="mt-2">
                         <Form.Label>Search</Form.Label>
                         <Row className="mt-2">
                             <Col sm={9}>
@@ -103,7 +103,7 @@ function Sidebar(props) {
                         <Col sm={6}>
                             <Form.Group className="">
                                 <Form.Label>Group</Form.Label>
-                                <Select options={extractUniqueOptions(props.proposals, "groups")} isMulti value={groups} style={{ maxHeight: '10px', overflowY:"auto" }} onChange={(selectedOptions) => setGroups(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(props.proposals, "groups")} isMulti value={groups} onChange={(selectedOptions) => setGroups(selectedOptions)}/>
                             </Form.Group>
                         </Col>
                     </Row>
