@@ -9,6 +9,8 @@ import ProposalService from "../../services/ProposalService";
 
 const ProposalForm = () => {
     const [proposal, setProposal] = useState({
+        id: null,
+        archived: false,
         title: '',
         supervisor: '',
         coSupervisors: [],
@@ -17,7 +19,7 @@ const ProposalForm = () => {
         groups: [],
         description: '',
         requiredKnowledge: '',
-        notes: [],
+        notes: '',
         expiration: dayjs(),
         level: '',
         cdS: [],
