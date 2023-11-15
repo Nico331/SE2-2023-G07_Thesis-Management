@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -62,6 +63,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         filters.forEach { (key, value) ->
             val decodedValue = URLDecoder.decode(value, StandardCharsets.UTF_8.toString())
             when (key) {
+                "search" -> {}
                 "archived" -> query.addCriteria(Criteria.where(key).`is`(decodedValue.toBoolean()))
                 "cdS" -> {
                     val cdSList = decodedValue.split(",").map { it.trim() }
@@ -83,6 +85,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
             )
             query.addCriteria(searchCriteria)
         }
+
         return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO() }
     }
 
