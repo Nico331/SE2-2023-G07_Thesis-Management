@@ -195,11 +195,11 @@ class AppliedProposalTests {
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testGetAppliedProposalByStudent() {
-        appliedProposalRepository.save(appliedProposal1)
-        appliedProposalRepository.save(appliedProposal4)
+        val saved1 = appliedProposalRepository.save(appliedProposal1)
+        val saved2 = appliedProposalRepository.save(appliedProposal4)
 
         val studentId = "12345"
-        val url = "http://localhost:$port/API/appliedProposal/$studentId"
+        val url = "http://localhost:$port/API/appliedProposal/bystudent/$studentId"
 
         val result: ResponseEntity<List<AppliedProposalDTO>> = restTemplate.exchange(
                 URI(url),

@@ -2,6 +2,7 @@ package it.polito.server.appliedproposal
 
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.student.StudentRepository
+import org.springframework.data.domain.Example
 import org.springframework.stereotype.Service
 
 @Service
@@ -56,5 +57,7 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
         appliedProposalRepository.save(appliedProposal)
     }
 
-
+    fun findByFilters (appliedProposal: AppliedProposal) : List<AppliedProposalDTO> {
+        return appliedProposalRepository.findAll(Example.of(appliedProposal)).map { it.toDTO() }
+    }
 }

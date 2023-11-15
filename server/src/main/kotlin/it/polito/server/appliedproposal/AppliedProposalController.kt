@@ -40,7 +40,7 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
         }
     }
 
-    @GetMapping("/{studentId}")
+    @GetMapping("/bystudent/{studentId}")
     fun getAppliedProposalByStudent (@PathVariable studentId: String) : ResponseEntity<List<AppliedProposalDTO>> {
         val appliesByStudent = appliedProposalService.appliesByStudent(studentId)
         return ResponseEntity.ok(appliesByStudent)
@@ -58,5 +58,11 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
         appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity<Void>(HttpStatus.NOT_FOUND)
         appliedProposalService.rejectProposal(id)
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/filter")
+    fun getByFilters (@RequestBody appliedProposal: AppliedProposal) : ResponseEntity<List<AppliedProposalDTO>> {
+        val filteredApplications = appliedProposalService.findByFilters(appliedProposal)
+        return ResponseEntity.ok(filteredApplications)
     }
 }
