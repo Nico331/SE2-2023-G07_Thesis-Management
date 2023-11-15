@@ -5,6 +5,7 @@ import { NotFound } from "../Layouts";
 import {ProfessorBrowseProposals} from "./BrowseProposals"
 import React, {Dispatch, SetStateAction} from "react";
 import Logout from "../login/Logout";
+import ProposalForm from "./ProposalForm";
 type ProfessorRoutesProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 };
@@ -19,6 +20,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
+                <Route path="/add-proposal" element={<ProposalForm/>} />
                 <Route path="/logout" element={<Logout setRole={setRole}/>} />
             </Routes>
         </>

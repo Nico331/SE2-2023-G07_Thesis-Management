@@ -5,7 +5,7 @@ import {FaTimes} from "react-icons/fa";
 import GroupInput from "./GroupInput";
 import CdsInput from "./CdsInput";
 import dayjs from "dayjs";
-//import ProposalService from "../../services/ProposalService";
+import ProposalService from "../../services/ProposalService";
 
 const ProposalForm = () => {
     const [proposal, setProposal] = useState({
@@ -51,7 +51,7 @@ const ProposalForm = () => {
 
 
     const addGroup = (group) => {
-        setProposal({...proposal, groups: [...proposal.groups, {...group}]});
+        setProposal({...proposal, groups: [...proposal.groups, group]});
     };
 
     const removeGroup = (index) => {
@@ -71,7 +71,7 @@ const ProposalForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //await ProposalService.createProposal(proposal);
+        await ProposalService.createProposal(proposal);
     };
 
     return (
@@ -170,7 +170,7 @@ const ProposalForm = () => {
 
                                 <ListGroup className={"mt-3"}>
                                     {proposal.groups.map((g, index) => (<ListGroup.Item key={index}>
-                                        {g.name} &nbsp;
+                                        {g} &nbsp;
                                         <Button
                                             variant="danger"
                                             size="sm"
