@@ -14,19 +14,12 @@ function StudentApplyForm(props) {
     const {user, setUser} = useContext(UserContext);
 
     useEffect(()=>{
-        console.log(user)
+        console.log("user id in student apply form ")
+        console.log(user.toString());
     },[])
 
-    const [studentData, setStudentData] = useState({
-        id: '',
-        surname: '',
-        name: '',
-        gender: '',
-        nationality: '',
-        email: '',
-        codDegree: '',
-        enrollmentYear: '',
-    });
+    const [studentData, setStudentData] = useState({});
+
 
 
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
@@ -60,18 +53,8 @@ function StudentApplyForm(props) {
     const { proposalID } = useParams();
 
     useEffect(() => {
-        console.dir("sono in student apply form " + user); //stampa null
-        //setStudentData(user);
-        setStudentData({
-            id: '6554aad4f98c835bb30c4bb7',
-            surname: 'Miller',
-            name: 'Ethan',
-            gender: 'male',
-            nationality: 'American',
-            email: 'ethan.miller@example.com',
-            codDegree: 'AI2023',
-            enrollmentYear: '2023'
-        });
+        setStudentData(user);
+
         //await getCareer(user.id);
         setStudentCareer(
             [
@@ -146,24 +129,17 @@ function StudentApplyForm(props) {
         setIsApplying(true);
 
         try {
-
-            //api per fare apply: sarà una post su qualche url tipo application.
-            //avrà nel body i dati dello studente, la sua carriera, i dati sul degree
-            // e un qualche identificativo della tesi a cui sto facendo l'apply
             const requestData = {
                 proposalId:proposalID,
                 studentId:studentData.id,
-                file
+                //file
             };
 
             // Aggiungi il file alla richiesta solo se è presente
-            if (file) {
+           if (file) {
                 requestData.file = file;
-            }
+           }
             const response = await ApplicationService.createApplication(requestData)
-
-            // Esegui altre azioni dopo il successo, se necessario
-
             setShowModal(true);
         } catch (error) {
             console.error('Errore durante l\'invio al server:', error);

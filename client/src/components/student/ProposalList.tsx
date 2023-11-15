@@ -73,6 +73,7 @@ const ProposalList = () => {
     const [collapseState, setCollapseState] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
+    const [proposalTitle, setProposalTitle] = useState('');
 
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
@@ -85,9 +86,11 @@ const ProposalList = () => {
         refreshProposals();
     }, []);
 
-    const handleShow = (proId) => {
+    const handleShow = (proId, proTitle) => {
         setShowModal(true);
+        console.log("sono in proposal list "+proId);
         setProposalID(proId);
+        setProposalTitle(proTitle);
     }
 
     const handleClick = (navId) =>
@@ -143,7 +146,7 @@ const ProposalList = () => {
                                                     <Container>Supervisor: {professors.find((prof) => prof.id === p.supervisor).name+" "+professors.find((prof) => prof.id === p.supervisor).surname}</Container>
                                                     <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
                                                     <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
-                                                    <Button className="ms-2 mt-2" onClick={() => handleShow(p.title)}>Show Proposal Details</Button>
+                                                    <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
                                                 </Container>
                                             </CardBody>
                                         </Collapse>
@@ -154,7 +157,7 @@ const ProposalList = () => {
                     </Col>
                 </Row>
             </Container>
-            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID}/> : null}
+            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
         </>
     );
 }
