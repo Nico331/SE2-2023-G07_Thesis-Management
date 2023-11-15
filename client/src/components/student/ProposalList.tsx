@@ -14,8 +14,8 @@ import {
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {StudentModalOfProposal} from "./StudentModalOfProposal";
-import {Sidebar} from "./FiltersSidebar";
+import StudentModalOfProposal from "./StudentModalOfProposal";
+import Sidebar from "./FiltersSidebar";
 import axios from 'axios';
 import dayjs from "dayjs";
 
@@ -318,4 +318,4 @@ const ProposalList = (props) => {
         </>
     );
 }
-export { ProposalList };
+export default ProposalList;

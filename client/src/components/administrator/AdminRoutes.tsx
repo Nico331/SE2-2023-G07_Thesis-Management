@@ -1,12 +1,11 @@
 import {Route, Routes} from "react-router-dom";
-import { AdminNavigation } from "./AdminNavigation";
-import {AdminMain} from "./AdminMain";
-import {NewStudent} from "./NewStudent";
+import AdminNavigation from "./AdminNavigation";
+import AdminMain from "./AdminMain";
+import NewStudent from "./NewStudent";
 import { NotFound } from "../Layouts";
-import {ProposalList} from "../student/ProposalList"
-import LoginModal from "../login/LoginModal";
 import LoginBody from "../login/LoginBody";
 import StudentApplyForm from "../student/StudentApplyForm";
+import React from "react";
 
 function AdminRoutes(){
     return(
@@ -18,7 +17,6 @@ function AdminRoutes(){
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/admin/addStudent" element={ <NewStudent/> } />
-                <Route path="/proposallist" element={<ProposalList/>} />
                 <Route path="/apply" element={<StudentApplyForm />} />
                 <Route path="/login" element={<LoginBody/>}/>
             </Routes>
@@ -26,4 +24,4 @@ function AdminRoutes(){
     )
 }
 
-export { AdminRoutes }
+export default AdminRoutes

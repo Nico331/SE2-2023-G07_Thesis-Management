@@ -1,5 +1,6 @@
 package it.polito.server.security.auth
 
+import it.polito.server.student.StudentDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,10 +16,6 @@ class AuthController(private val authService: AuthService) {
     fun login(@RequestBody credentials: LoginCredentials): ResponseEntity<Any> {
 
         val jwt = authService.authenticate(credentials)
-        return if (jwt != null) {
-            ResponseEntity.ok(JwtResponse(jwt))
-        } else {
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
-        }
+        return ResponseEntity.ok(jwt)
     }
 }

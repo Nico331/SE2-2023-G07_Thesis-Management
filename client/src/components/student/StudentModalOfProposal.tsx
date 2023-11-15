@@ -1,6 +1,7 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
+import React from "react";
 
 
 function StudentModalOfProposal(props) {
@@ -76,4 +77,4 @@ function StudentModalOfProposal(props) {
     )
 }
 
-export {StudentModalOfProposal};
+export default StudentModalOfProposal;

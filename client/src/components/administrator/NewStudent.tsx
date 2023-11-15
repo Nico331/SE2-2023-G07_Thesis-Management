@@ -1,8 +1,8 @@
-import React, { useEffect, useState} from "react";
-import StudentList from "./StudentList";
+import React, {useEffect, useState} from "react";
 import StudentService from "../../services/StudentService";
+import StudentForm from "./StudentForm";
 
-function AdminMain() {
+function NewStudent() {
     const [students, setStudents] = useState([]);
 
     const refreshStudents = async () => {
@@ -17,9 +17,9 @@ function AdminMain() {
     return (
         <div className="App">
             <h1>Students</h1>
-            <StudentList students={students} refreshStudents={refreshStudents} />
+            <StudentForm studentId={null} refreshStudents={refreshStudents} />
         </div>
     );
 }
 
-export { AdminMain }
+export default NewStudent

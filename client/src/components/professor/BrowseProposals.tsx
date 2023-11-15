@@ -14,7 +14,7 @@ import React, {useState} from "react";
 import ProfessorModalOfProposal from "./ProfessorModalOfProposal";
 
 
-function ProfessorBrowseProposals (props){
+export const ProfessorBrowseProposals = (props) => {
 
     const prop = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1", "key2", "key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/05/25", level: "master", cds: "computer engineering"},
         {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1", "key2"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/07/02", level: "bachelor", cds: "computer engineering"},
@@ -114,7 +114,7 @@ function ProfessorBrowseProposals (props){
     )
 }
 
-const DeleteProposal = (props) => {
+export const DeleteProposal = (props) => {
 
     const deletepro = (proid) => {
         props.setShowPopUp(false);
@@ -145,7 +145,7 @@ const DeleteProposal = (props) => {
     )
 }
 
-const Finalpopup = (props) => {
+export const Finalpopup = (props) => {
     return (
         <>
             <Modal show={props.showAlertModal}>
@@ -159,5 +159,3 @@ const Finalpopup = (props) => {
         </>
     )
 }
-
-export {ProfessorBrowseProposals, DeleteProposal, Finalpopup};

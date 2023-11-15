@@ -113,7 +113,7 @@ class ProductTests {
         val headers = HttpHeaders()
         val httpEntity = HttpEntity(null, headers)
 
-        val baseUrl = "http://localhost:$port/API/proposals/"
+        val baseUrl = "http://localhost:$port/API/proposals"
         val uri = URI(baseUrl)
 
         proposalRepository.save(myProposal1)
