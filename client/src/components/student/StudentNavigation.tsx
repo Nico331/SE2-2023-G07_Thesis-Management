@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const StudentNavigation = () => {
+type StudentNavigationProps = {
+    setRole: Dispatch<SetStateAction<string | null>>;
+};
+
+const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const handleMouseLeave = () => {
+        if (timeoutId) clearTimeout(timeoutId);
+
+        const newTimeoutId = setTimeout(() => {
+            console.log("Leaved")
+            setShowDropdown(false);
+        }, 300);
+
+        setTimeoutId(newTimeoutId);
+    };
 
     return (
         <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
@@ -19,16 +35,22 @@ const StudentNavigation = () => {
 
                 <Navbar.Toggle />
                 <Navbar.Collapse className={"justify-content-end"}>
-
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-
-                    <NavDropdown title={'Student Access'} >
+                    <NavDropdown
+                        style={{
+                            fontSize : '22px',
+                        }}
+                        title= {`Hi Student`}
+                        show={showDropdown}
+                        onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
+                        onMouseLeave={handleMouseLeave} >
                         <NavDropdown.Item href={"/proposallist"} > Search proposals </NavDropdown.Item>
-                        <NavDropdown.Item href={"/logout"} > Logout </NavDropdown.Item>
+                        <NavDropdown.Divider /> {}
+                        <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
                     </NavDropdown>
 
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;
                 </Navbar.Collapse>
             </Container>
         </Navbar>

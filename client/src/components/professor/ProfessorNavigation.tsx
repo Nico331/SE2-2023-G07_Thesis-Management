@@ -3,6 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
 type ProfessorNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 };
