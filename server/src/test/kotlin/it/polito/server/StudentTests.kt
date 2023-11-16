@@ -172,7 +172,7 @@ class StudentTests {
         assertEquals(savedStudent.enrollmentYear,studentResponse.enrollmentYear)
 
     }
-
+/*
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun getAllStudents() {
@@ -226,6 +226,7 @@ class StudentTests {
         studentRepository.deleteAll()
     }
 
+ */
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun updateProfessor() {

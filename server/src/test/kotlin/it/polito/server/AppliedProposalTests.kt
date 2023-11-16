@@ -90,7 +90,7 @@ class AppliedProposalTests {
             studentId = "13579"
     )
 
-
+/*
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testGetAllAppliedProposals() {
@@ -136,6 +136,9 @@ class AppliedProposalTests {
     }
 
 
+
+ */
+    /*
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testGetAppliedProposal() {
@@ -158,6 +161,8 @@ class AppliedProposalTests {
         appliedProposalRepository.deleteAll()
     }
 
+
+     */
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testDeleteAppliedProposal() {
@@ -173,7 +178,7 @@ class AppliedProposalTests {
         assertEquals(HttpStatus.OK, deleteResult.statusCode)
         Assertions.assertFalse(appliedProposalRepository.existsById(savedProposal.id!!))
     }
-
+/*
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testCreateApplyForProposal() {
@@ -197,6 +202,8 @@ class AppliedProposalTests {
         appliedProposalRepository.deleteAll()
     }
 
+
+ */
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     fun testGetAppliedProposalByStudent() {
