@@ -107,7 +107,8 @@ const StudentApplicationList = (props) => {
 
             try {
                 const apps = await ApplicationService.getApplicationByStudentId(user.id);
-                setStudentApplications(apps);
+                console.log("apps.data "+apps.data);
+                setStudentApplications(apps.data);
             } catch (error) {
                 // Gestione degli errori, ad esempio set della variabile d'errore o log
                 console.error("Error fetching data:", error);
@@ -122,11 +123,13 @@ const StudentApplicationList = (props) => {
     useEffect(() => {
 
         const fetchProposals = async () => {
+            console.log(studentApplications);
             const props = [];
             studentApplications.map( async (app) => {
+                console.log(app.proposalId);
                 const propID = app.proposalId;
                 const prop = await ProposalService.getProposalById(propID);
-                props.push(prop);
+                props.push(prop.data);
 
             })
             setStudentProposals(props);
@@ -135,13 +138,7 @@ const StudentApplicationList = (props) => {
 
         fetchProposals();
 
-
-
-
-
-
-
-    }, [studentApplications]);
+    }, [studentApplications.length]);
 
     return (
         <>
