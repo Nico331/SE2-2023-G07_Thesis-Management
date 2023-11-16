@@ -39,7 +39,7 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @GetMapping("/{supervisor}")
+    @GetMapping("/bysupervisor/{supervisor}")
     fun getActiveProposalsBySupervisor(@PathVariable supervisor: String): ResponseEntity<List<ProposalDTO>> {
         val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
 

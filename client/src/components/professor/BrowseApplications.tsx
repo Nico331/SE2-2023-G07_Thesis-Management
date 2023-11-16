@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
+<<<<<<< HEAD
+=======
+import {UserContext} from "../../contexts/UserContexts";
+>>>>>>> 85ca5945fdc52c749e1b5b29f5925871d328f905
 
 const BrowseApplications = () => {
-    const proposals = [
+
+    const { user, setUser } = useContext(UserContext);
+    useEffect(()=>{
+        ApplicationService.getByProfessorId(user.id).then((res)=>{
+            setProposals(res.data);
+        })
+
+    },[user]);
+    const [proposals, setProposals] = useState([
         {
             id: '1',
             title: 'Thesis Proposal 1',
@@ -195,7 +207,7 @@ const BrowseApplications = () => {
             ],
         },
         // Add more proposals as needed
-    ];
+    ]);
     const [selectedApplication, setSelectedApplication] = React.useState(null);
 
     const handleAccept = async (application) => {

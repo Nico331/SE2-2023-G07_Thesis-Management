@@ -26,9 +26,8 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
             // @ts-ignore
             localStorage.setItem('role', jwt);
             setRole(jwt);
-            localStorage.setItem('user', user);
-            setUser(user);
-            console.log("sono in login "+ user);
+            localStorage.setItem('user', JSON.stringify(user));
+            setUser(JSON.stringify(user));
             console.log("Navigo")
             navigate('/');
         } catch (error) {

@@ -27,4 +27,9 @@ export default {
     },
 
 
+
+    getByProfessorId(professorId){
+        return axios.get(`${endpoint}/${professorId}`);
+    }
+
 };
