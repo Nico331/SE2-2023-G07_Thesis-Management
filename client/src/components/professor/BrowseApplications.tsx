@@ -7,6 +7,7 @@ import ProposalService from "../../services/ProposalService";
 
 const BrowseApplications = () => {
 
+    const [refresh, setRefresh] = useState(false);
     const {user, setUser} = useContext(UserContext);
     useEffect(() => {
         if (user) {
@@ -15,7 +16,7 @@ const BrowseApplications = () => {
             })
         }
 
-    }, [user]);
+    }, [user, refresh]);
     const [proposals, setProposals] = useState([]);
     const [proposalToDelete, setProposalToDelete] = useState("");
     const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -41,7 +42,9 @@ const BrowseApplications = () => {
         console.log(`Application rejected for student: ${application.student.name} ${application.student.surname}`);
     };
     const handleDelete = (proposalId) => {
-        ProposalService.deleteProposal(proposalId).then()
+        setShowDeletePopup(false);
+        setProposalToDelete("");
+        ProposalService.deleteProposal(proposalId).then(()=>{setRefresh((r)=> !r)})
     };
 
 
