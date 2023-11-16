@@ -4,6 +4,8 @@ import AdminNavigation from "./AdminNavigation";
 import AdminMain from "./AdminMain";
 import NewStudent from "./NewStudent";
 import { NotFound } from "../Layouts";
+import ProposalList from "../student/ProposalList"
+import LoginModal from "../login/LoginModal";
 import LoginBody from "../login/LoginBody";
 import StudentApplyForm from "../student/StudentApplyForm";
 import StudentApplicationList from "../student/StudentApplicationList";
