@@ -87,14 +87,32 @@ const ProposalForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        ProposalService.createProposal(proposal).then(() => {
-            setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
-            setTimeout(() => {
-                navigate("/proposal-list");
-            }, 3000);
-        }).catch(() => {
-            setAlert({type: "danger", message: "Error!"})
-        });
+        let valid = true;
+        let errorMessage = "";
+        if(proposal.title.length === 0){
+            valid = false;
+            errorMessage += `Title should have a value, `
+        }
+        if(proposal.type.length === 0){
+            valid = false;
+            errorMessage += `Type should have a value, `
+        }
+
+
+
+
+        if(valid){
+            ProposalService.createProposal(proposal).then(() => {
+                setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
+                setTimeout(() => {
+                    navigate("/proposal-list");
+                }, 3000);
+            }).catch(() => {
+                setAlert({type: "danger", message: "Error!"})
+            });
+        } else {
+            setAlert({type: "danger", message: errorMessage})
+        }
     };
 
     return (
@@ -136,7 +154,7 @@ const ProposalForm = () => {
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}>
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
-                                <option value="Master">Master</option>
+                                <option value="Masters">Masters</option>
                             </Form.Control>
                         </Form.Group>
                     </div>

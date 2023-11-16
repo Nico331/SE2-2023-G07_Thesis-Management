@@ -1,18 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
-<<<<<<< HEAD
-=======
 import {UserContext} from "../../contexts/UserContexts";
->>>>>>> 85ca5945fdc52c749e1b5b29f5925871d328f905
+import dayjs from "dayjs";
+import ProposalService from "../../services/ProposalService";
 
 const BrowseApplications = () => {
 
-    const { user, setUser } = useContext(UserContext);
-    useEffect(()=>{
-        ApplicationService.getByProfessorId(user.id).then((res)=>{
-            setProposals(res.data);
-        })
+    const {user, setUser} = useContext(UserContext);
+    useEffect(() => {
+        if (user) {
+            ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
+                setProposals(res.data);
+            })
+        }
 
     },[user]);
     const [proposals, setProposals] = useState([
@@ -210,24 +211,13 @@ const BrowseApplications = () => {
     ]);
     const [selectedApplication, setSelectedApplication] = React.useState(null);
 
-    const handleAccept = async (application) => {
+    const handleAccept = (application) => {
         // Handle accept logic
-        /* try{
-            await ApplicationService.acceptApplication(application.id)
-        }catch{
-            console.error('Errore durante l\'invio al server:', error);
-        } */
         console.log(`Application accepted for student: ${application.student.name} ${application.student.surname}`);
-
     };
 
     const handleReject = (application) => {
         // Handle reject logic
-        /* try{
-            await ApplicationService.rejectApplication(application.id)
-        }catch{
-            console.error('Errore durante l\'invio al server:', error);
-        } */
         console.log(`Application rejected for student: ${application.student.name} ${application.student.surname}`);
     };
 

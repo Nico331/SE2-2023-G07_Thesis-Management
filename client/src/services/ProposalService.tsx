@@ -14,4 +14,8 @@ export default {
     createProposal(proposalData) {
         return axios.post(endpoint, proposalData);
     },
+
+    deleteProposal(id) {
+        return axios.delete(`${endpoint}/${id}`);
+    },
 };
