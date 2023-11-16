@@ -12,7 +12,8 @@ import {handleInputChange} from "react-select/dist/declarations/src/utils";
 function Sidebar(props) {
     const [flag, setFlag] = useState(true);
     const [search, setSearch] = useState("");
-    const [keyWord, setKeyWord] = useState("");
+    const [makeSearch, setMakeSearch] = useState(true);
+    const [keyWord, setKeyWord] = useState([]);
     const [supervisors, setSupervisors] = useState([]);
     const [types, setTypes] = useState([]);
     const [groups, setGroups] = useState([]);
@@ -27,8 +28,11 @@ function Sidebar(props) {
     });
     const sendRequestToBackend = () => {
         let filters = [];
-        if (keyWord) {
-            filters.push("keyWord="+keyWord);
+        if (search !== "") {
+            filters.push("search="+search);
+        }
+        if (keyWord.length > 0) {
+            filters.push("keyWord="+keyWord.map(s => s.value).join(','));
         }
         if (supervisors.length > 0) {
             filters.push("supervisor=" +supervisors.map(s => s.value).join(','));
@@ -45,7 +49,6 @@ function Sidebar(props) {
         if(levels.length>0){
             filters.push("level="+levels.map(s=>s.value).join(','));
         }
-
 
         axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&'), {
 
@@ -107,7 +110,7 @@ function Sidebar(props) {
 
              */
         }
-    }, [keyWord, supervisors, types, groups, courses, levels, expiration]);
+    }, [makeSearch, keyWord, supervisors, types, groups, courses, levels, expiration]);
 
     return (
         <Col className="ms-0 px-4" sm={4} style={{height:"90vh", backgroundColor:"#e0e0e0"}}>
@@ -121,18 +124,15 @@ function Sidebar(props) {
                                 <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
                             </Col>
                             <Col sm={3}>
-                                <Button variant="primary" onClick={() => setKeyWord(search)}>Search</Button>
+                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}>Search</Button>
                             </Col>
                         </Row>
                         <Row className="mt-2">
-                            <Col sm={9}>
-                                <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
-                            </Col>
-                            <Col sm={3}>
-                                <Button variant="primary" onClick={() => setKeyWord(search)}>Search</Button>
-                            </Col>
+                            <Form.Group className="">
+                                <Form.Label>Keywords</Form.Label>
+                                <Select options={extractUniqueOptions(props.proposals, "keywords")} isMulti value={keyWord} onChange={(selectedOptions) => setKeyWord(selectedOptions)}/>
+                            </Form.Group>
                         </Row>
-
                     </Form.Group>
 
                     <Form.Group className="mt-2">
@@ -178,7 +178,7 @@ function Sidebar(props) {
 
                     <Button className="mt-4" variant="danger" onClick={()  => {
                         setSearch("");
-                        setKeyWord("");
+                        setKeyWord([]);
                         setSupervisors([]);
                         setCourses([]);
                         setGroups([]);
