@@ -3,8 +3,11 @@ import dayjs from "dayjs";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css';
+import axios from 'axios';
 import Select from 'react-select';
-import {Container, Col, Form, Button, Row} from 'react-bootstrap';
+import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import {handleInputChange} from "react-select/dist/declarations/src/utils";
+
 
 function Sidebar(props) {
     const [flag, setFlag] = useState(true);
@@ -22,6 +25,38 @@ function Sidebar(props) {
         console.log(profList);
         return profList;
     });
+    const sendRequestToBackend = () => {
+        let filters = [];
+        if (keyWord) {
+            filters.push("keyWord="+keyWord);
+        }
+        if (supervisors.length > 0) {
+            filters.push("supervisor=" +supervisors.map(s => s.value).join(','));
+        }
+        if(types.length>0) {
+            filters.push("type="+types.map(s=> s.value).join(','));
+        }
+        if(groups.length>0){
+            filters.push("groups="+groups.map(s=>s.value).join(','));
+        }
+        if(expiration){
+            filters.push("expiration="+expiration);
+        }
+        if(levels.length>0){
+            filters.push("level="+levels.map(s=>s.value).join(','));
+        }
+
+
+        axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&'), {
+
+        })
+            .then(response => {
+                props.setPropsOnScreen(response.data);
+            })
+            .catch(error => {
+                console.error('Errore nella richiesta al back-end:', error);
+            });
+    };
 
     function extractUniqueOptions(array, attr) {
         let unique = [];
@@ -53,6 +88,8 @@ function Sidebar(props) {
     useEffect(() => {
         if(flag) setFlag(false);
         else {
+            sendRequestToBackend()
+            /*
             let proposals = props.proposals;
             if(keyWord !== "") proposals = proposals.filter((p) => p.keywords.find((k) => k === keyWord));
             if(supervisors.length > 0) proposals = proposals.filter((p) => supervisors.find((s) => s.value === p.supervisor));
@@ -67,6 +104,8 @@ function Sidebar(props) {
                 return diff >= 0;
             });
             props.setPropsOnScreen(proposals);
+
+             */
         }
     }, [keyWord, supervisors, types, groups, courses, levels, expiration]);
 
@@ -85,6 +124,15 @@ function Sidebar(props) {
                                 <Button variant="primary" onClick={() => setKeyWord(search)}>Search</Button>
                             </Col>
                         </Row>
+                        <Row className="mt-2">
+                            <Col sm={9}>
+                                <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
+                            </Col>
+                            <Col sm={3}>
+                                <Button variant="primary" onClick={() => setKeyWord(search)}>Search</Button>
+                            </Col>
+                        </Row>
+
                     </Form.Group>
 
                     <Form.Group className="mt-2">
@@ -112,7 +160,7 @@ function Sidebar(props) {
                         <Col sm={6}>
                             <Form.Group className="mt-2">
                                 <Form.Label>Level</Form.Label>
-                                <Select options={[{value:"PhD", label:"PhD"},{value:"Master", label:"Master"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)}/>
+                                <Select options={[{value:"PhD", label:"PhD"},{value:"Masters", label:"Masters"},{value:"Bachelor", label:"Bachelor"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)}/>
                             </Form.Group>
                         </Col>
                         <Col sm={6}>
@@ -143,5 +191,6 @@ function Sidebar(props) {
         </Col>
     );
 }
+export default Sidebar;
 
-export default Sidebar ;
+
