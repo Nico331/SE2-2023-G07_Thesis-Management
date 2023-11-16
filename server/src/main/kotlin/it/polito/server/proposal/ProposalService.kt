@@ -65,7 +65,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
             when (key) {
                 "search" -> {}
                 "archived" -> query.addCriteria(Criteria.where(key).`is`(decodedValue.toBoolean()))
-                "cdS", "supervisor","type","groups", "level" -> {
+                "cdS", "supervisor","type","groups", "level", "keywords" -> {
                     val cdSList = decodedValue.split(",").map { it.trim() }
                     query.addCriteria(Criteria.where(key).`in`(cdSList))
                 }

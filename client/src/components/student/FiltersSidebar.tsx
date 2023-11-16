@@ -28,11 +28,9 @@ function Sidebar(props) {
     });
     const sendRequestToBackend = () => {
         let filters = [];
-        if (search !== "") {
-            filters.push("search="+search);
-        }
+
         if (keyWord.length > 0) {
-            filters.push("keyWord="+keyWord.map(s => s.value).join(','));
+            filters.push("keywords="+keyWord.map(s => s.value).join(','));
         }
         if (supervisors.length > 0) {
             filters.push("supervisor=" +supervisors.map(s => s.value).join(','));
@@ -49,8 +47,11 @@ function Sidebar(props) {
         if(levels.length>0){
             filters.push("level="+levels.map(s=>s.value).join(','));
         }
-
-        axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&'), {
+        let searchParameter = ""
+        if(search!=""){
+            searchParameter+="search="+search
+        }
+        axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&') + searchParameter, {
 
         })
             .then(response => {
