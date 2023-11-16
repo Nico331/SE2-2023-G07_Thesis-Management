@@ -14,11 +14,11 @@ import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 @RequestMapping("/API/appliedProposal")
 class AppliedProposalController(private val appliedProposalService: AppliedProposalService, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
         val appliedproposal = appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(appliedproposal)
-    }
+    }*/
 
     @GetMapping("")
     fun getAll(): ResponseEntity<List<AppliedProposalDTO>>{
@@ -77,5 +77,10 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     fun getByFilters (@PathVariable professorId: String) : ResponseEntity<Any> {
         val filteredApplications = appliedProposalService.findByFilters( professorId )
         return ResponseEntity.ok(filteredApplications)
+    }
+    @GetMapping("/{professorId}")
+    fun getByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
+        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId )
+        return ResponseEntity.ok(proposalsWithApplications)
     }
 }
