@@ -17,8 +17,8 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
             <div className="App" style={{paddingTop: 70}}>
             <ProfessorNavigation setRole={setRole} />
             <Routes>
-                <Route path="/" element={ <ProfessorMain/> } >
-                    <Route index element={<ProfessorMain/>} />
+                <Route path="/" element={ <BrowseApplications/> } >
+                    <Route index element={<BrowseApplications/>} />
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
