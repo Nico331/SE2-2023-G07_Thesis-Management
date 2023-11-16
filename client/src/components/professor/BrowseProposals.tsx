@@ -10,8 +10,10 @@ import {
     Button,
     ListGroup, Modal
 } from "react-bootstrap";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProfessorModalOfProposal from "./ProfessorModalOfProposal";
+import axios from "axios";
+import Sidebar from "../student/FiltersSidebar";
 
 
 export const ProfessorBrowseProposals = (props) => {
@@ -23,6 +25,55 @@ export const ProfessorBrowseProposals = (props) => {
         {id: 5, title: "prop5", supervisor: "sup3", keywords:["key1", "key2"], type: "development", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "2024/07/02", level: "bachelor", cds: "computer engineering"},
         {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1", "key2", "key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "2024/08/10", level: "bachelor", cds: "Chemical engineering"}]
 
+    const profs = [
+        {
+            id: "12m0e9rdk2mefkw0349ikfdwde",
+            name: "Elizabeth",
+            surname: "Taylor",
+            email: "elizabeth.taylor@university.edu",
+            codGroup: "MATH-CG",
+            codDepartment: "MATH-DEP",
+            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
+        },
+        {
+            id: "wocwkje029fkm3f9834j09feio",
+            name: "John",
+            surname: "Smith",
+            email: "john.smith@university.edu",
+            codGroup: "PHYS-CG",
+            codDepartment: "PHYS-DEP",
+            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
+        },
+        {
+            id: "vmewokc304r3409fk305rtgi54r09",
+            name: "Susan",
+            surname: "Brown",
+            email: "susan.brown@university.edu",
+            codGroup: "CHEM-CG",
+            codDepartment: "CHEM-DEP",
+            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
+        },
+        {
+            id: "cmweijf39efk340f9i3k4f034f3ed",
+            name: "Robert",
+            surname: "Wilson",
+            email: "robert.wilson@university.edu",
+            codGroup: "COMP-CG",
+            codDepartment: "COMP-DEP",
+            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
+        },
+        {
+            id: "coijef0932k4f09r3igf0g54f34fr3e",
+            name: "Patricia",
+            surname: "Garcia",
+            email: "patricia.garcia@university.edu",
+            codGroup: "BIO-CG",
+            codDepartment: "BIO-DEP",
+            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
+        }
+    ];
+
+    const [professors, setProfessors] = useState(profs);
     const [proposals, setProposals] = useState(prop)
     const [propsOnScreen, setPropsOnScreen] = useState(prop);
     const [collapseState, setCollapseState] = useState(prop.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
@@ -30,6 +81,20 @@ export const ProfessorBrowseProposals = (props) => {
     const [showPopUp, setShowPopUp] = useState(false);
     const [showAlertModal, setShowAlertModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
+
+    /*useEffect (() => {
+        axios.get("http://localhost:27017/API/proposals")
+            .then((resp) => {
+                console.log("Response: " + resp);
+                setProposals(resp.data);
+                setPropsOnScreen(resp.data);
+                setCollapseState(resp.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
+                console.log(proposals);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])*/
 
 
     setTimeout(() => {
@@ -56,7 +121,7 @@ export const ProfessorBrowseProposals = (props) => {
             <Container fluid className="p-0">
                 <Row>
                     <Col md={4} style={{backgroundColor:"#e0e0e0", height:'100vh'}}>
-
+                        {/*<Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>*/}
                     </Col>
 
                     <Col md={8}>
