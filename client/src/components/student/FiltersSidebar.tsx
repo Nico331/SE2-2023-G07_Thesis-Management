@@ -112,6 +112,17 @@ function Sidebar(props) {
         }
     }, [makeSearch, keyWord, supervisors, types, groups, courses, levels, expiration]);
 
+    const cancelFilters = () => {
+        setSearch("");
+        setKeyWord([]);
+        setSupervisors([]);
+        setCourses([]);
+        setGroups([]);
+        setLevels([]);
+        setTypes([]);
+        setExpiration("");
+    }
+
     return (
         <Col className="ms-0 px-4" sm={4} style={{height:"90vh", backgroundColor:"#e0e0e0"}}>
             <Form className="mt-4">
@@ -176,16 +187,7 @@ function Sidebar(props) {
                         <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
-                    <Button className="mt-4" variant="danger" onClick={()  => {
-                        setSearch("");
-                        setKeyWord([]);
-                        setSupervisors([]);
-                        setCourses([]);
-                        setGroups([]);
-                        setLevels([]);
-                        setTypes([]);
-                        setExpiration("");
-                    }}>Cancel Filters</Button>
+                    <Button className="mt-4" variant="danger" onClick={()  => cancelFilters()}>Cancel Filters</Button>
                 </Container>
             </Form>
         </Col>
