@@ -1,5 +1,6 @@
 package it.polito.server.appliedproposal
 
+import it.polito.server.career.CareerRepository
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.ProposalService
@@ -8,7 +9,12 @@ import org.springframework.data.domain.Example
 import org.springframework.stereotype.Service
 
 @Service
-class AppliedProposalService(private val appliedProposalRepository: AppliedProposalRepository, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
+class AppliedProposalService(
+    private val appliedProposalRepository: AppliedProposalRepository,
+    private val proposalRepository : ProposalRepository,
+    private val studentRepository: StudentRepository,
+    private val careerRepository: CareerRepository,
+) {
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
         return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
@@ -74,5 +80,53 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
             }
         }
         return resMap
+    }
+
+    fun findByProfessor(professorId: String) : List<StrangeObjectRequestedByDarione>{
+        val proposals = proposalRepository.findBySupervisor(professorId);
+        return proposals.map { proposal->
+            println(proposal)
+            println(proposal.id!!)
+            val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
+            println(appliedProposals)
+            val listApplications = appliedProposals.map { appliedProposal->
+                val student = studentRepository.findById(appliedProposal.studentId).map { it.toDTO() }.get()
+                println(student)
+                val listExams = careerRepository.findByStudentId(student.id!!).map { it.toDTO() }
+                return@map Applications(
+                    appliedProposal.id,
+                    appliedProposal.proposalId,
+                    Student(
+                        student.id,
+                        student.surname,
+                        student.name,
+                        student.gender,
+                        student.nationality,
+                        student.email,
+                        student.codDegree,
+                        student.enrollmentYear,
+                        listExams
+                    ),
+                    appliedProposal.status
+                )
+            }
+            return@map StrangeObjectRequestedByDarione(
+                proposal.id,
+                proposal.title,
+                proposal.supervisor,
+                proposal.coSupervisors,
+                proposal.keywords,
+                proposal.type,
+                proposal.groups,
+                proposal.description,
+                proposal.requiredKnowledge,
+                proposal.notes,
+                proposal.expiration,
+                proposal.level,
+                proposal.cdS,
+                proposal.archived,
+                listApplications
+            )
+        }
     }
 }
