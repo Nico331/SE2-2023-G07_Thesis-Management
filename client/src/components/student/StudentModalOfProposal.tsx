@@ -1,6 +1,7 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import {useState} from "react";
+import React from "react";
 
 function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; propsalData: { [x: string]: any; }; proposalID: string | number; proposalTitle: string | number; showModal: boolean; setShowModal: (arg0: boolean) => void; }) {
     const supervisor = props.professorData[props.propsalData[props.proposalTitle].supervisor];
