@@ -1,6 +1,7 @@
 package it.polito.server.appliedproposal
 
 import it.polito.server.career.CareerRepository
+import it.polito.server.professor.ProfessorRepository
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.ProposalService
@@ -14,6 +15,7 @@ class AppliedProposalService(
     private val proposalRepository : ProposalRepository,
     private val studentRepository: StudentRepository,
     private val careerRepository: CareerRepository,
+    private val professorRepository: ProfessorRepository,
 ) {
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
@@ -110,10 +112,11 @@ class AppliedProposalService(
                     appliedProposal.status
                 )
             }
+            val nameSupervisor = professorRepository.findById(proposal.supervisor)
             return@map StrangeObjectRequestedByDarione(
                 proposal.id,
                 proposal.title,
-                proposal.supervisor,
+                "${nameSupervisor.get().name} ${nameSupervisor.get().surname}",
                 proposal.coSupervisors,
                 proposal.keywords,
                 proposal.type,
