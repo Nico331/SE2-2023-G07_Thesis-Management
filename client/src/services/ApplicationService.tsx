@@ -1,6 +1,6 @@
 import axios from '../axiosInstance';
 
-const endpoint = '/API/appliedProposal';
+const endpoint = '/appliedProposal';
 
 export default {
     fetchApplication(id) {

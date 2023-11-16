@@ -1,5 +1,6 @@
 package it.polito.server.appliedproposal
 
+import it.polito.server.professor.Professor
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
@@ -72,9 +73,9 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
         return ResponseEntity.ok().build()
     }
 
-    @GetMapping("/filter")
-    fun getByFilters (@RequestBody appliedProposal: AppliedProposal) : ResponseEntity<List<AppliedProposalDTO>> {
-        val filteredApplications = appliedProposalService.findByFilters(appliedProposal)
+    @GetMapping("/{professorId}/filter")
+    fun getByFilters (@PathVariable professorId: String) : ResponseEntity<Any> {
+        val filteredApplications = appliedProposalService.findByFilters( professorId )
         return ResponseEntity.ok(filteredApplications)
     }
 }

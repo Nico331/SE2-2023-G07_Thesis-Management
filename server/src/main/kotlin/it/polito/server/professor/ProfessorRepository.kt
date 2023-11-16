@@ -6,5 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
 interface ProfessorRepository : MongoRepository<Professor, String> {
     fun findByEmail(email: String): Professor?
 
-
 }

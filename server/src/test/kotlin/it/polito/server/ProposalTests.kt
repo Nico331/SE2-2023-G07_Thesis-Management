@@ -1,25 +1,22 @@
 package it.polito.server
 
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
-import com.google.gson.JsonObject
 import it.polito.server.professor.ProfessorDTO
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
-
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.*
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -28,12 +25,11 @@ import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.shaded.com.google.common.reflect.TypeToken
+import org.testcontainers.shaded.org.bouncycastle.asn1.x500.style.RFC4519Style.title
 import org.testcontainers.utility.DockerImageName
-import org.springframework.core.ParameterizedTypeReference
-
-import java.time.LocalDate
 import java.net.URI
 import java.util.*
+
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -108,6 +104,67 @@ class ProductTests {
         cdS = listOf("Statistica", "Economia e Commercio"),
         archived = false
     )
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    fun createProposal() {
+
+        val proposalToCreate = ProposalDTO(
+                title = "Sviluppo di un'applicazione mobile per il monitoraggio della salute",
+                supervisor = "Prof. Maria Rossi",
+                coSupervisors = listOf("Dr. Luca Bianchi"),
+                keywords = listOf("mobile application", "health monitoring", "wearable devices"),
+                type = "Sviluppo Software",
+                groups = listOf("Mobile App Development Team"),
+                description = "Creazione di un'applicazione mobile per monitorare parametri vitali utilizzando dispositivi indossabili.",
+                requiredKnowledge = "Programmazione mobile (Android/iOS), conoscenza di wearable devices",
+                notes = "Partecipazione a workshop sui dispositivi indossabili consigliata.",
+                expiration = Date(),
+                level = "Master",
+                cdS = listOf("Informatica", "Ingegneria Informatica"),
+                archived = false
+        )
+
+        val createUrl = "http://localhost:$port/API/proposals"
+        val createUri = URI(createUrl)
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+        val httpEntity = HttpEntity(proposalToCreate, headers)
+
+        val createResult: ResponseEntity<ProposalDTO> = restTemplate.exchange(
+                createUri,
+                HttpMethod.POST,
+                httpEntity,
+                ProposalDTO::class.java
+        )
+
+        Assertions.assertEquals(HttpStatus.CREATED, createResult.statusCode)
+
+        val createdProposal = createResult.body
+        assertNotNull(createdProposal)
+
+        if(createdProposal != null)
+        {
+            assertEquals(proposalToCreate.title, createdProposal.title)
+            assertEquals(proposalToCreate.supervisor, createdProposal.supervisor)
+            assertIterableEquals(proposalToCreate.coSupervisors, createdProposal.coSupervisors)
+            assertIterableEquals(proposalToCreate.keywords,createdProposal.keywords)
+            assertEquals(proposalToCreate.type,createdProposal.type)
+            assertIterableEquals(proposalToCreate.groups,createdProposal.groups)
+            assertEquals(proposalToCreate.description,createdProposal.description)
+            assertEquals(proposalToCreate.requiredKnowledge, createdProposal.requiredKnowledge)
+            assertEquals(proposalToCreate.notes, createdProposal.notes)
+            assertEquals(proposalToCreate.expiration, createdProposal.expiration)
+            assertEquals(proposalToCreate.level, createdProposal.level)
+            assertIterableEquals(proposalToCreate.cdS, createdProposal.cdS)
+            assertEquals(proposalToCreate.archived, createdProposal.archived)
+
+        }
+
+        proposalRepository.deleteAll()
+    }
+
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)

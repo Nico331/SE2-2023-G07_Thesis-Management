@@ -1,6 +1,8 @@
 package it.polito.server.appliedproposal
 
+import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
+import it.polito.server.proposal.ProposalService
 import it.polito.server.student.StudentRepository
 import org.springframework.data.domain.Example
 import org.springframework.stereotype.Service
@@ -30,8 +32,8 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
                 return null
             }
 
-            val appliedProposal = AppliedProposal(proposalId = proposalId, studentId = studentId)
-            appliedProposalRepository.save(appliedProposal)
+            val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
+            val appliedProposal = appliedProposalRepository.save(application)
 
             return  appliedProposal.toDTO()
         }
@@ -57,7 +59,20 @@ class AppliedProposalService(private val appliedProposalRepository: AppliedPropo
         appliedProposalRepository.save(appliedProposal)
     }
 
-    fun findByFilters (appliedProposal: AppliedProposal) : List<AppliedProposalDTO> {
-        return appliedProposalRepository.findAll(Example.of(appliedProposal)).map { it.toDTO() }
+    fun findByFilters (supervisorId : String) : HashMap<String, List<Any>> {
+        val resMap = HashMap<String, List<Any>>()
+
+        val interestingProposals = proposalRepository.findBySupervisor(supervisorId).map { it.toDTO() }
+        interestingProposals.filter { appliedProposalRepository.existsAppliedProposalByProposalId(it.supervisor) }
+
+        interestingProposals.forEach {
+            val proposalId = it.id
+            val applications = it.id?.let { it1 -> appliedProposalRepository.findByProposalId(it1).map { it.toDTO() } }
+            if (applications != null && proposalId != null) {
+                val mixedList = listOf(it) + applications
+                resMap.put( proposalId , mixedList)
+            }
+        }
+        return resMap
     }
 }
