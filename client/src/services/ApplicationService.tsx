@@ -5,7 +5,7 @@ const endpoint = '/appliedProposal';
 export default {
 
     getApplicationByStudentId(studentId) {
-        return axios.get(`${endpoint}/${studentId}`);
+        return axios.get(`${endpoint}/bystudent/${studentId}`);
     },
 
     fetchAllApplications() {
@@ -16,7 +16,20 @@ export default {
         return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`);
     },
 
+    acceptApplication(applicationId){
+        return axios.put(`${endpoint}/accept/${applicationId}`);
+
+    },
+
+    rejectApplication(applicationId){
+        return axios.put(`${endpoint}/reject/${applicationId}`);
+
+    },
+
+
+
     getByProfessorId(professorId){
         return axios.get(`${endpoint}/${professorId}`);
     }
+
 };
