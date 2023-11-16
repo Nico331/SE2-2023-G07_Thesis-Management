@@ -185,7 +185,7 @@ AppliedProposalDTO
 	- GET ___`/API/appliedProposal`___
 	- Return an array of AppliedProposalDTO objects. It contains all the applications in the database.
 - Get all the Applications by a specific student
-	- GET ___`/API/appliedProposal/{studentID}`___
+	- GET ___`/API/appliedProposal/bystudent/{studentID}`___
 	- Return an array of AppliedProposalDTO objects. The Applications are the only ones applied by the student specified in the URL.
 - Accept an Application
 	- PUT ___`/API/appliedProposal/accept/{applicationId}`___

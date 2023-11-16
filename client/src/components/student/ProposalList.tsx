@@ -74,6 +74,7 @@ const ProposalList = () => {
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
     const [proposalTitle, setProposalTitle] = useState('');
+    const [refresh, setRefresh] = useState(true);
 
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
@@ -84,7 +85,7 @@ const ProposalList = () => {
 
     useEffect(() => {
         refreshProposals();
-    }, []);
+    }, [refresh]);
 
     const handleShow = (proId, proTitle) => {
         setShowModal(true);
@@ -100,7 +101,21 @@ const ProposalList = () => {
 
     return (
         <>
-            <Container fluid className="p-0 mt-5" >
+            <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
+                <Container>
+                    <Link to={"/"}>
+                        <Navbar.Brand>
+                            <Navbar.Text>
+                                <Image style={{ width: 160, height: 40 }} src={"../logo_thesis_management.png"}/>
+                            </Navbar.Text>
+                        </Navbar.Brand>
+                    </Link>
+                    <Link to={"/myApplicationList"} className="btn btn-primary ms-auto">
+                        My Applications
+                    </Link>
+                </Container>
+            </Navbar>
+            <Container fluid className="p-0 mt-0" >
                 <Row style={{marginTop:"0px"}}>
                     <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
                     <Col sm={8} style={{height: "90vh"}}>
@@ -111,6 +126,7 @@ const ProposalList = () => {
                             </svg>
                             <Container>
                                 <h4 className="ms-1">Thesis Proposals</h4>
+
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
