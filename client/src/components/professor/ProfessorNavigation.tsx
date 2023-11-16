@@ -42,6 +42,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                         <NavDropdown.Item href={"/proposal-list"} > Search proposals </NavDropdown.Item>
                         <NavDropdown.Item href={"/add-proposal"} > add-proposal </NavDropdown.Item>
                         <NavDropdown.Item href={"/browse-proposals"} > professor/browse-proposals </NavDropdown.Item>
+                        <NavDropdown.Item href={"/browse-applications"} > professor/browse-applications </NavDropdown.Item>
                         <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
                     </NavDropdown>
 
