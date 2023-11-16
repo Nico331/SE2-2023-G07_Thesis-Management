@@ -9,6 +9,17 @@ type ProfessorNavigationProps = {
 
 const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>{
     const [showDropdown, setShowDropdown] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const handleMouseLeave = () => {
+        if (timeoutId) clearTimeout(timeoutId);
+
+        const newTimeoutId = setTimeout(() => {
+            console.log("Leaved")
+            setShowDropdown(false);
+        }, 300);
+
+        setTimeoutId(newTimeoutId);
+    };
 
     return (
         <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
@@ -29,22 +40,18 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                         }}
                         title= {`Hi Professor`}
                         show={showDropdown}
-                        onMouseEnter={() => setShowDropdown(true)}
-                        onMouseLeave={() => setShowDropdown(false)} >
-                        <NavDropdown.Divider /> {}
-                    </NavDropdown>
-
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-
-                    <NavDropdown title={'Professor Access'} >
+                        onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
+                        onMouseLeave={handleMouseLeave} >
                         <NavDropdown.Item href={"/proposal-list"} > Search proposals </NavDropdown.Item>
                         <NavDropdown.Item href={"/add-proposal"} > add-proposal </NavDropdown.Item>
                         <NavDropdown.Item href={"/browse-proposals"} > professor/browse-proposals </NavDropdown.Item>
+                        <NavDropdown.Divider /> {}
                         <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
                     </NavDropdown>
 
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;
                 </Navbar.Collapse>
             </Container>
         </Navbar>

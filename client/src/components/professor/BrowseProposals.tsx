@@ -17,13 +17,27 @@ import Sidebar from "../student/FiltersSidebar";
 
 
 export const ProfessorBrowseProposals = (props) => {
-
-    const prop = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1", "key2", "key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/05/25", level: "master", cds: "computer engineering"},
+    const [propsOnScreen, setPropsOnScreen] = useState([])
+    /*const prop = [{id: 1, title: "prop1", supervisor: "sup1", keywords:["key1", "key2", "key3"], type: "in company", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/05/25", level: "master", cds: "computer engineering"},
         {id: 2, title: "prop2", supervisor: "sup2", keywords:["key1", "key2"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/07/02", level: "bachelor", cds: "computer engineering"},
         {id: 3, title: "prop3", supervisor: "sup2", keywords:["key1", "key2", "key3"], type: "experimental", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "2024/09/14", level: "bachelor", cds: "electronic engineering"},
         {id: 4, title: "prop4", supervisor: "sup1", keywords:["key1", "key2", "key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "DAUIN", expiration: "2024/05/25", level: "master", cds: "computer engineering"},
         {id: 5, title: "prop5", supervisor: "sup3", keywords:["key1", "key2"], type: "development", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "2024/07/02", level: "bachelor", cds: "computer engineering"},
         {id: 6, title: "prop6", supervisor: "sup2", keywords:["key1", "key2", "key3"], type: "theoretical", description: "thesis about ...", required_knowledge: "required_knowledge", notes: "no notes", group: "Ingegneri del Futuro", expiration: "2024/08/10", level: "bachelor", cds: "Chemical engineering"}]
+*/
+    useEffect(()=>{
+        axios.get("http://localhost:8081/API/proposals")
+            .then(response=>{
+                setPropsOnScreen(response.data);
+                console.log(propsOnScreen)
+            })
+            .catch(e=>{
+                console.log("Errore nella get: "+e);
+            })
+    },[propsOnScreen.length])
+    useEffect(() => {
+        console.log(propsOnScreen);
+    }, [propsOnScreen]);
 
     const profs = [
         {
@@ -74,9 +88,8 @@ export const ProfessorBrowseProposals = (props) => {
     ];
 
     const [professors, setProfessors] = useState(profs);
-    const [proposals, setProposals] = useState(prop)
-    const [propsOnScreen, setPropsOnScreen] = useState(prop);
-    const [collapseState, setCollapseState] = useState(prop.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
+    const [proposals, setProposals] = useState(propsOnScreen)
+    const [collapseState, setCollapseState] = useState(propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [showAlertModal, setShowAlertModal] = useState(false);
@@ -103,7 +116,7 @@ export const ProfessorBrowseProposals = (props) => {
     const handleShow = (proId) => {
         setShowModal(true);
         setProposalID(proId);
-        props.setProfessorProposalID(proId);
+        //props.setProfessorProposalID(proId);
     }
 
     const handledelete = (proId) => {
@@ -182,6 +195,12 @@ export const ProfessorBrowseProposals = (props) => {
 export const DeleteProposal = (props) => {
 
     const deletepro = (proid) => {
+        axios.delete(`http://localhost:8081/API/proposals/${proid}`)
+            .then(response => {
+            })
+            .catch(error => {
+                console.error('There was an error deleting the proposal', error);
+            });
         props.setShowPopUp(false);
         props.setShowAlertModal(true);
     }
