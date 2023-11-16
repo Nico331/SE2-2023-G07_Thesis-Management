@@ -41,7 +41,7 @@ ProposalDTO
 	- GET ___`/API/proposals`___
 	- Return an array of ProposalDTO objects. It contains all the proposals in the database.
 - Get all the Proposals created by a supervisor
-	- GET ___`/API/proposals/{supervisorID}`___
+	- GET ___`/API/proposals/bysupervisor/{supervisorID}`___
 	- Return an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified in the URL.
 - Delete an existing Proposal
 	- DELETE ___`/API/proposals/{proposalID}`___
