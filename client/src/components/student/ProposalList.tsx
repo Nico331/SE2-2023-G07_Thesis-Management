@@ -21,46 +21,46 @@ import ProposalService from "../../services/ProposalService";
 const ProposalList = () => {
     const profs = [
         {
-            id: "12m0e9rdk2mefkw0349ikfdwde",
+            id: "p300001",
             name: "Elizabeth",
             surname: "Taylor",
-            email: "elizabeth.taylor@university.edu",
+            email: "p300001@polito.it",
             codGroup: "MATH-CG",
             codDepartment: "MATH-DEP",
             passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
         },
         {
-            id: "wocwkje029fkm3f9834j09feio",
+            id: "p300002",
             name: "John",
             surname: "Smith",
-            email: "john.smith@university.edu",
+            email: "p300002@polito.it",
             codGroup: "PHYS-CG",
             codDepartment: "PHYS-DEP",
             passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
         },
         {
-            id: "vmewokc304r3409fk305rtgi54r09",
+            id: "p300003",
             name: "Susan",
             surname: "Brown",
-            email: "susan.brown@university.edu",
+            email: "p300003@polito.it",
             codGroup: "CHEM-CG",
             codDepartment: "CHEM-DEP",
             passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
         },
         {
-            id: "cmweijf39efk340f9i3k4f034f3ed",
+            id: "p300004",
             name: "Robert",
             surname: "Wilson",
-            email: "robert.wilson@university.edu",
+            email: "p300004@polito.it",
             codGroup: "COMP-CG",
             codDepartment: "COMP-DEP",
             passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
         },
         {
-            id: "coijef0932k4f09r3igf0g54f34fr3e",
+            id: "p300005",
             name: "Patricia",
             surname: "Garcia",
-            email: "patricia.garcia@university.edu",
+            email: "p300005@polito.it",
             codGroup: "BIO-CG",
             codDepartment: "BIO-DEP",
             passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
@@ -101,20 +101,6 @@ const ProposalList = () => {
 
     return (
         <>
-            <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
-                <Container>
-                    <Link to={"/"}>
-                        <Navbar.Brand>
-                            <Navbar.Text>
-                                <Image style={{ width: 160, height: 40 }} src={"../logo_thesis_management.png"}/>
-                            </Navbar.Text>
-                        </Navbar.Brand>
-                    </Link>
-                    <Link to={"/myApplicationList"} className="btn btn-primary ms-auto">
-                        My Applications
-                    </Link>
-                </Container>
-            </Navbar>
             <Container fluid className="p-0 mt-0" >
                 <Row style={{marginTop:"0px"}}>
                     <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
@@ -148,7 +134,6 @@ const ProposalList = () => {
                                         <Collapse in={collapseState[p.title]}>
                                             <CardBody>
                                                 <Container className="ms-0 p-0">
-                                                    <Container>Supervisor: {professors.find((prof) => prof.id === p.supervisor).name+" "+professors.find((prof) => prof.id === p.supervisor).surname}</Container>
                                                     <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
                                                     <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
                                                     <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>

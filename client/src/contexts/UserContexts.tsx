@@ -20,11 +20,11 @@ type ProfessorDTO = {
     codDepartment: string;
 };
 
-type UserType = StudentDTO | ProfessorDTO;
+type UserType = ProfessorDTO | StudentDTO ;
 
 export interface UserContextType {
-    user: UserType | null;
-    setUser: Dispatch<SetStateAction<UserType | null>>;
+    user: string;
+    setUser: Dispatch<SetStateAction<string>>;
 }
 
 interface LogOutContextType {

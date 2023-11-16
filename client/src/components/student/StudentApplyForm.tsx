@@ -159,20 +159,7 @@ function StudentApplyForm(props) {
 
     return (
         <>
-            <Navbar bg="secondary" fixed="top" variant="dark" className="navbar-padding">
-                <Container>
-                    <Link to={"/"}>
-                        <Navbar.Brand>
-                            <Navbar.Text>
-                                <Image style={{width: 160, height: 40}} src={"../logo_thesis_management.png"}/>
-                            </Navbar.Text>
-                        </Navbar.Brand>
-                    </Link>
-                </Container>
-            </Navbar>
             <Container className="content-container">
-
-
                 <div>
                     <Table striped bordered hover>
                         <caption>Student Data</caption>

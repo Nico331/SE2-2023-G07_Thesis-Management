@@ -146,18 +146,6 @@ const StudentApplicationList = (props) => {
     return (
         <>
 
-            <Navbar bg="secondary" fixed="top" variant="dark" className="navbar-padding">
-                <Container>
-                    <Link to={"/"}>
-                        <Navbar.Brand>
-                            <Navbar.Text>
-                                <Image style={{width: 160, height: 40}} src={"../logo_thesis_management.png"}/>
-                            </Navbar.Text>
-                        </Navbar.Brand>
-                    </Link>
-                </Container>
-            </Navbar>
-
             <Container className="mt-5">
                 <h1>My Applications</h1>
 
