@@ -100,20 +100,6 @@ const ProposalList = () => {
 
     return (
         <>
-            <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
-                <Container>
-                    <Link to={"/"}>
-                        <Navbar.Brand>
-                            <Navbar.Text>
-                                <Image style={{ width: 160, height: 40 }} src={"../logo_thesis_management.png"}/>
-                            </Navbar.Text>
-                        </Navbar.Brand>
-                    </Link>
-                    <Link to={"/myApplicationList"} className="btn btn-primary ms-auto">
-                        My Applications
-                    </Link>
-                </Container>
-            </Navbar>
             <Container fluid className="p-0 mt-5" >
                 <Row style={{marginTop:"0px"}}>
                     <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
