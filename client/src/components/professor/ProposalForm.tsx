@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Button, Card, ListGroup, Row, Container, Alert} from 'react-bootstrap';
 import CoSupervisorInput from "./CoSupervisorInput";
 import {FaTimes} from "react-icons/fa";
@@ -7,6 +7,7 @@ import CdsInput from "./CdsInput";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import {useNavigate} from "react-router-dom";
+import ProfessorService from "../../services/ProfessorService";
 
 const ProposalForm = () => {
     const [proposal, setProposal] = useState({
@@ -26,10 +27,18 @@ const ProposalForm = () => {
         cdS: [],
     });
 
+    const [professors, setProfessors] = useState([]);
+
+    useEffect(() => {
+        ProfessorService.fetchAllProfessors().then((res) => {
+            setProfessors(res.data);
+        });
+    }, []);
+
     const navigate = useNavigate()
 
 
-    const [alert, setAlert] = useState({type:"", message:""});
+    const [alert, setAlert] = useState({type: "", message: ""});
 
     const [newKeyword, setNewKeyword] = useState('');
 
@@ -76,14 +85,14 @@ const ProposalForm = () => {
         setProposal({...proposal, cdS: updatedCds});
     };
 
-    const handleSubmit =  (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        ProposalService.createProposal(proposal).then(()=>{
+        ProposalService.createProposal(proposal).then(() => {
             setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
-            setTimeout(()=>{
+            setTimeout(() => {
                 navigate("/proposal-list");
-            },3000);
-        }).catch(()=>{
+            }, 3000);
+        }).catch(() => {
             setAlert({type: "danger", message: "Error!"})
         });
     };
@@ -150,18 +159,20 @@ const ProposalForm = () => {
                             <Form.Control as="select" custom value={proposal.supervisor}
                                           onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
                                 <option value="">Select the supervisor</option>
-                                <option value="1">Marco Torchiano</option>
-                                <option value="2">Riccardo Sisto</option>
+                                {
+                                    professors.map((professor) => <option
+                                        value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
+                                }
                             </Form.Control>
                         </Form.Group>
                         <Form.Label className="h3">Co-Supervisors</Form.Label>
                         <Card className={"mt-3 mb-3"}>
                             <Card.Body>
-                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor}/>
+                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor} professors={professors}/>
 
                                 <ListGroup className={"mt-3"}>
                                     {proposal.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
-                                        {cs} Nome {cs} Cognome  - {cs} Email &nbsp;
+                                        {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
                                         <Button
                                             variant="danger"
                                             size="sm"

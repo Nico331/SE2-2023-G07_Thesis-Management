@@ -14,5 +14,9 @@ export default {
 
     createApplication(application){
         return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`);
+    },
+
+    getByProfessorId(professorId){
+        return axios.get(`${endpoint}/${professorId}`);
     }
 };

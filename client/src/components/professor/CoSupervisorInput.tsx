@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Accordion, Card, Row } from 'react-bootstrap';
 
-const CoSupervisorInput = ({ onAddCoSupervisor }) => {
+const CoSupervisorInput = ({ onAddCoSupervisor, professors }) => {
     const [coSupervisor, setCoSupervisor] = useState("");
 
     const addCoSupervisor = () => {
@@ -22,8 +22,11 @@ const CoSupervisorInput = ({ onAddCoSupervisor }) => {
                         <Form.Control as="select" custom value={coSupervisor}
                                       onChange={(e) => setCoSupervisor(e.target.value)}>
                             <option value="">Select the supervisor</option>
-                            <option value="1">Marco Torchiano</option>
-                            <option value="2">Riccardo Sisto</option>
+
+                            {
+                                professors.map((professor) => <option
+                                    value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
+                            }
                         </Form.Control>
                     </Form.Group>
 

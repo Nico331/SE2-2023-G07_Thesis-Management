@@ -111,8 +111,19 @@ const ProposalList = () => {
                                 <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
                             </svg>
                             <Container>
-                                <h4 className="ms-1">Thesis Proposals</h4>
-
+                                <Row>
+                                    <Col>
+                                        <h4 className="ms-1">Thesis Proposals</h4>
+                                    </Col>
+                                    <Col className="text-end">
+                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                            </svg>
+                                        </Button>
+                                    </Col>
+                                </Row>
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
