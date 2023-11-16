@@ -21,8 +21,8 @@ const CdsInput = ({onAddCds}) => {
                         <Form.Control
                             type="text"
                             placeholder="Enter cds name"
-                            value={cds.name}
-                            onChange={(e) => setCds([...cds, e.target.value])}
+                            value={cds}
+                            onChange={(e) => setCds( e.target.value)}
                         />
                     </Form.Group>
 

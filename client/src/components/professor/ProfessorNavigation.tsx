@@ -45,7 +45,6 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                         onMouseLeave={handleMouseLeave} >
                         <NavDropdown.Item href={"/browse-applications"} > Browse proposals and applications </NavDropdown.Item>
                         <NavDropdown.Item href={"/add-proposal"} > Add proposals </NavDropdown.Item>
-                        <NavDropdown.Item href={"/browse-proposals"} > professor/browse-proposals </NavDropdown.Item>
                         <NavDropdown.Divider /> {}
                         <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
                     </NavDropdown>
