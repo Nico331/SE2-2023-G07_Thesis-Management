@@ -85,7 +85,6 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
             )
             query.addCriteria(searchCriteria)
         }
-
         return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO() }
     }
 
