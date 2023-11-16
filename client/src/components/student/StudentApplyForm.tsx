@@ -13,25 +13,14 @@ function StudentApplyForm(props) {
 
     const {user, setUser} = useContext(UserContext);
 
-    useEffect(()=>{
-        console.log("user id in student apply form ")
-        console.log(user.toString());
-    },[])
-
     const [studentData, setStudentData] = useState({});
 
-
-
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
-    //non so quanto è lungo -> non so quanti esami abbia sostenuto lo studente
     const [studentCareer, setStudentCareer] = useState([]);
     const [studentDegree, setStudentDegree] = useState({
         codDegree: '',
         titleDegree: ''
     });
-
-    //flag che uso per distinguere due possibili viste: form di inserimento dati oppure riepilogo dati + attach file
-    const [showForm, setShowForm] = useState(true);
 
     //per disabilitare il pulsante Apply mentre sto parlando con il server
     const [isApplying, setIsApplying] = useState(false);
@@ -39,6 +28,9 @@ function StudentApplyForm(props) {
     const [showModal, setShowModal] = useState(false);
     const [showModalError, setShowModalError] = useState(false);
 
+    const { proposalID } = useParams();
+
+    const [file, setFile] = useState(null);
 
     const getCareer = async (id) => {
         const response = await CareerService.fetchCareer(id);
@@ -50,9 +42,10 @@ function StudentApplyForm(props) {
         setStudentDegree(response.data);
     }
 
-    const { proposalID } = useParams();
+
 
     useEffect(() => {
+
         setStudentData(user);
 
         //await getCareer(user.id);
@@ -119,7 +112,7 @@ function StudentApplyForm(props) {
 
 
 
-    const [file, setFile] = useState(null);
+
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);

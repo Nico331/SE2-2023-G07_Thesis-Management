@@ -3,8 +3,9 @@ import axios from '../axiosInstance';
 const endpoint = '/appliedProposal';
 
 export default {
-    fetchApplication(id) {
-        return axios.get(`${endpoint}/${id}`);
+
+    getApplicationByStudentId(studentId) {
+        return axios.get(`${endpoint}/${studentId}`);
     },
 
     fetchAllApplications() {

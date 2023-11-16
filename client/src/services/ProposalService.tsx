@@ -3,7 +3,7 @@ import axios from '../axiosInstance';
 const endpoint = '/proposals';
 
 export default {
-    fetchProposal(id) {
+    getProposalById(id) {
         return axios.get(`${endpoint}/${id}`);
     },
 

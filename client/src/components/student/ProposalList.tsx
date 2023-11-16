@@ -109,6 +109,9 @@ const ProposalList = () => {
                             </Navbar.Text>
                         </Navbar.Brand>
                     </Link>
+                    <Link to={"/myApplicationList"} className="btn btn-primary ms-auto">
+                        My Applications
+                    </Link>
                 </Container>
             </Navbar>
             <Container fluid className="p-0 mt-5" >

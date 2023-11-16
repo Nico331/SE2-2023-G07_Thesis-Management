@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
@@ -12,9 +12,12 @@ import {
     Table
 } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import {UserContext} from "../../contexts/UserContexts";
 
 
 const StudentApplicationList = (props) => {
+
+    const {user, setUser} = useContext(UserContext);
 
     const applications = [
         {
@@ -87,64 +90,58 @@ const StudentApplicationList = (props) => {
     ];
 
 
-    //dati statici dello studente in attesa che il login funzioni
-    const stud = {
-        id: '316789',
-        surname: 'Rossi',
-        name: 'Daniele',
-        gender: 'male',
-        nationality: 'Italian',
-        email: 's316798@studenti.polito.it',
-        codDegree: 'LM-32 (DM270)',
-        enrollmentYear: '2022'
-    };
 
 
-    const [studentData, setStudentData] = useState({
-        id: '',
-        surname: '',
-        name: '',
-        gender: '',
-        nationality: '',
-        email: '',
-        codDegree: '',
-        enrollmentYear: '',
-    });
+    const [studentData, setStudentData] = useState({});
 
     const [studentApplications, setStudentApplications] = useState([]);
 
     const [studentProposals, setStudentProposals] = useState([]);
 
+    useEffect(() => {
+
+        const fetchUser = () => {
+            setStudentData(user);
+        };
+        const fetchData = async () => {
+
+            try {
+                const apps = await ApplicationService.getApplicationByStudentId(user.id);
+                setStudentApplications(apps);
+            } catch (error) {
+                // Gestione degli errori, ad esempio set della variabile d'errore o log
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchUser();
+        fetchData(); // Chiamata alla funzione fetchData
+
+    }, [user]); // Assicurati di includere tutte le dipendenze necessarie, come ad esempio user.id
+
 
     useEffect(() => {
-        //const user = props.user;
 
-        // const student = await studentService.fetchStudent(user.id);
-        // setStudentData(student);
-        setStudentData(stud);
+        const fetchProposals = async () => {
+            const props = [];
+            studentApplications.map( async (app) => {
+                const propID = app.proposalId;
+                const prop = await ProposalService.getProposalById(propID);
+                props.push(prop);
 
-        // const app = await applicationService.fetchApplications(user.id);
-        // setStudentApplications(app);
-        setStudentApplications(applications);
+            })
+            setStudentProposals(props);
 
-    }, []);
+        }
 
-    useEffect(() => {
-        /*
-         const props = [];
+        fetchProposals();
 
-        applications.map( (app) => {
-            const propID = app.proposalID;
-            const prop = await proposalService.fetchproposal(propID);
-            props.push(prop);
 
-        })
-        setStudentProposals(props);
 
-         */
-        setStudentProposals(proposals);
 
-    }, [applications]);
+
+
+
+    }, [studentApplications]);
 
     return (
         <>
