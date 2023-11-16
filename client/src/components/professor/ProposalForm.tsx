@@ -97,6 +97,14 @@ const ProposalForm = () => {
             valid = false;
             errorMessage += `Type should have a value, `
         }
+        if(proposal.level.length === 0){
+            valid = false;
+            errorMessage += `Level should have a value, `
+        }
+        if(proposal.supervisor.length === 0){
+            valid = false;
+            errorMessage += `Supervisor should have a value, `
+        }
 
 
 
@@ -105,7 +113,7 @@ const ProposalForm = () => {
             ProposalService.createProposal(proposal).then(() => {
                 setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
                 setTimeout(() => {
-                    navigate("/proposal-list");
+                    navigate("/browse-applications");
                 }, 3000);
             }).catch(() => {
                 setAlert({type: "danger", message: "Error!"})
@@ -155,6 +163,7 @@ const ProposalForm = () => {
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Masters">Masters</option>
+                                <option value="PhD">PhD</option>
                             </Form.Control>
                         </Form.Group>
                     </div>
