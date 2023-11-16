@@ -213,6 +213,8 @@ class ProfessorTests {
         assertEquals(myProfessor3.email, updatedProfessor.email)
         assertEquals(myProfessor3.codGroup, updatedProfessor.codGroup)
         assertEquals(myProfessor3.codDepartment, updatedProfessor.codDepartment)
+
+        professorRepository.deleteAll()
     }
 
     @Test
@@ -234,6 +236,8 @@ class ProfessorTests {
         Assertions.assertEquals(HttpStatus.OK, deleteResult.statusCode)
 
         Assertions.assertFalse(professorRepository.existsById(professorId!!))
+
+        professorRepository.deleteAll()
     }
 
     @Test
@@ -263,6 +267,8 @@ class ProfessorTests {
         assertEquals(savedProfessor.email, professorResponse.email)
         assertEquals(savedProfessor.codGroup, professorResponse.codGroup)
         assertEquals(savedProfessor.codDepartment, professorResponse.codDepartment)
+
+        professorRepository.deleteAll()
     }
 
 }

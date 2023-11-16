@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -48,13 +51,22 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.findAll().map{(it.toDTO())}
     }
 
-    fun deleteProposal(id: String) {
-        return proposalRepository.deleteById(id)
+    fun deleteProposal(id: String) : ResponseEntity<Any> {
+        if (!proposalRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal doesn't exists")
+        proposalRepository.deleteById(id)
+        return ResponseEntity(HttpStatus.OK)
     }
 
     fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{
         return proposalRepository.findByArchivedFalseAndSupervisor(supervisor).map{(it.toDTO())}
     }
+
+    fun existsByTitleAndSupervisor (proposalTitle : String, proposalSupervisor : String): Boolean {
+        val res = proposalRepository.existsProposalByTitleAndSupervisor (proposalTitle, proposalSupervisor)
+        return res
+    }
+
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
 

@@ -59,7 +59,7 @@ class ProductTests {
 
     val myProposal1 = Proposal(
         title = "Algoritmi di Machine Learning per l'analisi del testo",
-        supervisor = "Prof. Mario Rossi",
+        supervisor = "0001",
         coSupervisors = listOf("Prof. Giulia Bianchi", "Prof. Luca Verdi"),
         keywords = listOf("machine learning", "NLP", "text analytics"),
         type = "Ricerca",
@@ -75,7 +75,7 @@ class ProductTests {
 
     val myProposal2 = Proposal(
         title = "Sviluppo di un'applicazione mobile per la gestione di attività personali",
-        supervisor = "Prof. Anna Neri",
+        supervisor = "0001",
         coSupervisors = listOf("Prof. Carlo Conti"),
         keywords = listOf("app development", "productivity", "cross-platform"),
         type = "Sviluppo Software",
@@ -91,7 +91,7 @@ class ProductTests {
 
     val myProposal3 = Proposal(
         title = "Analisi delle reti sociali per l'identificazione delle tendenze del mercato",
-        supervisor = "Prof. Roberto Verde",
+        supervisor = "0003",
         coSupervisors = listOf(),
         keywords = listOf("social network analysis", "market trends", "data mining"),
         type = "Analisi Dati",
@@ -111,7 +111,7 @@ class ProductTests {
 
         val proposalToCreate = ProposalDTO(
                 title = "Sviluppo di un'applicazione mobile per il monitoraggio della salute",
-                supervisor = "Prof. Maria Rossi",
+                supervisor = "0001",
                 coSupervisors = listOf("Dr. Luca Bianchi"),
                 keywords = listOf("mobile application", "health monitoring", "wearable devices"),
                 type = "Sviluppo Software",
@@ -291,6 +291,8 @@ class ProductTests {
         Assertions.assertEquals(HttpStatus.OK, deleteResult.statusCode)
 
         Assertions.assertFalse(proposalRepository.existsById(proposalId!!))
+
+        proposalRepository.deleteAll()
     }
 
 
@@ -305,7 +307,7 @@ class ProductTests {
         inactiveProposal.archived = true
         proposalRepository.save(inactiveProposal)
 
-        val getActiveProposalsUrl = "http://localhost:$port/API/proposals/${myProposal1.supervisor}"
+        val getActiveProposalsUrl = "http://localhost:$port/API/proposals/bysupervisor/${myProposal1.supervisor}"
         val getActiveProposalsUri = URI(getActiveProposalsUrl)
 
         val getActiveProposalsResult: ResponseEntity<List<ProposalDTO>> = restTemplate.exchange(
@@ -326,6 +328,8 @@ class ProductTests {
         assertTrue(activeProposalsList.any { it.id == proposal2.id })
 
         assertFalse(activeProposalsList.any { it.id == inactiveProposal.id })
+
+        proposalRepository.deleteAll()
     }
 
     @Test
@@ -363,6 +367,8 @@ class ProductTests {
         assertEquals(savedProposal.level, proposalResponse.level)
         assertIterableEquals(savedProposal.cdS, proposalResponse.cdS)
         assertEquals(savedProposal.archived, proposalResponse.archived)
+
+        proposalRepository.deleteAll()
     }
 
 

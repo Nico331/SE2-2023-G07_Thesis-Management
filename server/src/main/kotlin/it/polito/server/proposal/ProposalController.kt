@@ -17,7 +17,9 @@ class ProposalController (private val proposalService: ProposalService){
     }
 
     @PostMapping("")
-    fun createProposal(@RequestBody proposal: ProposalDTO): ResponseEntity<ProposalDTO> {
+    fun createProposal(@RequestBody proposal: ProposalDTO): ResponseEntity<Any> {
+        if (proposalService.existsByTitleAndSupervisor(proposal.title, proposal.supervisor))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Proposal with same title and supervisor already in the database")
         val newProposal = proposalService.createProposal(proposal)
         return ResponseEntity(newProposal, HttpStatus.CREATED)
     }
@@ -34,9 +36,8 @@ class ProposalController (private val proposalService: ProposalService){
     }
 
     @DeleteMapping("/{id}")
-    fun deleteProposal(@PathVariable id: String):ResponseEntity<Void>{
-        proposalService.deleteProposal(id)
-        return ResponseEntity(HttpStatus.OK)
+    fun deleteProposal(@PathVariable id: String):ResponseEntity<Any>{
+        return proposalService.deleteProposal(id)
     }
 
     @GetMapping("/bysupervisor/{supervisor}")
