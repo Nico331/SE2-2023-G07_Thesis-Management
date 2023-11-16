@@ -67,9 +67,12 @@ const BrowseApplications = () => {
                                         </Badge>}
                                     </div>
                                     <div className="col-sm-4">
-                                        <Button className="ms-2 mt-2" disabled variant={'secondary'}> Modify </Button>
+                                        <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}> Modify </Button>
                                         <Button className="ms-2 mt-2" variant={'danger'}
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     setShowDeletePopup(() => true);
                                                     setProposalToDelete(proposal.id)
                                                 }}> Delete </Button>
@@ -144,11 +147,17 @@ const BrowseApplications = () => {
                                                         {application.status === 'PENDING' && (
                                                             <>
                                                                 <Button variant="success"
-                                                                        onClick={() => handleAccept(application)}>
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            handleAccept(application);
+                                                                        }}>
                                                                     Accept
                                                                 </Button>{' '}
                                                                 <Button variant="danger"
-                                                                        onClick={() => handleReject(application)}>
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            handleReject(application);
+                                                                        }}>
                                                                     Reject
                                                                 </Button>
                                                             </>
