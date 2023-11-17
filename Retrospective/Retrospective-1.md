@@ -71,7 +71,7 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
 - Unit Testing:
   - Total hours estimated: 4h
   - Total hours spent: 4h
-  - Nr of automated unit test cases: 10
+  - Nr of automated unit test cases: 20
   - Coverage (if available): 
 - E2E testing:
   - Total hours estimated: 2h
@@ -86,34 +86,32 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
 
 - What caused your errors in estimation (if any)?
 
-  - <span style="color:green"> The lack of knolwedge of the skills of each group member lead us to an average underestimation of the tasks.
-  - <span style="color:green"> The fact that we didn't include the E2E testing in our estimation.
+  - <span style="color:green"> We understimate the mole of problem which could arise during the development.
+
 
 - What lessons did you learn (both positive and negative) in this sprint?
-  - <span style="color:green"> We should start and complete a story at a time by developing and running all the tests before moving on to the next story. 
+  - <span style="color:green"> We should complete at first the user stories with higher priority.
 
-  - <span style="color:green"> We should learn to develop Unit tests and include them along with E2E testing in the sprint estimation.
+  - <span style="color:green"> We need more coordination between back-end and front-end.
 
 - Which improvement goals set in the previous retrospective were you able to achieve? 
   
-  <span style="color:green"> -
+  - <span style="color:green"> - During this sprint the team has improved the communication.
+  
+  - <span style="color:green"> - We have added the E2E test as a task.
+  
+  - <span style="color:green"> - We did unit tests.
   
 - Which ones you were not able to achieve? Why?
-  
-  <span style="color:green"> -
+  - <span style="color:green"> - The work's organization could be improved in terms of clearer division of work between the team members.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
-  > Learn to develop unit testing for backend and frontend
+  > We'll maybe have to write better and clearer code in order to avoid misunderstandings between us.
 
-  > More communication in the group
-
-  > Have a better organization spreading our working time among each day of the week
-
-  >Include E2E testing as a separate task and estimate it
-
-  >Work on a story at a time
+  > Test the software few days before the demo instead of the same day, we could achieve this improvement organizing the work in a better way.
+  
 
 - One thing you are proud of as a Team!
 
-  > We managed to have a presentable structured application in only one sprint and to organize the work splitting it for seven people that are working at the same time.
+  > Everyone in the team participate actively and work hard.

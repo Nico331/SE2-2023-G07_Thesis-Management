@@ -3,10 +3,11 @@ import ProfessorNavigation  from "./ProfessorNavigation";
 import ProfessorMain from "./ProfessorMain";
 import { NotFound } from "../Layouts";
 import {ProfessorBrowseProposals} from "./BrowseProposals"
-import React, {Dispatch, SetStateAction} from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import Logout from "../login/Logout";
 import ProposalForm from "./ProposalForm";
 import BrowseApplications from "./BrowseApplications";
+import Student from "../../types/Student";
 type ProfessorRoutesProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 };

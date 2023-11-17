@@ -56,8 +56,11 @@ class AppliedProposalService(
     fun acceptProposal(applicationId: String) {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
 
-        appliedProposal.status = ApplicationStatus.APPROVED
-        appliedProposalRepository.save(appliedProposal)
+        val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId);
+        applicationsToReject.map { applicationToReject->
+            appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.REJECTED))
+        }
+        appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
     }
 
     fun rejectProposal(applicationId: String) {
@@ -113,15 +116,18 @@ class AppliedProposalService(
                 )
             }
             val nameSupervisor = professorRepository.findById(proposal.supervisor)
+            /*
             val coSup = proposal.coSupervisors.map { it ->
                 val prof = professorRepository.findById(it).get();
                 return@map "${prof.name} ${prof.surname}"
             }
+
+             */
             return@map StrangeObjectRequestedByDarione(
                 proposal.id,
                 proposal.title,
                 "${nameSupervisor.get().name} ${nameSupervisor.get().surname}",
-                coSup,
+                proposal.coSupervisors,
                 proposal.keywords,
                 proposal.type,
                 proposal.groups,
