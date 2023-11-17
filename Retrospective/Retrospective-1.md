@@ -103,7 +103,7 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
   > We did unit tests.
   
 - Which ones you were not able to achieve? Why?
-  - <span style="color:green"> - The work's organization could be improved in terms of clearer division of work between the team members.
+  > The work's organization could be improved in terms of clearer division of work between the team members.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
