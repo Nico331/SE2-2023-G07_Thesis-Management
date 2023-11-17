@@ -86,21 +86,21 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
 
 - What caused your errors in estimation (if any)?
 
-  - <span style="color:green"> We understimate the mole of problem which could arise during the development.
+  > We understimate the mole of problem which could arise during the development.
 
 
 - What lessons did you learn (both positive and negative) in this sprint?
-  - <span style="color:green"> We should complete at first the user stories with higher priority.
+  > We should complete at first the user stories with higher priority.
 
-  - <span style="color:green"> We need more coordination between back-end and front-end.
+  > We need more coordination between back-end and front-end.
 
 - Which improvement goals set in the previous retrospective were you able to achieve? 
   
-  - <span style="color:green"> - During this sprint the team has improved the communication.
+  > During this sprint the team has improved the communication.
   
-  - <span style="color:green"> - We have added the E2E test as a task.
+  > We have added the E2E test as a task.
   
-  - <span style="color:green"> - We did unit tests.
+  > We did unit tests.
   
 - Which ones you were not able to achieve? Why?
   - <span style="color:green"> - The work's organization could be improved in terms of clearer division of work between the team members.
