@@ -106,7 +106,7 @@ const StudentApplicationList = (props) => {
         const fetchData = async () => {
 
             try {
-                const apps = await ApplicationService.getApplicationByStudentId(user.id);
+                const apps = await ApplicationService.getApplicationByStudentId(user);
                 console.log("apps.data "+apps.data);
                 setStudentApplications(apps.data);
             } catch (error) {
