@@ -18,6 +18,7 @@ import StudentModalOfProposal from "./StudentModalOfProposal";
 import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
+import VirtualClock from "../VirtualClock";
 
 const ProposalList = () => {
     const [proposals, setProposals] = useState([]);
@@ -44,6 +45,7 @@ const ProposalList = () => {
     useEffect(() => {
         refreshProposals();
         getProfessors();
+        setRefresh(false);
     }, [refresh]);
 
     const handleShow = (proId, proTitle) => {
@@ -115,6 +117,9 @@ const ProposalList = () => {
                         </ListGroup>
                     </Col>
                 </Row>
+                <div style={{ border: "2px solid black", padding: "10px", display: "inline-block", marginTop: "10px"}}>
+                    <VirtualClock refresh={refresh} setRefresh={setRefresh}/>
+                </div>
             </Container>
             {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professors={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
         </>

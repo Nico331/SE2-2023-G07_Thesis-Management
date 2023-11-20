@@ -3,12 +3,14 @@ import { Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { BsCalendar } from 'react-icons/bs';
+import { FaTrash } from 'react-icons/fa';
 
-function VirtualClock() {
+function VirtualClock(props) {
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [timerId, setTimerId] = useState(null);
     let currentDate = new Date();
+
 
     useEffect(() => {
 
@@ -39,7 +41,17 @@ function VirtualClock() {
         clearInterval(timerId); // Stoppa l'aggiornamento del clock
         setDate(newDate); // Imposta la nuova data
         setShowDatePicker(false); // Nasconde il DatePicker
+        props.setRefresh(true)
+        //QUA MANCA API
     };
+
+    const handleReset = () => {
+        currentDate = new Date();
+        clearInterval(timerId); // Stoppa l'aggiornamento del clock
+        setDate(currentDate); // Imposta la nuova data
+        props.setRefresh(true);
+        //QUA MANCA API
+    }
 
     return (
         <>
@@ -48,11 +60,21 @@ function VirtualClock() {
                 {showDatePicker ? (
                     <DatePicker selected={date} onChange={handleDateChange} showTimeSelect dateFormat="Pp" />
                 ) : (
+                    <>
                     <BsCalendar
                         onClick={() => setShowDatePicker(true)}
                         style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
                     />
-                )}
+
+                    <FaTrash
+                        onClick={handleReset}
+                        style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
+                    />
+
+
+                    </>
+
+            )}
             </span>
         </>
     );

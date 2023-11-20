@@ -56,11 +56,6 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                 </Navbar.Collapse>
             </Container>
 
-            <div>
-
-            <VirtualClock className={"justify-content-end"} style={{ marginLeft: '100px' }}/>
-            </div>
-
         </Navbar>
 
 
