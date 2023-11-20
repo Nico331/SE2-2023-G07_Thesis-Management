@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { BsCalendar } from 'react-icons/bs';
 
 function VirtualClock() {
     const [date, setDate] = useState(new Date());
@@ -12,23 +13,26 @@ function VirtualClock() {
     useEffect(() => {
 
 
-            const id = setInterval(() => {
+        let id;
+
+        if (!showDatePicker) {
+            id = setInterval(() => {
                 setDate((currentDate) => {
                     const newDate = new Date(currentDate); // Clona la data corrente
                     newDate.setSeconds(newDate.getSeconds() + 1); // Aggiunge un secondo al clone della data
                     return newDate; // Restituisce la nuova data aggiornata
-
-                }); // Aggiorna il clock solo se il DatePicker non è visibile
+                });
             }, 1000);
 
             setTimerId(id);
+        }
 
-            return function cleanup() {
-                clearInterval(timerId);
+        return function cleanup() {
+                clearInterval(id);
             };
 
 
-    }, []);
+    }, [date]);
 
     const handleDateChange = (newDate) => {
         currentDate = newDate;
@@ -44,14 +48,10 @@ function VirtualClock() {
                 {showDatePicker ? (
                     <DatePicker selected={date} onChange={handleDateChange} showTimeSelect dateFormat="Pp" />
                 ) : (
-                    <Button
-                        variant="primary"
-                        type="button"
+                    <BsCalendar
                         onClick={() => setShowDatePicker(true)}
-                        style={{ marginRight: '20px' }}
-                    >
-                        Change clock
-                    </Button>
+                        style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
+                    />
                 )}
             </span>
         </>
