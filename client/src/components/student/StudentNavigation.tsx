@@ -43,7 +43,7 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                         show={showDropdown}
                         onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
                         onMouseLeave={handleMouseLeave} >
-                        <NavDropdown.Item href={"/proposallist"} > Search proposals </NavDropdown.Item>
+                        <NavDropdown.Item href={"/proposal"} > Search proposals </NavDropdown.Item>
                         <NavDropdown.Item href={"/myApplicationList"} > My Applications </NavDropdown.Item>
                         <NavDropdown.Divider /> {}
                         <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>

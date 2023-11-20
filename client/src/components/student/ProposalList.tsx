@@ -17,58 +17,11 @@ import { Link } from 'react-router-dom';
 import StudentModalOfProposal from "./StudentModalOfProposal";
 import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
+import ProfessorService from "../../services/ProfessorService";
 
 const ProposalList = () => {
-    const profs = [
-        {
-            id: "p300001",
-            name: "Elizabeth",
-            surname: "Taylor",
-            email: "p300001@polito.it",
-            codGroup: "MATH-CG",
-            codDepartment: "MATH-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "p300002",
-            name: "John",
-            surname: "Smith",
-            email: "p300002@polito.it",
-            codGroup: "PHYS-CG",
-            codDepartment: "PHYS-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "p300003",
-            name: "Susan",
-            surname: "Brown",
-            email: "p300003@polito.it",
-            codGroup: "CHEM-CG",
-            codDepartment: "CHEM-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "p300004",
-            name: "Robert",
-            surname: "Wilson",
-            email: "p300004@polito.it",
-            codGroup: "COMP-CG",
-            codDepartment: "COMP-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "p300005",
-            name: "Patricia",
-            surname: "Garcia",
-            email: "p300005@polito.it",
-            codGroup: "BIO-CG",
-            codDepartment: "BIO-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        }
-    ];
-
     const [proposals, setProposals] = useState([]);
-    const [professors, setProfessors] = useState(profs);
+    const [professors, setProfessors] = useState([]);
     const [propsOnScreen, setPropsOnScreen] = useState([]);
     const [collapseState, setCollapseState] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -83,13 +36,18 @@ const ProposalList = () => {
         setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
     };
 
+    const getProfessors = async () => {
+        const response = await ProfessorService.fetchAllProfessors();
+        setProfessors(response.data);
+    };
+
     useEffect(() => {
         refreshProposals();
+        getProfessors();
     }, [refresh]);
 
     const handleShow = (proId, proTitle) => {
         setShowModal(true);
-        console.log("sono in proposal list "+proId);
         setProposalID(proId);
         setProposalTitle(proTitle);
     }
@@ -103,7 +61,7 @@ const ProposalList = () => {
         <>
             <Container fluid className="p-0 mt-0" >
                 <Row style={{marginTop:"0px"}}>
-                    <Sidebar proposals={proposals} propsOnScreen={propsOnScreen} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
                     <Col sm={8} style={{height: "90vh"}}>
                         <Container className="mt-4 mx-0 ms-2 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
@@ -118,7 +76,7 @@ const ProposalList = () => {
                                     <Col className="text-end">
                                         <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
                                             </svg>
                                         </Button>
@@ -127,7 +85,7 @@ const ProposalList = () => {
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
-                        <ListGroup className="mt-3" variant="flush" style={{maxHeight:"80vh", overflowY:"auto"}}>
+                        <ListGroup className="mt-4 ms-4 me-5 p-1" variant="flush" style={{maxHeight:"78vh", overflowY:"auto"}}>
                             {propsOnScreen.map((p) =>
                                 <ListGroupItem className="mt-2 p-3">
                                     <Card>
@@ -158,7 +116,7 @@ const ProposalList = () => {
                     </Col>
                 </Row>
             </Container>
-            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
+            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professors={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
         </>
     );
 }
