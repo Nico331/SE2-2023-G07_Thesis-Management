@@ -35,7 +35,7 @@ Follow these steps to install and start the project.
     npm start
 ```
 
-After that you should login as Student of as Professor:
+After that you should login as Student or as Professor:
 
 students (the password is "password" for every user):
 - s300001@studenti.polito.it
