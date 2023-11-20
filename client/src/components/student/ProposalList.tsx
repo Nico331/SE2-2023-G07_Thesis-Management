@@ -92,12 +92,16 @@ const ProposalList = () => {
         console.log("sono in proposal list "+proId);
         setProposalID(proId);
         setProposalTitle(proTitle);
+        console.log("props on screen "+propsOnScreen[1].supervisor);
+
     }
 
-    const handleClick = (navId) =>
+    const handleClick = (navId) => {
         setCollapseState((prev) => {
             return { ...prev, [navId]: !prev[navId] };
-    });
+        });
+    }
+
 
     return (
         <>
@@ -158,7 +162,7 @@ const ProposalList = () => {
                     </Col>
                 </Row>
             </Container>
-            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
+            {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professorData={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
         </>
     );
 }

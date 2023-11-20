@@ -3,6 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import VirtualClock from "../VirtualClock";
 
 type StudentNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -23,8 +24,8 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
     };
 
     return (
-        <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding">
-            <Container>
+        <Navbar bg="secondary" fixed="top" variant="dark"  className="navbar-padding" >
+            <Container style={{ marginRight: '100px' }}>
                 <Link to={"/"}>
                     <Navbar.Brand>
                         <Navbar.Text>
@@ -34,7 +35,7 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                 </Link>
 
                 <Navbar.Toggle />
-                <Navbar.Collapse className={"justify-content-end"}>
+                <Navbar.Collapse className={"justify-content-end"} >
                     <NavDropdown
                         style={{
                             fontSize : '22px',
@@ -54,7 +55,15 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                     &nbsp;&nbsp;
                 </Navbar.Collapse>
             </Container>
+
+            <div>
+
+            <VirtualClock style={{ marginLeft: '100px' }}/>
+            </div>
+
         </Navbar>
+
+
 
     );
 }

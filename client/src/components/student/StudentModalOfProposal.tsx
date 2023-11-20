@@ -1,12 +1,28 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import React from "react";
+import ProfessorService from "../../services/ProfessorService";
 
 function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; propsalData: { [x: string]: any; }; proposalID: string | number; proposalTitle: string | number; showModal: boolean; setShowModal: (arg0: boolean) => void; }) {
-    const supervisor = props.professorData[props.propsalData[props.proposalTitle].supervisor];
-    console.log("sono in student modal of proposal "+props.proposalID);
-    const proposal = props.propsalData[props.proposalTitle];
+    console.log("propsalData: "+props.propsalData);
+    const proposals = props.propsalData;
+    const propTitle = props.proposalTitle;
+    const proposal = proposals.find(prop => prop.title === propTitle);
+    const [supervisor, setSupervisor] = useState({});
+
+    useEffect(() => {
+
+        const getSupervisor = async () => {
+            const supervisorID = proposal.supervisor;
+            console.log("supervisor ID: "+supervisorID);
+            const response = await ProfessorService.fetchProfessor(supervisorID);
+            setSupervisor(response.data)
+
+
+        }
+        getSupervisor();
+    }, []);
 
     return (
         <>
