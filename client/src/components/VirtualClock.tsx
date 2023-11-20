@@ -7,20 +7,31 @@ function VirtualClock() {
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [timerId, setTimerId] = useState(null);
+    let currentDate = new Date();
 
     useEffect(() => {
-        const id = setInterval(() => {
-            setDate(new Date()); // Aggiorna il clock solo se il DatePicker non è visibile
-        }, 1000);
 
-        setTimerId(id);
 
-        return function cleanup() {
-            clearInterval(timerId);
-        };
-    }, [showDatePicker]);
+            const id = setInterval(() => {
+                setDate((currentDate) => {
+                    const newDate = new Date(currentDate); // Clona la data corrente
+                    newDate.setSeconds(newDate.getSeconds() + 1); // Aggiunge un secondo al clone della data
+                    return newDate; // Restituisce la nuova data aggiornata
+
+                }); // Aggiorna il clock solo se il DatePicker non è visibile
+            }, 1000);
+
+            setTimerId(id);
+
+            return function cleanup() {
+                clearInterval(timerId);
+            };
+
+
+    }, []);
 
     const handleDateChange = (newDate) => {
+        currentDate = newDate;
         clearInterval(timerId); // Stoppa l'aggiornamento del clock
         setDate(newDate); // Imposta la nuova data
         setShowDatePicker(false); // Nasconde il DatePicker
