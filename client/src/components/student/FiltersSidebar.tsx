@@ -79,7 +79,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
         })
             .then(response => {
-                setPropsOnScreen(response.data);
+                setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
             })
             .catch(error => {
                 console.error('Errore nella richiesta al back-end:', error);
@@ -89,7 +89,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
     function extractUniqueOptions(array: string[][]) {
         let set: Set<string> = new Set();
         array.forEach((a: string[]) => a.forEach((e) => set.add(e)))
-        return Array.from(set).map((e) => {return {value: e, label: e}});
+        return Array.from(set).map((e) => {return {value: e, label: e}}).sort((a,b) => {return a.value.localeCompare(b.value)});
     }
 
     useEffect(() => {
@@ -135,7 +135,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
                     <Form.Group className="mt-2">
                         <Form.Label>Supervisor</Form.Label>
-                        <Select options={professors.map((p: prof) => {return { value: p.id,  label: p.name + " " + p.surname}})} isMulti value={supervisors} onChange={(selectedOptions) => {setSupervisors(selectedOptions)}}/>
+                        <Select options={professors.map((p: prof) => {return { value: p.id,  label: p.name + " " + p.surname}}).sort((a,b) => {return a.label.localeCompare(b.label)})} isMulti value={supervisors} onChange={(selectedOptions) => {setSupervisors(selectedOptions)}}/>
                     </Form.Group>
 
                     <Row className="mt-2 p-0">

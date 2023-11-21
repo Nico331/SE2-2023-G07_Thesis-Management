@@ -33,7 +33,7 @@ const ProposalList = () => {
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
         setProposals(response.data);
-        setPropsOnScreen(response.data);
+        setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
         setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
     };
 
