@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { BsCalendar } from 'react-icons/bs';
@@ -55,27 +55,29 @@ function VirtualClock(props) {
 
     return (
         <>
-            <span>
+            <Row>
                 {date.toLocaleTimeString()} {date.toLocaleDateString()}
                 {showDatePicker ? (
-                    <DatePicker selected={date} onChange={handleDateChange} showTimeSelect dateFormat="Pp" />
+                    <Col className="p-0" sm={7}>
+                        <DatePicker selected={date} onChange={handleDateChange} showTimeSelect dateFormat="Pp" />
+                    </Col>
                 ) : (
                     <>
-                    <BsCalendar
-                        onClick={() => setShowDatePicker(true)}
-                        style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
-                    />
-
-                    <FaTrash
-                        onClick={handleReset}
-                        style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
-                    />
-
-
+                        <Col className="p-0 ms-3" sm={1}>
+                            <BsCalendar
+                                onClick={() => setShowDatePicker(true)}
+                                style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
+                            />
+                        </Col>
+                        <Col className="p-0" sm={1}>
+                            <FaTrash
+                                onClick={handleReset}
+                                style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
+                            />
+                        </Col>
                     </>
-
             )}
-            </span>
+            </Row>
         </>
     );
 }

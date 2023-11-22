@@ -29,6 +29,7 @@ const ProposalList = () => {
     const [proposalID, setProposalID] = useState('');
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
+    const [resetFilters, setResetFilters] = useState(true);
 
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
@@ -45,7 +46,6 @@ const ProposalList = () => {
     useEffect(() => {
         refreshProposals();
         getProfessors();
-        setRefresh(false);
     }, [refresh]);
 
     const handleShow = (proId, proTitle) => {
@@ -63,8 +63,8 @@ const ProposalList = () => {
         <>
             <Container fluid className="p-0 mt-0" >
                 <Row style={{marginTop:"0px"}}>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors}/>
-                    <Col sm={8} style={{height: "90vh"}}>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters}/>
+                    <Col sm={7} style={{height: "90vh"}}>
                         <Container className="mt-4 mx-0 ms-2 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
@@ -76,7 +76,7 @@ const ProposalList = () => {
                                         <h4 className="ms-1">Thesis Proposals</h4>
                                     </Col>
                                     <Col className="text-end">
-                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
+                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => {setRefresh(!refresh); setResetFilters(!resetFilters)}}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                                 <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -87,39 +87,42 @@ const ProposalList = () => {
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
-                        <ListGroup className="mt-4 ms-4 me-5 p-1" variant="flush" style={{maxHeight:"78vh", overflowY:"auto"}}>
-                            {propsOnScreen.map((p) =>
-                                <ListGroupItem className="mt-2 p-3">
-                                    <Card>
-                                        <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
-                                            {p.title}
-                                            {collapseState[p.title] ?
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
-                                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                                                </svg> :
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
-                                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                                                </svg>
-                                            }
-                                        </CardHeader>
-                                        <Collapse in={collapseState[p.title]}>
-                                            <CardBody>
-                                                <Container className="ms-0 p-0">
-                                                    <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
-                                                    <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
-                                                    <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
-                                                </Container>
-                                            </CardBody>
-                                        </Collapse>
-                                    </Card>
-                                </ListGroupItem>
-                            )}
-                        </ListGroup>
+                        <Container className="mt-4 ms-5 border" style={{borderRadius:"20px"}}>
+                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{maxHeight:"65vh", overflowY:"auto"}}>
+                                {propsOnScreen.map((p) =>
+                                    <ListGroupItem className="mt-2 p-3">
+                                        <Card>
+                                            <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
+                                                {p.title}
+                                                {collapseState[p.title] ?
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
+                                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                                    </svg> :
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
+                                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                                    </svg>
+                                                }
+                                            </CardHeader>
+                                            <Collapse in={collapseState[p.title]}>
+                                                <CardBody>
+                                                    <Container className="ms-0 p-0">
+                                                        <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
+                                                        <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
+                                                        <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                    </Container>
+                                                </CardBody>
+                                            </Collapse>
+                                        </Card>
+                                    </ListGroupItem>
+                                )}
+                            </ListGroup>
+                        </Container>
+                        <Container className="ms-5 mt-4 border text-center" style={{borderRadius:"20px", padding: "10px", maxWidth:"35vh"}}>
+                            <VirtualClock refresh={refresh} setRefresh={setRefresh}/>
+                        </Container>
                     </Col>
                 </Row>
-                <div style={{ border: "2px solid black", padding: "10px", display: "inline-block", marginTop: "10px"}}>
-                    <VirtualClock refresh={refresh} setRefresh={setRefresh}/>
-                </div>
+
             </Container>
             {showModal ? <StudentModalOfProposal showModal={showModal} setShowModal={setShowModal} professors={professors.reduce((a, v) => ({...a, [v.id]: v}), {})} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.title]: v }), {})} proposalID={proposalID} proposalTitle={proposalTitle}/> : null}
         </>

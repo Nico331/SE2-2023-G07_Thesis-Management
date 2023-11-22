@@ -36,9 +36,11 @@ type FiltersSidebarProps = {
     proposals: Array<prop>;
     setPropsOnScreen: Dispatch<SetStateAction<Array<prop> | null>>;
     professors: Array<prof>;
+    resetFilters: boolean;
+    setResetFilters: Dispatch<SetStateAction<boolean>>;
 };
 
-const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors}) => {
+const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters}) => {
     const [flag, setFlag] = useState(true);
     const [search, setSearch] = useState("");
     const [makeSearch, setMakeSearch] = useState(true);
@@ -99,7 +101,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
         }
     }, [makeSearch, keyWord, supervisors, types, groups, courses, levels, expiration]);
 
-    const cancelFilters = () => {
+    useEffect(() => {
         setSearch("");
         setKeyWord([]);
         setSupervisors([]);
@@ -108,7 +110,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
         setLevels([]);
         setTypes([]);
         setExpiration("");
-    }
+    }, [resetFilters])
 
     return (
         <Col className="ms-0 px-4" sm={4} style={{height:"90vh", backgroundColor:"#e0e0e0"}}>
@@ -173,7 +175,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
-                    <Button className="mt-4" variant="danger" onClick={()  => cancelFilters()}>Cancel Filters</Button>
+                    <Button className="mt-4" variant="danger" onClick={()  => setResetFilters(!resetFilters)}>Cancel Filters</Button>
                 </Container>
             </Form>
         </Col>

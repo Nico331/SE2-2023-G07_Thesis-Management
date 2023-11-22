@@ -11,9 +11,8 @@ import {UserContext} from '../../contexts/UserContexts';
 
 function StudentApplyForm(props) {
 
-    const {user, setUser} = useContext(UserContext);
-
-    const [studentData, setStudentData] = useState({});
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    // const [studentData, setStudentData] = useState({});
 
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
     const [studentCareer, setStudentCareer] = useState([]);
@@ -42,11 +41,14 @@ function StudentApplyForm(props) {
         setStudentDegree(response.data);
     }
 
-
+    // useEffect(() => {
+    //     getCareer(user.id);
+    //     getDegree(user.codDegree);
+    // }, []);
 
     useEffect(() => {
 
-        setStudentData(user);
+        // setStudentData(user);
 
         //await getCareer(user.id);
         setStudentCareer(
@@ -110,10 +112,6 @@ function StudentApplyForm(props) {
 
     }, []);
 
-
-
-
-
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
@@ -124,7 +122,7 @@ function StudentApplyForm(props) {
         try {
             const requestData = {
                 proposalId:proposalID,
-                studentId:studentData.id,
+                studentId:user.id,
                 //file
             };
 
@@ -177,14 +175,14 @@ function StudentApplyForm(props) {
                         </thead>
                         <tbody>
                         <tr>
-                            <td>{studentData.id}</td>
-                            <td>{studentData.surname}</td>
-                            <td>{studentData.name}</td>
-                            <td>{studentData.gender}</td>
-                            <td>{studentData.nationality}</td>
-                            <td>{studentData.email}</td>
-                            <td>{studentData.codDegree}</td>
-                            <td>{studentData.enrollmentYear}</td>
+                            <td>{user.id}</td>
+                            <td>{user.surname}</td>
+                            <td>{user.name}</td>
+                            <td>{user.gender}</td>
+                            <td>{user.nationality}</td>
+                            <td>{user.email}</td>
+                            <td>{user.codDegree}</td>
+                            <td>{user.enrollmentYear}</td>
                         </tr>
                         </tbody>
                     </Table>
@@ -241,13 +239,13 @@ function StudentApplyForm(props) {
                     </Form.Group>
 
                     <Button variant="primary" type="button" onClick={handleApply} disabled={isApplying}
-                            style={{marginTop: '100px', marginBottom: '100px', marginRight: '20px'}}>
+                            style={{marginTop: '60px', marginBottom: '100px', marginRight: '20px'}}>
                         {isApplying ? 'Applying...' : 'Apply'}
                     </Button>
 
 
                     <Button variant="secondary" type="button" onClick={handleBack}
-                            style={{marginTop: '100px', marginBottom: '100px'}}>
+                            style={{marginTop: '60px', marginBottom: '100px'}}>
                         Back to proposal list
                     </Button>
 
