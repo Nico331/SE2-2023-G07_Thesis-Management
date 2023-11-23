@@ -38,8 +38,12 @@ class CareerService (private val careerRepository: CareerRepository) {
         return careerRepository.save(career).toDTO()
     }
 
-    fun deleteCareer(id: String) {
+    fun deleteCareer(id: String) : ResponseEntity<Any> {
+        if (!careerRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Career does NOT EXIST")
+
         careerRepository.deleteById(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Career with ID $id successfully deleted.")
     }
 
 }

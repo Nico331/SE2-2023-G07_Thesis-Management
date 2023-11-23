@@ -32,12 +32,7 @@ class StudentController(private val studentService: StudentService) {
 
     @DeleteMapping("/{id}")
     fun deleteStudent(@PathVariable id: String): ResponseEntity<Any> {
-        val student = studentService.findStudentById(id)
-        if(student==null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Student does NOT EXIST")
-        studentService.deleteStudent(id)
-        val successMessage = "Student with ID $id successfully deleted."
-        return ResponseEntity.status(HttpStatus.OK).body(successMessage)
+        return studentService.deleteStudent(id)
 
     }
 }

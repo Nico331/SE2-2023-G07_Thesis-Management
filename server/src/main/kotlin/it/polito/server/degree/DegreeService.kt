@@ -1,5 +1,7 @@
 package it.polito.server.degree
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,8 +29,12 @@ class DegreeService (private val degreeRepository: DegreeRepository) {
         return degreeRepository.save(degree).toDTO()
     }
 
-    fun deleteDegree(id: String) {
+    fun deleteDegree(id: String) : ResponseEntity<Any> {
+        if (!degreeRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Degree does NOT EXIST")
+
         degreeRepository.deleteById(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Degree with ID $id successfully deleted.")
     }
 
 }

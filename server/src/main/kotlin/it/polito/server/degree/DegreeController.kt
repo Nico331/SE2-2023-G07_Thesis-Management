@@ -33,12 +33,6 @@ class DegreeController (private val degreeService: DegreeService) {
 
     @DeleteMapping("/{id}")
     fun deleteDegree(@PathVariable id: String): ResponseEntity<Any> {
-        val degree = degreeService.findDegreeById(id)
-        if(degree == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Degree does NOT EXIST")
-
-        degreeService.deleteDegree(id)
-        val successMessage = "Degree with ID $id successfully deleted."
-        return ResponseEntity.status(HttpStatus.OK).body(successMessage)
+        return degreeService.deleteDegree(id)
     }
 }

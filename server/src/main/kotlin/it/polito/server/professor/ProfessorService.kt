@@ -3,6 +3,8 @@ package it.polito.server.professor
 import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorDTO
 import it.polito.server.professor.ProfessorRepository
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 
@@ -34,8 +36,12 @@ class ProfessorService (private val professorRepository: ProfessorRepository) {
         return professorRepository.save(professor).toDTO()
     }
 
-    fun deleteProfessor(id: String) {
+    fun deleteProfessor(id: String) : ResponseEntity<Any> {
+        if (!professorRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Professor does NOT EXIST")
+
         professorRepository.deleteById(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Professor with ID $id successfully deleted.")
     }
 
 }

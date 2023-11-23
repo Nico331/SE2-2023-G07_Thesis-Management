@@ -1,5 +1,7 @@
 package it.polito.server.student
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -34,8 +36,12 @@ class StudentService (private val studentRepository: StudentRepository) {
         return studentRepository.save(student).toDTO()
     }
 
-    fun deleteStudent(id: String) {
+    fun deleteStudent(id: String) : ResponseEntity<Any> {
+        if (!studentRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Student does NOT EXIST")
+
         studentRepository.deleteById(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Student with ID $id successfully deleted.")
     }
 
 }

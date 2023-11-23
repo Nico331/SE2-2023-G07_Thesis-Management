@@ -7,6 +7,8 @@ import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.ProposalService
 import it.polito.server.student.StudentRepository
 import org.springframework.data.domain.Example
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,8 +28,12 @@ class AppliedProposalService(
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
     }
 
-    fun deleteAppliedProposal(id: String) {
-        return appliedProposalRepository.deleteById(id)
+    fun deleteAppliedProposal(id: String) : ResponseEntity<Any> {
+        if (!appliedProposalRepository.existsById(id))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Application does NOT EXIST")
+
+        appliedProposalRepository.deleteById(id)
+        return ResponseEntity.status(HttpStatus.OK).body("Application with ID $id successfully deleted.")
     }
 
     fun applyForProposal(proposalId: String, studentId: String) : AppliedProposalDTO? {

@@ -51,11 +51,16 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.findAll().map{(it.toDTO())}
     }
 
+    fun findProposalBySupervisor (supervisor: String) : List<ProposalDTO>{
+        return proposalRepository.findBySupervisor(supervisor).map { (it.toDTO()) }
+    }
+
     fun deleteProposal(id: String) : ResponseEntity<Any> {
         if (!proposalRepository.existsById(id))
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal doesn't exists")
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Proposal does NOT EXIST")
+
         proposalRepository.deleteById(id)
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK).body("Proposal with ID $id successfully deleted.")
     }
 
     fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{
