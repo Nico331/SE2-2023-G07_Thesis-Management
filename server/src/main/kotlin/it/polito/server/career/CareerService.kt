@@ -39,6 +39,7 @@ class CareerService (private val careerRepository: CareerRepository) {
     }
 
     fun deleteCareer(id: String) : ResponseEntity<Any> {
+        //check if Career exists and return NOT_FOUND
         if (!careerRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Career does NOT EXIST")
 

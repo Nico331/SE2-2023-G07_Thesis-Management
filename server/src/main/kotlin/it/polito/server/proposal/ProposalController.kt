@@ -27,6 +27,7 @@ class ProposalController (private val proposalService: ProposalService, private 
 
     @GetMapping("/{id}")
     fun getProposal(@PathVariable id: String): ResponseEntity<ProposalDTO>{
+        //return proposal if exists or null
         val proposal = proposalService.findProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(proposal)
     }

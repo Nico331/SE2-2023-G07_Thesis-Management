@@ -21,14 +21,18 @@ class AppliedProposalService(
 ) {
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
+        //return application if exists or null
         return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
     }
 
     fun findAll() : List<AppliedProposalDTO> {
+        //return list of application
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
     }
 
     fun deleteAppliedProposal(id: String) : ResponseEntity<Any> {
+
+        //check if the application exists and return NOT_FOUND
         if (!appliedProposalRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Application does NOT EXIST")
 
@@ -40,12 +44,14 @@ class AppliedProposalService(
         val proposal = proposalRepository.findById(proposalId)
         val student = studentRepository.findById(studentId)
 
+        //checks that both exist and if not returns null
         if(proposal.isPresent && student.isPresent){
             val existingApplication = appliedProposalRepository.findByProposalIdAndStudentId(proposalId,studentId)
+            //if this application already exists it returns null
             if(existingApplication != null){
                 return null
             }
-
+            //create new application and save it
             val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
             val appliedProposal = appliedProposalRepository.save(application)
 
@@ -60,22 +66,25 @@ class AppliedProposalService(
     }
 
     fun appliesByProposalId(proposalId: String): List<AppliedProposalDTO> {
+        //return only list applications with that proposal(even empty)
         return appliedProposalRepository.findByProposalId(proposalId).map { it.toDTO() }
     }
 
     fun acceptProposal(applicationId: String) {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
 
+        //FIND and REJECT all applications given the proposalId
         val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId);
         applicationsToReject.map { applicationToReject->
             appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.REJECTED))
         }
+        //ONLY APPROVED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.APPROVED))
     }
 
     fun rejectProposal(applicationId: String) {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
-
+        //ONLY REJECTED this application
         appliedProposal.status = ApplicationStatus.REJECTED
         appliedProposalRepository.save(appliedProposal)
     }

@@ -10,7 +10,7 @@ data class AppliedProposal(
         @Id val id: String? = null,
         val proposalId: String,
         val studentId: String,
-        var status: ApplicationStatus = ApplicationStatus.PENDING
+        var status: ApplicationStatus = ApplicationStatus.PENDING  //all created applications start with the PENDING state
 ) {
 
 
