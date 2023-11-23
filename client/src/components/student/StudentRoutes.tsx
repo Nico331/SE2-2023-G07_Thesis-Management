@@ -6,7 +6,7 @@ import ProposalList from "./ProposalList"
 import StudentApplyForm from "../student/StudentApplyForm";
 import React, {Dispatch, SetStateAction} from "react";
 import Logout from "../login/Logout";
-import StudentApplicationList from "./StudentApplicationList";
+import StudentApplicationsListCollapse from "./StudentApplicationsListCollapse";
 
 type StudentRoutesProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -25,7 +25,7 @@ const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRole }) =>{
                 <Route path="/proposallist" element={<ProposalList/>} />
                 <Route path="/apply/:proposalID" element={<StudentApplyForm />} />
                 <Route path="/logout" element={<Logout setRole={setRole}/>} />
-                <Route path="/myApplicationList" element={<StudentApplicationList/>} />
+                <Route path="/myApplicationList" element={<StudentApplicationsListCollapse/>} />
             </Routes>
         </>
     )
