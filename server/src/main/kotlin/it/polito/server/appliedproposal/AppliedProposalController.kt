@@ -55,20 +55,26 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
 
     @GetMapping("/bystudent/{studentId}")
     fun getAppliedProposalByStudent (@PathVariable studentId: String) : ResponseEntity<List<AppliedProposalDTO>> {
-        val appliesByStudent = appliedProposalService.appliesByStudent(studentId)
+        val appliesByStudent = appliedProposalService.appliesByStudentId(studentId)
         return ResponseEntity.ok(appliesByStudent)
     }
 
+    @GetMapping("/byproposal/{proposalId}")
+    fun getAppliedProposalByProposal (@PathVariable proposalId: String) : ResponseEntity<List<AppliedProposalDTO>> {
+        val appliesByProposal = appliedProposalService.appliesByProposalId(proposalId)
+        return ResponseEntity.ok(appliesByProposal)
+    }
+
     @PutMapping("/accept/{id}")
-    fun acceptProposal(@PathVariable id: String): ResponseEntity<Void>{
-        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity<Void>(HttpStatus.NOT_FOUND)
+    fun acceptProposal(@PathVariable id: String): ResponseEntity<Any>{
+        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Application NOT EXIST")
         appliedProposalService.acceptProposal(id)
         return ResponseEntity.ok().build()
     }
 
     @PutMapping("/reject/{id}")
-    fun rejectProposal(@PathVariable id: String): ResponseEntity<Void>{
-        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity<Void>(HttpStatus.NOT_FOUND)
+    fun rejectProposal(@PathVariable id: String): ResponseEntity<Any>{
+        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Application NOT EXIST")
         appliedProposalService.rejectProposal(id)
         return ResponseEntity.ok().build()
     }

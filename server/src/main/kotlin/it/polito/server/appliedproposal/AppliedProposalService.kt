@@ -49,8 +49,12 @@ class AppliedProposalService(
             return null
     }
 
-    fun appliesByStudent(studentId: String): List<AppliedProposalDTO> {
+    fun appliesByStudentId(studentId: String): List<AppliedProposalDTO> {
         return appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
+    }
+
+    fun appliesByProposalId(proposalId: String): List<AppliedProposalDTO> {
+        return appliedProposalRepository.findByProposalId(proposalId).map { it.toDTO() }
     }
 
     fun acceptProposal(applicationId: String) {
