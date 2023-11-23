@@ -24,13 +24,15 @@ function VC(props) {
         setDate(dayjs(newDate));
         setShowDatePicker(false);
         props.setRefresh(true);
-        // Qui potresti effettuare le chiamate API necessarie
+
+        //QUI MANCA API
     };
 
     const handleReset = () => {
         setDate(dayjs());
         props.setRefresh(true);
-        // Qui potresti effettuare le chiamate API necessarie
+
+        //QUI MANCA API
     };
 
     return (
