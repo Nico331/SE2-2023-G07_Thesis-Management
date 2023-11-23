@@ -14,6 +14,8 @@ const BrowseApplications = () => {
             ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
                 setProposals(res.data);
             })
+
+
         }
 
     }, [user, refresh]);
@@ -23,22 +25,24 @@ const BrowseApplications = () => {
 
     const handleAccept = async (application) => {
         // Handle accept logic
-        /* try{
+        try{
             await ApplicationService.acceptApplication(application.id)
+            setRefresh((r)=> !r)
         }catch{
-            console.error('Errore durante l\'invio al server:', error);
-        } */
+            console.error('Errore durante l\'invio al server:');
+        }
         console.log(`Application accepted for student: ${application.student.name} ${application.student.surname}`);
 
     };
 
-    const handleReject = (application) => {
+    const handleReject = async (application) => {
         // Handle reject logic
-        /* try{
+        try{
             await ApplicationService.rejectApplication(application.id)
+            setRefresh((r)=> !r)
         }catch{
-            console.error('Errore durante l\'invio al server:', error);
-        } */
+            console.error('Errore durante l\'invio al server:');
+        }
         console.log(`Application rejected for student: ${application.student.name} ${application.student.surname}`);
     };
     const handleDelete = (proposalId) => {
@@ -165,6 +169,13 @@ const BrowseApplications = () => {
                                                                 </Button>
                                                             </>
                                                         )}
+                                                        {application.status === 'REJECTED' && (
+                                                            <span style={{ color: 'red' }}>REJECTED</span>
+                                                        )}
+                                                        {application.status === 'ACCEPTED' && (
+                                                            <span style={{ color: 'green' }}>ACCEPTED</span>
+                                                        )}
+
                                                     </div>
                                                 </Row>
                                             </Accordion.Header>
