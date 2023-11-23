@@ -60,7 +60,7 @@ class AppliedProposalService(
         applicationsToReject.map { applicationToReject->
             appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.REJECTED))
         }
-        appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
+        appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
     }
 
     fun rejectProposal(applicationId: String) {
