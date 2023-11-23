@@ -27,9 +27,14 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     }
 
     @DeleteMapping("/{id}")
-    fun deleteAppliedProposal(@PathVariable id: String):ResponseEntity<Void>{
+    fun deleteAppliedProposal(@PathVariable id: String):ResponseEntity<Any>{
+        val appliedProposal = appliedProposalService.findAppliedProposalById(id)
+        if(appliedProposal == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Application does NOT EXIST")
+
         appliedProposalService.deleteAppliedProposal(id)
-        return ResponseEntity(HttpStatus.OK)
+        val successMessage = "Application with ID $id successfully deleted."
+        return ResponseEntity.status(HttpStatus.OK).body(successMessage)
     }
 
     @PostMapping("/apply/{proposalId}/{studentId}")

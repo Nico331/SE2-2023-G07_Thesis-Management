@@ -34,8 +34,13 @@ class CareerController (private val careerService: CareerService) {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteStudent(@PathVariable id: String): ResponseEntity<Void> {
+    fun deleteCareer(@PathVariable id: String): ResponseEntity<Any> {
+        val career = careerService.findCareerById(id)
+        if(career == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Career does NOT EXIST")
+
         careerService.deleteCareer(id)
-        return ResponseEntity(HttpStatus.OK)
+        val successMessage = "Career with ID $id successfully deleted."
+        return ResponseEntity.status(HttpStatus.OK).body(successMessage)
     }
 }

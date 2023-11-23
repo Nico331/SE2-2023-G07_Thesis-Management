@@ -1,6 +1,5 @@
 package it.polito.server.proposal
 
-import it.polito.server.student.StudentDTO
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -37,7 +36,13 @@ class ProposalController (private val proposalService: ProposalService){
 
     @DeleteMapping("/{id}")
     fun deleteProposal(@PathVariable id: String):ResponseEntity<Any>{
-        return proposalService.deleteProposal(id)
+        val proposal = proposalService.findProposalById(id)
+        if(proposal == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR, this Proposal does NOT EXIST")
+
+        proposalService.deleteProposal(id)
+        val successMessage = "Proposal with ID $id successfully deleted."
+        return ResponseEntity.status(HttpStatus.OK).body(successMessage)
     }
 
     @GetMapping("/bysupervisor/{supervisor}")
