@@ -19,6 +19,7 @@ import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
 import VirtualClock from "../VirtualClock";
+import VC from "../VC";
 
 const ProposalList = () => {
     const [proposals, setProposals] = useState([]);
@@ -118,7 +119,7 @@ const ProposalList = () => {
                             </ListGroup>
                         </Container>
                         <Container className="ms-5 mt-4 border text-center" style={{borderRadius:"20px", padding: "10px", maxWidth:"35vh"}}>
-                            <VirtualClock refresh={refresh} setRefresh={setRefresh}/>
+                            <VC refresh={refresh} setRefresh={setRefresh}/>
                         </Container>
                     </Col>
                 </Row>
