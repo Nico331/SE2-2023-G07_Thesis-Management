@@ -25,5 +25,6 @@ data class AppliedProposal(
 enum class ApplicationStatus {
     PENDING,
     ACCEPTED,
-    REJECTED
+    REJECTED,
+    CANCELLED
 }

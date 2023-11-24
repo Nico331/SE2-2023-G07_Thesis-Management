@@ -76,7 +76,9 @@ class AppliedProposalService(
         //FIND and REJECT all applications given the proposalId
         val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId);
         applicationsToReject.map { applicationToReject->
-            appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.REJECTED))
+            if (applicationToReject.status==ApplicationStatus.PENDING){
+                appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.CANCELLED))
+            }
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
