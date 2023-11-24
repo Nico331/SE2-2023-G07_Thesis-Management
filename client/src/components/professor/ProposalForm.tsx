@@ -127,7 +127,8 @@ const ProposalForm = () => {
 
     return (
         <Container>
-            <Form onSubmit={handleSubmit}>
+            <h1>New Thesis Proposal</h1>
+            <Form className="mt-3" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12">

@@ -20,6 +20,7 @@ import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
 import VirtualClock from "../VirtualClock";
 import VC from "../VC";
+import dayjs from "dayjs";
 
 const ProposalList = () => {
     const [proposals, setProposals] = useState([]);
@@ -31,6 +32,7 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
+    const [date, setDate] = useState(dayjs());
 
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
@@ -64,7 +66,7 @@ const ProposalList = () => {
         <>
             <Container fluid className="p-0" style={{marginTop:"56px"}}>
                 <Row>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters}/>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} date={date}/>
                     <Col sm={7} style={{height: "90vh"}}>
                         <Container className="mt-4 mx-0 ms-2 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
@@ -89,37 +91,43 @@ const ProposalList = () => {
                             </Container>
                         </Container>
                         <Container className="mt-4 ms-5 border" style={{borderRadius:"20px"}}>
-                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{maxHeight:"65vh", overflowY:"auto"}}>
-                                {propsOnScreen.map((p) =>
-                                    <ListGroupItem className="mt-2 p-3">
-                                        <Card>
-                                            <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
-                                                {p.title}
-                                                {collapseState[p.title] ?
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
-                                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                                                    </svg> :
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
-                                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                                                    </svg>
-                                                }
-                                            </CardHeader>
-                                            <Collapse in={collapseState[p.title]}>
-                                                <CardBody>
-                                                    <Container className="ms-0 p-0">
-                                                        <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
-                                                        <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
-                                                        <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
-                                                    </Container>
-                                                </CardBody>
-                                            </Collapse>
-                                        </Card>
-                                    </ListGroupItem>
-                                )}
+                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"65vh", overflowY:"auto"}}>
+                                {   propsOnScreen.length === 0 ?
+                                    <Container className="d-flex align-items-center justify-content-center" style={{height:"18vh"}}>
+                                        <h1>No results</h1>
+                                    </Container>
+                                    :
+                                    propsOnScreen.map((p) =>
+                                        <ListGroupItem className="mt-2 p-3">
+                                            <Card>
+                                                <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
+                                                    {p.title}
+                                                    {collapseState[p.title] ?
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
+                                                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                                        </svg> :
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-down-fill ms-2" viewBox="0 0 16 16">
+                                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                                        </svg>
+                                                    }
+                                                </CardHeader>
+                                                <Collapse in={collapseState[p.title]}>
+                                                    <CardBody>
+                                                        <Container className="ms-0 p-0">
+                                                            <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
+                                                            <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
+                                                            <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                        </Container>
+                                                    </CardBody>
+                                                </Collapse>
+                                            </Card>
+                                        </ListGroupItem>
+                                    )
+                                }
                             </ListGroup>
                         </Container>
                         <Container className="ms-5 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"46vh"}}>
-                            <VC refresh={refresh} setRefresh={setRefresh}/>
+                            <VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>
                         </Container>
                     </Col>
                 </Row>

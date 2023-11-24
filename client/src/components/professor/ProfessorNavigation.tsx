@@ -2,15 +2,19 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 type ProfessorNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 };
 
 const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>{
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const location = useLocation();
     const [showDropdown, setShowDropdown] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
+    const dropdownTitle = "Hi "+user.name;
+
     const handleMouseLeave = () => {
         if (timeoutId) clearTimeout(timeoutId);
 
@@ -32,27 +36,30 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                         </Navbar.Text>
                     </Navbar.Brand>
                 </Link>
-
                 <Navbar.Toggle />
-                <Navbar.Collapse className={"justify-content-end"}>
-                    <NavDropdown
-                        style={{
-                            fontSize : '22px',
-                        }}
-                        title= {`Hi Professor`}
-                        show={showDropdown}
-                        onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
-                        onMouseLeave={handleMouseLeave} >
-                        <NavDropdown.Item href={"/browse-applications"} > Browse proposals and applications </NavDropdown.Item>
-                        <NavDropdown.Item href={"/add-proposal"} > Add proposals </NavDropdown.Item>
-                        <NavDropdown.Divider /> {}
-                        <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
-                    </NavDropdown>
+                {location.pathname != '/' ?
+                    <Navbar.Collapse className={"justify-content-end"}>
+                        <NavDropdown
+                            style={{
+                                fontSize : '22px',
+                            }}
+                            title= {dropdownTitle}
+                            show={showDropdown}
+                            onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
+                            onMouseLeave={handleMouseLeave} >
+                            <NavDropdown.Item href={"/browse-applications"} > Browse proposals and applications </NavDropdown.Item>
+                            <NavDropdown.Item href={"/add-proposal"} > Add proposals </NavDropdown.Item>
+                            <NavDropdown.Divider /> {}
+                            <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
+                        </NavDropdown>
 
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-                </Navbar.Collapse>
+                        &nbsp;&nbsp;
+                        &nbsp;&nbsp;
+                        &nbsp;&nbsp;
+                    </Navbar.Collapse>
+                    :
+                    <></>
+                }
             </Container>
         </Navbar>
 

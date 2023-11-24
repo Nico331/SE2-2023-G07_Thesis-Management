@@ -3,7 +3,7 @@ import ProposalList from "./ProposalList";
 import {Button, Container, Image} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function StudentMain() {
+const StudentMain = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     let navigate = useNavigate();
 
@@ -23,5 +23,4 @@ function StudentMain() {
         </Container>
     );
 }
-// {user.name+" "}{user.surname}
 export default StudentMain

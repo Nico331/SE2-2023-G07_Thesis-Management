@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import {Row, Col, Form, Container} from 'react-bootstrap';
 import { BsCalendar } from 'react-icons/bs';
 import { FaTrash } from 'react-icons/fa';
 import dayjs from 'dayjs';
 
-function VC(props) {
-    const [date, setDate] = useState(dayjs());
+type VirtualClockProps = {
+    refresh: boolean;
+    setRefresh: Dispatch<SetStateAction<boolean>>;
+    date: Date;
+    setDate: Dispatch<SetStateAction<Date>>;
+};
+
+const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) => {
+    // const [date, setDate] = useState(dayjs());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [timerId, setTimerId] = useState(null);
 
@@ -25,14 +32,14 @@ function VC(props) {
         else{
             setDate(dayjs(newDate));
             setShowDatePicker(false);
-            props.setRefresh(true);
+            setRefresh(true);
         }
         //QUI MANCA API
     };
 
     const handleReset = () => {
         setDate(dayjs());
-        props.setRefresh(true);
+        setRefresh(true);
 
         //QUI MANCA API
     };

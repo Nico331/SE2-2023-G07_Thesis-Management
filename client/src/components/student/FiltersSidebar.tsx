@@ -38,9 +38,10 @@ type FiltersSidebarProps = {
     professors: Array<prof>;
     resetFilters: boolean;
     setResetFilters: Dispatch<SetStateAction<boolean>>;
+    date: Date;
 };
 
-const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters}) => {
+const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters, date}) => {
     const [flag, setFlag] = useState(true);
     const [search, setSearch] = useState("");
     const [makeSearch, setMakeSearch] = useState(true);
@@ -172,7 +173,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
                     <Form.Group className="mt-2">
                         <Form.Label>Expiration Date</Form.Label>
-                        <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
+                        <Form.Control type="date" min={date.toISOString().slice(0, 10)} value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
                     <Button className="mt-4" variant="danger" onClick={()  => setResetFilters(!resetFilters)}>Cancel Filters</Button>

@@ -54,9 +54,9 @@ const BrowseApplications = () => {
 
     return (
         <>
-            <Container>
-                <h2>Thesis Proposals</h2>
-                <Accordion>
+            <Container className="mt-3">
+                <h2>My Thesis Proposals</h2>
+                <Accordion className="mt-5">
                     {proposals.map((proposal) => (
                         <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                             <Accordion.Header>
@@ -140,8 +140,8 @@ const BrowseApplications = () => {
                                     </Col>
                                 </Row>
 
-                                <h3>Applications</h3>
-                                <Accordion>
+                                <h3 className="mt-3">Applications</h3>
+                                <Accordion className="mt-3">
                                     {proposal.applications.map((application, index) => (
                                         <Accordion.Item eventKey={application.id}>
                                             <Accordion.Header className={"w-100"}>
