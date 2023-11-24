@@ -30,6 +30,7 @@ class DegreeService (private val degreeRepository: DegreeRepository) {
     }
 
     fun deleteDegree(id: String) : ResponseEntity<Any> {
+        //check if Degree exists and return NOT_FOUND
         if (!degreeRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Degree does NOT EXIST")
 

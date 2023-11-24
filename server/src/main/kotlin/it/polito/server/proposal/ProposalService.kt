@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import it.polito.server.professor.ProfessorRepository
 import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -15,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 @Service
-class ProposalService (private val proposalRepository : ProposalRepository ) {
+class ProposalService (private val proposalRepository : ProposalRepository, private val professorRepository: ProfessorRepository) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
@@ -56,6 +57,8 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
     }
 
     fun deleteProposal(id: String) : ResponseEntity<Any> {
+
+        //check if Proposal exists and return NOT_FOUND
         if (!proposalRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Proposal does NOT EXIST")
 

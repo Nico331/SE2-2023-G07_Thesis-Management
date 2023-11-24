@@ -37,6 +37,7 @@ class ProfessorService (private val professorRepository: ProfessorRepository) {
     }
 
     fun deleteProfessor(id: String) : ResponseEntity<Any> {
+        //check if Professor exists and return NOT_FOUND
         if (!professorRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Professor does NOT EXIST")
 
