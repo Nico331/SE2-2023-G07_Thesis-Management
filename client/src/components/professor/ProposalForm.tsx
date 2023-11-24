@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Form, Button, Card, ListGroup, Row, Container, Alert} from 'react-bootstrap';
 import CoSupervisorInput from "./CoSupervisorInput";
 import {FaTimes} from "react-icons/fa";
@@ -8,13 +8,15 @@ import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import {useNavigate} from "react-router-dom";
 import ProfessorService from "../../services/ProfessorService";
+import {UserContext} from "../../contexts/UserContexts";
 
 const ProposalForm = () => {
+    const {user, setUser} = useContext(UserContext);
     const [proposal, setProposal] = useState({
         id: null,
         archived: false,
         title: '',
-        supervisor: '',
+        supervisor: JSON.parse(user).id,
         coSupervisors: [],
         keywords: [],
         type: '',
@@ -184,7 +186,7 @@ const ProposalForm = () => {
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
-                            <Form.Control as="select" custom value={proposal.supervisor}
+                            <Form.Control as="select" custom value={proposal.supervisor} disabled
                                           onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
                                 <option value="">Select the supervisor</option>
                                 {
