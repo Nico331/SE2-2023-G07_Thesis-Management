@@ -34,8 +34,7 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         proposal.level = update.level
         proposal.cdS = update.cdS
 
-        val isExpired = false
-        proposal.archived = isExpired
+        val isExpired = archiviation_type.NOT_ARCHIVED
 
         return proposalRepository.save(proposal).toDTO()
     }
