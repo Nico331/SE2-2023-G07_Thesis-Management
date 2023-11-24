@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import {Container, Row, Col, Form, Button, Image} from 'react-bootstrap';
 import { UserContext} from "../../contexts/UserContexts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -37,11 +37,13 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     };
 
     return (
-        <Container>
-            <Row className="justify-content-center">
-                <Col md={6}>
-                    <h1 className="text-center mb-4">Login</h1>
-                    <Form onSubmit={handleLogin}>
+        <Container className="d-flex align-items-center" style={{marginTop:"70px", height:"80vh"}}>
+            <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"55vh", width:"50vh"}}>
+                <Container className="mt-3 d-flex justify-content-center">
+                    <Image style={{ width: 250, height: 100 }} src={"../logoPolito.png"}/>
+                </Container>
+                <Container>
+                    <Form className="mt-4" onSubmit={handleLogin}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email o Username</Form.Label>
                             <Form.Control
@@ -53,7 +55,7 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group className="mt-4" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"
@@ -65,13 +67,13 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                         </Form.Group>
 
                         <div className="d-flex justify-content-center">
-                            <Button variant="primary" type="submit">
-                                Accedi
+                            <Button className="mt-5" variant="primary" type="submit" style={{height:"5vh", width:"20vh"}}>
+                                Log in
                             </Button>
                         </div>
                     </Form>
-                </Col>
-            </Row>
+                </Container>
+            </Container>
         </Container>
     );
 };

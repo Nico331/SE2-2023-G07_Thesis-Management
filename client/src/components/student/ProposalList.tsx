@@ -62,8 +62,8 @@ const ProposalList = () => {
 
     return (
         <>
-            <Container fluid className="p-0 mt-0" >
-                <Row style={{marginTop:"0px"}}>
+            <Container fluid className="p-0" style={{marginTop:"56px"}}>
+                <Row>
                     <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters}/>
                     <Col sm={7} style={{height: "90vh"}}>
                         <Container className="mt-4 mx-0 ms-2 d-flex">
@@ -118,7 +118,7 @@ const ProposalList = () => {
                                 )}
                             </ListGroup>
                         </Container>
-                        <Container className="ms-5 mt-4 border text-center" style={{borderRadius:"20px", padding: "10px", maxWidth:"35vh"}}>
+                        <Container className="ms-5 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"46vh"}}>
                             <VC refresh={refresh} setRefresh={setRefresh}/>
                         </Container>
                     </Col>

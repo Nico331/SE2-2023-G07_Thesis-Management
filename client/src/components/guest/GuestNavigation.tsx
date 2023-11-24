@@ -20,24 +20,24 @@ const GuestNavigation = () => {
                 </Link>
 
                 <Navbar.Toggle />
-                <Navbar.Collapse className={"justify-content-end"}>
-                    <NavDropdown
-                        style={{
-                            fontSize : '22px',
-                        }}
-                        title= {`Hi Guest`}
-                        show={showDropdown}
-                        onMouseEnter={() => setShowDropdown(true)}
-                        onMouseLeave={() => setShowDropdown(false)} >
-                        <NavDropdown.Item href={"/login"} > Login </NavDropdown.Item>
-                        <NavDropdown.Divider /> {}
-                    </NavDropdown>
+                {/*<Navbar.Collapse className={"justify-content-end"}>*/}
+                {/*    <NavDropdown*/}
+                {/*        style={{*/}
+                {/*            fontSize : '22px',*/}
+                {/*        }}*/}
+                {/*        title= {`Hi Guest`}*/}
+                {/*        show={showDropdown}*/}
+                {/*        onMouseEnter={() => setShowDropdown(true)}*/}
+                {/*        onMouseLeave={() => setShowDropdown(false)} >*/}
+                {/*        <NavDropdown.Item href={"/login"} > Login </NavDropdown.Item>*/}
+                {/*        <NavDropdown.Divider /> {}*/}
+                {/*    </NavDropdown>*/}
 
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
-                    &nbsp;&nbsp;
+                {/*    &nbsp;&nbsp;*/}
+                {/*    &nbsp;&nbsp;*/}
+                {/*    &nbsp;&nbsp;*/}
 
-                </Navbar.Collapse>
+                {/*</Navbar.Collapse>*/}
             </Container>
         </Navbar>
 

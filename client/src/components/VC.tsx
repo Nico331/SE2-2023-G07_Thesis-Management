@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
+import {Row, Col, Form, Container} from 'react-bootstrap';
 import { BsCalendar } from 'react-icons/bs';
 import { FaTrash } from 'react-icons/fa';
 import dayjs from 'dayjs';
@@ -21,10 +21,12 @@ function VC(props) {
     }, [showDatePicker]);
 
     const handleDateChange = (newDate) => {
-        setDate(dayjs(newDate));
-        setShowDatePicker(false);
-        props.setRefresh(true);
-
+        if(newDate === "") setDate(dayjs);
+        else{
+            setDate(dayjs(newDate));
+            setShowDatePicker(false);
+            props.setRefresh(true);
+        }
         //QUI MANCA API
     };
 
@@ -36,23 +38,11 @@ function VC(props) {
     };
 
     return (
-        <Row>
-            <Col className="p-0 ms-3" sm={1}>
-                <BsCalendar
-                    onClick={() => setShowDatePicker(true)}
-                    style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
-                />
-            </Col>
-            <Col className="p-0" sm={1}>
-                <FaTrash
-                    onClick={handleReset}
-                    style={{ cursor: 'pointer', marginLeft: '10px', fontSize: '20px', marginBottom: '30px' }}
-                />
-            </Col>
-            {showDatePicker ? (
-                <Col className="p-0" sm={7}>
+        <Container className="d-flex flex-row align-items-center">
+            {/*{showDatePicker ? (*/}
+                <Container>
                     <Form.Group controlId="expiration">
-                        <Form.Label className="h3">Date:</Form.Label>
+                        {/*<Form.Label className="h3">Date:</Form.Label>*/}
                         <Form.Control
                             type="datetime-local"
                             placeholder="Enter date"
@@ -60,11 +50,24 @@ function VC(props) {
                             onChange={(e) => handleDateChange(e.target.value)}
                         />
                     </Form.Group>
-                </Col>
-            ) : (
-                <span>{date.format('HH:mm:ss')} {date.format('YYYY-MM-DD')}</span>
-            )}
-        </Row>
+                </Container>
+            {/*) */}
+            {/*: (*/}
+            {/*    <span>{date.format('HH:mm:ss')} {date.format('YYYY-MM-DD')}</span>*/}
+            {/*)}*/}
+            {/*<Container className="p-0 mx-0 d-flex justify-content-end" style={{maxWidth:"7vh"}}>*/}
+            {/*    <BsCalendar*/}
+            {/*        onClick={() => setShowDatePicker(true)}*/}
+            {/*        style={{ cursor: 'pointer', fontSize: '20px'}}*/}
+            {/*    />*/}
+            {/*</Container>*/}
+            <Container className="p-0 ms-3 d-flex justify-content-between"  style={{maxWidth:"7vh"}}>
+                <FaTrash
+                    onClick={handleReset}
+                    style={{ cursor: 'pointer', fontSize: '20px' }}
+                />
+            </Container>
+        </Container>
     );
 }
 

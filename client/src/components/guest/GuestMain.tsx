@@ -4,7 +4,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const GuestMain: React.FC = () => {
     return (
-        <Container className="mt-5">
+        <Container style={{marginTop:"90px"}}>
             <Row className="justify-content-center">
                 <Col md={6}>
                     <Card>

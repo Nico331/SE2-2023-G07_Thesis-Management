@@ -142,16 +142,16 @@ function StudentApplyForm(props) {
     const navigate = useNavigate();
     const handleCloseModal = () => {
         setShowModal(false);
-        navigate('/proposal'); // Utilizza il hook useNavigate per il reindirizzamento
+        navigate('/proposalList'); // Utilizza il hook useNavigate per il reindirizzamento
     };
 
     const handleCloseModalError = () => {
         setShowModalError(false);
-        navigate('/proposal'); // Utilizza il hook useNavigate per il reindirizzamento
+        navigate('/proposalList'); // Utilizza il hook useNavigate per il reindirizzamento
     };
 
     const handleBack = () => {
-        navigate('/proposal');
+        navigate('/proposalList');
     }
 
 
