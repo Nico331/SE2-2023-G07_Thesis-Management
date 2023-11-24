@@ -1,10 +1,8 @@
 package it.polito.server.proposal
 
-import it.polito.server.student.StudentDTO
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.util.Date
+import java.time.LocalDate
 
 @Document
 data class Proposal(
@@ -18,12 +16,12 @@ data class Proposal(
     var type: String,
     var groups: List<String>,
     var description: String,
-    var requiredKnowledge : String,
-    var notes : String,
-    var expiration : Date,
+    var requiredKnowledge: String,
+    var notes: String,
+    var expiration: LocalDate,
     var level: String,
-    var cdS : List<String>,
-    var archived : Boolean
+    var cdS: List<String>,
+    var archived: archiviation_type
 ) {
 
     fun toDTO(): ProposalDTO = ProposalDTO (
@@ -42,4 +40,10 @@ data class Proposal(
         cdS = this.cdS,
         archived = this.archived,
     )
+}
+
+public enum class archiviation_type {
+    EXPIRED,
+    MANUALLY_ARCHIVED,
+    NOT_ARCHIVED
 }

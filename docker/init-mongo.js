@@ -1,5 +1,6 @@
 db = new Mongo().getDB("mongo_db_se");
 
+
 db.proposal.insertMany([
     {
         _id: "1",
@@ -15,7 +16,7 @@ db.proposal.insertMany([
         expiration: new Date("2022-12-31"),
         level: "PhD",
         cdS: ["Engineering", "Robotics"],
-        archived: false
+        archived: "EXPIRED"
     },
     {
         _id: "2",
@@ -31,7 +32,7 @@ db.proposal.insertMany([
         expiration: new Date("2024-12-31"),
         level: "Masters",
         cdS: ["Computer Science", "Information Systems"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     },
     {
         _id: "3",
@@ -47,7 +48,7 @@ db.proposal.insertMany([
         expiration: new Date("2023-09-31"),
         level: "PhD",
         cdS: ["Physics", "Computer Science"],
-        archived: false
+        archived: "EXPIRED"
     },
     {
         _id: "4",
@@ -63,7 +64,7 @@ db.proposal.insertMany([
         expiration: new Date("2023-12-11"),
         level: "Masters",
         cdS: ["Biotechnology", "Health Informatics"],
-        archived: false
+        archived: "MANUALLY_ARCHIVED"
     },
     {
         _id: "5",
@@ -79,7 +80,7 @@ db.proposal.insertMany([
         expiration: new Date("2023-12-31"),
         level: "PhD",
         cdS: ["Artificial Intelligence", "Automotive Engineering"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     },
     {
         _id: "6",
@@ -92,10 +93,10 @@ db.proposal.insertMany([
         description: "Research into the integration of renewable energy systems into the current power gr_id.",
         requiredKnowledge: "Electrical engineering, power systems, MATLAB",
         notes: "Prior experience with solar or wind energy systems is appreciated.",
-        expiration: new Date(),
+        expiration: new Date("2022-01-01"),
         level: "Masters",
         cdS: ["Electrical Engineering", "Environmental Science"],
-        archived: false
+        archived: "MANUALLY_ARCHIVED"
     },
     {
         _id: "7",
@@ -111,7 +112,7 @@ db.proposal.insertMany([
         expiration: new Date("2024-01-31"),
         level: "Masters",
         cdS: ["Business Informatics", "Data Science"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     },
     {
         _id: "8",
@@ -127,7 +128,7 @@ db.proposal.insertMany([
         expiration: new Date("2024-05-31"),
         level: "Masters",
         cdS: ["Medical Technology", "Computer Graphics"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     },
     {
         _id: "9",
@@ -143,7 +144,7 @@ db.proposal.insertMany([
         expiration: new Date("2024-11-31"),
         level: "PhD",
         cdS: ["Information Technology", "Data Analytics"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     },
     {
         _id: "10",
@@ -159,7 +160,7 @@ db.proposal.insertMany([
         expiration: new Date("2024-12-31"),
         level: "Masters",
         cdS: ["Cybersecurity", "Financial Engineering"],
-        archived: false
+        archived: "NOT_ARCHIVED"
     }
 ]);
 

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 @Service
-class ProposalService (private val proposalRepository : ProposalRepository, private val professorRepository: ProfessorRepository) {
+class ProposalService (private val proposalRepository : ProposalRepository ) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
@@ -52,18 +52,11 @@ class ProposalService (private val proposalRepository : ProposalRepository, priv
         return proposalRepository.findAll().map{(it.toDTO())}
     }
 
-    fun findProposalBySupervisor (supervisor: String) : List<ProposalDTO>{
-        return proposalRepository.findBySupervisor(supervisor).map { (it.toDTO()) }
-    }
-
     fun deleteProposal(id: String) : ResponseEntity<Any> {
-
-        //check if Proposal exists and return NOT_FOUND
         if (!proposalRepository.existsById(id))
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("this Proposal does NOT EXIST")
-
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal doesn't exists")
         proposalRepository.deleteById(id)
-        return ResponseEntity.status(HttpStatus.OK).body("Proposal with ID $id successfully deleted.")
+        return ResponseEntity(HttpStatus.OK)
     }
 
     fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{

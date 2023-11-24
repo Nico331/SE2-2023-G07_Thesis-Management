@@ -1,7 +1,9 @@
 package it.polito.server.appliedproposal
 
 import it.polito.server.career.CareerDTO
+import it.polito.server.proposal.archiviation_type
 import it.polito.server.student.StudentDTO
+import java.time.LocalDate
 import java.util.*
 
 data class AppliedProposalDTO (
@@ -22,10 +24,10 @@ data class StrangeObjectRequestedByDarione (
         var description: String,
         var requiredKnowledge : String,
         var notes : String,
-        var expiration : Date,
+        var expiration : LocalDate,
         var level: String,
         var cdS : List<String>,
-        var archived : Boolean,
+        var archived : archiviation_type,
         var applications: List<Applications>
 )
 data class Applications(

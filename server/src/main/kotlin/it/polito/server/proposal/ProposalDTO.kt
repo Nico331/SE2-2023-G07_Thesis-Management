@@ -1,8 +1,8 @@
 package it.polito.server.proposal
 
-import java.util.*
+import java.time.LocalDate
 
-data class ProposalDTO (
+data class ProposalDTO(
     val id: String? = null,
     var title: String,
     // to change to professor obj when implemented
@@ -13,12 +13,12 @@ data class ProposalDTO (
     var type: String,
     var groups: List<String>,
     var description: String,
-    var requiredKnowledge : String,
-    var notes : String,
-    var expiration : Date,
+    var requiredKnowledge: String,
+    var notes: String,
+    var expiration: LocalDate,
     var level: String,
-    var cdS : List<String>,
-    var archived : Boolean,
+    var cdS: List<String>,
+    var archived: archiviation_type,
 ){
     fun toDBObj () : Proposal = Proposal(
         id = this.id,
