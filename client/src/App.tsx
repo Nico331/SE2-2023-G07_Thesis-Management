@@ -38,13 +38,6 @@ function App() {
         </BrowserRouter>
     );
 }
-function Main() {
-    return(
-        <div style={{paddingTop: "75px"}}>
-            <AdminRoutes/>
-        </div>
-    )
-}
 
 export default App;
 
