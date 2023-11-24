@@ -56,13 +56,13 @@ class ProposalController (private val proposalService: ProposalService, private 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO proposals.")
 
         //Check if the supervisor has any active proposals
-        val activeProposal = allProposals.filter { !it.archived }
-        if(activeProposal.isEmpty())
+        val activeProposals = allProposals.filter { it.archived==archiviation_type.NOT_ARCHIVED }
+        if(activeProposals.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO active proposals.")
 
-        val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
+        //val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
 
-        return ResponseEntity.ok(activeProposalDTOs)
+        return ResponseEntity.ok(activeProposals)
     }
 
     @GetMapping("/filters")

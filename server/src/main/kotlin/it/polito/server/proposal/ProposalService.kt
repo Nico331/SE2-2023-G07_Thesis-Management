@@ -20,23 +20,8 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
-
-        proposal.title = update.title
-        proposal.supervisor = update.supervisor
-        proposal.coSupervisors = update.coSupervisors
-        proposal.keywords = update.keywords
-        proposal.type = update.type
-        proposal.groups = update.groups
-        proposal.description = update.description
-        proposal.requiredKnowledge = update.requiredKnowledge
-        proposal.notes = update.notes
-        proposal.expiration = update.expiration
-        proposal.level = update.level
-        proposal.cdS = update.cdS
-
         val isExpired = archiviation_type.NOT_ARCHIVED
-
-        return proposalRepository.save(proposal).toDTO()
+        return proposalRepository.save(update.toDBObj()).toDTO()
     }
 
     fun createProposal(proposal: ProposalDTO): ProposalDTO {
@@ -62,6 +47,9 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return proposalRepository.findByArchivedFalseAndSupervisor(supervisor).map{(it.toDTO())}
     }
 
+    fun findProposalBySupervisor(supervisor: String): List<ProposalDTO> {
+        return proposalRepository.findBySupervisor(supervisor).map { it.toDTO() };
+    }
     fun existsByTitleAndSupervisor (proposalTitle : String, proposalSupervisor : String): Boolean {
         val res = proposalRepository.existsProposalByTitleAndSupervisor (proposalTitle, proposalSupervisor)
         return res
