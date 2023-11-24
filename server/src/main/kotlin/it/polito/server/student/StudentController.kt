@@ -19,9 +19,8 @@ class StudentController(private val studentService: StudentService) {
     }
 
     @PostMapping("")
-    fun createStudent(@RequestBody student: Student): ResponseEntity<StudentDTO> {
-        val newStudent = studentService.createStudent(student)
-        return ResponseEntity(newStudent, HttpStatus.CREATED)
+    fun createStudent(@RequestBody student: Student): ResponseEntity<Any> {
+        return studentService.createStudent(student)
     }
 
     @PutMapping("/{id}")

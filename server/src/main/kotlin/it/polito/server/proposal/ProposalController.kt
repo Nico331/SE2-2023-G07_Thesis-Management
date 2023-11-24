@@ -9,7 +9,7 @@ import java.util.Date
 
 @RestController
 @RequestMapping("/API/proposals")
-class ProposalController (private val proposalService: ProposalService, private val professorService: ProfessorService){
+class ProposalController (private val proposalService: ProposalService){
 
     @PutMapping("/{id}")
     fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
@@ -44,25 +44,8 @@ class ProposalController (private val proposalService: ProposalService, private 
 
     @GetMapping("/bysupervisor/{supervisor}")
     fun getActiveProposalsBySupervisor(@PathVariable supervisor: String): ResponseEntity<Any> {
-
-        //Check if the supervisor exists
-        val supervisorExists = professorService.findProfessorById(supervisor)
-        if( supervisorExists == null )
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisor' does NOT exist.")
-
-        //Check if the supervisor has any proposals
-        val allProposals = proposalService.findProposalBySupervisor(supervisor)
-        if(allProposals.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO proposals.")
-
-        //Check if the supervisor has any active proposals
-        val activeProposals = allProposals.filter { it.archived==archiviation_type.NOT_ARCHIVED }
-        if(activeProposals.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO active proposals.")
-
-        //val activeProposalDTOs = proposalService.findActiveProposalsBySupervisor(supervisor)
-
-        return ResponseEntity.ok(activeProposals)
+        //return only ACTIVE proposal by supervisor or NOT_FOUND(if the supervisor doesn't exist) or BAD_REQUEST (if supervisor hasn't proposals)
+        return proposalService.findActiveProposalsBySupervisor(supervisor)
     }
 
     @GetMapping("/filters")

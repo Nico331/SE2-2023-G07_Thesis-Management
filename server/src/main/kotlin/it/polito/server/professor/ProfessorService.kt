@@ -20,10 +20,13 @@ class ProfessorService (private val professorRepository: ProfessorRepository) {
         return professorRepository.findAll().map { it.toDTO() }
     }
 
-    fun createProfessor(professor: Professor): ProfessorDTO {
+    fun createProfessor(professor: Professor): ResponseEntity<Any> {
+        //check if Professor exists
+        if(professorRepository.existsProfessorByNameAndSurnameAndEmailAndCodGroupAndCodDepartment(professor.name,professor.surname,professor.email,professor.codGroup,professor.codDepartment))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("existing Professor")
         // Assumi che la password sia già impostata in professor
         val savedProfessor = professorRepository.save(professor)
-        return savedProfessor.toDTO()
+        return ResponseEntity(savedProfessor, HttpStatus.CREATED)
     }
 
     fun updateProfessor(id: String, update: ProfessorDTO): ProfessorDTO? {

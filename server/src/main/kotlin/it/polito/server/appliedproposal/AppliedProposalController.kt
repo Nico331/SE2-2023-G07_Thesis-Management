@@ -16,8 +16,8 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
 
     /*@GetMapping("/{id}")
     fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
-        val appliedproposal = appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity.ok(appliedproposal)
+        val appliedProposal = appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        return ResponseEntity.ok(appliedProposal)
     }*/
 
     @GetMapping("")
@@ -33,59 +33,29 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
 
     @PostMapping("/apply/{proposalId}/{studentId}")
     fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String) : ResponseEntity<Any> {
-
-        val proposal = proposalRepository.findById(proposalId)
-        val student = studentRepository.findById(studentId)
-        val appliedProposalDTO = appliedProposalService.applyForProposal(proposalId,studentId)
-
-        return if (appliedProposalDTO != null){
-            ResponseEntity.ok(appliedProposalDTO)
-        } else{  //if it is equal to null I check why it was not created
-
-            if( !proposal.isPresent )
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (PROPOSAL NOT PRESENT in the database).")
-
-            else if( !student.isPresent)
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT NOT PRESENT in the database).")
-            else
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
-        }
+        return appliedProposalService.applyForProposal(proposalId,studentId)
     }
 
     @GetMapping("/bystudent/{studentId}")
     fun getAppliedProposalByStudent (@PathVariable studentId: String) : ResponseEntity<Any> {
-        //check if student exists
-        val student = studentRepository.findById(studentId)
-        if(student.isEmpty)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this student NOT EXISTS")
-        val appliesByStudent = appliedProposalService.appliesByStudentId(studentId)
-        return ResponseEntity.ok(appliesByStudent)
+        return appliedProposalService.appliesByStudentId(studentId)
     }
 
     @GetMapping("/byproposal/{proposalId}")
     fun getAppliedProposalByProposal (@PathVariable proposalId: String) : ResponseEntity<Any> {
-        //check if Proposal exists
-        val proposal = proposalRepository.findById(proposalId)
-        if(proposal.isEmpty)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Proposal NOT EXISTS")
-        val appliesByProposal = appliedProposalService.appliesByProposalId(proposalId)
-        return ResponseEntity.ok(appliesByProposal)
+        return appliedProposalService.appliesByProposalId(proposalId)
     }
 
     @PutMapping("/accept/{id}")
     fun acceptProposal(@PathVariable id: String): ResponseEntity<Any>{
-        //check if it exists
-        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application NOT EXIST")
-        appliedProposalService.acceptProposal(id)
-        return ResponseEntity.ok().build()
+        //appliedProposalService.acceptProposal(id)
+        return appliedProposalService.acceptProposal(id)
     }
 
     @PutMapping("/reject/{id}")
     fun rejectProposal(@PathVariable id: String): ResponseEntity<Any>{
-        //check if it exists
-        appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application NOT EXIST")
-        appliedProposalService.rejectProposal(id)
-        return ResponseEntity.ok().build()
+        return appliedProposalService.rejectProposal(id)
+        //return ResponseEntity.ok().build()
     }
 
     @GetMapping("/{professorId}/filter")

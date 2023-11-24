@@ -20,9 +20,8 @@ class ProfessorController(private val professorService: ProfessorService) {
     }
 
     @PostMapping("")
-    fun createProfessor(@RequestBody professor: Professor): ResponseEntity<ProfessorDTO> {
-        val newProfessor = professorService.createProfessor(professor)
-        return ResponseEntity(newProfessor, HttpStatus.CREATED)
+    fun createProfessor(@RequestBody professor: Professor): ResponseEntity<Any> {
+        return professorService.createProfessor(professor)
     }
 
     @PutMapping("/{id}")

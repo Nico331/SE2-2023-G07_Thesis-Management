@@ -1,6 +1,8 @@
 package it.polito.server.proposal
 
+import it.polito.server.appliedproposal.ApplicationStatus
 import it.polito.server.professor.ProfessorRepository
+import it.polito.server.professor.ProfessorService
 import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -16,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 @Service
-class ProposalService (private val proposalRepository : ProposalRepository ) {
+class ProposalService (private val proposalRepository : ProposalRepository, private val professorService: ProfessorService) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
@@ -43,8 +45,44 @@ class ProposalService (private val proposalRepository : ProposalRepository ) {
         return ResponseEntity(HttpStatus.OK)
     }
 
-    fun findActiveProposalsBySupervisor(supervisor:String): List<ProposalDTO>{
-        return proposalRepository.findByArchivedFalseAndSupervisor(supervisor).map{(it.toDTO())}
+    fun findActiveProposalsBySupervisor(supervisor:String): ResponseEntity<Any> {
+
+        //Check if the supervisor exists
+        val supervisorExists = professorService.findProfessorById(supervisor)
+        if( supervisorExists == null )
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisor' does NOT exist.")
+
+        //Check if the supervisor has any proposals
+        val allProposals = proposalRepository.findBySupervisor(supervisor)
+        if(allProposals.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO proposals.")
+
+        //Check if the supervisor has any active proposals
+        val activeProposals = allProposals.filter { it.archived==archiviation_type.NOT_ARCHIVED }
+        if(activeProposals.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO ACTIVE proposals.")
+
+        val activeProposalsDTOs = activeProposals.map { it.toDTO() }
+        return ResponseEntity.ok(activeProposalsDTOs)
+    }
+
+    fun setManuallyArchivedProposal(id: String) : ResponseEntity <Any>
+    {
+        //check if the proposal exists
+        val proposal = proposalRepository.findById(id)
+        if(proposal.isEmpty)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Proposal '$id' not found")
+
+        //check if it has already been archived
+        val proposalEntity = proposal.get()
+        if(proposalEntity.archived == archiviation_type.MANUALLY_ARCHIVED || proposalEntity.archived == archiviation_type.EXPIRED){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already manually archived")
+        }
+
+        //set to MANUALLY_ARCHIVED and save
+        proposalRepository.save(proposalEntity.copy(archived = archiviation_type.MANUALLY_ARCHIVED))
+
+        return ResponseEntity.ok("Proposal '$id' archived manually successfully")
     }
 
     fun findProposalBySupervisor(supervisor: String): List<ProposalDTO> {

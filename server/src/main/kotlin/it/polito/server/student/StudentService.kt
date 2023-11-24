@@ -17,10 +17,14 @@ class StudentService (private val studentRepository: StudentRepository) {
         return studentRepository.findAll().map { it.toDTO() }
     }
 
-    fun createStudent(student: Student): StudentDTO {
+    fun createStudent(student: Student): ResponseEntity<Any> {
+        //check if student exists
+        if(studentRepository.existsStudentBySurnameAndNameAndGenderAndEmailAndNationalityAndCodDegree(student.surname,student.name,student.gender,student.email,student.nationality,student.codDegree))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("existing student")
         // Assumi che la password sia già impostata in student
         val savedStudent = studentRepository.save(student)
-        return savedStudent.toDTO()
+        return ResponseEntity(savedStudent, HttpStatus.CREATED)
+
     }
 
     fun updateStudent(id: String, update: StudentDTO): StudentDTO? {

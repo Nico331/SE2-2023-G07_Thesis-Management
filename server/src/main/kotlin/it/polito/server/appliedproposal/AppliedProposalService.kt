@@ -2,14 +2,13 @@ package it.polito.server.appliedproposal
 
 import it.polito.server.career.CareerRepository
 import it.polito.server.professor.ProfessorRepository
-import it.polito.server.proposal.ProposalDTO
-import it.polito.server.proposal.ProposalRepository
-import it.polito.server.proposal.ProposalService
+import it.polito.server.proposal.*
 import it.polito.server.student.StudentRepository
 import org.springframework.data.domain.Example
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import kotlin.reflect.jvm.internal.impl.util.ReturnsCheck.ReturnsUnit
 
 @Service
 class AppliedProposalService(
@@ -18,6 +17,7 @@ class AppliedProposalService(
     private val studentRepository: StudentRepository,
     private val careerRepository: CareerRepository,
     private val professorRepository: ProfessorRepository,
+    private val proposalService: ProposalService,
 ) {
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
@@ -26,7 +26,7 @@ class AppliedProposalService(
     }
 
     fun findAll() : List<AppliedProposalDTO> {
-        //return list of application
+        //return list of application (in case nothing exists yet empty list)
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
     }
 
@@ -40,38 +40,72 @@ class AppliedProposalService(
         return ResponseEntity.status(HttpStatus.OK).body("Application with ID $id successfully deleted.")
     }
 
-    fun applyForProposal(proposalId: String, studentId: String) : AppliedProposalDTO? {
+    fun applyForProposal(proposalId: String, studentId: String) : ResponseEntity<Any> {
+
         val proposal = proposalRepository.findById(proposalId)
         val student = studentRepository.findById(studentId)
 
-        //checks that both exist and if not returns null
-        if(proposal.isPresent && student.isPresent){
-            val existingApplication = appliedProposalRepository.findByProposalIdAndStudentId(proposalId,studentId)
-            //if this application already exists it returns null
-            if(existingApplication != null){
-                return null
-            }
-            //create new application and save it
-            val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
-            val appliedProposal = appliedProposalRepository.save(application)
+        //check if Proposal exists or return ERROR
+        if(!proposal.isPresent)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (PROPOSAL NOT PRESENT in the database).")
+        //check if Student exists or return ERROR
+        if(!student.isPresent)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT NOT PRESENT in the database).")
+        //check if this application already exists
+        val existingApplication = appliedProposalRepository.findByProposalIdAndStudentId(proposalId,studentId)
+        if(existingApplication != null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
 
-            return  appliedProposal.toDTO()
-        }
-        else
-            return null
+        //create new application,save it and return the DTO
+        val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
+        val appliedProposal = appliedProposalRepository.save(application)
+        return  ResponseEntity.ok(appliedProposal.toDTO())
+
     }
 
-    fun appliesByStudentId(studentId: String): List<AppliedProposalDTO> {
-        return appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
-    }
+    fun appliesByStudentId(studentId: String): ResponseEntity<Any> {
+        //check if student exists
+        val student = studentRepository.findById(studentId)
+        if(student.isEmpty)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this student NOT EXISTS")
 
-    fun appliesByProposalId(proposalId: String): List<AppliedProposalDTO> {
         //return only list applications with that proposal(even empty)
-        return appliedProposalRepository.findByProposalId(proposalId).map { it.toDTO() }
+        val appliesByStudentDTOs = appliedProposalRepository.findByStudentId(studentId).map { it.toDTO() }
+        return ResponseEntity.ok(appliesByStudentDTOs)
     }
 
-    fun acceptProposal(applicationId: String) {
+    fun appliesByProposalId(proposalId: String): ResponseEntity<Any> {
+        //check if Proposal exists
+        val proposal = proposalRepository.findById(proposalId)
+        if(proposal.isEmpty)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Proposal NOT EXISTS")
+
+        //return only list applications with that proposal(even empty)
+        val appliesByProposalDTOs = appliedProposalRepository.findByProposalId(proposalId).map { it.toDTO() }
+        return ResponseEntity.ok(appliesByProposalDTOs)
+    }
+
+    fun acceptProposal(applicationId: String) : ResponseEntity <Any> {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+        //check if it exists
+        if(appliedProposal == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
+
+        //check if proposal already ARCHIVED
+        val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
+        if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
+
+        //check if it already ACCEPTED
+        if(appliedProposal.status==ApplicationStatus.ACCEPTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been ACCEPTED")
+        //check if it already REJECTED
+        if(appliedProposal.status==ApplicationStatus.REJECTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been REJECTED")
+        //check if it already CANCELLED
+        if(appliedProposal.status==ApplicationStatus.CANCELLED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
+
 
         //FIND and REJECT all applications given the proposalId
         val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId);
@@ -82,13 +116,39 @@ class AppliedProposalService(
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
+
+        //SETS the PROPOSAL as MANUALLY_ARCHIVED
+        proposalService.setManuallyArchivedProposal(appliedProposal.proposalId)
+
+        return ResponseEntity.ok().body("Successful operation")
     }
 
-    fun rejectProposal(applicationId: String) {
+    fun rejectProposal(applicationId: String) : ResponseEntity <Any> {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+
+        //check if it exists
+        if(appliedProposal == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
+
+        //check if proposal already ARCHIVED
+        val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
+        if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
+
+        //check if it already ACCEPTED
+        if(appliedProposal.status==ApplicationStatus.ACCEPTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been ACCEPTED")
+        //check if it already REJECTED
+        if(appliedProposal.status==ApplicationStatus.REJECTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been REJECTED")
+        //check if it already CANCELLED
+        if(appliedProposal.status==ApplicationStatus.CANCELLED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
+
         //ONLY REJECTED this application
-        appliedProposal.status = ApplicationStatus.REJECTED
-        appliedProposalRepository.save(appliedProposal)
+        appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
+
+        return ResponseEntity.ok().body("Successful operation")
     }
 
     fun findByFilters (supervisorId : String) : HashMap<String, List<Any>> {
