@@ -130,7 +130,7 @@ const ProposalForm = () => {
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="title">
-                            <Form.Label className="h3">Title</Form.Label>
+                            <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Enter title"
@@ -141,7 +141,7 @@ const ProposalForm = () => {
                     </div>
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="type">
-                            <Form.Label className="h3">Type</Form.Label>
+                            <Form.Label className="h3">Type*</Form.Label>
                             <Form.Control as="select" custom value={proposal.type}
                                           onChange={(e) => setProposal({...proposal, type: e.target.value})}>
                                 <option value="">Select the type</option>
@@ -157,7 +157,7 @@ const ProposalForm = () => {
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="level">
-                            <Form.Label className="h3">Level</Form.Label>
+                            <Form.Label className="h3">Level*</Form.Label>
                             <Form.Control as="select" custom value={proposal.level}
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}>
                                 <option value="">Select the type</option>
@@ -169,12 +169,13 @@ const ProposalForm = () => {
                     </div>
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="expiration">
-                            <Form.Label className="h3">Expiration</Form.Label>
+                            <Form.Label className="h3">Expiration*</Form.Label>
                             <Form.Control
                                 type="date"
                                 placeholder="Enter expiration"
                                 value={proposal.expiration.format("YYYY-MM-DD")}
                                 onChange={(e) => setProposal({...proposal, expiration: dayjs(e.target.value)})}
+                                min={new Date().toISOString().split("T")[0]}
                             />
                         </Form.Group>
                     </div>
@@ -182,7 +183,7 @@ const ProposalForm = () => {
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlid="supervisor">
-                            <Form.Label className="h3">Supervisor</Form.Label>
+                            <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control as="select" custom value={proposal.supervisor}
                                           onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
                                 <option value="">Select the supervisor</option>
