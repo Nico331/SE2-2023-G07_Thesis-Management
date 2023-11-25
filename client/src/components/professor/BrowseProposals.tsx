@@ -14,6 +14,7 @@ import React, {useEffect, useState} from "react";
 import ProfessorModalOfProposal from "./ProfessorModalOfProposal";
 import axios from "axios";
 import Sidebar from "../student/FiltersSidebar";
+import UpdateProposal from "./UpdateProposal";
 
 
 export const ProfessorBrowseProposals = (props) => {
@@ -183,6 +184,7 @@ export const ProfessorBrowseProposals = (props) => {
                     </Col>
                 </Row>
             </Container>
+
             {showModal ? <ProfessorModalOfProposal showModal={showModal} setShowModal={setShowModal} proposalID={proposalID} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: v }), {})}/> : null}
 
             {showPopUp ? <DeleteProposal setShowPopUp={setShowPopUp} proposalID={proposalID} setShowAlertModal={setShowAlertModal} propsalData={propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: v }), {})}/> : null}

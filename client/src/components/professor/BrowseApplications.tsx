@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form} from 'react-bootstrap';
+import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form, Alert, Nav} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
+import UpdateProposal from "./UpdateProposal";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const BrowseApplications = () => {
 
@@ -14,14 +16,15 @@ const BrowseApplications = () => {
             ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
                 setProposals(res.data);
             })
-
-
         }
 
     }, [user, refresh]);
     const [proposals, setProposals] = useState([]);
     const [proposalToDelete, setProposalToDelete] = useState("");
     const [showDeletePopup, setShowDeletePopup] = useState(false);
+    const [showModifyPage, setShowModifyPage] = useState(false);
+    const [modifyproposal, setModifyProposal] = useState([]);
+    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
     const handleAccept = async (application) => {
         // Handle accept logic
@@ -51,11 +54,37 @@ const BrowseApplications = () => {
         ProposalService.deleteProposal(proposalId).then(()=>{setRefresh((r)=> !r)})
     };
 
+    const handlemodify = (e, proposalsID) => {
+        e.stopPropagation();
+        setShowModifyPage(true);
+        setModifyProposal(proposals.find(a => a.id === proposalsID));
+    }
 
     return (
         <>
             <Container className="mt-3">
                 <h2>My Thesis Proposals</h2>
+
+                {showsuccessmodal.show ?
+                    <>
+                        <Modal
+                        show={showsuccessmodal.show}
+                        >
+                            <Modal.Header>
+                                <Modal.Title>
+                                    {showsuccessmodal.type === "success" ? "Success" : "Error"}
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {showsuccessmodal.text}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({show: false, type: "", text: ""})}>Close</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </>
+                : null}
+
                 <Accordion className="mt-5">
                     {proposals.map((proposal) => (
                         <Accordion.Item eventKey={proposal.id} key={proposal.id}>
@@ -74,9 +103,7 @@ const BrowseApplications = () => {
                                         </Badge>}
                                     </div>
                                     <div className="col-sm-4">
-                                        <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => {
-                                            e.stopPropagation();
-                                        }}> Modify </Button>
+                                        <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
                                         <Button className="ms-2 mt-2" variant={'danger'}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
@@ -220,6 +247,9 @@ const BrowseApplications = () => {
                     ))}
                 </Accordion>
             </Container>
+
+            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} /> : null}
+
             <Modal
                 show={showDeletePopup}
                 aria-labelledby='contained-modal-title-vcenter'

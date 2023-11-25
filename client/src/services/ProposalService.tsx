@@ -18,4 +18,8 @@ export default {
     deleteProposal(id) {
         return axios.delete(`${endpoint}/${id}`);
     },
+
+    updateProposal(id, updatedprop){
+        return axios.put(`${endpoint}/${id}`, updatedprop);
+    }
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Accordion, Card, Row } from 'react-bootstrap';
+import { Form, Button, Accordion, Card, Row, Alert } from 'react-bootstrap';
 
-const CoSupervisorInput = ({ onAddCoSupervisor, professors }) => {
+const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert }) => {
     const [coSupervisor, setCoSupervisor] = useState("");
 
     const addCoSupervisor = () => {
@@ -33,6 +33,11 @@ const CoSupervisorInput = ({ onAddCoSupervisor, professors }) => {
                     <Button className="mt-3" variant="primary" onClick={addCoSupervisor}>
                         Add Co-Supervisor
                     </Button>
+                    {coalert.show ? 
+                        <Alert className="mt-3" variant={coalert.type} show={coalert} onClose={() => setCoAlert(false)} dismissible>
+                            {coalert.message}
+                        </Alert> 
+                    : null}
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>
