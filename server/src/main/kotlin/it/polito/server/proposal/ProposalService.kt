@@ -66,7 +66,7 @@ class ProposalService (private val proposalRepository : ProposalRepository, priv
         return ResponseEntity.ok(activeProposalsDTOs)
     }
 
-    fun setManuallyArchivedProposal(id: String) : ResponseEntity <Any>
+    fun manuallyArchivedProposal(id: String) : ResponseEntity <Any>
     {
         //check if the proposal exists
         val proposal = proposalRepository.findById(id)
@@ -76,7 +76,7 @@ class ProposalService (private val proposalRepository : ProposalRepository, priv
         //check if it has already been archived
         val proposalEntity = proposal.get()
         if(proposalEntity.archived == archiviation_type.MANUALLY_ARCHIVED || proposalEntity.archived == archiviation_type.EXPIRED){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already manually archived")
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already archived")
         }
 
         //set to MANUALLY_ARCHIVED and save

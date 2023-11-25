@@ -118,7 +118,7 @@ class AppliedProposalService(
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
 
         //SETS the PROPOSAL as MANUALLY_ARCHIVED
-        proposalService.setManuallyArchivedProposal(appliedProposal.proposalId)
+        proposalService.manuallyArchivedProposal(appliedProposal.proposalId)
 
         return ResponseEntity.ok().body("Successful operation")
     }
