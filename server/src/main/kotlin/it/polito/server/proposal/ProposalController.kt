@@ -54,5 +54,10 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(proposalService.getProposalsWithFilters(filters, search))
     }
 
+    @PostMapping("/manuallyarchived/{id}")
+    fun setManuallyArchivedProposal(@PathVariable id: String): ResponseEntity<Any> {
+        return proposalService.manuallyArchivedProposal(id)
+    }
+
 }
 
