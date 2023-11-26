@@ -37,13 +37,12 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     };
 
     return (
-        <Container className="d-flex align-items-center" style={{marginTop:"70px", height:"80vh"}}>
-            <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"55vh", width:"50vh"}}>
+            <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"60vh", width:"50vh", marginTop: "65px"}}>
                 <Container className="mt-3 d-flex justify-content-center">
-                    <Image style={{ width: 250, height: 100 }} src={"../logoPolito.png"}/>
+                    <Image style={{ width: 250, height: 100 }} src={"../Polito-Logo.png"}/>
                 </Container>
-                <Container>
-                    <Form className="mt-4" onSubmit={handleLogin}>
+                <Container style={{height: 'inherit'}}>
+                    <Form className="mt-4" onSubmit={handleLogin} style={{height: 'inherit'}}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email o Username</Form.Label>
                             <Form.Control
@@ -74,7 +73,6 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                     </Form>
                 </Container>
             </Container>
-        </Container>
     );
 };
 
