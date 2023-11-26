@@ -2,60 +2,51 @@ package it.polito.server.clock
 
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.archiviation_type
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.query.Criteria
-import org.springframework.data.mongodb.core.query.Query
-import org.springframework.data.mongodb.core.query.Update
+
 
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.time.Clock
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
+import java.time.*
 
 
 @Service
 class ClockService ( private val proposalRepository: ProposalRepository ){
 
-    final var currentClock = LocalDateTime.now()
-    final var today = currentClock.toLocalDate()
-    final var virtualClock : Clock? = null
+    private final var realTimeClock: Clock = Clock.systemDefaultZone()
+    private final var virtualClock : Clock? = null
+    private final var actualDate : LocalDate = realTimeClock.instant().atZone(ZoneId.systemDefault()).toLocalDate()
 
 
-    fun setServerVirtualClock (virtualClock : Clock) {
-        this.virtualClock = virtualClock
+    fun setServerVirtualClock (timeToSet : LocalDateTime) {
+        this.virtualClock = null
+        val offset = Duration.between(realTimeClock.instant().atZone(ZoneId.systemDefault()).toLocalDateTime(), timeToSet)
+        this.virtualClock = Clock.offset(Clock.systemDefaultZone(), offset)
+        updateClock()
     }
     fun unsetServerVirtualClock () {
         this.virtualClock = null
+        updateClock()
     }
 
     @Scheduled(fixedRate = 5000)
     fun updateClock () {
-        currentClock = if (virtualClock != null){
-            LocalDateTime.now(virtualClock)
-        } else {
-            LocalDateTime.now()
-        }
-
-        if (isNewDay())
-            updateExpirations( currentClock.toLocalDate() )
+        val clockToUse = virtualClock ?: realTimeClock
+        if (isNewDay(clockToUse))
+            updateExpirations( actualDate )
     }
 
-    fun isNewDay () : Boolean {
-        val currentDay = currentClock.toLocalDate()
-        if (currentDay == today) {
+    fun isNewDay (clock : Clock) : Boolean {
+        val currentDay = clock.instant().atZone(ZoneId.systemDefault()).toLocalDate()
+        if (currentDay == this.actualDate) {
             return false
         }
 
-        today = currentDay
+        actualDate = currentDay
         return true
     }
 
 
-    public fun updateExpirations (actualDate: LocalDate)  {
+     fun updateExpirations (actualDate: LocalDate)  {
 
         val expiredProposals = proposalRepository.findByExpirationIsBefore(actualDate)
         for (proposal in expiredProposals) {
@@ -73,5 +64,6 @@ class ClockService ( private val proposalRepository: ProposalRepository ){
             }
         }
     }
+
 
 }

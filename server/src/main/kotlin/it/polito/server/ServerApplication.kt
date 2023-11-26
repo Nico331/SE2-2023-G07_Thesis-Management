@@ -10,5 +10,4 @@ class ServerApplication
 
 fun main(args: Array<String>) {
     val context = runApplication<ServerApplication>(*args)
-    val foo = 7
 }

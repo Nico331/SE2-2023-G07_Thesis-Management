@@ -18,7 +18,7 @@ data class ProposalDTO(
     var expiration: LocalDate,
     var level: String,
     var cdS: List<String>,
-    var archived: archiviation_type,
+    var archived: archiviation_type ? = archiviation_type.NOT_ARCHIVED,
 ){
     fun toDBObj () : Proposal = Proposal(
         id = this.id,
@@ -34,6 +34,6 @@ data class ProposalDTO(
         expiration = this.expiration,
         level = this.level,
         cdS = this.cdS,
-        archived = this.archived,
+        archived = this.archived!!,
     )
 }
