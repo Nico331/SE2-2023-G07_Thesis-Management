@@ -8,6 +8,7 @@ import it.polito.server.student.StudentRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 
 @RestController
@@ -32,8 +33,8 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     }
 
     @PostMapping("/apply/{proposalId}/{studentId}")
-    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String) : ResponseEntity<Any> {
-        return appliedProposalService.applyForProposal(proposalId,studentId)
+    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String, @RequestParam("file") file: MultipartFile) : ResponseEntity<Any> {
+        return appliedProposalService.applyForProposal(proposalId,studentId, file)
     }
 
     @GetMapping("/bystudent/{studentId}")

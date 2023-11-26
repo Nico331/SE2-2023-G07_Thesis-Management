@@ -124,13 +124,17 @@ function StudentApplyForm(props) {
                 proposalId:proposalID,
                 studentId:user.id,
                 //file
+                file: undefined
             };
+            const formData = new FormData();
 
             // Aggiungi il file alla richiesta solo se è presente
-           if (file) {
-                requestData.file = file;
-           }
-            const response = await ApplicationService.createApplication(requestData)
+            if (file) {
+                console.log({file})
+                formData.append('file', file);
+            }
+
+            const response = await ApplicationService.createApplication(requestData, formData)
             setShowModal(true);
         } catch (error) {
             console.error('Errore durante l\'invio al server:', error);

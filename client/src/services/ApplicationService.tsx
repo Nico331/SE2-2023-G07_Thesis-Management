@@ -12,8 +12,12 @@ export default {
         return axios.get(endpoint);
     },
 
-    createApplication(application){
-        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`);
+    createApplication(application, formData){
+        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
     },
 
     acceptApplication(applicationId){

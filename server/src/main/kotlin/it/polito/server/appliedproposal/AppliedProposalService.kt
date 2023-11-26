@@ -8,6 +8,7 @@ import org.springframework.data.domain.Example
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import kotlin.reflect.jvm.internal.impl.util.ReturnsCheck.ReturnsUnit
 
 @Service
@@ -40,7 +41,7 @@ class AppliedProposalService(
         return ResponseEntity.status(HttpStatus.OK).body("Application with ID $id successfully deleted.")
     }
 
-    fun applyForProposal(proposalId: String, studentId: String) : ResponseEntity<Any> {
+    fun applyForProposal(proposalId: String, studentId: String, file: MultipartFile) : ResponseEntity<Any> {
 
         val proposal = proposalRepository.findById(proposalId)
         val student = studentRepository.findById(studentId)
@@ -57,7 +58,8 @@ class AppliedProposalService(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
 
         //create new application,save it and return the DTO
-        val application = AppliedProposal(proposalId = proposalId, studentId = studentId)
+        val fileContent = file.bytes;
+        val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = fileContent)
         val appliedProposal = appliedProposalRepository.save(application)
         return  ResponseEntity.ok(appliedProposal.toDTO())
 
