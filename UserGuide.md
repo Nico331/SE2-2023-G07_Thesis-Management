@@ -1,13 +1,11 @@
 # Thesis Management System Guide
 
 ## Introduction
-___
 
 Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for student and
 professor of Politecnico of Turin.
 
 ## Prerequisites
-___
 
 Before you begin, make sure you have installed:
 
@@ -20,7 +18,6 @@ Before you begin, make sure you have installed:
 Is recommended to use Intellij Idea
 
 ## Installation and Execution
-___
 
 Follow these steps to install and start the system.
 
@@ -44,7 +41,6 @@ Follow these steps to install and start the system.
 Now you are ready to start! let's take a look at the system's features and how to use them.
 
 ## Login
-___
 
 First of all from the initial page you can log in with one of the following default username.
 
@@ -65,7 +61,6 @@ Professors usernames:
 - p300005@polito.it
 
 ## Are you a student?
-___
 
 From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
 
@@ -107,7 +102,6 @@ that could be:
 - "ACCEPTED", your application has been accepted by the supervisor.
 
 ## Are you a professor?
-___
 
 From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
 
