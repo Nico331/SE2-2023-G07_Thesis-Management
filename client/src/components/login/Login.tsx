@@ -37,7 +37,8 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     };
 
     return (
-            <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"60vh", width:"50vh", marginTop: "65px"}}>
+        <Container className="d-flex flex-column">
+            <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"60vh", width:"50vh", marginTop: "120px"}}>
                 <Container className="mt-3 d-flex justify-content-center">
                     <Image style={{ width: 250, height: 100 }} src={"../Polito-Logo.png"}/>
                 </Container>
@@ -73,6 +74,8 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                     </Form>
                 </Container>
             </Container>
+        </Container>
+
     );
 };
 

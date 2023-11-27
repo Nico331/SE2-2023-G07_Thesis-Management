@@ -114,8 +114,8 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
     }, [resetFilters])
 
     return (
-        <Col className="ms-0 px-4" sm={4} style={{height:"90vh", backgroundColor:"#e0e0e0"}}>
-            <Form className="mt-4">
+        <Col className="ms-0 px-4" sm={5} style={{backgroundColor:"#e0e0e0"}}>
+            <Form className="text-start" style={{marginTop:"80px"}}>
                 <Container><h3>Filters</h3></Container>
                 <Container style={{height:"82vh", overflowY:"auto"}}>
                     <Form.Group className="mt-2">

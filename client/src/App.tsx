@@ -23,11 +23,8 @@ function App() {
     },[])
 
     return (
-        <Container style={{
-                            backgroundColor: "rgba(224, 224, 224, 0.2)",
-                            height: "100vh",}} 
-        fluid >
-            <Container className="text-center" style={{height: '100vh'}} >
+        <Container style={{height: "100vh"}} fluid >
+            <Container className="text-center" style={{width:"100%"}} fluid>
                 <BrowserRouter>
                     <TokenProvider>
                         <UserContext.Provider value={userContextValue}>

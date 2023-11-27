@@ -9,7 +9,7 @@ const GuestMain: React.FC = () => {
     return (
                 <Row md={12} className="justify-content-center" >
                     <Col lg={8}>
-                        <Card style={{marginTop: "65px"}}>
+                        <Card style={{marginTop: "110px"}}>
                             <Card.Body style={{height: 'auto'}}>
                                 <Card.Title>Welcome back to Politecnico of Turin!</Card.Title>
                                 <Card.Text>

@@ -64,19 +64,19 @@ const ProposalList = () => {
 
     return (
         <>
-            <Container fluid className="p-0" style={{marginTop:"56px"}}>
-                <Row>
+            <Container fluid className="px-5">
+                <Row style={{height:"100vh"}}>
                     <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} date={date}/>
-                    <Col sm={7} style={{height: "90vh"}}>
-                        <Container className="mt-4 mx-0 ms-2 d-flex">
+                    <Col sm={7} style={{marginTop:"80px"}}>
+                        <Container className="mx-0 ms-1 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
                                 <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
                             </svg>
                             <Container>
                                 <Row>
-                                    <Col>
-                                        <h4 className="ms-1">Thesis Proposals</h4>
+                                    <Col className="text-start">
+                                        <h2 className="ms-1">Thesis Proposals</h2>
                                     </Col>
                                     <Col className="text-end">
                                         <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => {setRefresh(!refresh); setResetFilters(!resetFilters)}}>
@@ -90,7 +90,7 @@ const ProposalList = () => {
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
-                        <Container className="mt-4 ms-5 border" style={{borderRadius:"20px"}}>
+                        <Container className="mt-4 ms-3 border" style={{borderRadius:"20px"}}>
                             <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"65vh", overflowY:"auto"}}>
                                 {   propsOnScreen.length === 0 ?
                                     <Container className="d-flex align-items-center justify-content-center" style={{height:"18vh"}}>
