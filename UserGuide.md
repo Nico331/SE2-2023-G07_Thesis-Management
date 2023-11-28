@@ -7,17 +7,12 @@
 3. [Installation and Execution](#installation)
 4. [Log In](#login)
 5. [Are you a student?](#student)
-   
-   6. [Search proposal](#searchProposal)
-      
-      7. [Apply for a thesis proposal](#applyProposal)
-
-   8. [My proposals applications](#myApp)
+6. [Search proposal](#searchProposal)
+7. [Apply for a thesis proposal](#applyProposal)
+8. [My proposals applications](#myApp)
 9. [Are you a professor?](#professor)
-
-   10. [Add a new proposal](#addProposal)
-
-   11. [My thesis proposal](#myProps)
+10. [Add a new proposal](#addProposal)
+11. [My thesis proposal](#myProps)
 
 ## 1 Introduction <a name="introduction"></a>
 
