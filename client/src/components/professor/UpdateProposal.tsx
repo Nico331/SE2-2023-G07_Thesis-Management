@@ -182,7 +182,7 @@ function UpdateProposal (props) {
                 size={"xl"}
                 onHide={() => props.setShowModifyPage(false)}
             >
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title>
                         Update proposal
                     </Modal.Title>
@@ -432,8 +432,8 @@ function UpdateProposal (props) {
                 </Modal.Body>
                 {/*-----------------------*/}
                 <Modal.Footer>
+                    <Button variant="secondary" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
                     <Button onClick={(e) => handleSubmit(e)}>Update</Button>
-                    <Button variant="danger" onClick={() => props.setShowModifyPage(false)}>Cansel</Button>
                 </Modal.Footer>
             </Modal>
         </>

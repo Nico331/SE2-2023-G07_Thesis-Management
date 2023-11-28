@@ -14,7 +14,7 @@ const ProposalForm = () => {
     const {user, setUser} = useContext(UserContext);
     const [proposal, setProposal] = useState({
         id: null,
-        archived: false,
+        archived: "NOT_ARCHIVED",
         title: '',
         supervisor: JSON.parse(user).id,
         coSupervisors: [],

@@ -33,7 +33,7 @@ const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert 
                     <Button className="mt-3" variant="primary" onClick={addCoSupervisor}>
                         Add Co-Supervisor
                     </Button>
-                    {coalert.show ? 
+                    {coalert && coalert.show ?
                         <Alert className="mt-3" variant={coalert.type} show={coalert} onClose={() => setCoAlert(false)} dismissible>
                             {coalert.message}
                         </Alert> 
