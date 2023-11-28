@@ -41,7 +41,7 @@ class AppliedProposalService(
         return ResponseEntity.status(HttpStatus.OK).body("Application with ID $id successfully deleted.")
     }
 
-    fun applyForProposal(proposalId: String, studentId: String, file: MultipartFile) : ResponseEntity<Any> {
+    fun applyForProposal(proposalId: String, studentId: String, file: FileDTO) : ResponseEntity<Any> {
 
         val proposal = proposalRepository.findById(proposalId)
         val student = studentRepository.findById(studentId)
@@ -57,9 +57,7 @@ class AppliedProposalService(
         if(existingApplication != null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
 
-        //create new application,save it and return the DTO
-        val fileContent = file.bytes;
-        val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = fileContent)
+        val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file.content)
         val appliedProposal = appliedProposalRepository.save(application)
         return  ResponseEntity.ok(appliedProposal.toDTO())
 
@@ -195,7 +193,8 @@ class AppliedProposalService(
                         student.enrollmentYear,
                         listExams
                     ),
-                    appliedProposal.status
+                    appliedProposal.status,
+                    appliedProposal.file
                 )
             }
             val nameSupervisor = professorRepository.findById(proposal.supervisor)

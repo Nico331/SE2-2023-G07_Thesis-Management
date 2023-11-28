@@ -126,16 +126,21 @@ function StudentApplyForm(props) {
                 //file
                 file: undefined
             };
-            const formData = new FormData();
 
             // Aggiungi il file alla richiesta solo se è presente
-            if (file) {
-                console.log({file})
-                formData.append('file', file);
-            }
 
-            const response = await ApplicationService.createApplication(requestData, formData)
-            setShowModal(true);
+            file.arrayBuffer().then((fileContent)=>{
+
+                const fileDTO = {
+                    content: Array.from(new Uint8Array(fileContent)),
+                    name: file && file.name,
+                    originalFilename: file && file.name,
+                    contentType: file && file.type,
+                };
+                ApplicationService.createApplication(requestData, fileDTO).then(()=>{
+                    setShowModal(true);
+                });
+            });
         } catch (error) {
             console.error('Errore durante l\'invio al server:', error);
             setShowModalError(true);
@@ -234,11 +239,12 @@ function StudentApplyForm(props) {
                     </Table>
 
                     <Form.Group controlId="formFile">
-                        <Form.Label>Attach a file (optional)</Form.Label>
+                        <Form.Label>Attach a pdf file (optional)</Form.Label>
                         <Form.Control
                             type="file"
                             name="file"
                             onChange={handleFileChange}
+                            accept=".pdf"
                         />
                     </Form.Group>
 

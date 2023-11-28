@@ -12,10 +12,12 @@ export default {
         return axios.get(endpoint);
     },
 
-    createApplication(application, formData){
-        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, formData, {
+    createApplication(application, fileDTO){
+
+        console.log(fileDTO)
+        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, fileDTO, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
             },
         });
     },
