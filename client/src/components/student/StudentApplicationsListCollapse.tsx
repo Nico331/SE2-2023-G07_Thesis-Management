@@ -38,6 +38,30 @@ const StudentApplicationsListCollapse = () => {
                         const supervisor = supervisors.find(s => s.id === proposal.supervisor);
                         const expiration = new Date(proposal.expiration).toDateString();
 
+                        console.log(application)
+
+                        const handleDownload = () => {
+                            const { content, name, contentType } = application.file;
+
+                            const binaryString = atob(content);
+                            const byteArr = new Uint8Array(binaryString.length);
+                            for (let i = 0; i < binaryString.length; i++) {
+                                byteArr[i] = binaryString.charCodeAt(i);
+                            }
+
+                            const byteArray = new Int8Array(content);
+                            const blob = new Blob([byteArr], { type: contentType });
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = name;
+                            a.className = "button";
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            window.URL.revokeObjectURL(url);
+                        };
+
 
                         return (
                             <Accordion.Item eventKey={proposal.id} key={proposal.id}>
@@ -115,6 +139,15 @@ const StudentApplicationsListCollapse = () => {
                                             <b>Status:</b> {application.status}
                                         </Col>
                                     </Row>
+                                    {application.file && <Row>
+                                        <Col>
+                                            <b>Attachment: &nbsp;
+                                                <Button onClick={handleDownload}>
+                                                    Download File
+                                                </Button>
+                                            </b>
+                                        </Col>
+                                    </Row>}
 
 
                                 </Accordion.Body>

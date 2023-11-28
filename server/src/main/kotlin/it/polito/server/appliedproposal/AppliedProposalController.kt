@@ -33,7 +33,7 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     }
 
     @PostMapping("/apply/{proposalId}/{studentId}")
-    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String, @RequestParam("file") file: MultipartFile) : ResponseEntity<Any> {
+    fun createApplyForProposal(@PathVariable proposalId: String, @PathVariable studentId: String, @RequestBody file: FileDTO) : ResponseEntity<Any> {
         return appliedProposalService.applyForProposal(proposalId,studentId, file)
     }
 

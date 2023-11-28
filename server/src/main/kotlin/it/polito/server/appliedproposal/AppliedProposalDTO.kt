@@ -10,7 +10,14 @@ data class AppliedProposalDTO (
         val id: String? = null,
         val proposalId: String,
         val studentId: String,
-        val status: ApplicationStatus
+        val status: ApplicationStatus,
+        val file: FileDTO?
+)
+data class FileDTO(
+        val content: ByteArray,
+        val name: String,
+        val originalFilename: String,
+        val contentType: String
 )
 
 data class StrangeObjectRequestedByDarione (
@@ -34,7 +41,8 @@ data class Applications(
         val id: String? = null,
         val proposalId: String,
         val student: Student,
-        val status: ApplicationStatus
+        val status: ApplicationStatus,
+        val file: FileDTO?
 )
 data class Student(
         val id: String? = null,
