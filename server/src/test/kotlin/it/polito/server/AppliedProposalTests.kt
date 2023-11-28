@@ -64,30 +64,35 @@ class AppliedProposalTests {
     val appliedProposal1 = AppliedProposal(
 
             proposalId = "11111",
-            studentId = "12345"
+            studentId = "12345",
+            file = null
     )
 
     val appliedProposal2 = AppliedProposal(
 
             proposalId = "22222",
-            studentId = "67890"
+            studentId = "67890",
+            file = null
     )
 
     val appliedProposal3 = AppliedProposal(
 
             proposalId = "33333",
-            studentId = "67890"
+            studentId = "67890",
+            file = null
     )
 
     val appliedProposal4 = AppliedProposal(
 
             proposalId = "33333",
-            studentId = "12345"
+            studentId = "12345",
+            file = null
     )
     val appliedProposal5 = AppliedProposal(
 
             proposalId = "44444",
-            studentId = "13579"
+            studentId = "13579",
+            file = null
     )
 
 /*
@@ -250,7 +255,7 @@ class AppliedProposalTests {
 
         val acceptedProposal = appliedProposalRepository.findById(savedProposal.id!!).orElse(null)
         Assertions.assertNotNull(acceptedProposal)
-        Assertions.assertEquals(ApplicationStatus.APPROVED, acceptedProposal.status)
+        Assertions.assertEquals(ApplicationStatus.ACCEPTED, acceptedProposal.status)
     }
 
     @Test

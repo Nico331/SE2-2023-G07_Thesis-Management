@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializer
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
+import it.polito.server.proposal.archiviation_type
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.jupiter.api.Assertions
@@ -26,6 +27,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.shaded.com.google.common.reflect.TypeToken
 import org.testcontainers.utility.DockerImageName
 import java.net.URI
+import java.time.LocalDate
 import java.util.*
 
 
@@ -65,10 +67,10 @@ class ProductTests {
         description = "Un progetto di ricerca volto a sviluppare nuovi algoritmi per l'analisi del testo.",
         requiredKnowledge = "Python, PyTorch, NLP basics",
         notes = "Richiesta familiarità con le reti neurali.",
-        expiration = Date(),
+        expiration = LocalDate.of(2023, 12, 31) ,
         level = "Master",
         cdS = listOf("Informatica", "Data Science"),
-        archiviation_type = false
+        archived = archiviation_type.NOT_ARCHIVED
     )
 
     val myProposal2 = Proposal(
@@ -81,10 +83,10 @@ class ProductTests {
         description = "Creazione di un'applicazione cross-platform per migliorare la gestione del tempo.",
         requiredKnowledge = "Kotlin, Flutter, design patterns",
         notes = "Preferibile esperienza con sistemi iOS e Android.",
-        expiration = Date(),
+            expiration = LocalDate.of(2022, 9, 13),
         level = "Laurea",
         cdS = listOf("Informatica", "Ingegneria del Software"),
-        archiviation_type = false
+            archived = archiviation_type.NOT_ARCHIVED
     )
 
     val myProposal3 = Proposal(
@@ -97,10 +99,10 @@ class ProductTests {
         description = "Utilizzo di tecniche di data mining per analizzare le reti sociali e identificare le tendenze del mercato.",
         requiredKnowledge = "R, Python, data mining techniques",
         notes = "Necessaria buona conoscenza di statistica.",
-        expiration = Date(),
+        expiration = LocalDate.of(2023, 2, 26),
         level = "Dottorato",
         cdS = listOf("Statistica", "Economia e Commercio"),
-        archiviation_type = false
+            archived = archiviation_type.NOT_ARCHIVED
     )
 
     @Test
@@ -117,10 +119,10 @@ class ProductTests {
                 description = "Creazione di un'applicazione mobile per monitorare parametri vitali utilizzando dispositivi indossabili.",
                 requiredKnowledge = "Programmazione mobile (Android/iOS), conoscenza di wearable devices",
                 notes = "Partecipazione a workshop sui dispositivi indossabili consigliata.",
-                expiration = Date(),
+                expiration = LocalDate.of(2022, 1, 1),
                 level = "Master",
                 cdS = listOf("Informatica", "Ingegneria Informatica"),
-                archiviation_type = false
+                archived = archiviation_type.NOT_ARCHIVED
         )
 
         val createUrl = "http://localhost:$port/API/proposals"
@@ -156,7 +158,7 @@ class ProductTests {
             assertEquals(proposalToCreate.expiration, createdProposal.expiration)
             assertEquals(proposalToCreate.level, createdProposal.level)
             assertIterableEquals(proposalToCreate.cdS, createdProposal.cdS)
-            assertEquals(proposalToCreate.archiviation_type, createdProposal.archiviation_type)
+            assertEquals(proposalToCreate.archived, createdProposal.archived)
 
         }
 
@@ -211,7 +213,7 @@ class ProductTests {
         assertEquals(myProposal1.expiration, proposals[0].expiration)
         assertEquals(myProposal1.level, proposals[0].level)
         assertIterableEquals(myProposal1.cdS, proposals[0].cdS)
-        assertEquals(myProposal1.archiviation_type, proposals[0].archiviation_type)
+        assertEquals(myProposal1.archived, proposals[0].archived)
 
         assertEquals(myProposal2.title, proposals[1].title)
         assertEquals(myProposal2.supervisor, proposals[1].supervisor)
@@ -225,7 +227,7 @@ class ProductTests {
         assertEquals(myProposal2.expiration, proposals[1].expiration)
         assertEquals(myProposal2.level, proposals[1].level)
         assertIterableEquals(myProposal2.cdS, proposals[1].cdS)
-        assertEquals(myProposal2.archiviation_type, proposals[1].archiviation_type)
+        assertEquals(myProposal2.archived, proposals[1].archived)
         proposalRepository.deleteAll()
     }
     @Test
@@ -267,7 +269,7 @@ class ProductTests {
 
         assertEquals(myProposal2.level, updatedProposal.level)
         assertIterableEquals(myProposal2.cdS, updatedProposal.cdS)
-        assertEquals(myProposal2.archiviation_type, updatedProposal.archiviation_type)
+        assertEquals(myProposal2.archived, updatedProposal.archived)
         proposalRepository.deleteAll()
     }
     @Test
@@ -302,7 +304,7 @@ class ProductTests {
         val proposal2 = proposalRepository.save(myProposal2)
 
         val inactiveProposal = proposalRepository.save(myProposal3)
-        inactiveProposal.archiviation_type = true
+        inactiveProposal.archived = archiviation_type.MANUALLY_ARCHIVED
         proposalRepository.save(inactiveProposal)
 
         val getActiveProposalsUrl = "http://localhost:$port/API/proposals/bysupervisor/${myProposal1.supervisor}"
@@ -364,7 +366,7 @@ class ProductTests {
         assertEquals(savedProposal.expiration, proposalResponse.expiration)
         assertEquals(savedProposal.level, proposalResponse.level)
         assertIterableEquals(savedProposal.cdS, proposalResponse.cdS)
-        assertEquals(savedProposal.archiviation_type, proposalResponse.archiviation_type)
+        assertEquals(savedProposal.archived, proposalResponse.archived)
 
         proposalRepository.deleteAll()
     }
