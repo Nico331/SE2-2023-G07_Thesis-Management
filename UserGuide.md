@@ -1,11 +1,17 @@
 # Thesis Management System Guide
 
-## Introduction
+## Index
+
+1. [Introduction](#introduction)
+2. [Prerequisites](#prerequisites)
+3. [Installation](#installation)
+
+## 1 Introduction <a name="introduction"></a>
 
 Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for student and
 professor of Politecnico of Turin.
 
-## Prerequisites
+## 2 Prerequisites <a name="prerequisites"></a>
 
 Before you begin, make sure you have installed:
 
@@ -17,7 +23,7 @@ Before you begin, make sure you have installed:
 
 Is recommended to use Intellij Idea
 
-## Installation and Execution
+## 3 Installation and Execution <a name="installation"></a>
 
 Follow these steps to install and start the system.
 
@@ -40,7 +46,7 @@ Follow these steps to install and start the system.
 
 Now you are ready to start! let's take a look at the system's features and how to use them.
 
-## Login
+## 4 Login <a name="introduction"/>
 
 First of all from the initial page you can log in with one of the following default username.
 
@@ -60,7 +66,7 @@ Professors usernames:
 - p300004@polito.it
 - p300005@polito.it
 
-## Are you a student?
+## 5 Are you a student? <a name="introduction"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
 
@@ -69,7 +75,7 @@ From the main page you can choose between two options each with its own button w
 
 In every moment you can change page browsing the **menu** in the top right part of the pages.
 
-### Search for a thesis proposal
+### 5.1 Search for a thesis proposal <a name="introduction"/>
 
 This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
 
@@ -86,14 +92,14 @@ window (click another time on the proposal to close it). This window shows the p
 expiration date and a button that will open a modal containing all the proposal information. From this modal you can
 go to the **application page** using the "Apply" button.
 
-#### Apply for a thesis proposal
+#### 5.1.1 Apply for a thesis proposal <a name="introduction"/>
 
 The application page shows information about you and your university career. The page offers you the possibility to
 add a **document** (your CV for example).
 You can send your application with the "Apply" button at the end of the page, then you'll get a message based on the
 application outcome.
 
-### My proposals application
+### 5.2 My proposals application <a name="introduction"/>
 
 In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
 that could be:
@@ -101,17 +107,17 @@ that could be:
 - "REJECTED", your application has been rejected by the supervisor.
 - "ACCEPTED", your application has been accepted by the supervisor.
 
-## Are you a professor?
+## 6 Are you a professor? <a name="introduction"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
 
 - Add a new thesis proposal
 - My thesis proposals
 
-### Add a new thesis proposal
+### 6.1 Add a new thesis proposal <a name="introduction"/>
 
-...
 
-### My thesis proposals
 
-...
+### 6.2 My thesis proposals <a name="introduction"/>
+
+This page displays your thesis proposals and the respective application. From this page you are able to delete or edit (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the proposals you'll see its applications with the information about the candidate. You can accept one of the applications and consequently reject others.
