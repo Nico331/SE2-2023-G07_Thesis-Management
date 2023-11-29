@@ -3,7 +3,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import VirtualClock from "../VirtualClock";
 
 type StudentNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;

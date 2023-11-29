@@ -220,11 +220,14 @@ const BrowseApplications = () => {
                                                                 </Button>
                                                             </>
                                                         )}
-                                                        {application.status === 'REJECTED' && (
-                                                            <span style={{ color: 'red' }}>REJECTED</span>
+                                                        {application.status === 'CANCELLED' && (
+                                                            <span style={{ color: 'red' }}>CANCELLED</span>
                                                         )}
                                                         {application.status === 'ACCEPTED' && (
                                                             <span style={{ color: 'green' }}>ACCEPTED</span>
+                                                        )}
+                                                        {application.status === 'REJECTED' && (
+                                                            <span style={{ color: 'green' }}>REJECTED</span>
                                                         )}
 
                                                     </div>

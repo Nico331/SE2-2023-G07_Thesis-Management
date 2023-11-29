@@ -91,10 +91,12 @@ class AppliedProposalService(
         if(appliedProposal == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
 
+        /*
         //check if proposal already ARCHIVED
         val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
         if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
+        */
 
         //check if it already ACCEPTED
         if(appliedProposal.status==ApplicationStatus.ACCEPTED)
@@ -130,10 +132,12 @@ class AppliedProposalService(
         if(appliedProposal == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
 
+        /*
         //check if proposal already ARCHIVED
         val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
         if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
+        */
 
         //check if it already ACCEPTED
         if(appliedProposal.status==ApplicationStatus.ACCEPTED)

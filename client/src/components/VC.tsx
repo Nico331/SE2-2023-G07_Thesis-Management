@@ -1,8 +1,9 @@
 import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
-import {Row, Col, Form, Container} from 'react-bootstrap';
+import {Row, Col, Form, Container, Button} from 'react-bootstrap';
 import { BsCalendar } from 'react-icons/bs';
 import { FaTrash } from 'react-icons/fa';
 import dayjs from 'dayjs';
+import ClockService from "../services/ClockService";
 
 type VirtualClockProps = {
     refresh: boolean;
@@ -27,21 +28,23 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) =
         return () => clearInterval(id);
     }, [showDatePicker]);
 
-    const handleDateChange = (newDate) => {
+    const handleDateChange = async (newDate) => {
         if(newDate === "") setDate(dayjs);
         else{
             setDate(dayjs(newDate));
             setShowDatePicker(false);
+
+            await ClockService.setClock(newDate);
+
             setRefresh(true);
         }
-        //QUI MANCA API
     };
 
-    const handleReset = () => {
-        setDate(dayjs());
-        setRefresh(true);
 
-        //QUI MANCA API
+    const handleReset = async () => {
+        setDate(dayjs());
+        await ClockService.resetClock();
+        setRefresh(true);
     };
 
     return (
@@ -53,7 +56,7 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) =
                         <Form.Control
                             type="datetime-local"
                             placeholder="Enter date"
-                            value={date.format('YYYY-MM-DDTHH:mm')}
+                            value={date.format('YYYY-MM-DDTHH:mm:ss')}
                             onChange={(e) => handleDateChange(e.target.value)}
                         />
                     </Form.Group>
