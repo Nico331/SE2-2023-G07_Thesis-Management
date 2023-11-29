@@ -26,23 +26,43 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - network
+#
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:latest
+#    container_name: keycloak
+#    environment:
+#      KEYCLOAK_ADMIN: "admin"
+#      KEYCLOAK_ADMIN_PASSWORD: "password"
+#    ports:
+#      - "8082:8080"
+#      - "8443:8443"
+#    depends_on:
+#      - postgres
+#    volumes:
+#      - ./docker/SpringBootKeycloak-realm.json:/opt/keycloak/data/import/SpringBootKeycloak-realm.json
+#    command:
+#      - start-dev
+#      - --import-realm
+#    networks:
+#      - network
+
 
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak
-    environment:
-      KEYCLOAK_ADMIN: "admin"
-      KEYCLOAK_ADMIN_PASSWORD: "password"
+    image: nico331/keycloak
+    container_name: custom_keycloak
+  #    environment:
+  #      KEYCLOAK_ADMIN: "admin"
+  #      KEYCLOAK_ADMIN_PASSWORD: "password"
     ports:
       - "8082:8080"
       - "8443:8443"
     depends_on:
       - postgres
-    volumes:
-      - ./docker/SpringBootKeycloak-realm.json:/opt/keycloak/data/import/SpringBootKeycloak-realm.json
+  #    volumes:
+  #      - ./docker/SpringBootKeycloak-realm.json:/opt/keycloak/data/import/SpringBootKeycloak-realm.json
     command:
       - start-dev
-      - --import-realm
+  #      - --import-realm
     networks:
       - network
 
