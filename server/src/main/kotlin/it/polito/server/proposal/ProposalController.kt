@@ -24,9 +24,9 @@ class ProposalController (private val proposalService: ProposalService){
         return proposalService.manuallyArchivedProposal(id)
     }
 
-    @PutMapping("/{id}")
-    fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
-        val updatedProposal = proposalService.updateProposal(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    @PutMapping("/{proposalId}")
+    fun updateProposal (@PathVariable proposalId : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
+        val updatedProposal = proposalService.updateProposal(proposalId, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         return ResponseEntity.ok(updatedProposal)
     }
 

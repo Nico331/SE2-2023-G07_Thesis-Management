@@ -20,7 +20,7 @@ ProposalDTO
 	"expiration" : String YYYY-MM-DD,
 	"level" : String,
 	"cdS" : String[],
-	"archived" : boolean	
+	"archived" : enum {EXPIRED, MANUALLY_ARCHIVED, NOT_ARCHIVED}	
 }
 ```
 
@@ -34,15 +34,24 @@ ProposalDTO
 	- PUT ___`/API/proposals/{proposalID}`___
 	- Request body must contain the updated ProposalDTO.
 	- Return the just updated and saved ProposalDTO object.
+- Archive a Proposal
+	- PUT ___`/API/proposals//manuallyarchived/{proposalID}`___
+    - Returns OK if success, BAD_REQUEST or NOT_FOUND otherwise.
 - Get an existing Proposal
 	- GET ___`/API/proposals/{proposalID}`___
 	- Return the requested proposal if exists, otherwise response code 404.
 - Get all existing Proposals
 	- GET ___`/API/proposals`___
 	- Return an array of ProposalDTO objects. It contains all the proposals in the database.
-- Get all the Proposals created by a supervisor
+- Get all the active proposals and filtered for a student.
+  	- GET ___`/API/proposals/student/{studentid}`___
+  	- Returns all the active (not archived, not expired) proposals, without the ones the student already applied for.
+- Get all the active Proposals created by a supervisor
 	- GET ___`/API/proposals/bysupervisor/{supervisorID}`___
-	- Return an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified in the URL.
+	- Returns an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified and still active (not archived, not expired).
+- Get all the active Proposals matching the filters
+	- GET ___`/API/proposals/filters?filter1=value1&filter2=value2&...`___
+	- Returns the Proposals that match with searching filters.
 - Delete an existing Proposal
 	- DELETE ___`/API/proposals/{proposalID}`___
 	- Return the status OK when success.
@@ -139,7 +148,7 @@ Student
 
 - Create a new Student
 	- POST ___`/API/students`___ 
-	- Request body must contain a Student (__not StudentDTO) object with the `"id" = null`.
+	- Request body must contain a Student (__not StudentDTO__) object with the `"id" = null`.
 	- Return the just saved StudentDTO with the new _id_ field.
 - Update an existing Student
 	- PUT ___`/API/students/{studentID}`___
@@ -168,29 +177,96 @@ AppliedProposalDTO
 	"id" : nullable String,
 	"proposalId" : String,
 	"studentId" : String,
-	"status" : enum {"PENDING", "APPROVED", "REJECTED"}
+	"status" : enum {"PENDING", "APPROVED", "REJECTED", "CANCELLED"},
+	"file" : nullable FileDTO
 }
 ```
+
+```json
+FileDTO
+{
+	"content": ByteArray,
+	"name": String,
+	"originalFilename": String,
+	"contentType": String
+}
+```
+
+```json
+LongObjProposal
+{
+	"id": nullable String,
+	"title": String,
+	"supervisor": String,
+	"coSupervisors": String[],
+	"keywords": String[],
+	"type": String,
+	"groups": String[],
+	"description": String,
+	"requiredKnowledge" : String,
+	"notes" : String,
+	"expiration" : LocalDate,
+	"level": String,
+	"cdS" : String[],
+	"archived" : enum {EXPIRED, MANUALLY_ARCHIVED, NOT_ARCHIVED},
+	"applications": Applications[]
+}
+```
+```json
+Applications
+{
+	"id": nullable String,
+	"proposalId": String,
+	"student": Student,
+	"status": enum {"PENDING", "APPROVED", "REJECTED", "CANCELLED"},
+	"file": nullable FileDTO
+}
+```
+
+```json
+Student
+{
+	"id": nullable String,
+	"surname": String,
+	"name": String,
+	"gender": String,
+	"nationality": String,
+	"email": String,
+	"codDegree": String,
+	"enrollmentYear": Int,
+	"listExams": CareerDTO[]
+}
+```
+
+
+
 
 ## AppliedProposal APIs
 
 - Create an Application
 	- POST ___`/API/appliedProposal/apply/{proposalId}/{studentId}`___
 	- Return the new AppliedProposalTDO if success.
-	- Return BAD_REQUEST status if the _studentId_ student has already applied for the _proposalId_ proposal. 
-- Get an existing Application
-	- GET ___`/API/appliedProposal/{id}`___
-	- Return the requested AppliedProposalDTO
+	- Return BAD_REQUEST status if the _studentId_ student has already applied for the _proposalId_ proposal.
 - Get all the existing Applications
 	- GET ___`/API/appliedProposal`___
-	- Return an array of AppliedProposalDTO objects. It contains all the applications in the database.
+	- Return an array of all the AppliedProposalDTO objects in the database.
 - Get all the Applications by a specific student
 	- GET ___`/API/appliedProposal/bystudent/{studentID}`___
 	- Return an array of AppliedProposalDTO objects. The Applications are the only ones applied by the student specified in the URL.
+- Get all the applications for a specific proposal.
+	- GET ___`/API/appliedProposal/byproposal/{proposalID}`___
+    - Return an array of AppliedProposalDTO objects. The Applications are the only ones related to the proposal specified in the URL.
+- Get all the applications related to a professor.
+	- GET ___`/API/appliedProposal/{professorId}`___
+	- Return an array of LongObjProposal objects. 
+    - Every proposal has the specified professor as supervisor.
+    - Every proposal contains an array of Application.
+      - Every Application object has the student info who has created it.
 - Accept an Application
 	- PUT ___`/API/appliedProposal/accept/{applicationId}`___
 	- Return OK status if success.
 	- Return NOT_FOUND if the Applications doesn't exist.
+    - It reject automatically all the other applications for the same proposal. 
 -  Reject an Application
 	- PUT ___`/API/appliedProposal/reject/{applicationId}`___
 	- Return OK status if success.
@@ -240,3 +316,32 @@ DegreeDTO
 ```
 
 ## Degree APIs
+
+-----
+
+# Virtual Clock and time logic
+
+The time logic in the server is implemented via the Java class Clock. The service _ClockService_
+owns 2 different clocks: the real time clock and a virtual clock.
+
+A scheduled function is run automatically every T time, and check clocks: if a new day has started,
+the server will update all proposal's archived state, depending on the expiration date.
+
+Note that if the proposal has been manually archived by the professor, it will remain archived anyways.
+
+The virtual clock allow testing and showing features about expirations and time-events handling. It can be setted by
+the webapp page.
+
+## Virtual Clock APIs
+
+- Set a new virtual clock.
+  - PUT ___`/API/virtualclock/set/{dateTimeToSet}`___
+  - The path variable _dateTimeToSet_ must be formatted like __"yyyy-MM-dd'T'HH:mm:ss"__.
+  - This API set a new virtual clock and updates all the archived states of the proposals.
+  - It allows to set both past Dates and future Dates.
+  - The webapp must re-fetch the new data when an OK response is returned.
+- Reset to the real time clock.
+  - PUT ___`/API/virtualclock/reset`___
+  - It reset the server clock to the real time one and updates the archived states accordingly.
+  - The webapp must re-fetch the updated data when an OK response is returned.
+  - If a proposal is set as "manually archived", it remains as such.
