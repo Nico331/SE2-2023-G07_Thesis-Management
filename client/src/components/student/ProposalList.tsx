@@ -19,6 +19,7 @@ import VC from "../VC";
 import dayjs from "dayjs";
 
 const ProposalList = () => {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
     const [proposals, setProposals] = useState([]);
     const [professors, setProfessors] = useState([]);
     const [propsOnScreen, setPropsOnScreen] = useState([]);
@@ -31,7 +32,7 @@ const ProposalList = () => {
     const [date, setDate] = useState(dayjs());
 
     const refreshProposals = async () => {
-        const response = await ProposalService.fetchAllProposals();
+        const response = await ProposalService.getAllByStudent(user.id);
         setProposals(response.data);
         setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
         setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));

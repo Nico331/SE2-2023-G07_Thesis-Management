@@ -7,6 +7,10 @@ export default {
         return axios.get(`${endpoint}/${id}`);
     },
 
+    getAllByStudent(studentId) {
+        return axios.get(`${endpoint}/student/${studentId}`)
+    },
+
     fetchAllProposals() {
         return axios.get(endpoint);
     },
