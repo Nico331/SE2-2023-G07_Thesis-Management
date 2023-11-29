@@ -9,12 +9,14 @@ import LoginModal from "../login/LoginModal";
 import LoginBody from "../login/LoginBody";
 import StudentApplyForm from "../student/StudentApplyForm";
 import StudentApplicationList from "../student/StudentApplicationList";
+import MainNavBar from "../NavBar";
 
 
-function AdminRoutes(){
+function AdminRoutes({setRole}){
     return(
         <>
-            <AdminNavigation />
+            {/* <AdminNavigation /> */}
+            <MainNavBar role={"ADMIN"} user={undefined} setRole={setRole}/>
             <Routes>
                 <Route path="/" element={ <AdminMain/> } >
                     <Route index element={<AdminMain/>} />

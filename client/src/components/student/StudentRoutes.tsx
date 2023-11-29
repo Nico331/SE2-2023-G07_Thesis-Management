@@ -7,6 +7,7 @@ import StudentApplyForm from "../student/StudentApplyForm";
 import React, {Dispatch, SetStateAction} from "react";
 import Logout from "../login/Logout";
 import StudentApplicationsListCollapse from "./StudentApplicationsListCollapse";
+import MainNavBar from "../NavBar";
 
 type StudentRoutesProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -16,7 +17,8 @@ const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRole }) =>{
     console.log("In admin")
     return(
         <>
-            <StudentNavigation />
+            {/* <StudentNavigation /> */}
+            <MainNavBar setRole={setRole} role={"STUDENT"} user={undefined}/>
             <Routes>
                 <Route path="/" element={ <StudentMain/> } >
                     <Route index element={<StudentMain/>} />

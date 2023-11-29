@@ -8,6 +8,11 @@ import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
 import GuestRoutes from "./components/guest/GuestRoutes";
 import { Container } from 'react-bootstrap';
+import MainNavBar from "./components/NavBar";
+
+
+
+
 function App() {
     const [user, setUser] = useState<UserContextType | null>(null);
     const userContextValue = { user, setUser };
@@ -23,24 +28,26 @@ function App() {
     },[])
 
     return (
-        <Container style={{height: "100vh"}} fluid >
-            <Container className="text-center" style={{width:"100%"}} fluid>
-                <BrowserRouter>
-                    <TokenProvider>
-                        <UserContext.Provider value={userContextValue}>
-                            <AuthCheck key={role}>
-                                {console.log(role)}
-                                {role==="STUDENT" ? <StudentRoutes setRole={setRole}/> :
-                                    role==="PROFESSOR" ? <ProfessorRoutes setRole={setRole}/> :
-                                        role==="ADMIN" ? <AdminRoutes setRole={setRole}/> :
-                                            <GuestRoutes setRole={setRole}/>
-                                }
-                            </AuthCheck>
-                        </UserContext.Provider>
-                    </TokenProvider>
-                </BrowserRouter>
+        <>
+            <Container style={{height: "100vh"}} fluid >
+                <Container className="text-center" style={{width:"100%"}} fluid>
+                    <BrowserRouter>
+                        <TokenProvider>
+                            <UserContext.Provider value={userContextValue}>
+                                <AuthCheck key={role}>
+                                    {console.log(role)}
+                                    {role==="STUDENT" ? <StudentRoutes setRole={setRole}/> :
+                                        role==="PROFESSOR" ? <ProfessorRoutes setRole={setRole}/> :
+                                            role==="ADMIN" ? <AdminRoutes setRole={setRole}/> :
+                                                <GuestRoutes setRole={setRole}/>
+                                    }
+                                </AuthCheck>
+                            </UserContext.Provider>
+                        </TokenProvider>
+                    </BrowserRouter>
+                </Container>
             </Container>
-        </Container>
+        </>
     );
 }
 

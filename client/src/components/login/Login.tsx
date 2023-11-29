@@ -4,6 +4,7 @@ import {Container, Row, Col, Form, Button, Image} from 'react-bootstrap';
 import { UserContext} from "../../contexts/UserContexts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import MainNavBar from '../NavBar';
 export type LoginProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 }
@@ -12,6 +13,7 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     const [password, setPassword] = useState('');
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
+    const [hover, setHover] = useState(false);
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -37,6 +39,7 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     };
 
     return (
+    <>
         <Container className="d-flex flex-column">
             <Container className="border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"60vh", width:"50vh", marginTop: "120px"}}>
                 <Container className="mt-3 d-flex justify-content-center">
@@ -66,8 +69,12 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                             />
                         </Form.Group>
 
-                        <div className="d-flex justify-content-center">
-                            <Button className="mt-5" variant="primary" type="submit" style={{height:"5vh", width:"20vh"}}>
+                        <div className="d-flex justify-content-center" >
+                            <Button className="mt-5" variant="primary" type="submit" style={{background: hover ? "#006d72" : '#00838B'}}
+                                    onMouseEnter={() => setHover(true)}
+                                    onMouseOut={() => setHover(false)}
+                                    onTouchStart={() => setHover(true)}
+                                    onTouchEnd={() => setHover(false)}>
                                 Log in
                             </Button>
                         </div>
@@ -75,7 +82,7 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                 </Container>
             </Container>
         </Container>
-
+        </>
     );
 };
 

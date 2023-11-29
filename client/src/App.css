@@ -46,3 +46,35 @@
 #Stu-Modal-Details > div > div {
   margin-bottom: 10px;
 }
+
+.links {
+  color: white;
+  border: 0px solid gray;
+  border-radius: 3px;
+  padding: 4px 10px 5px 9px;
+  background: transparent;
+}
+
+.links:hover {
+  color: white;
+  border: 1px solid rgba(247, 247, 247, 0.5);
+  padding: 3px 9px 4px 8px;
+  background: rgba(247, 247, 247, 0.1);
+}
+
+.canvas > div {
+  color: white;
+  width: 95%;
+  border: 0px solid gray;
+  margin: 5px 5px 5px 5px;
+  padding: 5px 10px 5px 9px;
+  border-radius: 3px;
+
+  background: transparent;
+}
+.canvas > div:hover {
+  color: white;
+  border: 1px solid rgba(247, 247, 247, 0.5);
+  padding: 4px 9px 4px 8px;
+  background: rgba(247, 247, 247, 0.1);
+}
