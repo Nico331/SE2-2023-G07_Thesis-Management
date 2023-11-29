@@ -7,10 +7,14 @@ import AdminRoutes from './components/administrator/AdminRoutes'
 import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
 import GuestRoutes from "./components/guest/GuestRoutes";
+import {Auth0Provider, useAuth0} from '@auth0/auth0-react';
+
 function App() {
     const [user, setUser] = useState<UserContextType | null>(null);
     const userContextValue = { user, setUser };
     const [role, setRole] = useState("");
+    const { userAuth0, isAuthenticated, isLoading } = useAuth0();
+
     // @ts-ignore
     useEffect(()=>{
         // @ts-ignore
@@ -22,20 +26,28 @@ function App() {
     },[])
 
     return (
-        <BrowserRouter>
-            <TokenProvider>
-                <UserContext.Provider value={userContextValue}>
-                    <AuthCheck key={role}>
-                        {console.log(role)}
-                        {role==="STUDENT" ? <StudentRoutes setRole={setRole}/> :
-                            role==="PROFESSOR" ? <ProfessorRoutes setRole={setRole}/> :
-                                role==="ADMIN" ? <AdminRoutes setRole={setRole}/> :
-                                    <GuestRoutes setRole={setRole}/>
-                        }
-                    </AuthCheck>
-                </UserContext.Provider>
-            </TokenProvider>
-        </BrowserRouter>
+        <Auth0Provider
+            domain="dev-6a2x1a30ubmlmjbq.us.auth0.com"
+            clientId="umq5LAOBYdw98PtPVEVnAXIXMUpZ11Ob"
+            authorizationParams={{
+                redirect_uri: window.location.origin
+            }}
+        >
+            <BrowserRouter>
+                <TokenProvider>
+                    <UserContext.Provider value={userContextValue}>
+                        <AuthCheck key={role}>
+                            {console.log(role)}
+                            {role==="STUDENT" ? <StudentRoutes setRole={setRole}/> :
+                                role==="PROFESSOR" ? <ProfessorRoutes setRole={setRole}/> :
+                                    role==="ADMIN" ? <AdminRoutes setRole={setRole}/> :
+                                        <GuestRoutes setRole={setRole}/>
+                            }
+                        </AuthCheck>
+                    </UserContext.Provider>
+                </TokenProvider>
+            </BrowserRouter>
+        </Auth0Provider>
     );
 }
 

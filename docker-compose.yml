@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.7'
 services:
   mongoDB:
     image: 'mongo'
@@ -13,23 +13,55 @@ services:
       - ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       #- mongodata:/data/db
     networks:
-      - mynetwork
+      - network
+
+  postgres:
+    image: postgres
+    container_name: keycloak_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak_db
+      POSTGRES_USER: keycloak_db
+      POSTGRES_PASSWORD: password
+    networks:
+      - network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "password"
+    ports:
+      - "8082:8080"
+      - "8443:8443"
+    depends_on:
+      - postgres
+    command:
+      - start-dev
+    networks:
+      - network
 
   backend:
     image: "server:0.0.1-SNAPSHOT"
-    container_name: serverContainer
+    container_name: backend
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
     ports:
-      - '8081:8081'
+      - "8081:8081"
     depends_on:
       - mongoDB
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo_db:27017 #/mongo_db
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      - keycloak
     networks:
-      - mynetwork
+      - network
+
 
 volumes:
   mongodata:
+  postgres_data:
+
 
 networks:
-  mynetwork:
+  network:
+    driver: bridge

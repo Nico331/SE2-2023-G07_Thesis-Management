@@ -8,6 +8,7 @@ import Logout from "../login/Logout";
 import ProposalForm from "./ProposalForm";
 import BrowseApplications from "./BrowseApplications";
 import Student from "../../types/Student";
+import Profile from "../loginwithauth0/Profile";
 type ProfessorRoutesProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
 };
@@ -18,6 +19,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
             <div className="App" style={{paddingTop: 70}}>
             <ProfessorNavigation setRole={setRole} />
             <Routes>
+                <Route path="/profile" element={<Profile/>}/>
                 <Route path="/" element={ <BrowseApplications/> } >
                     <Route index element={<BrowseApplications/>} />
                     <Route path="/*" element={ <NotFound/> } />

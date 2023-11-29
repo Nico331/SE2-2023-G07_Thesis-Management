@@ -3,6 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {useAuth0} from "@auth0/auth0-react";
 
 type ProfessorNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -11,6 +12,8 @@ type ProfessorNavigationProps = {
 const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>{
     const [showDropdown, setShowDropdown] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
+    const { logout } = useAuth0();
+
     const handleMouseLeave = () => {
         if (timeoutId) clearTimeout(timeoutId);
 
@@ -46,7 +49,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                         <NavDropdown.Item href={"/browse-applications"} > Browse proposals and applications </NavDropdown.Item>
                         <NavDropdown.Item href={"/add-proposal"} > Add proposals </NavDropdown.Item>
                         <NavDropdown.Divider /> {}
-                        <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</NavDropdown.Item>
                     </NavDropdown>
 
                     &nbsp;&nbsp;

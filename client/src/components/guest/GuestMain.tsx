@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import LoginButton from "../loginwithauth0/LoginButton";
 
 const GuestMain: React.FC = () => {
     return (
@@ -14,7 +15,7 @@ const GuestMain: React.FC = () => {
                                 Esplora le proposte di tesi disponibili e scopri le opportunità che il nostro ateneo ha da offrire.
                             </Card.Text>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <Button variant="primary" href="/login">Effettua il login!</Button>
+                                <LoginButton/>
                             </div>
                         </Card.Body>
                     </Card>
