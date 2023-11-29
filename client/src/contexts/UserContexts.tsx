@@ -41,18 +41,18 @@ interface TokenContextType {
 }
 
 export const UserContext = createContext<UserContextType>({
-    user: null,
+    user: "",
     setUser: () => {},
 })
 
 export const RoleContext = createContext<RoleContextType>({
-    role: null,
+    role: "",
     setRole: () => {},
 })
-;const LogOutContext = createContext<LogOutContextType | null>(null);
+export const LogOutContext = createContext<LogOutContextType | null>(null);
 
 export const TokenContext = createContext<TokenContextType>({
-    token: null,
+    token: "",
     setToken: () => {},
 });
 
@@ -97,4 +97,3 @@ export const RoleProvider: React.FC<RoleProviderProps> = ({ children }) => {
         </RoleContext.Provider>
     );
 };
-export { LogOutContext };

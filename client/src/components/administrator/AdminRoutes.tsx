@@ -12,11 +12,11 @@ import StudentApplicationList from "../student/StudentApplicationList";
 import MainNavBar from "../NavBar";
 
 
-function AdminRoutes({setRole}){
+function AdminRoutes({setRoleState}){
     return(
         <>
             {/* <AdminNavigation /> */}
-            <MainNavBar role={"ADMIN"} user={undefined} setRole={setRole}/>
+            <MainNavBar role={"ADMIN"} user={undefined} setRole={setRoleState}/>
             <Routes>
                 <Route path="/" element={ <AdminMain/> } >
                     <Route index element={<AdminMain/>} />

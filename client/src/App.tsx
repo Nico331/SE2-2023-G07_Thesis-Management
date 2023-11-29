@@ -1,22 +1,45 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
 import AuthCheck from "./components/login/AuthCheck";
-import {RoleContext, RoleProvider, TokenProvider, UserContext, UserContextType} from "./contexts/UserContexts";
+import {
+    LogOutContext,
+    RoleContext,
+    RoleProvider,
+    TokenProvider,
+    UserContext,
+    UserContextType
+} from "./contexts/UserContexts";
 import AdminRoutes from './components/administrator/AdminRoutes'
 import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
 import GuestRoutes from "./components/guest/GuestRoutes";
 import { Container } from 'react-bootstrap';
-import MainNavBar from "./components/NavBar";
-
-
 
 
 function App() {
+
+    return (
+        <BrowserRouter>
+            <Container fluid className="App">
+                <Routes>
+                    <Route path="/*" element={<Main />} />
+                </Routes>
+            </Container>
+        </BrowserRouter>
+
+    )
+
+}
+
+function Main() {
     const [user, setUser] = useState<UserContextType | null>(null);
+    const [token,setToken]=useState(localStorage.getItem("token")?localStorage.getItem("token") :"")
+    //const [user,setUser]=useState(localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):"")
+
     const userContextValue = { user, setUser };
     const [role, setRole] = useState("");
+    const navigate = useNavigate()
     // @ts-ignore
     useEffect(()=>{
         // @ts-ignore
@@ -26,33 +49,39 @@ function App() {
         console.log(role);
         console.log(user);
     },[])
+    const logOut=()=>{
+
+        setToken('')
+        localStorage.clear()
+        sessionStorage.clear()
+        navigate("/")
+    }
 
     return (
         <>
             <Container style={{height: "100vh"}} fluid >
                 <Container className="text-center" style={{width:"100%"}} fluid>
-                    <BrowserRouter>
                         <TokenProvider>
                             <RoleProvider>
-                                <UserContext.Provider value={userContextValue}>
-                                    <AuthCheck key={role}>
-                                        {console.log(role)}
-                                        {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
-                                            role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
-                                                role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :
-                                                    <GuestRoutes setRoleState={setRole}/>
-                                        }
-                                    </AuthCheck>
-                                </UserContext.Provider>
+                                <LogOutContext.Provider value={logOut}>
+                                    <UserContext.Provider value={userContextValue}>
+                                        <AuthCheck key={role}>
+                                            {console.log(role)}
+                                            {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
+                                                role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
+                                                    role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :
+                                                        <GuestRoutes setRoleState={setRole}/>
+                                            }
+                                        </AuthCheck>
+                                    </UserContext.Provider>
+                                </LogOutContext.Provider>
                             </RoleProvider>
                         </TokenProvider>
-                    </BrowserRouter>
                 </Container>
             </Container>
         </>
     );
 }
-
 export default App;
 
     /*

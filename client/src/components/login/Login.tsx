@@ -19,7 +19,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
     const { token, setToken } = useContext(TokenContext)
-    const { role, setRole } = useContext(TokenContext)
+    const { role, setRole } = useContext(RoleContext)
 
     const credentialsWrong = () => {
         setAlert(true);
@@ -63,7 +63,10 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
             localStorage.setItem('user', JSON.stringify(userInfo));
             sessionStorage.setItem("user", JSON.stringify(userInfo));
             setUser(JSON.stringify(userInfo));
-            setRoleState(userRole);
+            setRole(userRole.toString())
+            console.log("Prima di settare userRole")
+            setRoleState(userRole.toString());
+            console.log("Faccio la navigate")
             navigate('/');
         } catch (error) {
             // @ts-ignore

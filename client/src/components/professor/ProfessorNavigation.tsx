@@ -1,8 +1,9 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {LogOutContext} from "../../contexts/UserContexts";
 
 type ProfessorNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -15,6 +16,8 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
     const [timeoutId, setTimeoutId] = useState(null);
     const navigate = useNavigate();
     const dropdownTitle = "Hi "+user.name;
+    const logOut=useContext(LogOutContext)
+
 
     const handleMouseLeave = () => {
         if (timeoutId) clearTimeout(timeoutId);
@@ -51,7 +54,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                             <NavDropdown.Item onClick={() => navigate("/browse-applications")}> Browse proposals and applications </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/add-proposal")}> Add proposals </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
-                            <NavDropdown.Item onClick={() => navigate("/logout")}>Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => logOut()}>Logout</NavDropdown.Item>
                         </NavDropdown>
 
                         &nbsp;&nbsp;

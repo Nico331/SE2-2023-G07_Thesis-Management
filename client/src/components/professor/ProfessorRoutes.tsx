@@ -11,15 +11,15 @@ import Student from "../../types/Student";
 import MainNavBar from "../NavBar";
 
 type ProfessorRoutesProps = {
-    setRole: Dispatch<SetStateAction<string | null>>;
+    setRoleState: Dispatch<SetStateAction<string | null>>;
 };
 
-const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
+const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
     return(
         <>
             <div className="App" style={{paddingTop: 70}}>
             {/* <ProfessorNavigation setRole={setRole} /> */}
-            <MainNavBar setRole={setRole} role={"PROFESSOR"} user={undefined}/>
+                { <MainNavBar setRole={setRoleState} role={"PROFESSOR"} user={undefined}/> }
             <Routes>
                 <Route path="/" element={ <ProfessorMain/> } >
                     <Route index element={<BrowseApplications/>} />
@@ -28,7 +28,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRole }) =>{
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
                 <Route path="/browse-applications" element={<BrowseApplications/>} />
                 <Route path="/add-proposal" element={<ProposalForm/>} />
-                <Route path="/logout" element={<Logout setRole={setRole}/>} />
+                <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
             </Routes>
             </div>
         </>

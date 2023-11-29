@@ -23,12 +23,15 @@ class WebSecurityConfig {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
             it.requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
+            it.requestMatchers(HttpMethod.PUT,"/API/virtualclock/**").permitAll()
+            it.requestMatchers(HttpMethod.POST,"/API/virtualclock/**").permitAll()
+            it.requestMatchers(HttpMethod.GET,"/API/virtualclock/**").permitAll()
             it.requestMatchers(HttpMethod.POST,"/API/chat/messages/").permitAll()
             it.requestMatchers(HttpMethod.POST,"/API/login").permitAll()
 
             it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT)
-            it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasRole(PROFESSOR)
-
+            it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT)
+            it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT)
             it.requestMatchers(HttpMethod.GET, "/realms/").permitAll()
             it.requestMatchers(HttpMethod.GET,"/API/**").authenticated()
             it.requestMatchers(HttpMethod.POST,"/API/**").authenticated()
