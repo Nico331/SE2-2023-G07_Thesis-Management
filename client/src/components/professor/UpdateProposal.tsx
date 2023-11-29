@@ -173,6 +173,7 @@ function UpdateProposal (props) {
         }
     };
 
+    console.log(props.modifyproposal);
     // -------------------------------------------
 
     return (
