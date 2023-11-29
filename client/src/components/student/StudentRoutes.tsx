@@ -22,7 +22,7 @@ const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRole }) =>{
                     <Route index element={<StudentMain/>} />
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
-                <Route path="/proposallist" element={<ProposalList/>} />
+                <Route path="/proposalList" element={<ProposalList/>} />
                 <Route path="/apply/:proposalID" element={<StudentApplyForm />} />
                 <Route path="/logout" element={<Logout setRole={setRole}/>} />
                 <Route path="/myApplicationList" element={<StudentApplicationsListCollapse/>} />

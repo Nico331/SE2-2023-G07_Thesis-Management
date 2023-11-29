@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import VirtualClock from "../VirtualClock";
 
 type StudentNavigationProps = {
@@ -14,6 +14,7 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
     const location = useLocation();
     const [showDropdown, setShowDropdown] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
+    const navigate = useNavigate();
     const dropdownTitle = "Hi "+user.name;
     const handleMouseLeave = () => {
         if (timeoutId) clearTimeout(timeoutId);
@@ -48,10 +49,10 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                             show={showDropdown}
                             onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
                             onMouseLeave={handleMouseLeave} >
-                            <NavDropdown.Item href={"/proposalList"} > Search proposals </NavDropdown.Item>
-                            <NavDropdown.Item href={"/myApplicationList"} > My Applications </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/proposalList")}> Search proposals </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/myApplicationList")} > My Applications </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
-                            <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/logout")}>Logout</NavDropdown.Item>
                         </NavDropdown>
 
                         &nbsp;&nbsp;

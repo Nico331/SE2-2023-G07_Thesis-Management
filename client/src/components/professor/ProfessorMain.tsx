@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {ProfessorBrowseProposals} from './BrowseProposals'
 import {useNavigate} from "react-router-dom";
-import {Container, Image} from "react-bootstrap";
+import {Container, Image, Button} from "react-bootstrap";
 
 const ProfessorMain= () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -14,10 +14,10 @@ const ProfessorMain= () => {
                 <h1>Welcome to Polito thesis management system</h1>
             </Container>
             <Container className="mt-3 d-flex flex-column align-items-center">
-                <button className="btn btn-outline-secondary mt-5 fs-3" style={{borderRadius:"30px", width:"50vh", height:"8vh"}} onClick={() => navigate("/add-proposal")}>Add a new thesis proposal</button>
-                <button className="btn btn-outline-secondary mt-5 fs-3" style={{borderRadius:"30px", width:"50vh", height:"8vh"}} onClick={() => navigate("/browse-applications")}>My thesis proposals</button>
+                <Button className="mt-5 fs-3" variant="outline-secondary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/add-proposal")}>Add a new thesis proposal</Button>
+                <Button className="mt-5 fs-3" variant="outline-secondary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/browse-applications")}>My thesis proposals</Button>
             </Container>
-            <Container className="d-flex justify-content-center" style={{marginTop:"10vh"}}>
+            <Container className="d-flex justify-content-center" style={{marginTop:"15vh"}}>
                 <Image style={{ width: 350, height: 150 }} src={"../logoPolito.png"}/>
             </Container>
         </Container>

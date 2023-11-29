@@ -3,9 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
 import {
-    Navbar,
     Container,
-    Image,
     Button,
     Collapse,
     ListGroup,
@@ -13,12 +11,10 @@ import {
     Card,
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import StudentModalOfProposal from "./StudentModalOfProposal";
 import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
-import VirtualClock from "../VirtualClock";
 import VC from "../VC";
 import dayjs from "dayjs";
 

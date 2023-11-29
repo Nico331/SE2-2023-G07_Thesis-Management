@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useState} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../componentsStyle.css'
 import { Navbar, Container, NavDropdown, Image} from 'react-bootstrap';
-import {Link, useLocation} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 
 type ProfessorNavigationProps = {
     setRole: Dispatch<SetStateAction<string | null>>;
@@ -13,6 +13,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
     const location = useLocation();
     const [showDropdown, setShowDropdown] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
+    const navigate = useNavigate();
     const dropdownTitle = "Hi "+user.name;
 
     const handleMouseLeave = () => {
@@ -47,10 +48,10 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                             show={showDropdown}
                             onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
                             onMouseLeave={handleMouseLeave} >
-                            <NavDropdown.Item href={"/browse-applications"} > Browse proposals and applications </NavDropdown.Item>
-                            <NavDropdown.Item href={"/add-proposal"} > Add proposals </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/browse-applications")}> Browse proposals and applications </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/add-proposal")}> Add proposals </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
-                            <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/logout")}>Logout</NavDropdown.Item>
                         </NavDropdown>
 
                         &nbsp;&nbsp;

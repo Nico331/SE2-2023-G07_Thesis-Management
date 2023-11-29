@@ -14,10 +14,10 @@ const StudentMain = () => {
                 <h1>Welcome to Polito thesis management system</h1>
             </Container>
             <Container className="mt-3 d-flex flex-column align-items-center">
-                <button className="btn btn-outline-secondary mt-5 fs-3" style={{borderRadius:"30px", width:"50vh", height:"8vh"}} onClick={() => navigate("/proposalList")}>Search for a thesis proposal</button>
-                <button className="btn btn-outline-secondary mt-5 fs-3" style={{borderRadius:"30px", width:"50vh", height:"8vh"}} onClick={() => navigate("/myApplicationList")}>My proposals applications</button>
+                <Button className="mt-5 fs-3" variant="outline-secondary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/proposalList")}>Search for a thesis proposal</Button>
+                <Button className="mt-5 fs-3" variant="outline-secondary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/myApplicationList")}>My proposals applications</Button>
             </Container>
-            <Container className="d-flex justify-content-center" style={{marginTop:"10vh"}}>
+            <Container className="d-flex justify-content-center" style={{marginTop:"15vh"}}>
                 <Image style={{ width: 350, height: 150 }} src={"../logoPolito.png"}/>
             </Container>
         </Container>

@@ -116,7 +116,9 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
     return (
         <Col className="ms-0 px-4" sm={5} style={{backgroundColor:"#e0e0e0"}}>
             <Form className="text-start" style={{marginTop:"80px"}}>
-                <Container><h3>Filters</h3></Container>
+                <Container>
+                    <h3><i className="bi bi-funnel-fill me-2"></i>Filters</h3>
+                </Container>
                 <Container style={{height:"82vh", overflowY:"auto"}}>
                     <Form.Group className="mt-2">
                         <Form.Label>Search</Form.Label>
@@ -125,7 +127,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                                 <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
                             </Col>
                             <Col sm={3}>
-                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}>Search</Button>
+                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}><i className="bi bi-search"></i></Button>
                             </Col>
                         </Row>
                         <Row className="mt-2">
