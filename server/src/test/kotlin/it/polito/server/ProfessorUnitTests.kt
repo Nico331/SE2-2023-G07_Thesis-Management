@@ -153,7 +153,7 @@ class ProfessorUnitTests {
                         id = professorId,
                         name = "Updated",
                         surname = "Professor",
-                        email = "updated.professor@example.com",
+                        email = "updatedprofessor@professor.it",
                         codGroup = "Group",
                         codDepartment = "Department"
                 )
