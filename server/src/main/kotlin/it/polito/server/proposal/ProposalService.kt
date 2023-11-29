@@ -1,6 +1,7 @@
 package it.polito.server.proposal
 
 import it.polito.server.appliedproposal.ApplicationStatus
+import it.polito.server.appliedproposal.AppliedProposalRepository
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.professor.ProfessorService
 import org.bson.Document
@@ -18,7 +19,10 @@ import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 @Service
-class ProposalService (private val proposalRepository : ProposalRepository, private val professorService: ProfessorService) {
+class ProposalService (private val proposalRepository : ProposalRepository,
+                       private val professorService: ProfessorService,
+                       private val appliedProposalRepository: AppliedProposalRepository
+    ) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
         val proposal = proposalRepository.findById(id).orElse(null) ?: return null
@@ -36,6 +40,12 @@ class ProposalService (private val proposalRepository : ProposalRepository, priv
     }
     fun findAll() : List<ProposalDTO> {
         return proposalRepository.findAll().map{(it.toDTO())}
+    }
+
+    fun findActiveByStudent( studentId : String): List<ProposalDTO>? {
+        val activeProposals = proposalRepository.findByArchived( archiviation_type.NOT_ARCHIVED )
+        val filteredProposals = activeProposals.filter { appliedProposalRepository.findByProposalIdAndStudentId( it.id!!, studentId) != null }
+        return filteredProposals.map { it.toDTO() }
     }
 
     fun deleteProposal(id: String) : ResponseEntity<Any> {
@@ -84,10 +94,10 @@ class ProposalService (private val proposalRepository : ProposalRepository, priv
 
         return ResponseEntity.ok("Proposal '$id' archived manually successfully")
     }
-
     fun findProposalBySupervisor(supervisor: String): List<ProposalDTO> {
         return proposalRepository.findBySupervisor(supervisor).map { it.toDTO() };
     }
+
     fun existsByTitleAndSupervisor (proposalTitle : String, proposalSupervisor : String): Boolean {
         val res = proposalRepository.existsProposalByTitleAndSupervisor (proposalTitle, proposalSupervisor)
         return res

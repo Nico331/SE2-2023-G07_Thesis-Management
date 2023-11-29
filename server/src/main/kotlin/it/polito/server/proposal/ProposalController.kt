@@ -11,12 +11,6 @@ import java.util.Date
 @RequestMapping("/API/proposals")
 class ProposalController (private val proposalService: ProposalService){
 
-    @PutMapping("/{id}")
-    fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
-        val updatedProposal = proposalService.updateProposal(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity.ok(updatedProposal)
-    }
-
     @PostMapping("")
     fun createProposal(@RequestBody proposal: ProposalDTO): ResponseEntity<Any> {
         if (proposalService.existsByTitleAndSupervisor(proposal.title, proposal.supervisor))
@@ -25,21 +19,33 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity(newProposal, HttpStatus.CREATED)
     }
 
-    @GetMapping("/{id}")
-    fun getProposal(@PathVariable id: String): ResponseEntity<ProposalDTO>{
-        //return proposal if exists or null
-        val proposal = proposalService.findProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity.ok(proposal)
+    @PutMapping("/manuallyarchived/{id}")
+    fun setManuallyArchivedProposal(@PathVariable id: String): ResponseEntity<Any> {
+        return proposalService.manuallyArchivedProposal(id)
     }
+
+    @PutMapping("/{id}")
+    fun updateProposal (@PathVariable id : String , @RequestBody update : ProposalDTO) : ResponseEntity<ProposalDTO> {
+        val updatedProposal = proposalService.updateProposal(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        return ResponseEntity.ok(updatedProposal)
+    }
+
     @GetMapping("")
     fun getAll(): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findAll()
         return ResponseEntity.ok(proposals)
     }
+    @GetMapping("/student/{studentid}")
+    fun getAllByStudent( @PathVariable studentid : String ): ResponseEntity<List<ProposalDTO>>{
+        val proposals = proposalService.findActiveByStudent( studentid )
+        return ResponseEntity.ok(proposals)
+    }
 
-    @DeleteMapping("/{id}")
-    fun deleteProposal(@PathVariable id: String):ResponseEntity<Any>{
-        return proposalService.deleteProposal(id)
+    @GetMapping("/{id}")
+    fun getProposal(@PathVariable id: String): ResponseEntity<ProposalDTO>{
+        //return proposal if exists or null
+        val proposal = proposalService.findProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        return ResponseEntity.ok(proposal)
     }
 
     @GetMapping("/bysupervisor/{supervisor}")
@@ -54,9 +60,9 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(proposalService.getProposalsWithFilters(filters, search))
     }
 
-    @PostMapping("/manuallyarchived/{id}")
-    fun setManuallyArchivedProposal(@PathVariable id: String): ResponseEntity<Any> {
-        return proposalService.manuallyArchivedProposal(id)
+    @DeleteMapping("/{id}")
+    fun deleteProposal(@PathVariable id: String):ResponseEntity<Any>{
+        return proposalService.deleteProposal(id)
     }
 
 }
