@@ -15,6 +15,7 @@ import StudentModalOfProposal from "./StudentModalOfProposal";
 import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
+import ClockService from "../../services/ClockService";
 import VC from "../VC";
 import dayjs from "dayjs";
 
@@ -29,7 +30,7 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
-    const [date, setDate] = useState(dayjs());
+    const [date, setDate] = useState(dayjs);
 
     const refreshProposals = async () => {
         const response = await ProposalService.getAllByStudent(user.id);
@@ -43,7 +44,12 @@ const ProposalList = () => {
         setProfessors(response.data);
     };
 
+    const setClock = async () => {
+        await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
+    };
+
     useEffect(() => {
+        setClock();
         refreshProposals();
         getProfessors();
     }, [refresh]);
@@ -52,12 +58,20 @@ const ProposalList = () => {
         setShowModal(true);
         setProposalID(proId);
         setProposalTitle(proTitle);
-    }
+    };
 
-    const handleClick = (navId) =>
+    const handleClick = (navId) => {
         setCollapseState((prev) => {
             return { ...prev, [navId]: !prev[navId] };
-    });
+        });
+    };
+
+    // const refreshPage = async () => {
+    //     setDate(dayjs());
+    //     await ClockService.resetClock();
+    //     setRefresh(!refresh);
+    //     setResetFilters(!resetFilters);
+    // };
 
     return (
         <>
@@ -76,12 +90,12 @@ const ProposalList = () => {
                                         <h2 className="ms-1">Thesis Proposals</h2>
                                     </Col>
                                     <Col className="text-end">
-                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => {setRefresh(!refresh); setResetFilters(!resetFilters)}}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                                            </svg>
-                                        </Button>
+                                        {/*<Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => refreshPage()}>*/}
+                                        {/*    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">*/}
+                                        {/*        <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>*/}
+                                        {/*        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>*/}
+                                        {/*    </svg>*/}
+                                        {/*</Button>*/}
                                     </Col>
                                 </Row>
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>

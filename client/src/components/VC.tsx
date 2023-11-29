@@ -13,7 +13,6 @@ type VirtualClockProps = {
 };
 
 const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) => {
-    // const [date, setDate] = useState(dayjs());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [timerId, setTimerId] = useState(null);
 
@@ -29,22 +28,23 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) =
     }, [showDatePicker]);
 
     const handleDateChange = async (newDate) => {
-        if(newDate === "") setDate(dayjs);
+        if(newDate === "") {
+            setDate(dayjs);
+            // await ClockService.setClock(newDate);
+            setRefresh(!refresh);
+        }
         else{
             setDate(dayjs(newDate));
-            setShowDatePicker(false);
-
-            await ClockService.setClock(newDate);
-
-            setRefresh(true);
+            // setShowDatePicker(false);
+            // await ClockService.setClock(newDate);
+            setRefresh(!refresh);
         }
     };
-
 
     const handleReset = async () => {
         setDate(dayjs());
         await ClockService.resetClock();
-        setRefresh(true);
+        setRefresh(!refresh);
     };
 
     return (
