@@ -26,14 +26,18 @@ export interface UserContextType {
     user: string;
     setUser: Dispatch<SetStateAction<string>>;
 }
+export interface RoleContextType {
+    role: string | null;
+    setRole: Dispatch<SetStateAction<string | null>>;
+}
 
 interface LogOutContextType {
     logOut: () => void;
 }
 
 interface TokenContextType {
-    role: string | null;
-    setRole: Dispatch<SetStateAction<string | null>>;
+    token: string | null;
+    setToken: Dispatch<SetStateAction<string | null>>;
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -41,11 +45,15 @@ export const UserContext = createContext<UserContextType>({
     setUser: () => {},
 })
 
+export const RoleContext = createContext<RoleContextType>({
+    role: null,
+    setRole: () => {},
+})
 ;const LogOutContext = createContext<LogOutContextType | null>(null);
 
 export const TokenContext = createContext<TokenContextType>({
-    role: null,
-    setRole: () => {},
+    token: null,
+    setToken: () => {},
 });
 
 interface TokenProviderProps {
@@ -53,6 +61,26 @@ interface TokenProviderProps {
 }
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+
+    useEffect(() => {
+        if (token === null) {
+            localStorage.removeItem('token');
+        } else {
+            localStorage.setItem('token', token);
+        }
+    }, [token]);
+
+    return (
+        <TokenContext.Provider value={{ token, setToken }}>
+            {children}
+        </TokenContext.Provider>
+    );
+};
+interface RoleProviderProps {
+    children: ReactNode;
+}
+export const RoleProvider: React.FC<RoleProviderProps> = ({ children }) => {
     const [role, setRole] = useState<string | null>(localStorage.getItem('role'));
 
     useEffect(() => {
@@ -64,10 +92,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     }, [role]);
 
     return (
-        <TokenContext.Provider value={{ role, setRole }}>
+        <RoleContext.Provider value={{ role, setRole }}>
             {children}
-        </TokenContext.Provider>
+        </RoleContext.Provider>
     );
 };
-
 export { LogOutContext };

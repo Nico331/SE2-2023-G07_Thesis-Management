@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
 import { BrowserRouter } from "react-router-dom";
 import AuthCheck from "./components/login/AuthCheck";
-import { TokenProvider, UserContext, UserContextType} from "./contexts/UserContexts";
+import {RoleContext, RoleProvider, TokenProvider, UserContext, UserContextType} from "./contexts/UserContexts";
 import AdminRoutes from './components/administrator/AdminRoutes'
 import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
@@ -20,9 +20,9 @@ function App() {
     // @ts-ignore
     useEffect(()=>{
         // @ts-ignore
-        setRole(localStorage.getItem("role"));
-        // @ts-ignore
         setUser(localStorage.getItem('user'));
+        // @ts-ignore
+        setRole(localStorage.getItem("role"));
         console.log(role);
         console.log(user);
     },[])
@@ -33,16 +33,18 @@ function App() {
                 <Container className="text-center" style={{width:"100%"}} fluid>
                     <BrowserRouter>
                         <TokenProvider>
-                            <UserContext.Provider value={userContextValue}>
-                                <AuthCheck key={role}>
-                                    {console.log(role)}
-                                    {role==="STUDENT" ? <StudentRoutes setRole={setRole}/> :
-                                        role==="PROFESSOR" ? <ProfessorRoutes setRole={setRole}/> :
-                                            role==="ADMIN" ? <AdminRoutes setRole={setRole}/> :
-                                                <GuestRoutes setRole={setRole}/>
-                                    }
-                                </AuthCheck>
-                            </UserContext.Provider>
+                            <RoleProvider>
+                                <UserContext.Provider value={userContextValue}>
+                                    <AuthCheck key={role}>
+                                        {console.log(role)}
+                                        {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
+                                            role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
+                                                role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :
+                                                    <GuestRoutes setRoleState={setRole}/>
+                                        }
+                                    </AuthCheck>
+                                </UserContext.Provider>
+                            </RoleProvider>
                         </TokenProvider>
                     </BrowserRouter>
                 </Container>

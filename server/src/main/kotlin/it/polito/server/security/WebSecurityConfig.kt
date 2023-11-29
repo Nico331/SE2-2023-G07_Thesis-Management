@@ -2,37 +2,58 @@ package it.polito.server.security
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsConfigurationSource
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 
+
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig {
-    //@Autowired
-    //private lateinit var jwtAuthConverter: JwtAuthConverter
+    @Autowired
+    private lateinit var jwtAuthConverter: JwtAuthConverter
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http.authorizeHttpRequests {
+            it.requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
+            it.requestMatchers(HttpMethod.POST,"/API/chat/messages/").permitAll()
+            it.requestMatchers(HttpMethod.POST,"/API/login").permitAll()
 
-        http.authorizeHttpRequests()
-            .requestMatchers(HttpMethod.GET,"/API/**").permitAll()
-            .requestMatchers(HttpMethod.POST,"/API/**").permitAll()
-            .requestMatchers(HttpMethod.PUT,"/API/**").permitAll()
-            .requestMatchers(HttpMethod.DELETE,"/API/**").permitAll()
-            .requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
+            it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT)
+            it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasRole(PROFESSOR)
+
+            it.requestMatchers(HttpMethod.GET, "/realms/").permitAll()
+            it.requestMatchers(HttpMethod.GET,"/API/**").authenticated()
+            it.requestMatchers(HttpMethod.POST,"/API/**").authenticated()
+            it.requestMatchers(HttpMethod.PUT,"/API/**").authenticated()
+            it.requestMatchers(HttpMethod.GET,"/**").permitAll()
+        }
 
 
 
-        http.csrf().ignoringRequestMatchers("/API/**")
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.csrf { csrf->
+            csrf.ignoringRequestMatchers("/API/**")
+        }
+            http.oauth2ResourceServer { oauth->
+                oauth.jwt{ jwt->
+                    jwt.jwtAuthenticationConverter (jwtAuthConverter)
+                }
+            }
+
+            http.sessionManagement { sessionManagement->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+//        http.oauth2ResourceServer()
+//            .jwt()
+//            .jwtAuthenticationConverter(jwtAuthConverter)
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         return http.build()
     }
 
@@ -49,11 +70,8 @@ class WebSecurityConfig {
 
 
     companion object {
-        const val PROFESSOR = "Professor"
-        const val STUDENT = "Student"
-        const val SECRETARY_CLERK = "SecretaryClerk"
-        const val FACULTY_DIRECTOR = "FacultyDirector"
-        const val PRESIDENT_OF_COMISSION = "PresidentOfComission"
-        const val ADMIN = "Admin"
+        const val PROFESSOR = "PROFESSOR"
+        const val STUDENT = "STUDENT"
     }
 }
+

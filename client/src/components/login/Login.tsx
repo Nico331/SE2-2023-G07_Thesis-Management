@@ -1,15 +1,16 @@
 import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Form, Button, Image, Alert} from 'react-bootstrap';
-import { UserContext} from "../../contexts/UserContexts";
+import {RoleContext, TokenContext, UserContext} from "../../contexts/UserContexts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import MainNavBar from '../NavBar';
+import { jwtDecode } from "jwt-decode";
 
 export type LoginProps = {
-    setRole: Dispatch<SetStateAction<string | null>>;
+    setRoleState: Dispatch<SetStateAction<string | null>>;
 }
-const Login: React.FC<LoginProps> = ({setRole}) => {
+const Login: React.FC<LoginProps> = ({setRoleState}) => {
     const [alert, setAlert] = useState(false);
     const [validated, setValidated] = useState(false);
     const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -17,6 +18,8 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
+    const { token, setToken } = useContext(TokenContext)
+    const { role, setRole } = useContext(TokenContext)
 
     const credentialsWrong = () => {
         setAlert(true);
@@ -32,16 +35,36 @@ const Login: React.FC<LoginProps> = ({setRole}) => {
                 username:emailOrUsername,
                 password
             });
+            if(response.status !== 200)  { credentialsWrong(); return; }
 
-            const { user, jwt } = response.data;
-            console.log(jwt)
+            const { jwt } = response.data;
+            localStorage.setItem("token", jwt)
+            sessionStorage.setItem("token", jwt)
+            setToken(jwt)
+            const decodedJwt = jwtDecode(jwt);
+            console.log(decodedJwt);
             // @ts-ignore
-            localStorage.setItem('role', jwt);
-            setRole(jwt);
-            localStorage.setItem('user', JSON.stringify(user));
-            setUser(JSON.stringify(user));
+            const userRole: string = decodedJwt["realm_access"]["roles"].find((value)=> value==="PROFESSOR" || value==="STUDENT");
+            localStorage.setItem("role", userRole);
+            sessionStorage.setItem("role", userRole);
+
             console.log("Navigo")
-            {user === undefined ? credentialsWrong() : navigate('/');}
+            const userInfo = await axios.get(
+                // @ts-ignore
+                `http://localhost:8081/API/${userRole==="PROFESSOR" ? "professors" : "students"}/${decodedJwt["email"].toString().split("@")[0]}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + jwt
+                    }
+                }
+            )
+            console.log(userInfo)
+            localStorage.setItem('user', JSON.stringify(userInfo));
+            sessionStorage.setItem("user", JSON.stringify(userInfo));
+            setUser(JSON.stringify(userInfo));
+            setRoleState(userRole);
+            navigate('/');
         } catch (error) {
             // @ts-ignore
             console.error('Errore durante il login: ', error);

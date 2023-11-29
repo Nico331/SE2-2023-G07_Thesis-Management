@@ -79,7 +79,10 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
             searchParameter+="search="+search
         }
         axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&') + searchParameter, {
-
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
         })
             .then(response => {
                 setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));

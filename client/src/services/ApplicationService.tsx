@@ -5,37 +5,63 @@ const endpoint = '/appliedProposal';
 export default {
 
     getApplicationByStudentId(studentId) {
-        return axios.get(`${endpoint}/bystudent/${studentId}`);
+        return axios.get(`${endpoint}/bystudent/${studentId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
     },
 
     fetchAllApplications() {
-        return axios.get(endpoint);
+        return axios.get(endpoint,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
     },
 
     createApplication(application, fileDTO){
 
         console.log(fileDTO)
-        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, fileDTO, {
+        return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, fileDTO,{
             headers: {
                 'Content-Type': 'application/json',
-            },
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
         });
     },
 
     acceptApplication(applicationId){
-        return axios.put(`${endpoint}/accept/${applicationId}`);
+        return axios.put(`${endpoint}/accept/${applicationId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
 
     },
 
     rejectApplication(applicationId){
-        return axios.put(`${endpoint}/reject/${applicationId}`);
+        return axios.put(`${endpoint}/reject/${applicationId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
 
     },
 
 
 
     getByProfessorId(professorId){
-        return axios.get(`${endpoint}/${professorId}`);
+        return axios.get(`${endpoint}/${professorId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
     }
 
 };
