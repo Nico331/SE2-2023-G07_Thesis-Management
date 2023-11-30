@@ -7,9 +7,6 @@ export default function MainNavBar ({role, user, setRole}) {
 
     const [show, setShow] = useState(false);
     
-
-    console.log("MainNavBar: " + role + " " + user);
-
     return (
         <>
             <Navbar collapseOnSelect style={{background:'#002B49'}} fixed="top" variant="dark" className="navbar-padding" expand="xxl">
