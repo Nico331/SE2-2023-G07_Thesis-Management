@@ -21,8 +21,8 @@
 
 ## 1 Introduction <a name="introduction"></a>
 
-Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for student and
-professor of Politecnico of Turin.
+Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for
+student and professor of Politecnico of Turin.
 
 ## 2 Prerequisites <a name="prerequisites"></a>
 
@@ -40,17 +40,21 @@ Is recommended to use Intellij Idea
 
 Follow these steps to install and start the system.
 
-1. To start the MongoDB container, navigate to the project directory and run:
+Note: Every step should be performed from the project directory using a terminal.
+
+1. To start the containers, run the commands:
 ```
    docker-compose up -d mongoDB
+   docker-compose up -d postgres
+   docker-compose up -d keycloak
 ```
-2. To start the server:
+2. To start the server, run the commands:
 ``` 
     cd server
     ./gradlew build
     ./gradlew bootRun
 ```
-3. To start the client:
+3. To start the client, run the commands:
 ```
     cd client
     npm install
@@ -79,14 +83,17 @@ Professors usernames:
 - p300004@polito.it
 - p300005@polito.it
 
+An error alert will arise in case of invalid credentials.
+
 ## 5 Are you a student? <a name="student"/>
 
-From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
+From the main page you can choose between two options each with its own button which will redirect you to the
+appropriate page:
 
 - Search for a thesis proposal
 - My proposals applications
 
-In every moment you can change page browsing the **menu** in the top right part of the pages.
+In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
 ### 5.1 Search for a thesis proposal <a name="search"/>
 
@@ -116,21 +123,30 @@ application outcome.
 
 In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
 that could be:
-- "PENDING", the proposal supervisor hasn't managed your application yet.
-- "REJECTED", your application has been rejected by the supervisor.
-- "ACCEPTED", your application has been accepted by the supervisor.
+- "<span style="color:yellow">PENDING</span>", the proposal supervisor hasn't managed your application yet.
+- "<span style="color:red">REJECTED</span>", your application has been rejected by the supervisor.
+- "<span style="color:green">ACCEPTED</span>", your application has been accepted by the supervisor.
 
 ## 6 Are you a professor? <a name="professor"/>
 
-From the main page you can choose between two options each with its own button which will redirect you to the appropriate page:
+From the main page you can choose between two options each with its own button which will redirect you to the
+appropriate page:
 
 - Add a new thesis proposal
 - My thesis proposals
 
+In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
+
 ### 6.1 Add a new thesis proposal <a name="add"/>
 
-
+This page contains the form to add a **new proposal**. You can add your new thesis proposal filling the form and
+submitting it. Pay attention, before you submit the form make sure that the **mandatory fields** (marked with an "*")
+are filled otherwise an error alert will arise and the submission won't be accepted. The other fields are all optional.
+Note that for some fields like Co-supervisors, Research Groups, Keywords, and CdS you can add **more than one element**.
 
 ### 6.2 My thesis proposals <a name="props"/>
 
-This page displays your thesis proposals and the respective application. From this page you are able to delete or edit (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the proposals you'll see its applications with the information about the candidate. You can accept one of the applications and consequently reject others.
+This page displays your thesis proposals and the respective application. From this page you are able to **delete** or
+**edit** (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the
+proposals you'll see its applications with the information about the candidate. You can **accept** one of the
+applications, this action will consequently make other applications rejected.
