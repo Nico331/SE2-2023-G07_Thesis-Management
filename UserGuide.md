@@ -2,68 +2,100 @@
 
 ## Table of contents
 
+[//]: # (2. [Prerequisites]&#40;#prerequisites&#41;)
+
+[//]: # (3. [Installation and Execution]&#40;#installation&#41;)
 1. [Introduction](#introduction)
-2. [Prerequisites](#prerequisites)
-3. [Installation and Execution](#installation)
-4. [Log In](#login)
-5. [Are you a student?](#student)
+2. [Log In](#login)
+3. [Are you a student?](#student)
 
-   5.1. [Search proposal](#search)
+   3.1. [Search proposal](#search)
    
-   5.2. [Apply for a thesis proposal](#apply)
+   3.2. [Apply for a thesis proposal](#apply)
 
-   5.3. [My proposals applications](#apps)
-7. [Are you a professor?](#professor)
+   3.3. [My proposals applications](#apps)
+4. [Are you a professor?](#professor)
 
-   6.1. [Add a new proposal](#add)
+   4.1. [Add a new proposal](#add)
 
-   6.2. [My thesis proposal](#props)
+   4.2. [My thesis proposal](#props)
 
 ## 1 Introduction <a name="introduction"></a>
 
 Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for
 student and professor of Politecnico of Turin.
 
-## 2 Prerequisites <a name="prerequisites"></a>
+Let's take a look at the system's features and how to use them.
 
-Before you begin, make sure you have installed:
+[//]: # (## 2 Prerequisites <a name="prerequisites"></a>)
 
-- Docker
-- Docker Compose
-- Node.js and npm
-- JDK (Java Development Kit) version 17 or newer
-- Gradle
+[//]: # ()
+[//]: # (Before you begin, make sure you have installed:)
 
-Is recommended to use Intellij Idea
+[//]: # ()
+[//]: # (- Docker)
 
-## 3 Installation and Execution <a name="installation"></a>
+[//]: # (- Docker Compose)
 
-Follow these steps to install and start the system.
+[//]: # (- Node.js and npm)
 
-Note: Every step should be performed from the project directory using a terminal.
+[//]: # (- JDK &#40;Java Development Kit&#41; version 17 or newer)
 
-1. To start the containers, run the commands:
-```
-   docker-compose up -d mongoDB
-   docker-compose up -d postgres
-   docker-compose up -d keycloak
-```
-2. To start the server, run the commands:
-``` 
-    cd server
-    ./gradlew build
-    ./gradlew bootRun
-```
-3. To start the client, run the commands:
-```
-    cd client
-    npm install
-    npm start
-```
+[//]: # (- Gradle)
 
-Now you are ready to start! let's take a look at the system's features and how to use them.
+[//]: # ()
+[//]: # (Is recommended to use Intellij Idea)
 
-## 4 Login <a name="login"/>
+[//]: # ()
+[//]: # (## 3 Installation and Execution <a name="installation"></a>)
+
+[//]: # ()
+[//]: # (Follow these steps to install and start the system.)
+
+[//]: # ()
+[//]: # (Note: Every step should be performed from the project directory using a terminal.)
+
+[//]: # ()
+[//]: # (1. To start the containers, run the commands:)
+
+[//]: # (```)
+
+[//]: # (   docker-compose up -d mongoDB)
+
+[//]: # (   docker-compose up -d postgres)
+
+[//]: # (   docker-compose up -d keycloak)
+
+[//]: # (```)
+
+[//]: # (2. To start the server, run the commands:)
+
+[//]: # (``` )
+
+[//]: # (    cd server)
+
+[//]: # (    ./gradlew build)
+
+[//]: # (    ./gradlew bootRun)
+
+[//]: # (```)
+
+[//]: # (3. To start the client, run the commands:)
+
+[//]: # (```)
+
+[//]: # (    cd client)
+
+[//]: # (    npm install)
+
+[//]: # (    npm start)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (Now you are ready to start! let's take a look at the system's features and how to use them.)
+
+## 2 Login <a name="login"/>
 
 First of all from the initial page you can log in with one of the following default username.
 
@@ -85,7 +117,9 @@ Professors usernames:
 
 An error alert will arise in case of invalid credentials.
 
-## 5 Are you a student? <a name="student"/>
+<img src="guideImages/login.png" alt="drawing" width="400"/>
+
+## 3 Are you a student? <a name="student"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the
 appropriate page:
@@ -95,7 +129,9 @@ appropriate page:
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
-### 5.1 Search for a thesis proposal <a name="search"/>
+<img src="guideImages/mainStudent.png" alt="drawing" width="400"/>
+
+### 3.1 Search for a thesis proposal <a name="search"/>
 
 This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
 
@@ -112,14 +148,18 @@ window (click another time on the proposal to close it). This window shows the p
 expiration date and a button that will open a modal containing all the proposal information. From this modal you can
 go to the **application page** using the "Apply" button.
 
-### 5.2 Apply for a thesis proposal <a name="apply"/>
+<img src="guideImages/propsList.png" alt="drawing" width="400"/>
+
+### 3.2 Apply for a thesis proposal <a name="apply"/>
 
 The application page shows information about you and your university career. The page offers you the possibility to
 add a **document** (your CV for example).
 You can send your application with the "Apply" button at the end of the page, then you'll get a message based on the
 application outcome.
 
-### 5.3 My proposals applications <a name="apps"/>
+<img src="guideImages/apply.png" alt="drawing" width="400"/>
+
+### 3.3 My proposals applications <a name="apps"/>
 
 In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
 that could be:
@@ -127,7 +167,9 @@ that could be:
 - "<span style="color:red">REJECTED</span>", your application has been rejected by the supervisor.
 - "<span style="color:green">ACCEPTED</span>", your application has been accepted by the supervisor.
 
-## 6 Are you a professor? <a name="professor"/>
+<img src="guideImages/studentApplications.png" alt="drawing" width="400"/>
+
+## 4 Are you a professor? <a name="professor"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the
 appropriate page:
@@ -137,16 +179,22 @@ appropriate page:
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
-### 6.1 Add a new thesis proposal <a name="add"/>
+<img src="guideImages/professorMain.png" alt="drawing" width="400"/>
+
+### 4.1 Add a new thesis proposal <a name="add"/>
 
 This page contains the form to add a **new proposal**. You can add your new thesis proposal filling the form and
 submitting it. Pay attention, before you submit the form make sure that the **mandatory fields** (marked with an "*")
 are filled otherwise an error alert will arise and the submission won't be accepted. The other fields are all optional.
 Note that for some fields like Co-supervisors, Research Groups, Keywords, and CdS you can add **more than one element**.
 
-### 6.2 My thesis proposals <a name="props"/>
+<img src="guideImages/addForm.png" alt="drawing" width="400"/>
+
+### 4.2 My thesis proposals <a name="props"/>
 
 This page displays your thesis proposals and the respective application. From this page you are able to **delete** or
 **edit** (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the
 proposals you'll see its applications with the information about the candidate. You can **accept** one of the
 applications, this action will consequently make other applications rejected.
+
+<img src="guideImages/professorProposal.png" alt="drawing" width="400"/>
