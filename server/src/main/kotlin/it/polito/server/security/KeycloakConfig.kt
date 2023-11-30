@@ -16,7 +16,7 @@ import java.io.File
 object KeycloakConfig {
     private var keycloak: Keycloak? = null
     private var serverUrl = if (isRunningInDockerContainer()){
-        "http://keycloakContainer:8082"
+        "http://custom_keycloak:8080"
     }else{
         "http://localhost:8082"
     }

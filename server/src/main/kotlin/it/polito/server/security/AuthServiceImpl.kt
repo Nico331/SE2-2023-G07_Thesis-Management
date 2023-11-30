@@ -20,7 +20,7 @@ class AuthServiceImpl(): AuthService {
         // Send a request to Keycloak to validate the user's credentials
 
         val keycloakUrl = if (isRunningInDockerContainer()) {
-            "http://keycloakContainer:8082/realms/ThesisManagementRealm/protocol/openid-connect/token"
+            "http://custom_keycloak:8080/realms/ThesisManagementRealm/protocol/openid-connect/token"
         } else {
             "http://localhost:8082/realms/ThesisManagementRealm/protocol/openid-connect/token"
         }
@@ -52,7 +52,7 @@ class AuthServiceImpl(): AuthService {
         val keycloakUrl = if (isRunningInDockerContainer()) {
             "http://localhost:8082/realms/master/protocol/openid-connect/token"
         } else {
-            "http://keycloakContainer:8082/realms/master/protocol/openid-connect/token"
+            "http://custom_keycloak:8080/realms/master/protocol/openid-connect/token"
         }
         val restTemplate = RestTemplate()
 

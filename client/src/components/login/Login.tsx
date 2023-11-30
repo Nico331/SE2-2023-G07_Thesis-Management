@@ -59,10 +59,10 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                     }
                 }
             )
-            console.log(userInfo)
-            localStorage.setItem('user', JSON.stringify(userInfo));
-            sessionStorage.setItem("user", JSON.stringify(userInfo));
-            setUser(JSON.stringify(userInfo));
+            console.log(userInfo.data)
+            localStorage.setItem('user', JSON.stringify(userInfo.data));
+            sessionStorage.setItem("user", JSON.stringify(userInfo.data));
+            setUser(JSON.stringify(userInfo.data));
             setRole(userRole.toString())
             console.log("Prima di settare userRole")
             setRoleState(userRole.toString());
