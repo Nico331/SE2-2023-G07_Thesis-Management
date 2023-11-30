@@ -117,7 +117,7 @@ Professors usernames:
 
 An error alert will arise in case of invalid credentials.
 
-<img src="guideImages/login.png" alt="drawing" width="400"/>
+<img src="guideImages/login.png" alt="drawing" width="500"/>
 
 ## 3 Are you a student? <a name="student"/>
 
@@ -129,7 +129,7 @@ appropriate page:
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
-<img src="guideImages/mainStudent.png" alt="drawing" width="400"/>
+<img src="guideImages/mainStudent.png" alt="drawing" width="500"/>
 
 ### 3.1 Search for a thesis proposal <a name="search"/>
 
@@ -148,7 +148,7 @@ window (click another time on the proposal to close it). This window shows the p
 expiration date and a button that will open a modal containing all the proposal information. From this modal you can
 go to the **application page** using the "Apply" button.
 
-<img src="guideImages/propsList.png" alt="drawing" width="400"/>
+<img src="guideImages/propsList.png" alt="drawing" width="500"/>
 
 ### 3.2 Apply for a thesis proposal <a name="apply"/>
 
@@ -157,7 +157,7 @@ add a **document** (your CV for example).
 You can send your application with the "Apply" button at the end of the page, then you'll get a message based on the
 application outcome.
 
-<img src="guideImages/apply.png" alt="drawing" width="400"/>
+<img src="guideImages/apply.png" alt="drawing" width="500"/>
 
 ### 3.3 My proposals applications <a name="apps"/>
 
@@ -167,7 +167,7 @@ that could be:
 - "<span style="color:red">REJECTED</span>", your application has been rejected by the supervisor.
 - "<span style="color:green">ACCEPTED</span>", your application has been accepted by the supervisor.
 
-<img src="guideImages/studentApplications.png" alt="drawing" width="400"/>
+<img src="guideImages/studentApplications.png" alt="drawing" width="500"/>
 
 ## 4 Are you a professor? <a name="professor"/>
 
@@ -179,7 +179,7 @@ appropriate page:
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
-<img src="guideImages/professorMain.png" alt="drawing" width="400"/>
+<img src="guideImages/professorMain.png" alt="drawing" width="500"/>
 
 ### 4.1 Add a new thesis proposal <a name="add"/>
 
@@ -188,7 +188,7 @@ submitting it. Pay attention, before you submit the form make sure that the **ma
 are filled otherwise an error alert will arise and the submission won't be accepted. The other fields are all optional.
 Note that for some fields like Co-supervisors, Research Groups, Keywords, and CdS you can add **more than one element**.
 
-<img src="guideImages/addForm.png" alt="drawing" width="400"/>
+<img src="guideImages/addForm.png" alt="drawing" width="500"/>
 
 ### 4.2 My thesis proposals <a name="props"/>
 
@@ -197,4 +197,4 @@ This page displays your thesis proposals and the respective application. From th
 proposals you'll see its applications with the information about the candidate. You can **accept** one of the
 applications, this action will consequently make other applications rejected.
 
-<img src="guideImages/professorProposal.png" alt="drawing" width="400"/>
+<img src="guideImages/professorProposal.png" alt="drawing" width="500"/>
