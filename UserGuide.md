@@ -8,7 +8,7 @@
 4. [Log In](#login)
 5. [Are you a student?](#student)
 
-   5.1. [Search proposal](#searchProposal)
+   5.1. [Search proposal](#search)
    
    5.2. [Apply for a thesis proposal](#applyProposal)
 
@@ -88,7 +88,7 @@ From the main page you can choose between two options each with its own button w
 
 In every moment you can change page browsing the **menu** in the top right part of the pages.
 
-### 5.1 Search for a thesis proposal <a name="searchProposal"/>
+### 5.1 Search for a thesis proposal <a name="search"/>
 
 This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
 
