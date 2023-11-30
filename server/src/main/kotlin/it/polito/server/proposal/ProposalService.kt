@@ -39,7 +39,8 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         return proposalRepository.findById(id).map(Proposal::toDTO).orElse(null)
     }
     fun findAll() : List<ProposalDTO> {
-        return proposalRepository.findAll().map{(it.toDTO())}
+        return proposalRepository.findByArchived(archiviation_type.NOT_ARCHIVED).map{(it.toDTO())}
+        //return proposalRepository.findAll().map{(it.toDTO())}
     }
 
     fun findActiveByStudent( studentId : String): List<ProposalDTO>? {
