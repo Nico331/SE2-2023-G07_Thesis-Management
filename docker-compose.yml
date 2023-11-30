@@ -18,6 +18,8 @@ services:
   postgres:
     image: postgres
     container_name: keycloak_db
+    ports:
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
