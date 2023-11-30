@@ -38,10 +38,12 @@ type FiltersSidebarProps = {
     professors: Array<prof>;
     resetFilters: boolean;
     setResetFilters: Dispatch<SetStateAction<boolean>>;
+    refresh: boolean;
+    setRefresh: Dispatch<SetStateAction<boolean>>;
     date: Date;
 };
 
-const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters, date}) => {
+const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters, refresh, setRefresh, date}) => {
     const [flag, setFlag] = useState(true);
     const [search, setSearch] = useState("");
     const [makeSearch, setMakeSearch] = useState(true);
@@ -114,6 +116,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
         setLevels([]);
         setTypes([]);
         setExpiration("");
+        setRefresh(!refresh);
     }, [resetFilters])
 
     return (

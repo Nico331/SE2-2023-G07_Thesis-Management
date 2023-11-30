@@ -14,13 +14,15 @@ import {
 import StudentModalOfProposal from "./StudentModalOfProposal";
 import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
+import ApplicationService from "../../services/ApplicationService";
 import ProfessorService from "../../services/ProfessorService";
 import ClockService from "../../services/ClockService";
 import VC from "../VC";
 import dayjs from "dayjs";
 
 const ProposalList = () => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [myApps, setMyApps] = useState([]);
     const [proposals, setProposals] = useState([]);
     const [professors, setProfessors] = useState([]);
     const [propsOnScreen, setPropsOnScreen] = useState([]);
@@ -33,7 +35,7 @@ const ProposalList = () => {
     const [date, setDate] = useState(dayjs);
 
     const refreshProposals = async () => {
-        const response = await ProposalService.getAllByStudent(user.id);
+        const response = await ProposalService.fetchAllProposals();
         setProposals(response.data);
         setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
         setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
@@ -44,12 +46,18 @@ const ProposalList = () => {
         setProfessors(response.data);
     };
 
+    const getMyApps = async () => {
+        const response = await ApplicationService.getApplicationByStudentId(user.id);
+        setMyApps(response.data);
+    };
+
     const setClock = async () => {
         await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
     };
 
     useEffect(() => {
         setClock();
+        getMyApps();
         refreshProposals();
         getProfessors();
     }, [refresh]);
@@ -66,18 +74,18 @@ const ProposalList = () => {
         });
     };
 
-    // const refreshPage = async () => {
-    //     setDate(dayjs());
-    //     await ClockService.resetClock();
-    //     setRefresh(!refresh);
-    //     setResetFilters(!resetFilters);
-    // };
+    const refreshPage = async () => {
+        setDate(dayjs());
+        setResetFilters(!resetFilters);
+        await ClockService.resetClock();
+        setRefresh(!refresh);
+    };
 
     return (
         <>
             <Container fluid className="px-5">
                 <Row style={{height:"100vh"}}>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} date={date}/>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh} date={date}/>
                     <Col sm={7} style={{marginTop:"80px"}}>
                         <Container className="mx-0 ms-1 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
@@ -90,12 +98,12 @@ const ProposalList = () => {
                                         <h2 className="ms-1">Thesis Proposals</h2>
                                     </Col>
                                     <Col className="text-end">
-                                        {/*<Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => refreshPage()}>*/}
-                                        {/*    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">*/}
-                                        {/*        <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>*/}
-                                        {/*        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>*/}
-                                        {/*    </svg>*/}
-                                        {/*</Button>*/}
+                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => refreshPage()}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                            </svg>
+                                        </Button>
                                     </Col>
                                 </Row>
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
@@ -127,7 +135,12 @@ const ProposalList = () => {
                                                         <Container className="ms-0 p-0">
                                                             <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
                                                             <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
-                                                            <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                            { myApps.find((a) => a.proposalId === p.id) ?
+                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                                <Container className="mt-2" style={{color:"red"}}>You are already applied for this proposal</Container></>
+                                                                :
+                                                                <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                            }
                                                         </Container>
                                                     </CardBody>
                                                 </Collapse>
