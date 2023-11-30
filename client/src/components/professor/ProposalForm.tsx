@@ -39,7 +39,6 @@ const ProposalForm = () => {
 
     const navigate = useNavigate()
 
-
     const [alert, setAlert] = useState({type: "", message: ""});
 
     const [newKeyword, setNewKeyword] = useState('');
@@ -199,7 +198,8 @@ const ProposalForm = () => {
                         <Form.Label className="h3">Co-Supervisors</Form.Label>
                         <Card className={"mt-3 mb-3"}>
                             <Card.Body>
-                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor} professors={professors}/>
+                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor} professors={professors.filter((professor)=>
+                                    !(proposal?.coSupervisors.includes(professor.id)))}/>
 
                                 <ListGroup className={"mt-3"}>
                                     {proposal.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>

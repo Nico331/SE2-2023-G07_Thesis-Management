@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { Form, Button, Accordion, Card, Row, Alert } from 'react-bootstrap';
+import {UserContext} from "../../contexts/UserContexts";
 
 const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert }) => {
     const [coSupervisor, setCoSupervisor] = useState("");
-
+    const {user, setUser} = useContext(UserContext)
     const addCoSupervisor = () => {
         if (coSupervisor) {
             onAddCoSupervisor(coSupervisor);
@@ -24,7 +25,7 @@ const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert 
                             <option value="">Select the supervisor</option>
 
                             {
-                                professors.map((professor) => <option
+                                professors.filter((professor)=>professor.id!==JSON.parse(user).id).map((professor) => <option
                                     value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
                             }
                         </Form.Control>
@@ -36,7 +37,7 @@ const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert 
                     {coalert && coalert.show ?
                         <Alert className="mt-3" variant={coalert.type} show={coalert} onClose={() => setCoAlert(false)} dismissible>
                             {coalert.message}
-                        </Alert> 
+                        </Alert>
                     : null}
                 </Accordion.Body>
             </Accordion.Item>

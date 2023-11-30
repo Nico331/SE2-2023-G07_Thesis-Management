@@ -175,13 +175,13 @@ class AppliedProposalService(
     fun findByProfessor(professorId: String) : List<StrangeObjectRequestedByDarione>{
         val proposals = proposalRepository.findBySupervisor(professorId);
         return proposals.map { proposal->
-            println(proposal)
-            println(proposal.id!!)
+//            println(proposal)
+//            println(proposal.id!!)
             val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
-            println(appliedProposals)
+//            println(appliedProposals)
             val listApplications = appliedProposals.map { appliedProposal->
                 val student = studentRepository.findById(appliedProposal.studentId).map { it.toDTO() }.get()
-                println(student)
+//                println(student)
                 val listExams = careerRepository.findByStudentId(student.id!!).map { it.toDTO() }
                 return@map Applications(
                     appliedProposal.id,

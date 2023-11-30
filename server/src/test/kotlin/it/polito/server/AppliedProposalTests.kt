@@ -118,7 +118,7 @@ class AppliedProposalTests {
                 HttpEntity.EMPTY,
                 String::class.java
         )
-        println(result)
+//        println(result)
 
         val gson = GsonBuilder()
                 .registerTypeAdapter(Date::class.java, JsonDeserializer<Date> { json, _, _ ->

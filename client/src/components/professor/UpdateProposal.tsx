@@ -71,7 +71,7 @@ function UpdateProposal (props) {
 
     const [supalert, setSupAlert] = useState({type: "", message: "", show: false});
 
-    const [alert, setAlert] = useState({type: "", message: ""});    
+    const [alert, setAlert] = useState({type: "", message: ""});
 
     const [newKeyword, setNewKeyword] = useState('');
 
@@ -96,7 +96,7 @@ function UpdateProposal (props) {
             setTimeout(() => {
                 setCoAlert({type: "", message: "", show: false});
             }, 5000);
-        
+
         }
     };
 
@@ -194,7 +194,7 @@ function UpdateProposal (props) {
                 {/*/----------------------/*/}
 
                 <Container>
-                    
+
                 </Container>
 
                 <Container>
@@ -250,6 +250,7 @@ function UpdateProposal (props) {
                                         placeholder="Enter expiration"
                                         value={updatedprop.expiration.format("YYYY-MM-DD")}
                                         onChange={(e) => setUpdatedprop({...updatedprop, expiration: dayjs(e.target.value)})}
+                                        min={new Date().toISOString().split("T")[0]}
                                     />
                                 </Form.Group>
                             </div>
@@ -258,7 +259,7 @@ function UpdateProposal (props) {
                             <Col lg={6} md={12}>
                                 <Form.Group controlid="supervisor">
                                     <Form.Label className="h3">Supervisor</Form.Label>
-                                    <Form.Control as="select" custom 
+                                    <Form.Control as="select" custom
                                         value={updatedprop.supervisor}
                                         onChange={(e) => updateSupervisor(e.target.value)}>
                                         <option value="">Select the supervisor</option>

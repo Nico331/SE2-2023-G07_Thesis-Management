@@ -13,9 +13,9 @@ class AuthController(private val authService: AuthService) {
     @PostMapping("/API/login")
     @ResponseStatus(HttpStatus.OK)
     fun login(@RequestBody credentials: LoginCredentials): ResponseEntity<Any> {
-        println(credentials)
+//        println(credentials)
         val jwt = authService.authenticate(credentials)
-        println(jwt)
+//        println(jwt)
         return if (jwt != null) {
             ResponseEntity.ok(JwtResponse(jwt))
         } else {
