@@ -8,16 +8,16 @@
 4. [Log In](#login)
 5. [Are you a student?](#student)
 
-   5.1. [Search proposal](#searchProposal)
+   5.1. [Search proposal](#search)
    
-   5.2. [Apply for a thesis proposal](#applyProposal)
+   5.2. [Apply for a thesis proposal](#apply)
 
-   5.3. [My proposals applications](#myApp)
+   5.3. [My proposals applications](#apps)
 7. [Are you a professor?](#professor)
 
-   6.1. [Add a new proposal](#addProposal)
+   6.1. [Add a new proposal](#add)
 
-   6.2. [My thesis proposal](#myProps)
+   6.2. [My thesis proposal](#props)
 
 ## 1 Introduction <a name="introduction"></a>
 
@@ -88,7 +88,7 @@ From the main page you can choose between two options each with its own button w
 
 In every moment you can change page browsing the **menu** in the top right part of the pages.
 
-### 5.1 Search for a thesis proposal <a name="searchProposal"/>
+### 5.1 Search for a thesis proposal <a name="search"/>
 
 This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
 
@@ -105,14 +105,14 @@ window (click another time on the proposal to close it). This window shows the p
 expiration date and a button that will open a modal containing all the proposal information. From this modal you can
 go to the **application page** using the "Apply" button.
 
-### 5.2 Apply for a thesis proposal <a name="applyProposal"/>
+### 5.2 Apply for a thesis proposal <a name="apply"/>
 
 The application page shows information about you and your university career. The page offers you the possibility to
 add a **document** (your CV for example).
 You can send your application with the "Apply" button at the end of the page, then you'll get a message based on the
 application outcome.
 
-### 5.3 My proposals applications <a name="myApp"/>
+### 5.3 My proposals applications <a name="apps"/>
 
 In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
 that could be:
@@ -127,10 +127,10 @@ From the main page you can choose between two options each with its own button w
 - Add a new thesis proposal
 - My thesis proposals
 
-### 6.1 Add a new thesis proposal <a name="addProposal"/>
+### 6.1 Add a new thesis proposal <a name="add"/>
 
 
 
-### 6.2 My thesis proposals <a name="myProps"/>
+### 6.2 My thesis proposals <a name="props"/>
 
 This page displays your thesis proposals and the respective application. From this page you are able to delete or edit (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the proposals you'll see its applications with the information about the candidate. You can accept one of the applications and consequently reject others.
