@@ -70,6 +70,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
             navigate('/');
         } catch (error) {
             // @ts-ignore
+            credentialsWrong();
             console.error('Errore durante il login: ', error);
         }
     };
