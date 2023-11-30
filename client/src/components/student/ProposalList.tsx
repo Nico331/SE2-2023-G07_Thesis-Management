@@ -36,7 +36,10 @@ const ProposalList = () => {
 
     useEffect(()=>{
         if(localStorage.getItem("vc")!==null && localStorage.getItem("vc")!=="" && localStorage.getItem("vc")!==undefined){
-            setDate(dayjs(localStorage.getItem("vc")).format('YYYY-MM-DDTHH:mm:ss'))
+            console.log(localStorage.getItem("vc"))
+            console.log(dayjs(localStorage.getItem("vc")!!.split("T")[0]))
+            console.log(dayjs(localStorage.getItem("vc")!!.split("T")[0]).format('YYYY-MM-DDTHH:mm:ss'))
+            //setDate(dayjs(localStorage.getItem("vc")).format('YYYY-MM-DDTHH:mm:ss'))
         }
     },[])
 

@@ -30,11 +30,13 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) =
     const handleDateChange = async (newDate) => {
         if(newDate === "") {
             setDate(dayjs);
+            localStorage.setItem("vc",JSON.stringify(dayjs));
             // await ClockService.setClock(newDate);
             setRefresh(!refresh);
         }
         else{
             setDate(dayjs(newDate));
+            localStorage.setItem("vc",JSON.stringify(newDate));
             // setShowDatePicker(false);
             // await ClockService.setClock(newDate);
             setRefresh(!refresh);
