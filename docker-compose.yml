@@ -24,7 +24,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: keycloak_db
-      POSTGRES_USER: keycloak_db
+      POSTGRES_USERNAME: keycloak_db
       POSTGRES_PASSWORD: password
     networks:
       - network

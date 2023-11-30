@@ -36,6 +36,7 @@ class WebSecurityConfig {
             it.requestMatchers(HttpMethod.GET,"/API/**").authenticated()
             it.requestMatchers(HttpMethod.POST,"/API/**").authenticated()
             it.requestMatchers(HttpMethod.PUT,"/API/**").authenticated()
+            it.requestMatchers(HttpMethod.DELETE,"/API/**").authenticated()
             it.requestMatchers(HttpMethod.GET,"/**").permitAll()
         }
 

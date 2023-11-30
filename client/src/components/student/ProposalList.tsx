@@ -32,7 +32,13 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
-    const [date, setDate] = useState(dayjs);
+    const [date, setDate] = useState<dayjs>(dayjs);
+
+    useEffect(()=>{
+        if(localStorage.getItem("vc")!==null && localStorage.getItem("vc")!=="" && localStorage.getItem("vc")!==undefined){
+            setDate(dayjs(localStorage.getItem("vc")).format('YYYY-MM-DDTHH:mm:ss'))
+        }
+    },[])
 
     const refreshProposals = async () => {
         const response = await ProposalService.fetchAllProposals();
@@ -50,6 +56,7 @@ const ProposalList = () => {
         const response = await ApplicationService.getApplicationByStudentId(user.id);
         setMyApps(response.data);
     };
+    //localStorage.setItem("vc",JSON.stringify(d))
 
     const setClock = async () => {
         await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));

@@ -133,7 +133,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
             )
             query.addCriteria(searchCriteria)
         }
+        query.addCriteria(Criteria.where("archived").`is`(archiviation_type.NOT_ARCHIVED))
         return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO() }
     }
-
 }
