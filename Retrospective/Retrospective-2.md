@@ -46,8 +46,8 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
 
 - Hours per task average, standard deviation (estimate and actual)
   - Estimate:
-    - Average = 2h 55m (modified 24/11/23 permission allowed by Vetrò)
-    - Standard deviation = 3h (modified 24/11/23 permission allowed by Vetrò)
+    - Average = 2h 55m 
+    - Standard deviation = 3h 
   - Actual:
     - Average = 2h 50m
     - Standard deviation = 2h 53m
