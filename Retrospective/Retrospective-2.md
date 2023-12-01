@@ -49,8 +49,8 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
     - Average = 2h 55m (modified 24/11/23 permission allowed by Vetrò)
     - Standard deviation = 3h (modified 24/11/23 permission allowed by Vetrò)
   - Actual:
-    - Average = 2h 50m (modified 24/11/23 permission allowed by Vetrò)
-    - Standard deviation = 2h 53m (modified 24/11/23 permission allowed by Vetrò)
+    - Average = 2h 50m
+    - Standard deviation = 2h 53m
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 122.5 / 120 - 1 = 0.02
 
 ## QUALITY MEASURES
