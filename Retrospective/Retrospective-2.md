@@ -1,4 +1,4 @@
-# TEMPLATE FOR RETROSPECTIVE (Team 07)
+# RETROSPECTIVE 02 (Team 07)
 
 The retrospective should include _at least_ the following
 sections:
