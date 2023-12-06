@@ -8,7 +8,7 @@ const StudentMain = () => {
     let navigate = useNavigate();
 
     return (
-        <Container className="d-flex flex-column" style={{marginTop:"56px", height:"90vh"}}>
+        <Container className="d-flex flex-column" style={{marginTop:"120px", height:"90vh"}}>
             <Container className="mt-5 text-center">
                 <h1>Hi {user.name}!</h1>
                 <h1>Welcome to Polito thesis management system</h1>

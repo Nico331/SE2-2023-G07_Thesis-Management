@@ -30,6 +30,15 @@ export default {
         });
     },
 
+    fetchAllProposalsFiltered(filters) {
+        return axios.get(`${endpoint}/filters?`+filters,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
     createProposal(proposalData) {
         return axios.post(endpoint, proposalData,{
             headers: {

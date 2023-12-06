@@ -2,9 +2,9 @@ import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css';
-import axios from 'axios';
-import Select from 'react-select';
 import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import Select from 'react-select';
+import ProposalService from "../../services/ProposalService";
 
 type prop = {
     title: string,
@@ -55,43 +55,34 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
     const [expiration, setExpiration] = useState("");
     const [levels, setLevels] = useState([]);
 
-    const sendRequestToBackend = () => {
+    const sendRequestToBackend = async () => {
         let filters = [];
 
         if (keyWord.length > 0) {
-            filters.push("keywords="+keyWord.map(s => s.value).join(','));
+            filters.push("keywords=" + keyWord.map(s => s.value).join(','));
         }
         if (supervisors.length > 0) {
-            filters.push("supervisor=" +supervisors.map(s => s.value).join(','));
+            filters.push("supervisor=" + supervisors.map(s => s.value).join(','));
         }
-        if(types.length>0) {
-            filters.push("type="+types.map(s=> s.value).join(','));
+        if (types.length > 0) {
+            filters.push("type=" + types.map(s => s.value).join(','));
         }
-        if(groups.length>0){
-            filters.push("groups="+groups.map(s=>s.value).join(','));
+        if (groups.length > 0) {
+            filters.push("groups=" + groups.map(s => s.value).join(','));
         }
-        if(expiration){
-            filters.push("expiration="+expiration);
+        if (expiration) {
+            filters.push("expiration=" + expiration);
         }
-        if(levels.length>0){
-            filters.push("level="+levels.map(s=>s.value).join(','));
+        if (levels.length > 0) {
+            filters.push("level=" + levels.map(s => s.value).join(','));
         }
         let searchParameter = ""
-        if(search!=""){
-            searchParameter+="search="+search
+        if (search != "") {
+            searchParameter += "search=" + search
         }
-        axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&') + searchParameter, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem("token")
-            }
-        })
-            .then(response => {
-                setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
-            })
-            .catch(error => {
-                console.error('Errore nella richiesta al back-end:', error);
-            });
+
+        const response = await ProposalService.fetchAllProposalsFiltered(filters.join('&') + searchParameter);
+        setPropsOnScreen(response.data.sort((a, b) => {return a.title.localeCompare(b.title)}));
     };
 
     function extractUniqueOptions(array: string[][]) {
