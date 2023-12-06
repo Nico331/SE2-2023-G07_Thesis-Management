@@ -70,6 +70,9 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
         if (groups.length > 0) {
             filters.push("groups=" + groups.map(s => s.value).join(','));
         }
+        if (courses.length > 0) {
+            filters.push("cdS=" + courses.map(s => s.value).join(','));
+        }
         if (expiration) {
             filters.push("expiration=" + expiration);
         }
