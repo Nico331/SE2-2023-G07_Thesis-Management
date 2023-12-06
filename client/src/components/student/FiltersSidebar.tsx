@@ -121,7 +121,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
     return (
         <Col className="ms-0 px-4" sm={5} style={{backgroundColor:"#e0e0e0"}}>
-            <Form className="text-start" style={{marginTop:"80px"}}>
+            <Form className="text-start" style={{marginTop:"110px"}}>
                 <Container>
                     <h3><i className="bi bi-funnel-fill me-2"></i>Filters</h3>
                 </Container>

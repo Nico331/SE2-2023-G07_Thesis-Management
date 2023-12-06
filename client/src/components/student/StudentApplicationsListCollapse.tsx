@@ -31,7 +31,7 @@ const StudentApplicationsListCollapse = () => {
     return (
         <>
             <Container className="d-flex flex-column">
-                <h2 style={{marginTop:"90px"}}>My Thesis Proposals Applications</h2>
+                <h2 style={{marginTop:"110px"}}>My Thesis Proposals Applications</h2>
                 <Accordion className="mt-4">
                     {studentApplications.map((application, index) => {
                         const proposal = studentProposals.find(proposal => proposal.id === application.proposalId);
