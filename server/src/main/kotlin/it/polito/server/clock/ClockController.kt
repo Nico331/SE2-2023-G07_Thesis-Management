@@ -39,7 +39,7 @@ class ClockController (private val clockService: ClockService) {
         return ResponseEntity.status(HttpStatus.OK).body("Virtual clock resetted. Do refresh to visualize updates.")
     }
 
-    @GetMapping("getServerClock")
+    @GetMapping("/getServerClock")
     fun getServerClock () : ResponseEntity<LocalDateTime> {
         return ResponseEntity.status(HttpStatus.OK).body(clockService.getServerClock())
 

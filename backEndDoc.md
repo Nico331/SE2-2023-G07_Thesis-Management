@@ -345,3 +345,6 @@ the webapp page.
   - It reset the server clock to the real time one and updates the archived states accordingly.
   - The webapp must re-fetch the updated data when an OK response is returned.
   - If a proposal is set as "manually archived", it remains as such.
+- Get server's in use clock.
+  - GET ___`/API/virtualclock/getServerClock`___
+  - Return the used clock in the server: a virtual clock if set, real time clock otherwise.
