@@ -86,8 +86,8 @@ const BrowseApplications = () => {
 
     return (
         <>
-            <Container className="mt-3">
-                <h2>My Thesis Proposals</h2>
+            <Container className="d-flex flex-column">
+                <h2 style={{marginTop:"110px"}}>My Thesis Proposals</h2>
 
                 {showsuccessmodal.show ?
                     <>

@@ -16,7 +16,7 @@ type ProfessorRoutesProps = {
 
 const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
     return(
-        <div className="App" style={{marginTop: 120}}>
+        <div className="App" style={{}}>
             {/* <ProfessorNavigation setRole={setRole} /> */}
             <MainNavBar setRole={setRoleState} role={"PROFESSOR"} user={undefined}/>
             <Routes>

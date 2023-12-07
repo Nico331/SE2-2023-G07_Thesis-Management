@@ -32,7 +32,6 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
-    const [date, setDate] = useState<dayjs>(dayjs);
 
     const getProposals = async () => {
         const response = await ProposalService.fetchAllProposalsFiltered("");
@@ -49,10 +48,6 @@ const ProposalList = () => {
     const getMyApps = async () => {
         const response = await ApplicationService.getApplicationByStudentId(user.id);
         setMyApps(response.data);
-    };
-
-    const setClock = async () => {
-        await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
     };
 
     useEffect(() => {
@@ -74,7 +69,7 @@ const ProposalList = () => {
     };
 
     const refreshPage = async () => {
-        setDate(dayjs());
+        // setDate(dayjs());
         setResetFilters(!resetFilters);
         await ClockService.resetClock();
         setRefresh(!refresh);
@@ -84,8 +79,8 @@ const ProposalList = () => {
         <>
             <Container fluid className="px-5">
                 <Row style={{height:"100vh"}}>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh} date={date}/>
-                    <Col sm={7} style={{marginTop:"110px"}}>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh}/>
+                    <Col sm={7} style={{marginTop:"100px"}}>
                         <Container className="mx-0 ms-1 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
@@ -149,9 +144,8 @@ const ProposalList = () => {
                                 }
                             </ListGroup>
                         </Container>
-                        <Container className="ms-5 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"46vh"}}>
-                            <VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>
-                        </Container>
+                        <VC refresh={refresh} setRefresh={setRefresh}/>
+                        {/*<VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>*/}
                     </Col>
                 </Row>
 

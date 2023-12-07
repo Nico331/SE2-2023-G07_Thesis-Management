@@ -10,6 +10,14 @@ export default {
 
     resetClock(){
         return axios.put(`${endpoint}/reset`);
-    }
+    },
 
+    getClock() {
+        return axios.get(`${endpoint}/getServerClock`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    }
 };
