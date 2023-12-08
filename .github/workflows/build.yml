@@ -30,7 +30,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@main
+      uses: SonarSource/sonarcloud-github-action@master
       with:
         projectBaseDir: ./server/
         sonarToken: ${{ secrets.SONAR_TOKEN }}
