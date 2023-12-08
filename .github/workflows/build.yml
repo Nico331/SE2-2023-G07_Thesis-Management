@@ -64,10 +64,11 @@ jobs:
           chmod +x gradlew
           ./gradlew build sonar --info
       - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          cd client
-          npm i
-          npm run build
+#        run: |
+#          cd client
+#          npm i
+#          npm run build
