@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.1.5"
     id("com.google.cloud.tools.jib") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.3"
+    id("jacoco")
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
 }
@@ -57,8 +58,32 @@ tasks.withType<Test> {
 jib {
     from {
         auth {
-            username = System.getenv("REGISTRY_USERNAME")
+            username = "nico331"//System.getenv("REGISTRY_USERNAME")
             password = System.getenv("REGISTRY_PASSWORD")
         }
     }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+//    reportsDirectory.set(layout.projectDirectory.dir("test-reports"))
+}
+tasks.withType<JacocoReport> {
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(false)
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.map {
+            fileTree(it).apply {
+                exclude("**/CoderseeGenerated.class")
+                exclude("**/CoderseeGenerated\$*.class")
+            }
+        }))
+    }
+}
+tasks.withType<Test> {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }

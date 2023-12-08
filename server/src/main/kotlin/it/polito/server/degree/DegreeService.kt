@@ -1,9 +1,10 @@
 package it.polito.server.degree
 
+import it.polito.server.annotations.CoderseeGenerated
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-
+@CoderseeGenerated
 @Service
 class DegreeService (private val degreeRepository: DegreeRepository) {
 
