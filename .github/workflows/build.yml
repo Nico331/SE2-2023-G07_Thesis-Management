@@ -34,7 +34,7 @@ jobs:
         options: --name custom_keycloak
     steps:
       - name: change permissions mongo volume
-        run: sudo chmod 777 ./docker/init-mongo.js
+        run: sudo chmod 777 ./docker
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
