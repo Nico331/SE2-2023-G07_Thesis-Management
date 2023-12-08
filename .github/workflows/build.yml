@@ -3,16 +3,16 @@ name: Build
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
     name: SonarCloud
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: SONAR_TOKEN
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
         restore-keys: ${{ runner.os }}-sonar
 
     - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+      uses: SonarSource/sonarcloud-github-action@main
       with:
         projectBaseDir: ./server/
         sonarToken: ${{ secrets.SONAR_TOKEN }}
