@@ -10,6 +10,13 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
     services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        options: >-
+          --name mongo_db_se
+          -v ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       postgres:
         image: postgres
         ports:
