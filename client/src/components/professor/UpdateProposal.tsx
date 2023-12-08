@@ -9,6 +9,7 @@ import ProfessorService from "../../services/ProfessorService";
 import {useNavigate} from "react-router-dom";
 import ProposalService from "../../services/ProposalService";
 import { UserContext } from "../../contexts/UserContexts";
+import { Prev } from "react-bootstrap/esm/PageItem";
 
 
 function UpdateProposal (props) {
@@ -16,7 +17,7 @@ function UpdateProposal (props) {
     const {user, setUser} = useContext(UserContext);
 
     const [updatedprop, setUpdatedprop] = useState({
-        id: props.modifyproposal.id,
+        id: null,
         title: props.modifyproposal.title,
         supervisor: JSON.parse(user).id,
         coSupervisors: props.modifyproposal.coSupervisors,
@@ -161,9 +162,17 @@ function UpdateProposal (props) {
             errorMessage += `Supervisor should have a value`
         }
 
-        if(valid){
+        if(valid && props.pagetype === "modify"){
+            updatedprop.id = props.modifyproposal.id;
             ProposalService.updateProposal(updatedprop.id, updatedprop).then(() => {
                 props.setShowAlertModal({show: true, text: "Proposal updated successfully!", type: "success"});
+                props.setRefresh((r)=> !r)
+            }).catch(() => {
+                props.setShowAlertModal({show: true, text: "Something unexpexted happened!", type: "danger"});
+            });
+        } else if (valid && props.pagetype === "copy") {
+            ProposalService.createProposal(updatedprop).then(() => {
+                props.setShowAlertModal({show: true, text: "Proposal created successfully!", type: "success"});
                 props.setRefresh((r)=> !r)
             }).catch(() => {
                 props.setShowAlertModal({show: true, text: "Something unexpexted happened!", type: "danger"});
@@ -173,7 +182,6 @@ function UpdateProposal (props) {
         }
     };
 
-    console.log(props.modifyproposal);
     // -------------------------------------------
 
     return (
@@ -184,9 +192,12 @@ function UpdateProposal (props) {
                 onHide={() => props.setShowModifyPage(false)}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>
-                        Update proposal
-                    </Modal.Title>
+                    {props.pagetype === "modify" ? 
+                        <Modal.Title>Update proposal</Modal.Title> 
+                        : 
+                        <Modal.Title>Create a copy</Modal.Title>
+                    }
+                    
                 </Modal.Header>
 
                 <Modal.Body>
@@ -259,16 +270,10 @@ function UpdateProposal (props) {
                             <Col lg={6} md={12}>
                                 <Form.Group controlid="supervisor">
                                     <Form.Label className="h3">Supervisor</Form.Label>
-                                    <Form.Control as="select" custom
-                                        value={updatedprop.supervisor}
-                                        onChange={(e) => updateSupervisor(e.target.value)}>
-                                        <option value="">Select the supervisor</option>
-                                        {
-                                            professors.map((professor) => <option
-                                                value={professor.id}
-                                                >{professor.name}{' '}{professor.surname}</option>)
-                                        }
-                                    </Form.Control>
+                                    <Form.Control type="text"
+                                        placeholder={JSON.parse(user).name + ' ' + JSON.parse(user).surname}
+                                        disabled 
+                                        readOnly/>
                                     {supalert.show ?
                                         <Alert className="mt-3" variant={supalert.type} show={supalert.show} onClose={() => setSupAlert(false)} dismissible>
                                             {supalert.message}
@@ -434,8 +439,8 @@ function UpdateProposal (props) {
                 </Modal.Body>
                 {/*-----------------------*/}
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
-                    <Button onClick={(e) => handleSubmit(e)}>Update</Button>
+                    <Button variant="danger" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
+                    {props.pagetype === "modify" ? <Button onClick={(e) => handleSubmit(e)}>Update</Button> : <Button variant="success" onClick={(e) => handleSubmit(e)}>Create a Copy</Button>}
                 </Modal.Footer>
             </Modal>
         </>

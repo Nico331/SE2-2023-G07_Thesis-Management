@@ -12,8 +12,8 @@ import java.time.*
 @Service
 class ClockService ( private val proposalRepository: ProposalRepository ){
 
-    private final var realTimeClock: Clock = Clock.systemDefaultZone()
-    private final var virtualClock : Clock? = null
+    final var realTimeClock: Clock = Clock.systemDefaultZone()
+    final var virtualClock : Clock? = null
     private final var actualDate : LocalDate = realTimeClock.instant().atZone(ZoneId.systemDefault()).toLocalDate()
 
 
@@ -26,6 +26,10 @@ class ClockService ( private val proposalRepository: ProposalRepository ){
     fun unsetServerVirtualClock () {
         this.virtualClock = null
         updateClock()
+    }
+    fun getServerClock () : LocalDateTime {
+        val clockInUse = virtualClock ?: realTimeClock
+        return clockInUse.instant().atZone(ZoneId.systemDefault()).toLocalDateTime()
     }
 
     @Scheduled(fixedRate = 5000)

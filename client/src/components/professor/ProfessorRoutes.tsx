@@ -16,10 +16,9 @@ type ProfessorRoutesProps = {
 
 const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
     return(
-        <>
-            <div className="App" style={{paddingTop: 70}}>
+        <div className="App" style={{}}>
             {/* <ProfessorNavigation setRole={setRole} /> */}
-                { <MainNavBar setRole={setRoleState} role={"PROFESSOR"} user={undefined}/> }
+            <MainNavBar setRole={setRoleState} role={"PROFESSOR"} user={undefined}/>
             <Routes>
                 <Route path="/" element={ <ProfessorMain/> } >
                     <Route index element={<BrowseApplications/>} />
@@ -30,8 +29,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
                 <Route path="/add-proposal" element={<ProposalForm/>} />
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
             </Routes>
-            </div>
-        </>
+        </div>
     )
 }
 

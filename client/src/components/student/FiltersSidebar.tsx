@@ -2,9 +2,9 @@ import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css';
-import axios from 'axios';
-import Select from 'react-select';
 import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import Select from 'react-select';
+import ProposalService from "../../services/ProposalService";
 
 type prop = {
     title: string,
@@ -55,43 +55,37 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
     const [expiration, setExpiration] = useState("");
     const [levels, setLevels] = useState([]);
 
-    const sendRequestToBackend = () => {
+    const sendRequestToBackend = async () => {
         let filters = [];
 
         if (keyWord.length > 0) {
-            filters.push("keywords="+keyWord.map(s => s.value).join(','));
+            filters.push("keywords=" + keyWord.map(s => s.value).join(','));
         }
         if (supervisors.length > 0) {
-            filters.push("supervisor=" +supervisors.map(s => s.value).join(','));
+            filters.push("supervisor=" + supervisors.map(s => s.value).join(','));
         }
-        if(types.length>0) {
-            filters.push("type="+types.map(s=> s.value).join(','));
+        if (types.length > 0) {
+            filters.push("type=" + types.map(s => s.value).join(','));
         }
-        if(groups.length>0){
-            filters.push("groups="+groups.map(s=>s.value).join(','));
+        if (groups.length > 0) {
+            filters.push("groups=" + groups.map(s => s.value).join(','));
         }
-        if(expiration){
-            filters.push("expiration="+expiration);
+        if (courses.length > 0) {
+            filters.push("cdS=" + courses.map(s => s.value).join(','));
         }
-        if(levels.length>0){
-            filters.push("level="+levels.map(s=>s.value).join(','));
+        if (expiration) {
+            filters.push("expiration=" + expiration);
+        }
+        if (levels.length > 0) {
+            filters.push("level=" + levels.map(s => s.value).join(','));
         }
         let searchParameter = ""
-        if(search!=""){
-            searchParameter+="search="+search
+        if (search != "") {
+            searchParameter += "search=" + search
         }
-        axios.get('http://localhost:8081/API/proposals/filters?'+filters.join('&') + searchParameter, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem("token")
-            }
-        })
-            .then(response => {
-                setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
-            })
-            .catch(error => {
-                console.error('Errore nella richiesta al back-end:', error);
-            });
+
+        const response = await ProposalService.fetchAllProposalsFiltered(filters.join('&') + searchParameter);
+        setPropsOnScreen(response.data.sort((a, b) => {return a.title.localeCompare(b.title)}));
     };
 
     function extractUniqueOptions(array: string[][]) {
@@ -121,7 +115,7 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
     return (
         <Col className="ms-0 px-4" sm={5} style={{backgroundColor:"#e0e0e0"}}>
-            <Form className="text-start" style={{marginTop:"80px"}}>
+            <Form className="text-start" style={{marginTop:"100px"}}>
                 <Container>
                     <h3><i className="bi bi-funnel-fill me-2"></i>Filters</h3>
                 </Container>
@@ -181,7 +175,8 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
                     <Form.Group className="mt-2">
                         <Form.Label>Expiration Date</Form.Label>
-                        <Form.Control type="date" min={date.toISOString().slice(0, 10)} value={expiration} onChange={d => setExpiration(d.target.value)}/>
+                        {/*<Form.Control type="date" min={date.toISOString().slice(0, 10)} value={expiration} onChange={d => setExpiration(d.target.value)}/>*/}
+                        <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
                     <Button className="mt-4" variant="danger" onClick={()  => setResetFilters(!resetFilters)}>Cancel Filters</Button>

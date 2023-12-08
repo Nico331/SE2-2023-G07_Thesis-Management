@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { useParams } from "react-router-dom";
-import {Form, Button, Table, Container, Navbar, Image} from 'react-bootstrap';
+import {Form, Button, Table, Container, Navbar, Image, Row} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
 import Modal from 'react-bootstrap/Modal';
 import {Link, useNavigate} from 'react-router-dom';
@@ -26,6 +26,7 @@ function StudentApplyForm(props) {
 
     const [showModal, setShowModal] = useState(false);
     const [showModalError, setShowModalError] = useState(false);
+    const [showModalConfirmation, setShowModalConfirmation] = useState(false);
 
     const { proposalID } = useParams();
 
@@ -118,6 +119,7 @@ function StudentApplyForm(props) {
 
     const handleApply = async () => {
         setIsApplying(true);
+        setShowModalConfirmation(false);
 
         try {
             const requestData = {
@@ -248,7 +250,7 @@ function StudentApplyForm(props) {
                         />
                     </Form.Group>
 
-                    <Button variant="primary" type="button" onClick={handleApply} disabled={isApplying}
+                    <Button variant="primary" type="button" onClick={() => setShowModalConfirmation(true)} disabled={isApplying}
                             style={{marginTop: '60px', marginBottom: '100px', marginRight: '20px'}}>
                         {isApplying ? 'Applying...' : 'Apply'}
                     </Button>
@@ -261,6 +263,23 @@ function StudentApplyForm(props) {
 
 
                 </div>
+
+                <Modal show={showModalConfirmation} onHide={() => setShowModalConfirmation(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to submit your application?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={handleApply}>
+                            Yes
+                        </Button>
+                        <Button variant="danger" onClick={() => setShowModalConfirmation(false)}>
+                            No
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
 
                 <Modal show={showModal} onHide={handleCloseModal}>

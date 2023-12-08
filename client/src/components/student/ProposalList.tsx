@@ -32,19 +32,9 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
-    const [date, setDate] = useState<dayjs>(dayjs);
 
-    useEffect(()=>{
-        if(localStorage.getItem("vc")!==null && localStorage.getItem("vc")!=="" && localStorage.getItem("vc")!==undefined){
-            console.log(localStorage.getItem("vc"))
-            console.log(dayjs(localStorage.getItem("vc")!!.split("T")[0]))
-            console.log(dayjs(localStorage.getItem("vc")!!.split("T")[0]).format('YYYY-MM-DDTHH:mm:ss'))
-            //setDate(dayjs(localStorage.getItem("vc")).format('YYYY-MM-DDTHH:mm:ss'))
-        }
-    },[])
-
-    const refreshProposals = async () => {
-        const response = await ProposalService.fetchAllProposals();
+    const getProposals = async () => {
+        const response = await ProposalService.fetchAllProposalsFiltered("");
         setProposals(response.data);
         setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
         setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
@@ -59,16 +49,10 @@ const ProposalList = () => {
         const response = await ApplicationService.getApplicationByStudentId(user.id);
         setMyApps(response.data);
     };
-    //localStorage.setItem("vc",JSON.stringify(d))
-
-    const setClock = async () => {
-        await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
-    };
 
     useEffect(() => {
-        setClock();
         getMyApps();
-        refreshProposals();
+        getProposals();
         getProfessors();
     }, [refresh]);
 
@@ -85,7 +69,7 @@ const ProposalList = () => {
     };
 
     const refreshPage = async () => {
-        setDate(dayjs());
+        // setDate(dayjs());
         setResetFilters(!resetFilters);
         await ClockService.resetClock();
         setRefresh(!refresh);
@@ -95,8 +79,8 @@ const ProposalList = () => {
         <>
             <Container fluid className="px-5">
                 <Row style={{height:"100vh"}}>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh} date={date}/>
-                    <Col sm={7} style={{marginTop:"80px"}}>
+                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh}/>
+                    <Col sm={7} style={{marginTop:"100px"}}>
                         <Container className="mx-0 ms-1 d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
                                 <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
@@ -108,7 +92,7 @@ const ProposalList = () => {
                                         <h2 className="ms-1">Thesis Proposals</h2>
                                     </Col>
                                     <Col className="text-end">
-                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => refreshPage()}>
+                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                                 <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -127,7 +111,7 @@ const ProposalList = () => {
                                     </Container>
                                     :
                                     propsOnScreen.map((p) =>
-                                        <ListGroupItem className="mt-2 p-3">
+                                        <ListGroupItem className="mt-2 p-3" key={"proposal"+p.id}>
                                             <Card>
                                                 <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
                                                     {p.title}
@@ -160,9 +144,8 @@ const ProposalList = () => {
                                 }
                             </ListGroup>
                         </Container>
-                        <Container className="ms-5 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"46vh"}}>
-                            <VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>
-                        </Container>
+                        <VC refresh={refresh} setRefresh={setRefresh}/>
+                        {/*<VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>*/}
                     </Col>
                 </Row>
 

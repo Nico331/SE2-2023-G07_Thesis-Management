@@ -1,46 +1,36 @@
 import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
-import {Row, Col, Form, Container, Button} from 'react-bootstrap';
-import { BsCalendar } from 'react-icons/bs';
-import { FaTrash } from 'react-icons/fa';
+import {Form, Container, Button} from 'react-bootstrap';
 import dayjs from 'dayjs';
 import ClockService from "../services/ClockService";
 
 type VirtualClockProps = {
     refresh: boolean;
     setRefresh: Dispatch<SetStateAction<boolean>>;
-    date: Date;
-    setDate: Dispatch<SetStateAction<Date>>;
 };
 
-const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) => {
-    const [showDatePicker, setShowDatePicker] = useState(false);
+const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
     const [timerId, setTimerId] = useState(null);
+    const [date, setDate] = useState(dayjs);
 
     useEffect(() => {
-        let id;
-        if (!showDatePicker) {
-            id = setInterval(() => {
-                setDate((currentDate) => currentDate.add(1, 'second'));
-            }, 1000);
-            setTimerId(id);
-        }
+        let id = setInterval(() => {
+            setDate((currentDate) => currentDate.add(1, 'second'));
+        }, 1000);
+        setTimerId(id);
         return () => clearInterval(id);
-    }, [showDatePicker]);
+    }, []);
 
     const handleDateChange = async (newDate) => {
         if(newDate === "") {
-            setDate(dayjs);
-            localStorage.setItem("vc",JSON.stringify(dayjs));
-            // await ClockService.setClock(newDate);
-            setRefresh(!refresh);
+            setDate(dayjs());
+            await ClockService.setClock(dayjs().format('YYYY-MM-DDTHH:mm:ss'));
+            // await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
         }
         else{
             setDate(dayjs(newDate));
-            localStorage.setItem("vc",JSON.stringify(newDate));
-            // setShowDatePicker(false);
-            // await ClockService.setClock(newDate);
-            setRefresh(!refresh);
+            await ClockService.setClock(newDate);
         }
+        setRefresh(!refresh);
     };
 
     const handleReset = async () => {
@@ -50,34 +40,18 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh, date, setDate}) =
     };
 
     return (
-        <Container className="d-flex flex-row align-items-center">
-            {/*{showDatePicker ? (*/}
-                <Container>
-                    <Form.Group controlId="expiration">
-                        {/*<Form.Label className="h3">Date:</Form.Label>*/}
-                        <Form.Control
-                            type="datetime-local"
-                            placeholder="Enter date"
-                            value={date.format('YYYY-MM-DDTHH:mm:ss')}
-                            onChange={(e) => handleDateChange(e.target.value)}
-                        />
-                    </Form.Group>
-                </Container>
-            {/*) */}
-            {/*: (*/}
-            {/*    <span>{date.format('HH:mm:ss')} {date.format('YYYY-MM-DD')}</span>*/}
-            {/*)}*/}
-            {/*<Container className="p-0 mx-0 d-flex justify-content-end" style={{maxWidth:"7vh"}}>*/}
-            {/*    <BsCalendar*/}
-            {/*        onClick={() => setShowDatePicker(true)}*/}
-            {/*        style={{ cursor: 'pointer', fontSize: '20px'}}*/}
-            {/*    />*/}
-            {/*</Container>*/}
-            <Container className="p-0 ms-3 d-flex justify-content-between"  style={{maxWidth:"7vh"}}>
-                <FaTrash
-                    onClick={handleReset}
-                    style={{ cursor: 'pointer', fontSize: '20px' }}
-                />
+        <Container className="ms-3 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"52vh"}}>
+            <Container className="d-flex flex-row align-items-center">
+                <Form.Group className="d-flex flex-row" controlId="expiration">
+                    <Form.Control
+                        type="datetime-local"
+                        placeholder="Enter date"
+                        value={date.format('YYYY-MM-DDTHH:mm:ss')}
+                        onChange={(e) => handleDateChange(e.target.value)}
+                    />
+                    <Button className="ms-3" type="submit">Set</Button>
+                    <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+                </Form.Group>
             </Container>
         </Container>
     );

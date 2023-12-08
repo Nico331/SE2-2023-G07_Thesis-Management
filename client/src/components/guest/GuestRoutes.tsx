@@ -17,7 +17,7 @@ const GuestRoutes: React.FC<GuestRoutesProps> = ({setRoleState }) =>{
             <Routes>
                 <Route path="/" element={ <GuestMain/> } >
                     <Route index element={<GuestMain/>} />
-                    <Route path="/*" element={ <NotFound/> } />
+                    {/*<Route path="/*" element={ <NotFound/> } />*/}
                 </Route>
                 <Route path="/login" element={<Login setRoleState={setRoleState}/>}/>
             </Routes>
