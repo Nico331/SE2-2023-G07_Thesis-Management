@@ -5,6 +5,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.3"
     id("jacoco")
+    id("org.sonarqube") version "4.4.1.3373"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
 }
@@ -87,8 +88,10 @@ tasks.withType<Test> {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 }
-//sonarqube {
-//    properties {
-//        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-//    }
-//}
+sonar {
+    properties {
+        property("sonar.projectKey", "Nico331_SE2-2023-G07_Thesis-Management")
+        property("sonar.organization", "nico331")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
