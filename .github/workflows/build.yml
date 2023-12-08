@@ -30,6 +30,6 @@ jobs:
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       with:
-        projectBaseDir: ./server/
+        projectBaseDir: ./
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
