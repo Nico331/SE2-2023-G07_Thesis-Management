@@ -9,6 +9,29 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        options: >-
+          --name mongo_db_se
+          -v ${GITHUB_WORKSPACE}/docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: keycloak_db
+          POSTGRES_USER: keycloak_db
+          POSTGRES_PASSWORD: password
+        options: --name keycloak_db
+      keycloak:
+        image: nico331/keycloak
+        ports:
+          - 8082:8080
+          - 8443:8443
+        options: --name custom_keycloak
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,12 +53,11 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./server/gradlew
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd server
+          chmod +x gradlew
           ./gradlew build sonar --info
