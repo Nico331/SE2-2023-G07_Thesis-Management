@@ -33,4 +33,5 @@ jobs:
       uses: SonarSource/sonarcloud-github-action@master
       with:
         projectBaseDir: ./server/
+      env:
         sonarToken: ${{ secrets.SONAR_TOKEN }}
