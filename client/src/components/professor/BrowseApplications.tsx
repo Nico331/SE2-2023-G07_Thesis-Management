@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
 import { Navigate, useNavigate } from 'react-router-dom';
+import CopyProposal from './CopyProposal';
 
 const BrowseApplications = () => {
 
@@ -25,6 +26,11 @@ const BrowseApplications = () => {
     const [showModifyPage, setShowModifyPage] = useState(false);
     const [modifyproposal, setModifyProposal] = useState([]);
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
+    const [showCopyModal, setShowCopyModal] = useState(false);
+    const [copyproposal, setCopyProposal] = useState([]);
+    const [successcopy, setSuccessCopy] = useState(false);
+
+    const [pageType, setPageType] = useState("");
 
     const handleDownload = (application) => {
         const { content, name, contentType } = application.file;
@@ -75,14 +81,24 @@ const BrowseApplications = () => {
     const handleDelete = (proposalId) => {
         setShowDeletePopup(false);
         setProposalToDelete("");
+        console.log(`Proposal deleted: ${proposalId}`);
         ProposalService.deleteProposal(proposalId).then(()=>{setRefresh((r)=> !r)})
     };
 
     const handlemodify = (e, proposalsID) => {
         e.stopPropagation();
+        setPageType("modify");
         setShowModifyPage(true);
         setModifyProposal(proposals.find(a => a.id === proposalsID));
     }
+
+    const handlecopy = (e, proposalsID) => {
+        e.stopPropagation();
+        setPageType("copy");
+        setShowModifyPage(true);
+        setModifyProposal(proposals.find(a => a.id === proposalsID));
+    }
+
 
     return (
         <>
@@ -127,6 +143,7 @@ const BrowseApplications = () => {
                                         </Badge>}
                                     </div>
                                     <div className="col-sm-4">
+                                        <Button className="ms-2 mt-2" variant={'primary'} onClick={(e) => handlecopy(e, proposal.id)} >Copy</Button>
                                         <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
                                         <Button className="ms-2 mt-2" variant={'danger'}
                                                 onClick={(e) => {
@@ -284,7 +301,8 @@ const BrowseApplications = () => {
                 </Accordion>
             </Container>
 
-            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} /> : null}
+            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} pagetype={pageType} setsuccesscopy={setSuccessCopy} /> : null}
+            {/* {showCopyModal ? <CopyProposal setshowcopymodal={setShowCopyModal} copyproposal={copyproposal} setsuccesscopy={setSuccessCopy} user={user} /> : null} */}
 
             <Modal
                 show={showDeletePopup}
@@ -302,6 +320,28 @@ const BrowseApplications = () => {
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
                     <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal 
+                show={successcopy} 
+                onHide={() => setSuccessCopy(false)}
+                size="xl"
+                centered
+                scrollable={true}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Proposal Copied</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{wordWrap: 'break-word'}} id={'Stu-Modal-Details'}>
+                    <Row>
+                        <Col>
+                            <p>Proposal copied successfully!</p>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button className="btn btn-primary" onClick={() =>setSuccessCopy(false)}>Ok</button>
                 </Modal.Footer>
             </Modal>
         </>
