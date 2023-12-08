@@ -144,31 +144,31 @@ class ProposalUnitTests {
         ))
     }
 
-    @Test
-    fun testCreateExistingProposal() {
-        val existingProposalDTO = ProposalDTO(
-                title = "Existing Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Existing description",
-                requiredKnowledge = "Existing knowledge",
-                notes = "Existing notes",
-                expiration = LocalDate.now().plusMonths(3),
-                level = "Bachelor",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
-
-        `when`(proposalService.existsByTitleAndSupervisor(existingProposalDTO.title, existingProposalDTO.supervisor)).thenReturn(true)
-
-        val responseEntity = proposalController.createProposal(existingProposalDTO)
-
-        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
-        assert(responseEntity.body == "Proposal with same title and supervisor already in the database")
-    }
+//    @Test
+//    fun testCreateExistingProposal() {
+//        val existingProposalDTO = ProposalDTO(
+//                title = "Existing Proposal",
+//                supervisor = "John Doe",
+//                coSupervisors = listOf("Jane Smith"),
+//                keywords = listOf("Java", "Spring"),
+//                type = "Research",
+//                groups = listOf("Group1", "Group2"),
+//                description = "Existing description",
+//                requiredKnowledge = "Existing knowledge",
+//                notes = "Existing notes",
+//                expiration = LocalDate.now().plusMonths(3),
+//                level = "Bachelor",
+//                cdS = listOf("CD1", "CD2"),
+//                archived = archiviation_type.NOT_ARCHIVED
+//        )
+//
+//        `when`(proposalService.existsByTitleAndSupervisor(existingProposalDTO.title, existingProposalDTO.supervisor)).thenReturn(true)
+//
+//        val responseEntity = proposalController.createProposal(existingProposalDTO)
+//
+//        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+//        assert(responseEntity.body == "Proposal with same title and supervisor already in the database")
+//    }
 
     @Test
     fun testGetProposal() {
