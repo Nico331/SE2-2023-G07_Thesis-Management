@@ -9,7 +9,7 @@ const StudentMain = () => {
 
     return (
         <Container className="d-flex flex-column" style={{height:"100vh"}}>
-            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingTop:"20px", paddingBottom:"100px"}}>
+            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingTop:"10px", paddingBottom:"80px"}}>
                 <Container className="text-center">
                     <h1>Hi {user.name}!</h1>
                     <h1>Welcome to Polito thesis management system</h1>
@@ -19,7 +19,7 @@ const StudentMain = () => {
                     <Button className="mt-5 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/myApplicationList")}>My proposals applications</Button>
                 </Container>
                 <Container className="d-flex justify-content-center">
-                    <Image style={{ width: 450, height: 188 }} src={"../logoPolito.png"}/>
+                    <Image style={{ width: 400, height: 167 }} src={"../logoPolito.png"}/>
                 </Container>
             </Container>
         </Container>

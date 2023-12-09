@@ -10,15 +10,25 @@ type VirtualClockProps = {
 
 const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
     const [timerId, setTimerId] = useState(null);
-    const [date, setDate] = useState(dayjs);
+    const [date, setDate] = useState(dayjs());
 
-    useEffect(() => {
-        let id = setInterval(() => {
-            setDate((currentDate) => currentDate.add(1, 'second'));
-        }, 1000);
-        setTimerId(id);
-        return () => clearInterval(id);
-    }, []);
+    // useEffect(() => {
+    //     let id = setInterval(() => {
+    //         setDate((currentDate) => currentDate.add(1, 'second'));
+    //     }, 1000);
+    //     setTimerId(id);
+    //     return () => clearInterval(id);
+    // }, []);
+
+    // useEffect(() => {
+    //     getClock();
+    // }, [])
+
+    const getClock = async () => {
+        const response = await ClockService.getClock();
+        setDate(response.data);
+        console.log(date);
+    };
 
     const handleDateChange = async (newDate) => {
         if(newDate === "") {
@@ -46,7 +56,7 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
                     <Form.Control
                         type="datetime-local"
                         placeholder="Enter date"
-                        value={date.format('YYYY-MM-DDTHH:mm:ss')}
+                        value={date}
                         onChange={(e) => handleDateChange(e.target.value)}
                     />
                     <Button className="ms-3" type="submit">Set</Button>
