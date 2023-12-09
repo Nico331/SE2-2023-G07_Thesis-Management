@@ -1,7 +1,7 @@
-import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
-import {Form, Container, Button} from 'react-bootstrap';
-import dayjs from 'dayjs';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {Button, Container, Form} from 'react-bootstrap';
 import ClockService from "../services/ClockService";
+import dayjs from "dayjs";
 
 type VirtualClockProps = {
     refresh: boolean;
@@ -10,56 +10,61 @@ type VirtualClockProps = {
 
 const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
     const [timerId, setTimerId] = useState(null);
-    const [date, setDate] = useState(dayjs());
+    const [date, setDate] = useState("");
+    const [dateOnForm, setDateOnForm] = useState("");
 
-    // useEffect(() => {
-    //     let id = setInterval(() => {
-    //         setDate((currentDate) => currentDate.add(1, 'second'));
-    //     }, 1000);
-    //     setTimerId(id);
-    //     return () => clearInterval(id);
-    // }, []);
+    useEffect(() => {
+        let id = setInterval(() => {
+            setDateOnForm((current) => dayjs(current).add(1, 'second').format("YYYY-MM-DDTHH:mm:ss"));
+            setDate((current) => dayjs(current).add(1, 'second').format("YYYY-MM-DDTHH:mm:ss"));
+        }, 1000);
+        setTimerId(id);
+        return () => clearInterval(id);
+    }, []);
 
-    // useEffect(() => {
-    //     getClock();
-    // }, [])
+    useEffect(() => {
+        getClock();
+    }, [])
 
     const getClock = async () => {
         const response = await ClockService.getClock();
-        setDate(response.data);
-        console.log(date);
+        setDate(response.data.split(".")[0]);
+        setDateOnForm(response.data.split(".")[0]);
     };
 
     const handleDateChange = async (newDate) => {
         if(newDate === "") {
-            setDate(dayjs());
-            await ClockService.setClock(dayjs().format('YYYY-MM-DDTHH:mm:ss'));
-            // await ClockService.setClock(date.format('YYYY-MM-DDTHH:mm:ss'));
+            setDateOnForm(date);
         }
         else{
-            setDate(dayjs(newDate));
-            await ClockService.setClock(newDate);
+            setDateOnForm(newDate);
         }
+    };
+
+    const setNewDate = async () => {
+        setDate(dateOnForm);
+        await ClockService.setClock(dateOnForm);
         setRefresh(!refresh);
     };
 
     const handleReset = async () => {
-        setDate(dayjs());
         await ClockService.resetClock();
+        await getClock();
         setRefresh(!refresh);
     };
 
     return (
-        <Container className="ms-3 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"52vh"}}>
+        <Container className="ms-3 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"42vh"}}>
             <Container className="d-flex flex-row align-items-center">
                 <Form.Group className="d-flex flex-row" controlId="expiration">
                     <Form.Control
                         type="datetime-local"
                         placeholder="Enter date"
-                        value={date}
+                        value={dateOnForm}
                         onChange={(e) => handleDateChange(e.target.value)}
+                        onKeyDown={(e) => e.preventDefault()}
                     />
-                    <Button className="ms-3" type="submit">Set</Button>
+                    <Button className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
                     <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
                 </Form.Group>
             </Container>
