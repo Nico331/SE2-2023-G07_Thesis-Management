@@ -1,9 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
+// test
 plugins {
     id("org.springframework.boot") version "3.1.5"
     id("com.google.cloud.tools.jib") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.3"
+    id("jacoco")
+    id("org.sonarqube") version "4.4.1.3373"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
 }
@@ -57,8 +59,39 @@ tasks.withType<Test> {
 jib {
     from {
         auth {
-            username = System.getenv("REGISTRY_USERNAME")
+            username = "nico331"//System.getenv("REGISTRY_USERNAME")
             password = System.getenv("REGISTRY_PASSWORD")
         }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+//    reportsDirectory.set(layout.projectDirectory.dir("test-reports"))
+}
+tasks.withType<JacocoReport> {
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(false)
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.map {
+            fileTree(it).apply {
+                exclude("**/CoderseeGenerated.class")
+                exclude("**/CoderseeGenerated\$*.class")
+            }
+        }))
+    }
+}
+tasks.withType<Test> {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+sonar {
+    properties {
+        property("sonar.projectKey", "Nico331_SE2-2023-G07_Thesis-Management")
+        property("sonar.organization", "nico331")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
