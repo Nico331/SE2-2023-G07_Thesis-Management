@@ -288,7 +288,7 @@ function UpdateProposal (props) {
                                 <Form.Label className="h3">Co-Supervisors</Form.Label>
                                 <Card className={"mt-3 mb-3"}>
                                     <Card.Body>
-                                        <CoSupervisorInput setCoAlert={setCoAlert} coalert={coalert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
+                                        <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coalert={coalert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
 
                                         <ListGroup className={"mt-3"}>
                                             {updatedprop.coSupervisors.map((cs, index) => (

@@ -7,6 +7,7 @@ import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
 import { Navigate, useNavigate } from 'react-router-dom';
 import CopyProposal from './CopyProposal';
+import ProfessorService from '../../services/ProfessorService';
 
 const BrowseApplications = () => {
 
@@ -20,6 +21,15 @@ const BrowseApplications = () => {
         }
 
     }, [user, refresh]);
+
+    const [professors, setProfessors] = useState([]);
+
+    useEffect(() => {
+        ProfessorService.fetchAllProfessors().then((res) => {
+            setProfessors(res.data);
+        });
+    }, []);
+
     const [proposals, setProposals] = useState([]);
     const [proposalToDelete, setProposalToDelete] = useState("");
     const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -166,9 +176,15 @@ const BrowseApplications = () => {
                                 </Row>
                                 <Row>
                                     <Col md={6}>
-                                        <b>Co-Supervisor:</b> {proposal.coSupervisors.map((coSupervisor) => {
-                                        return <>{coSupervisor},</>
-                                    })}
+                                        <b>Co-Supervisor: </b>
+                                            {proposal.coSupervisors.map((coSupervisor) => {
+                                                const matchingProfessor = professors.find((professor) => professor.id === coSupervisor);
+                                                return matchingProfessor ? (
+                                                    <span key={coSupervisor}>
+                                                        {matchingProfessor.name} {matchingProfessor.surname}, &nbsp;
+                                                    </span>
+                                                ) : null;
+                                            })}
                                     </Col>
                                     <Col md={6}>
                                         <b>Type:</b> {proposal.type}

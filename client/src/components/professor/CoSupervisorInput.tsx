@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import { Form, Button, Accordion, Card, Row, Alert } from 'react-bootstrap';
 import {UserContext} from "../../contexts/UserContexts";
 
-const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert }) => {
+const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert, updatedprop }) => {
     const [coSupervisor, setCoSupervisor] = useState("");
     const {user, setUser} = useContext(UserContext)
     const addCoSupervisor = () => {
@@ -23,10 +23,14 @@ const CoSupervisorInput = ({ onAddCoSupervisor, professors, coalert, setCoAlert 
                         <Form.Control as="select" custom value={coSupervisor}
                                       onChange={(e) => setCoSupervisor(e.target.value)}>
                             <option value="">Select the supervisor</option>
-
-                            {
-                                professors.filter((professor)=>professor.id!==JSON.parse(user).id).map((professor) => <option
-                                    value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
+                            {updatedprop ? 
+                                
+                                    professors.filter((professor)=>professor.id!==JSON.parse(user).id && !updatedprop.coSupervisors.includes(professor.id)).map((professor) => <option
+                                        value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
+                                
+                                : 
+                                    professors.filter((professor)=>professor.id!==JSON.parse(user).id).map((professor) => <option
+                                        value={professor.id}>{professor.name}{' '}{professor.surname}</option>)
                             }
                         </Form.Control>
                     </Form.Group>
