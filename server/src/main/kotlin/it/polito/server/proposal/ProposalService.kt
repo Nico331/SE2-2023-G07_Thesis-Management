@@ -54,6 +54,11 @@ class ProposalService (private val proposalRepository : ProposalRepository,
     fun deleteProposal(id: String) : ResponseEntity<Any> {
         if (!proposalRepository.existsById(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal doesn't exists")
+
+        val proposal = proposalRepository.findById(id).get()
+        if(proposal.archived == archiviation_type.MANUALLY_ARCHIVED || proposal.archived == archiviation_type.EXPIRED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already archived")
+
         proposalRepository.deleteById(id)
         return ResponseEntity(HttpStatus.OK)
     }
