@@ -57,8 +57,7 @@ class AppliedProposalService(
         if(existingApplication != null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
         //check if student already has an application
-        val existingApplicationByStudent = appliedProposalRepository.findByStudentId(studentId)
-        if(existingApplicationByStudent != null)
+        if(!appliedProposalRepository.existsAppliedProposalByStudentId(studentId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).")
 
         val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file.content)
