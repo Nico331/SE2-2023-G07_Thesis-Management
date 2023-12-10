@@ -18,7 +18,6 @@ class AppliedProposalController(
     private val appliedProposalService: AppliedProposalService,
     private val proposalRepository : ProposalRepository,
     private val studentRepository: StudentRepository,
-    private val emailService: EmailService,
 ) {
 
     /*@GetMapping("/{id}")

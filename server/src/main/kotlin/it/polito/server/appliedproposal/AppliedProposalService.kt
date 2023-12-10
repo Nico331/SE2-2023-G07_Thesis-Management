@@ -126,28 +126,35 @@ class AppliedProposalService(
             if (applicationToReject.status==ApplicationStatus.PENDING && applicationToReject.id!=applicationId){
                 appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.CANCELLED))
                 val proposal = proposalService.findProposalById(applicationToReject.proposalId)
-                emailService.sendSimpleMessage(
-                    "${applicationToReject.studentId}@studenti.polito.it",
-                    "Application cancelled",
-                    "The thesis application for \"${proposal!!.title}\" was automatically cancelled. " +
-                            "\nBest regards" +
-                            "\nGestione Didattica",
-                    "no-reply@studenti.polito.it"
+                if(proposal!=null){
+                    emailService.sendSimpleMessage(
+                        "${applicationToReject.studentId}@studenti.polito.it",
+                        "Application cancelled",
+                        "The thesis application for \"${proposal.title}\" was automatically cancelled. " +
+                                "\nBest regards" +
+                                "\nGestione Didattica",
+                        "no-reply@studenti.polito.it"
                     )
+                }
             }
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
         val proposal = proposalService.findProposalById(applicationId)
-        val professor = professorRepository.findById(proposal!!.supervisor).get()
-        emailService.sendSimpleMessage(
-            "${appliedProposal.studentId}@studenti.polito.it",
-            "Application accepted",
-            "The thesis application for \"${proposal!!.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
-                    "\nBest regards" +
-                    "\nGestione Didattica",
-            "no-reply@studenti.polito.it"
-        )
+        if(proposal!=null){
+            if(professorRepository.findById(proposal.supervisor).isPresent){
+                val professor = professorRepository.findById(proposal.supervisor).get()
+                emailService.sendSimpleMessage(
+                    "${appliedProposal.studentId}@studenti.polito.it",
+                    "Application accepted",
+                    "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
+                            "\nBest regards" +
+                            "\nGestione Didattica",
+                    "no-reply@studenti.polito.it"
+                )
+            }
+        }
+
         //SETS the PROPOSAL as MANUALLY_ARCHIVED
         proposalService.manuallyArchivedProposal(appliedProposal.proposalId)
 
@@ -181,15 +188,20 @@ class AppliedProposalService(
         //ONLY REJECTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
         val proposal = proposalService.findProposalById(applicationId)
-        val professor = professorRepository.findById(proposal!!.supervisor).get()
-        emailService.sendSimpleMessage(
-            "${appliedProposal.studentId}@studenti.polito.it",
-            "Application rejected",
-            "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
-                    "\nBest regards" +
-                    "\nGestione Didattica",
-            "no-reply@studenti.polito.it"
-        )
+        if(proposal!=null){
+            if(professorRepository.findById(proposal.supervisor).isPresent){
+                val professor = professorRepository.findById(proposal.supervisor).get()
+                emailService.sendSimpleMessage(
+                    "${appliedProposal.studentId}@studenti.polito.it",
+                    "Application rejected",
+                    "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
+                            "\nBest regards" +
+                            "\nGestione Didattica",
+                    "no-reply@studenti.polito.it"
+                )
+            }
+        }
+
         return ResponseEntity.ok().body("Successful operation")
     }
 
