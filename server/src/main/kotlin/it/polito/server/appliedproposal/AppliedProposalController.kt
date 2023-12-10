@@ -1,5 +1,6 @@
 package it.polito.server.appliedproposal
 
+import it.polito.server.email.EmailService
 import it.polito.server.professor.Professor
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
@@ -13,7 +14,12 @@ import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 
 @RestController
 @RequestMapping("/API/appliedProposal")
-class AppliedProposalController(private val appliedProposalService: AppliedProposalService, private val proposalRepository : ProposalRepository, private val studentRepository: StudentRepository) {
+class AppliedProposalController(
+    private val appliedProposalService: AppliedProposalService,
+    private val proposalRepository : ProposalRepository,
+    private val studentRepository: StudentRepository,
+    private val emailService: EmailService,
+) {
 
     /*@GetMapping("/{id}")
     fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
@@ -50,6 +56,7 @@ class AppliedProposalController(private val appliedProposalService: AppliedPropo
     @PutMapping("/accept/{id}")
     fun acceptProposal(@PathVariable id: String): ResponseEntity<Any>{
         //appliedProposalService.acceptProposal(id)
+
         return appliedProposalService.acceptProposal(id)
     }
 
