@@ -64,5 +64,14 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem("token")
             }
         });
+    },
+
+    archiveProposal(id) {
+        return axios.put(`${endpoint}/manuallyarchived/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
     }
 };

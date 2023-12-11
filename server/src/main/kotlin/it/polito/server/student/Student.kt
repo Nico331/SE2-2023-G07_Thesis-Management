@@ -14,15 +14,15 @@ data class Student(
     var email: String,
     var codDegree: String,
     var enrollmentYear: Int,
-    private var passwordHash: String? = null
+    //private var passwordHash: String? = null
 ) {
-    fun setPassword(password: String) {
+    /*fun setPassword(password: String) {
         this.passwordHash = BCryptPasswordEncoder().encode(password)
     }
 
     fun checkPassword(password: String): Boolean {
         return BCryptPasswordEncoder().matches(password, this.passwordHash)
-    }
+    } */
 
     fun toDTO(): StudentDTO = StudentDTO(
         id = this.id,

@@ -1,5 +1,6 @@
 package it.polito.serve
 
+import it.polito.server.secretary.Secretary
 import it.polito.server.secretary.SecretaryController
 import it.polito.server.secretary.SecretaryDTO
 import it.polito.server.secretary.SecretaryService
@@ -25,23 +26,28 @@ class SecretaryUnitTests {
 
     @Test
     fun testCreateSecretary() {
-        val newSecretaryDTO = SecretaryDTO(
-                name = "name"
+        val newSecretary = Secretary(
+                name = "name",
+                surname = "surname",
+                email = "email"
         )
 
-        `when`(secretaryService.createSecretary(newSecretaryDTO)).thenReturn(newSecretaryDTO)
+        `when`(secretaryService.createSecretary(newSecretary)).thenReturn(ResponseEntity(newSecretary, HttpStatus.CREATED))
 
-        val responseEntity = secretaryController.createSecretary(newSecretaryDTO)
+        val responseEntity = secretaryController.createSecretary(newSecretary)
 
         assert(responseEntity.statusCode == HttpStatus.CREATED)
-        assert(responseEntity.body == newSecretaryDTO)
+        assert(responseEntity.body == newSecretary)
+
     }
 
     @Test
     fun testUpdateSecretary() {
         val secretaryId = "1"
         val updatedSecretaryDTO = SecretaryDTO(
-                name = "name"
+                name = "name",
+                surname = "surname",
+                email = "email"
         )
 
         `when`(secretaryService.updateSecretary(secretaryId, updatedSecretaryDTO)).thenReturn(updatedSecretaryDTO)
@@ -56,7 +62,9 @@ class SecretaryUnitTests {
     fun testUpdateSecretaryNotFound() {
         val nonExistingSecretaryId = "99"
         val updatedSecretaryDTO = SecretaryDTO(
-                name = "name"
+                name = "name",
+                surname = "surname",
+                email = "email"
         )
 
         `when`(secretaryService.updateSecretary(nonExistingSecretaryId, updatedSecretaryDTO)).thenReturn(null)
@@ -70,11 +78,12 @@ class SecretaryUnitTests {
     fun testDeleteSecretary() {
         val secretaryId = "1"
 
-        `when`(secretaryService.deleteSecretary(secretaryId)).thenReturn(ResponseEntity.ok().build())
+        `when`(secretaryService.deleteSecretary(secretaryId)).thenReturn(ResponseEntity.status(HttpStatus.OK).body("Secretary with ID $secretaryId successfully deleted."))
 
         val responseEntity = secretaryController.deleteSecretary(secretaryId)
 
         assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Secretary with ID $secretaryId successfully deleted.")
     }
 
     @Test
@@ -93,7 +102,9 @@ class SecretaryUnitTests {
     fun testGetSecretary() {
         val secretaryId = "1"
         val secretaryDTO = SecretaryDTO(
-                name = "name"
+                name = "name",
+                surname = "surname",
+                email = "email"
         )
 
         `when`(secretaryService.findSecretaryById(secretaryId)).thenReturn(secretaryDTO)
@@ -120,11 +131,15 @@ class SecretaryUnitTests {
         val secretaryDTOList = listOf(
                 SecretaryDTO(
                         id = "1",
-                        name = "name1"
+                        name = "name1",
+                        surname = "surname",
+                        email = "email"
                 ),
                 SecretaryDTO(
                         id = "2",
-                        name = "name2"
+                        name = "name2",
+                        surname = "surname",
+                        email = "email"
                 )
         )
 

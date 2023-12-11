@@ -11,6 +11,7 @@ ProposalDTO
 	"title" : String,
 	"supervisor" : String,
 	"coSupervisors" : String[],
+	"externalCoSupervisors" : nullable ExternalCoSupervisorDTO[],
 	"keywords" : String[],
 	"type" : String,
 	"groups" : String[],
@@ -21,6 +22,15 @@ ProposalDTO
 	"level" : String,
 	"cdS" : String[],
 	"archived" : enum {EXPIRED, MANUALLY_ARCHIVED, NOT_ARCHIVED}	
+}
+```
+
+```json
+ExternalCoSupervisorDTO
+{
+	"name" : String,
+	"surname" : String,
+	"email" : String	
 }
 ```
 

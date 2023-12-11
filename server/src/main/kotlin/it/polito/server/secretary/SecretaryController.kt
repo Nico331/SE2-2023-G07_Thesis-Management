@@ -1,6 +1,5 @@
 package it.polito.server.secretary
 
-import it.polito.server.requestproposal.RequestProposalDTO
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -10,9 +9,8 @@ import org.springframework.http.ResponseEntity
 class SecretaryController(private val secretaryService: SecretaryService) {
 
     @PostMapping("")
-    fun createSecretary(@RequestBody secretary: SecretaryDTO): ResponseEntity<Any> {
-        val newSecretary = secretaryService.createSecretary(secretary)
-        return ResponseEntity(newSecretary, HttpStatus.CREATED)
+    fun createSecretary(@RequestBody secretary: Secretary): ResponseEntity<Any> {
+        return secretaryService.createSecretary(secretary)
     }
 
     @PutMapping("/{id}")

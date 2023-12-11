@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
@@ -16,9 +16,7 @@ import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ApplicationService from "../../services/ApplicationService";
 import ProfessorService from "../../services/ProfessorService";
-import ClockService from "../../services/ClockService";
-import VC from "../VC";
-import dayjs from "dayjs";
+import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
 const ProposalList = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -30,8 +28,9 @@ const ProposalList = () => {
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
     const [proposalTitle, setProposalTitle] = useState('');
-    const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
+
+    const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     const getProposals = async () => {
         const response = await ProposalService.fetchAllProposalsFiltered("");
@@ -68,13 +67,6 @@ const ProposalList = () => {
         });
     };
 
-    const refreshPage = async () => {
-        // setDate(dayjs());
-        setResetFilters(!resetFilters);
-        await ClockService.resetClock();
-        setRefresh(!refresh);
-    };
-
     return (
         <>
             <Container fluid className="px-5">
@@ -104,7 +96,7 @@ const ProposalList = () => {
                             </Container>
                         </Container>
                         <Container className="mt-4 ms-3 border" style={{borderRadius:"20px"}}>
-                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"65vh", overflowY:"auto"}}>
+                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"75vh", overflowY:"auto"}}>
                                 {   propsOnScreen.length === 0 ?
                                     <Container className="d-flex align-items-center justify-content-center" style={{height:"18vh"}}>
                                         <h1>No results</h1>
@@ -144,7 +136,7 @@ const ProposalList = () => {
                                 }
                             </ListGroup>
                         </Container>
-                        <VC refresh={refresh} setRefresh={setRefresh}/>
+                        {/*<VC refresh={refresh} setRefresh={setRefresh}/>*/}
                         {/*<VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>*/}
                     </Col>
                 </Row>

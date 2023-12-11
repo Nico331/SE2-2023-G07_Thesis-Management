@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import it.polito.server.proposal.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -8,14 +9,22 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
 import it.polito.server.professor.ProfessorService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.Optional
 
+//@Testcontainers
+//@SpringBootTest
 class ProposalUnitTests {
 
+//    @Autowired
     private lateinit var proposalService: ProposalService
+//    @Autowired
     private lateinit var proposalController: ProposalController
+//    @Autowired
     private lateinit var professorService: ProfessorService
-
+//    @Autowired
     private lateinit var proposalRepository: ProposalRepository
 
     @BeforeEach
@@ -84,6 +93,47 @@ class ProposalUnitTests {
                 archived = archiviation_type.NOT_ARCHIVED
         ))
     }
+
+/*    @Test
+    fun testCreateProposalWithExternalCoSups () {
+        val newProposalDTO = ProposalDTO(
+            title = "New Proposal",
+            supervisor = "John Doe",
+            coSupervisors = listOf("Jane Smith"),
+            externalCoSupervisors = listOf(ExternalCoSupervisorDTO("name1", "surname1", "email1"), ExternalCoSupervisorDTO("name2", "surname2", "email2")),
+            keywords = listOf("Java", "Spring"),
+            type = "Research",
+            groups = listOf("Group1", "Group2"),
+            description = "New description",
+            requiredKnowledge = "New knowledge",
+            notes = "New notes",
+            expiration = LocalDate.now().plusMonths(2),
+            level = "PhD",
+            cdS = listOf("CD1", "CD2"),
+            archived = archiviation_type.NOT_ARCHIVED
+        )
+
+        val saveResponse = proposalController.createProposal(newProposalDTO)
+
+        assert(saveResponse.statusCode == HttpStatus.CREATED)
+        assert(saveResponse.body == ProposalDTO(
+            id = "2",
+            title = "New Proposal",
+            supervisor = "John Doe",
+            coSupervisors = listOf("Jane Smith"),
+            externalCoSupervisors = listOf(ExternalCoSupervisorDTO("name1", "surname1", "email1"), ExternalCoSupervisorDTO("name2", "surname2", "email2")),
+            keywords = listOf("Java", "Spring"),
+            type = "Research",
+            groups = listOf("Group1", "Group2"),
+            description = "New description",
+            requiredKnowledge = "New knowledge",
+            notes = "New notes",
+            expiration = LocalDate.now().plusMonths(2),
+            level = "PhD",
+            cdS = listOf("CD1", "CD2"),
+            archived = archiviation_type.NOT_ARCHIVED
+        ))
+    }*/
 
     @Test
     fun testCreateProposal() {
