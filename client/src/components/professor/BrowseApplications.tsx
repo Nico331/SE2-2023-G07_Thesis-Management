@@ -7,10 +7,11 @@ import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
 import { Navigate, useNavigate } from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
+import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
 const BrowseApplications = () => {
+    const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const [refresh, setRefresh] = useState(false);
     const {user, setUser} = useContext(UserContext);
     useEffect(() => {
         if (user) {

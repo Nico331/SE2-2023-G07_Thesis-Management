@@ -13,11 +13,6 @@ export default {
     },
 
     getClock() {
-        return axios.get(`${endpoint}/getServerClock`,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem("token")
-            }
-        });
+        return axios.get(`${endpoint}/getServerClock`);
     }
 };

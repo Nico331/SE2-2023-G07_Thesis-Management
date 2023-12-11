@@ -5,15 +5,15 @@ import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
+import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
 const StudentApplicationsListCollapse = () => {
-
-
-    const [refresh, setRefresh] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const [studentApplications, setStudentApplications] = useState([]);
     const [studentProposals, setStudentProposals] = useState([]);
     const [supervisors, setSupervisors] = useState([]);
+
+    const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     const getDatas = async () => {
         const apps = await ApplicationService.getApplicationByStudentId(user.id.toString());
@@ -26,7 +26,7 @@ const StudentApplicationsListCollapse = () => {
 
     useEffect(() => {
         getDatas();
-    }, [])
+    }, [refresh])
 
     return (
         <>

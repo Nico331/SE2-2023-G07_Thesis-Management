@@ -30,9 +30,12 @@ const VC = () => {
     }, [])
 
     const getClock = async () => {
-        const response = await ClockService.getClock();
-        setDate(response.data.split(".")[0]);
-        setDateOnForm(response.data.split(".")[0]);
+        await ClockService.getClock()
+            .then((res) => {
+                setDate(res.data.split(".")[0]);
+                setDateOnForm(res.data.split(".")[0]);
+            })
+            .catch((error) => console.log(error));
     };
 
     const handleDateChange = async (newDate) => {
@@ -46,31 +49,30 @@ const VC = () => {
 
     const setNewDate = async () => {
         setDate(dateOnForm);
-        await ClockService.setClock(dateOnForm);
+        await ClockService.setClock(dateOnForm).catch((error) => console.log(error));
         setRefresh(!refresh);
     };
 
     const handleReset = async () => {
-        await ClockService.resetClock();
+        await ClockService.resetClock().catch((error) => console.log(error));
         await getClock();
         setRefresh(!refresh);
     };
 
     return (
-        <Container style={{maxWidth:"42vh"}}>
-            <Container className="d-flex flex-row align-items-center">
-                <Form.Group className="d-flex flex-row" controlId="expiration">
-                    <Form.Control
-                        type="datetime-local"
-                        placeholder="Enter date"
-                        value={dateOnForm}
-                        onChange={(e) => handleDateChange(e.target.value)}
-                        onKeyDown={(e) => e.preventDefault()}
-                    />
-                    <Button className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
-                    <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
-                </Form.Group>
-            </Container>
+        <Container className="d-flex justify-content-center align-items-center">
+            <Form.Group className="d-flex flex-row" controlId="expiration">
+                <Form.Control
+                    type="datetime-local"
+                    placeholder="Enter date"
+                    value={dateOnForm}
+                    style={{maxWidth:"30vh"}}
+                    onChange={(e) => handleDateChange(e.target.value)}
+                    onKeyDown={(e) => e.preventDefault()}
+                />
+                <Button className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+                <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+            </Form.Group>
         </Container>
     );
 }
