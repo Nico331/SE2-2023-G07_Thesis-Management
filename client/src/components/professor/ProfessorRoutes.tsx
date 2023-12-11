@@ -9,6 +9,7 @@ import ProposalForm from "./ProposalForm";
 import BrowseApplications from "./BrowseApplications";
 import Student from "../../types/Student";
 import MainNavBar from "../NavBar";
+import ArchivedProposals from "./ArchivedProposals";
 
 type ProfessorRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -27,6 +28,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
                 <Route path="/browse-applications" element={<BrowseApplications/>} />
                 <Route path="/add-proposal" element={<ProposalForm/>} />
+                <Route path="/archived-proposals" element={<ArchivedProposals/>} />
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
             </Routes>
         </div>

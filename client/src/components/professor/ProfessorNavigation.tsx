@@ -52,6 +52,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                             onMouseEnter={() => {setShowDropdown(true); if(timeoutId) clearTimeout(timeoutId)}}
                             onMouseLeave={handleMouseLeave} >
                             <NavDropdown.Item onClick={() => navigate("/browse-applications")}> Browse proposals and applications </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/archived-proposals")}> Browse archived proposals </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/add-proposal")}> Add proposals </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
                             <NavDropdown.Item onClick={() => logOut()}>Logout</NavDropdown.Item>

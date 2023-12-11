@@ -17,6 +17,7 @@ const ProfessorMain= () => {
                 <Container className="d-flex flex-column align-items-center">
                     <Button className="fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/add-proposal")}>Add a new thesis proposal</Button>
                     <Button className="mt-5 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/browse-applications")}>My thesis proposals</Button>
+                    <Button className="mt-5 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/archived-proposals")}>My archived thesis proposals</Button>
                 </Container>
                 <Container className="d-flex justify-content-center">
                     <Image style={{ width: 400, height: 167 }} src={"../logoPolito.png"}/>
