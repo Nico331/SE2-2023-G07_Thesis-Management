@@ -35,8 +35,8 @@ export default function MainNavBar ({role, user, setRole}) {
                     <Col md={4}>
                         <Col end className="d-flex p-0" md={{span:2, offset:10}}>
                             <Nav className='links p-0 m-0'>
-                                {role === "" ? <Nav.Link href='login'>Login</Nav.Link> : null }
-                                {role === "PROFESSOR" || role === "STUDENT" || role === "" ? <Nav.Link className="fs-4" onClick={() => setShow(true)}>Menu</Nav.Link> : null }
+                                {/*{role === "" ? <Nav.Link href='login'>Login</Nav.Link> : null }*/}
+                                {role === "PROFESSOR" || role === "STUDENT" ? <Nav.Link className="fs-4" onClick={() => setShow(true)}>Menu</Nav.Link> : null }
 
                                 <Offcanvas
                                     show={show}
