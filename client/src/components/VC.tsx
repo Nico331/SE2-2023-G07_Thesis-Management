@@ -1,17 +1,20 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react';
 import {Button, Container, Form} from 'react-bootstrap';
 import ClockService from "../services/ClockService";
+import {VirtualClockContext} from "../contexts/VirtualClockContext";
 import dayjs from "dayjs";
 
-type VirtualClockProps = {
-    refresh: boolean;
-    setRefresh: Dispatch<SetStateAction<boolean>>;
-};
+// type VirtualClockProps = {
+//     refresh: boolean;
+//     setRefresh: Dispatch<SetStateAction<boolean>>;
+// };
 
-const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
+const VC = () => {
     const [timerId, setTimerId] = useState(null);
     const [date, setDate] = useState("");
     const [dateOnForm, setDateOnForm] = useState("");
+
+    const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     useEffect(() => {
         let id = setInterval(() => {
@@ -54,7 +57,7 @@ const VC: React.FC<VirtualClockProps> = ({refresh, setRefresh}) => {
     };
 
     return (
-        <Container className="ms-3 mt-4 border" style={{borderRadius:"20px", padding: "10px", maxWidth:"42vh"}}>
+        <Container style={{maxWidth:"42vh"}}>
             <Container className="d-flex flex-row align-items-center">
                 <Form.Group className="d-flex flex-row" controlId="expiration">
                     <Form.Control

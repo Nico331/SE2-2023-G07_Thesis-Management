@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
@@ -19,6 +19,7 @@ import ProfessorService from "../../services/ProfessorService";
 import ClockService from "../../services/ClockService";
 import VC from "../VC";
 import dayjs from "dayjs";
+import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
 const ProposalList = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -30,8 +31,9 @@ const ProposalList = () => {
     const [showModal, setShowModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
     const [proposalTitle, setProposalTitle] = useState('');
-    const [refresh, setRefresh] = useState(true);
     const [resetFilters, setResetFilters] = useState(true);
+
+    const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     const getProposals = async () => {
         const response = await ProposalService.fetchAllProposalsFiltered("");
@@ -144,7 +146,7 @@ const ProposalList = () => {
                                 }
                             </ListGroup>
                         </Container>
-                        <VC refresh={refresh} setRefresh={setRefresh}/>
+                        {/*<VC refresh={refresh} setRefresh={setRefresh}/>*/}
                         {/*<VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>*/}
                     </Col>
                 </Row>
