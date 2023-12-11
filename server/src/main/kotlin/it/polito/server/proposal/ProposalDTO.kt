@@ -1,14 +1,15 @@
 package it.polito.server.proposal
 
+import it.polito.server.externalcosupervisor.ExternalCoSupervisor
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import java.time.LocalDate
 
 data class ProposalDTO(
     val id: String? = null,
     var title: String,
-    // to change to professor obj when implemented
     var supervisor: String,
-    // to change to professor obj when implemented
     var coSupervisors: List<String>,
+    var externalCoSupervisors : List<ExternalCoSupervisorDTO>? = null,
     var keywords: List<String>,
     var type: String,
     var groups: List<String>,
@@ -24,7 +25,7 @@ data class ProposalDTO(
         id = this.id,
         title = this.title,
         supervisor = this.supervisor,
-        coSupervisors = this.coSupervisors,
+        coSupervisors = this.coSupervisors + (this.externalCoSupervisors?.map { it.email } ?: listOf()),
         keywords = this.keywords,
         type = this.type,
         groups = this.groups,
