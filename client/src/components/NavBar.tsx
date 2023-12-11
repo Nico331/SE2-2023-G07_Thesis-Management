@@ -20,15 +20,16 @@ export default function MainNavBar ({role, user, setRole}) {
     return (
         <>
             <Navbar collapseOnSelect style={{background:'#002B49', height:"80px"}} fixed="top" variant="dark" className="navbar-padding">
-                <Container fluid className="p-0 d-flex" style={{marginLeft:"75px", marginRight:"75px"}}>
+                <Container fluid className="p-0 d-flex" style={{marginLeft:"40px", marginRight:"40px"}}>
                     <Col className="text-start" md={4}>
                         <Navbar.Brand className="p-0 m-0 d-inline-flex align-items-center" href='/'>
                             <img className="" style={{background:'white', borderRadius: '3px', width: '35px', height: '35px'}} src={"../thesis-management-512.png"}/>
-                            <h1 className="ms-3 my-0">Thesis Management</h1>
+                            {/*<h1 className="ms-3 my-0">Thesis Management</h1>*/}
+                            <Container className="p-0 ms-3 fs-1 fw-bold d-none d-md-block">Thesis Management</Container>
                         </Navbar.Brand>
                     </Col>
 
-                    <Col md={4}>
+                    <Col className="" md={4}>
                         {role === "PROFESSOR" || role === "STUDENT" ? <VC/> : <></>}
                     </Col>
 

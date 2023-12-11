@@ -1,16 +1,14 @@
 package it.polito.server.proposal
 
-import it.polito.server.appliedproposal.ApplicationStatus
 import it.polito.server.appliedproposal.AppliedProposalRepository
-import it.polito.server.professor.ProfessorRepository
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
 import it.polito.server.professor.ProfessorService
-import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.net.URLDecoder
@@ -21,34 +19,42 @@ import java.util.regex.Pattern
 @Service
 class ProposalService (private val proposalRepository : ProposalRepository,
                        private val professorService: ProfessorService,
-                       private val appliedProposalRepository: AppliedProposalRepository
+                       private val appliedProposalRepository: AppliedProposalRepository,
+                       private val externalCoSupervisorRepository: ExternalCoSupervisorRepository,
+                       private val externalCoSupervisorService: ExternalCoSupervisorService
     ) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
-        val proposal = proposalRepository.findById(id).orElse(null) ?: return null
-        val isExpired = archiviation_type.NOT_ARCHIVED
-        return proposalRepository.save(update.toDBObj()).toDTO()
+        proposalRepository.findById(id).orElse(null) ?: return null
+        val external = update.externalCoSupervisors
+        if (external != null)
+            externalCoSupervisorService.saveNewExternals(external)
+        return proposalRepository.save(update.toDBObj()).toDTO(externalCoSupervisorRepository)
     }
 
     fun createProposal(proposal: ProposalDTO): ProposalDTO {
+        val external = proposal.externalCoSupervisors
+        if (external != null)
+            externalCoSupervisorService.saveNewExternals(external)
+
         val savedProposal = proposalRepository.save(proposal.toDBObj())
-        return savedProposal.toDTO()
+        return savedProposal.toDTO(externalCoSupervisorRepository)
     }
 
     fun findProposalById(id: String): ProposalDTO? {
-        return proposalRepository.findById(id).map(Proposal::toDTO).orElse(null)
+        return proposalRepository.findById(id).map { it.toDTO(externalCoSupervisorRepository) }.orElse(null)
     }
     fun findAll() : List<ProposalDTO> {
         //println(proposalRepository.findByArchived(archiviation_type.NOT_ARCHIVED).map{(it.toDTO())})
         //println(proposalRepository.findAll().map{(it.toDTO())})
         //return proposalRepository.findByArchived(archiviation_type.NOT_ARCHIVED).map{(it.toDTO())}
-        return proposalRepository.findAll().map{(it.toDTO())}
+        return proposalRepository.findAll().map{(it.toDTO(externalCoSupervisorRepository))}
     }
 
     fun findActiveByStudent( studentId : String): List<ProposalDTO>? {
         val activeProposals = proposalRepository.findByArchived( archiviation_type.NOT_ARCHIVED )
         val filteredProposals = activeProposals.filter { appliedProposalRepository.findByProposalIdAndStudentId( it.id!!, studentId) != null }
-        return filteredProposals.map { it.toDTO() }
+        return filteredProposals.map { it.toDTO(externalCoSupervisorRepository) }
     }
 
     fun deleteProposal(id: String) : ResponseEntity<Any> {
@@ -67,8 +73,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
 
         //Check if the supervisor exists
         val supervisorExists = professorService.findProfessorById(supervisor)
-        if( supervisorExists == null )
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisor' does NOT exist.")
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisor' does NOT exist.")
 
         //Check if the supervisor has any proposals
         val allProposals = proposalRepository.findBySupervisor(supervisor)
@@ -80,7 +85,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         if(activeProposals.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO ACTIVE proposals.")
 
-        val activeProposalsDTOs = activeProposals.map { it.toDTO() }
+        val activeProposalsDTOs = activeProposals.map { it.toDTO(externalCoSupervisorRepository) }
         return ResponseEntity.ok(activeProposalsDTOs)
     }
 
@@ -103,12 +108,11 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         return ResponseEntity.ok("Proposal '$id' archived manually successfully")
     }
     fun findProposalBySupervisor(supervisor: String): List<ProposalDTO> {
-        return proposalRepository.findBySupervisor(supervisor).map { it.toDTO() };
+        return proposalRepository.findBySupervisor(supervisor).map { it.toDTO(externalCoSupervisorRepository) }
     }
 
-    fun existsByTitleAndSupervisor (proposalTitle : String, proposalSupervisor : String): Boolean {
-        val res = proposalRepository.existsProposalByTitleAndSupervisor (proposalTitle, proposalSupervisor)
-        return res
+    fun existsByTitleAndSupervisor(proposalTitle: String, proposalSupervisor: String): Boolean {
+        return proposalRepository.existsProposalByTitleAndSupervisor(proposalTitle, proposalSupervisor)
     }
 
     @Autowired
@@ -142,6 +146,6 @@ class ProposalService (private val proposalRepository : ProposalRepository,
             query.addCriteria(searchCriteria)
         }
         query.addCriteria(Criteria.where("archived").`is`(archiviation_type.NOT_ARCHIVED))
-        return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO() }
+        return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO( externalCoSupervisorRepository) }
     }
 }

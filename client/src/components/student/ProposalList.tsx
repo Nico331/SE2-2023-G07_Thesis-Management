@@ -16,9 +16,6 @@ import Sidebar from "./FiltersSidebar";
 import ProposalService from "../../services/ProposalService";
 import ApplicationService from "../../services/ApplicationService";
 import ProfessorService from "../../services/ProfessorService";
-import ClockService from "../../services/ClockService";
-import VC from "../VC";
-import dayjs from "dayjs";
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
 const ProposalList = () => {
@@ -70,13 +67,6 @@ const ProposalList = () => {
         });
     };
 
-    const refreshPage = async () => {
-        // setDate(dayjs());
-        setResetFilters(!resetFilters);
-        await ClockService.resetClock();
-        setRefresh(!refresh);
-    };
-
     return (
         <>
             <Container fluid className="px-5">
@@ -106,7 +96,7 @@ const ProposalList = () => {
                             </Container>
                         </Container>
                         <Container className="mt-4 ms-3 border" style={{borderRadius:"20px"}}>
-                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"65vh", overflowY:"auto"}}>
+                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"75vh", overflowY:"auto"}}>
                                 {   propsOnScreen.length === 0 ?
                                     <Container className="d-flex align-items-center justify-content-center" style={{height:"18vh"}}>
                                         <h1>No results</h1>

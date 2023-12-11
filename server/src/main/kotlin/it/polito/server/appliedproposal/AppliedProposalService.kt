@@ -2,6 +2,7 @@ package it.polito.server.appliedproposal
 
 import it.polito.server.career.CareerRepository
 import it.polito.server.email.EmailService
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.proposal.*
 import it.polito.server.student.StudentRepository
@@ -21,6 +22,7 @@ class AppliedProposalService(
     private val professorRepository: ProfessorRepository,
     private val proposalService: ProposalService,
     private val emailService: EmailService,
+    private val externalCoSupervisorRepository: ExternalCoSupervisorRepository
 ) {
 
     fun findAppliedProposalById(id: String): AppliedProposalDTO? {
@@ -211,7 +213,7 @@ class AppliedProposalService(
     fun findByFilters (supervisorId : String) : HashMap<String, List<Any>> {
         val resMap = HashMap<String, List<Any>>()
 
-        val interestingProposals = proposalRepository.findBySupervisor(supervisorId).map { it.toDTO() }
+        val interestingProposals = proposalRepository.findBySupervisor(supervisorId).map { it.toDTO( externalCoSupervisorRepository ) }
         interestingProposals.filter { appliedProposalRepository.existsAppliedProposalByProposalId(it.supervisor) }
 
         interestingProposals.forEach {

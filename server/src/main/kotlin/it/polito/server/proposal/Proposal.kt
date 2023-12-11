@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
@@ -8,9 +9,7 @@ import java.time.LocalDate
 data class Proposal(
     @Id val id: String? = null,
     var title: String,
-    // to change to professor obj when implemented
     var supervisor: String,
-    // to change to professor obj when implemented
     var coSupervisors: List<String>,
     var keywords: List<String>,
     var type: String,
@@ -24,11 +23,12 @@ data class Proposal(
     var archived: archiviation_type
 ) {
 
-    fun toDTO(): ProposalDTO = ProposalDTO (
+    fun toDTO( externalCoSupervisorRepository : ExternalCoSupervisorRepository): ProposalDTO = ProposalDTO (
         id = this.id,
         title = this.title,
         supervisor = this.supervisor,
-        coSupervisors = this.coSupervisors,
+        coSupervisors = this.coSupervisors.filter { !it.contains('@') },
+        externalCoSupervisors = this.coSupervisors.filter { it.contains('@') }.map { externalCoSupervisorRepository.findByEmail(it).toDTO() },
         keywords = this.keywords,
         type = this.type,
         groups = this.groups,
