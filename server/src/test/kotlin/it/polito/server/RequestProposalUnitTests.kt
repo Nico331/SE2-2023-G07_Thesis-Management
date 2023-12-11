@@ -1,5 +1,7 @@
 package it.polito.server
 
+import it.polito.server.professor.ProfessorDTO
+import it.polito.server.professor.ProfessorService
 import it.polito.server.requestproposal.RequestProposalDTO
 import it.polito.server.requestproposal.RequestProposalService
 import it.polito.server.requestproposal.RequestProposalController
@@ -18,11 +20,13 @@ class RequestProposalUnitTests {
     private lateinit var requestProposalService: RequestProposalService
     private lateinit var requestProposalController: RequestProposalController
     private lateinit var studentService : StudentService
+    private lateinit var professorService : ProfessorService
 
     @BeforeEach
     fun setUp() {
         requestProposalService = mock(RequestProposalService::class.java)
-        requestProposalController = RequestProposalController(requestProposalService)
+        professorService = mock(ProfessorService::class.java)
+        requestProposalController = RequestProposalController(requestProposalService, professorService)
         studentService = mock(StudentService::class.java)
     }
 
@@ -42,6 +46,14 @@ class RequestProposalUnitTests {
         )
 
         `when`(requestProposalService.existsByTitleAndStudentId(newRequestProposalDTO.title, newRequestProposalDTO.studentId)).thenReturn(false)
+        `when`(professorService.findProfessorById(newRequestProposalDTO.supervisorId)).thenReturn(ProfessorDTO(
+                id = newRequestProposalDTO.supervisorId,
+                name = "John",
+                surname = "Doe",
+                email = "johndoe@professor.it",
+                codGroup = "11111",
+                codDepartment = "22222")
+        )
         `when`(requestProposalService.createRequestProposal(newRequestProposalDTO)).thenReturn(
                 RequestProposalDTO(
                         id = "2",

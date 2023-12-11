@@ -1,18 +1,22 @@
 package it.polito.server.requestproposal
 
-
+import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 @RestController
 @RequestMapping("/API/requestProposals")
-class RequestProposalController (private val requestProposalService: RequestProposalService){
+class RequestProposalController (private val requestProposalService: RequestProposalService, private val professorService: ProfessorService){
 
     @PostMapping("")
     fun createRequestProposal(@RequestBody requestProposal: RequestProposalDTO): ResponseEntity<Any> {
         if (requestProposalService.existsByTitleAndStudentId(requestProposal.title, requestProposal.studentId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request Proposal with same Title and Student already in the database")
+        val supervisor = professorService.findProfessorById(requestProposal.supervisorId)
+        if(supervisor == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The supervisor does not exist in the database")
+
         val newRequestProposal = requestProposalService.createRequestProposal(requestProposal)
         return ResponseEntity(newRequestProposal, HttpStatus.CREATED)
     }
