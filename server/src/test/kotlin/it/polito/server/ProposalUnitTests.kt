@@ -27,7 +27,7 @@ class ProposalUnitTests {
 //    @Autowired
     private lateinit var proposalRepository: ProposalRepository
 
-
+    @BeforeEach
     fun setUp() {
         proposalService = mock(ProposalService::class.java)
         proposalController = ProposalController(proposalService)
