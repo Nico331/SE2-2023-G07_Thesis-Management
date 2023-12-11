@@ -30,10 +30,6 @@ const ArchivedProposals = () => {
     }, []);
 
     const [proposals, setProposals] = useState([]);
-    const [proposalToDelete, setProposalToDelete] = useState("");
-    const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
-
 
     const handleDownload = (application) => {
         const { content, name, contentType } = application.file;
@@ -60,38 +56,10 @@ const ArchivedProposals = () => {
     };
 
 
-    const handleDelete = (proposalId) => {
-        setShowDeletePopup(false);
-        setProposalToDelete("");
-        console.log(`Proposal deleted: ${proposalId}`);
-        ProposalService.deleteProposal(proposalId).then(()=>{setRefresh((r)=> !r)})
-    };
-
-
     return (
         <>
             <Container className="d-flex flex-column">
                 <h2 style={{marginTop:"110px"}}>My Archived Thesis Proposals</h2>
-
-                {showsuccessmodal.show ?
-                    <>
-                        <Modal
-                            show={showsuccessmodal.show}
-                        >
-                            <Modal.Header>
-                                <Modal.Title>
-                                    {showsuccessmodal.type === "success" ? "Success" : "Error"}
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                {showsuccessmodal.text}
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({show: false, type: "", text: ""})}>Close</Button>
-                            </Modal.Footer>
-                        </Modal>
-                    </>
-                    : null}
 
                 <Accordion className="mt-5">
                     {proposals.map((proposal) => (
@@ -115,14 +83,6 @@ const ArchivedProposals = () => {
                                             {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
                                                 {proposal.archived}
                                             </Badge>}
-                                        </div>
-                                        <div className="col-sm-4">
-                                            <Button className="ms-2 mt-2" variant={'danger'}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setShowDeletePopup(() => true);
-                                                        setProposalToDelete(proposal.id)
-                                                    }}> Delete </Button>
                                         </div>
                                     </Row>
 
@@ -257,25 +217,6 @@ const ArchivedProposals = () => {
                 </Accordion>
             </Container>
 
-
-            <Modal
-                show={showDeletePopup}
-                aria-labelledby='contained-modal-title-vcenter'
-            >
-                <Modal.Header>
-                    <Modal.Title>
-                        Delete
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to delete the proposal
-                    "<b>{proposals && proposalToDelete && proposals.filter((p) => p.id === proposalToDelete).pop().title}</b>"?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)}>Yes</Button>
-                </Modal.Footer>
-            </Modal>
 
         </>
     );
