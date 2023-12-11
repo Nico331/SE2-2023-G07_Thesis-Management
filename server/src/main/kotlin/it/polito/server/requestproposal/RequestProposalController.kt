@@ -44,19 +44,19 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return ResponseEntity.ok(requestProposals)
     }
 
-    @GetMapping("byStudentId")
-    fun getAllByStudentId(@PathVariable studentId: String) : ResponseEntity<Any>{
-        return requestProposalService.findAllRequestProposalsByStudent(studentId)
+    @GetMapping("/byStudent/{id}")
+    fun getAllByStudentId(@PathVariable id: String) : ResponseEntity<Any>{
+        return requestProposalService.findAllRequestProposalsByStudent(id)
     }
 
     @PutMapping("/accept/{id}/")
-    fun acceptRequestProposal(@PathVariable id: String): ResponseEntity<Any> {
-        return requestProposalService.acceptRequestProposal(id)
+    fun acceptRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.acceptRequestProposalBySupervisor(id)
     }
 
     @PutMapping("/reject/{id}")
-    fun rejectRequestProposal(@PathVariable id: String): ResponseEntity<Any> {
-        return requestProposalService.rejectRequestProposal(id)
+    fun rejectRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.rejectRequestProposalBySupervisor(id)
     }
 
 }

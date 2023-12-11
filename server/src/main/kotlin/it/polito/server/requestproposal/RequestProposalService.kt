@@ -4,6 +4,7 @@ import it.polito.server.student.StudentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 
 @Service
@@ -50,32 +51,58 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
         return ResponseEntity.ok(allRequestProposal.map {(it.toDTO())})
     }
 
-    fun acceptRequestProposal(id: String): ResponseEntity<Any> {
+    fun acceptRequestProposalBySecretary(id: String) : ResponseEntity<Any> {
         val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
 
-        /*AGGIUNGERLO UNA VOLTA IMPLEMENTATO L'ACCETTAZIONE DELLA SEGRETERIA
-        if(requestProposal.acceptanceDate == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")*/
-
-        if (requestProposal.status != RequestProposalStatus.PENDING)
+        if (requestProposal.secretaryStatus != RequestProposalStatus.PENDING)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
 
-        requestProposalRepository.save(requestProposal.copy(status = RequestProposalStatus.ACCEPTED))
+        requestProposal.acceptanceDate = LocalDate.now()
+        requestProposalRepository.save(requestProposal.copy(secretaryStatus = RequestProposalStatus.ACCEPTED))
+
+
 
         return ResponseEntity.ok("Request Proposal '$id' accepted successfully")
     }
 
-    fun rejectRequestProposal(id: String): ResponseEntity<Any> {
+    fun rejectRequestProposalBySecretary(id: String) : ResponseEntity<Any> {
+        val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
+
+        if (requestProposal.secretaryStatus != RequestProposalStatus.PENDING)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
+
+        requestProposalRepository.save(requestProposal.copy(secretaryStatus = RequestProposalStatus.REJECTED))
+
+        return ResponseEntity.ok("Request Proposal '$id' rejected successfully")
+    }
+
+
+    fun acceptRequestProposalBySupervisor(id: String): ResponseEntity<Any> {
         val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
 
         /*AGGIUNGERLO UNA VOLTA IMPLEMENTATO L'ACCETTAZIONE DELLA SEGRETERIA
         if(requestProposal.acceptanceDate == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")*/
 
-        if (requestProposal.status != RequestProposalStatus.PENDING)
+        if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
 
-        requestProposalRepository.save(requestProposal.copy(status = RequestProposalStatus.REJECTED))
+        requestProposalRepository.save(requestProposal.copy(supervisorStatus = RequestProposalStatus.ACCEPTED))
+
+        return ResponseEntity.ok("Request Proposal '$id' accepted successfully")
+    }
+
+    fun rejectRequestProposalBySupervisor(id: String): ResponseEntity<Any> {
+        val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
+
+        /*AGGIUNGERLO UNA VOLTA IMPLEMENTATO L'ACCETTAZIONE DELLA SEGRETERIA
+        if(requestProposal.acceptanceDate == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")*/
+
+        if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
+
+        requestProposalRepository.save(requestProposal.copy(supervisorStatus = RequestProposalStatus.REJECTED))
 
         return ResponseEntity.ok("Request Proposal '$id' rejected successfully")
     }

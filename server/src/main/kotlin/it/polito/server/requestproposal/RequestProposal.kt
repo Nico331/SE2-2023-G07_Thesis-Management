@@ -16,7 +16,8 @@ data class RequestProposal(
         var level : String,
         var creationDate: LocalDate = LocalDate.now(),
         var acceptanceDate: LocalDate?= null,
-        val status: RequestProposalStatus = RequestProposalStatus.PENDING
+        val secretaryStatus: RequestProposalStatus = RequestProposalStatus.PENDING,
+        val supervisorStatus: RequestProposalStatus = RequestProposalStatus.PENDING
 ){
 
     fun toDTO(): RequestProposalDTO = RequestProposalDTO (
@@ -30,7 +31,8 @@ data class RequestProposal(
             level = this.level,
             creationDate = this.creationDate,
             acceptanceDate = this.acceptanceDate,
-            status = this.status,
+            secretaryStatus = this.secretaryStatus,
+            supervisorStatus = this.supervisorStatus
     )
 }
 
