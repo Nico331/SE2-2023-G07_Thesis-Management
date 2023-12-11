@@ -8,5 +8,6 @@ interface AppliedProposalRepository : MongoRepository<AppliedProposal,String> {
     fun findByStudentId(studentId: String): List<AppliedProposal> //returns the list of applications for that student
     fun findByProposalId(proposalId: String): List<AppliedProposal> //returns the list of applications for that proposal
     fun existsAppliedProposalByProposalId (proposalId: String) : Boolean //returns a boolean value to see if the application exists given the proposal
+    fun existsAppliedProposalByStudentId (studentId: String) : Boolean
 
 }

@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
 import { Navigate, useNavigate } from 'react-router-dom';
-import CopyProposal from './CopyProposal';
 import ProfessorService from '../../services/ProfessorService';
 
 const BrowseApplications = () => {
