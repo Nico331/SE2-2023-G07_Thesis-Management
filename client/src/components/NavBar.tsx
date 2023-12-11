@@ -17,8 +17,8 @@ export default function MainNavBar ({role, user, setRole}) {
                     </Navbar.Brand>
 
                     <Navbar.Brand className='links'>
-                        {/*{role === "" ? <Nav.Link href='login'>Login</Nav.Link> : null }*/}
-                        {role === "PROFESSOR" || role === "STUDENT" || role === "" ? <Nav.Link onClick={() => setShow(true)}>Menu</Nav.Link> : null }
+                        {role === "" ? <Nav.Link href='login'>Login</Nav.Link> : null }
+                        {role === "PROFESSOR" || role === "STUDENT" ? <Nav.Link onClick={() => setShow(true)}>Menu</Nav.Link> : null }
 
                         <Offcanvas 
                             show={show} 
@@ -117,7 +117,7 @@ export default function MainNavBar ({role, user, setRole}) {
                                 </Row>
                                 </>): null}
 
-                                {role === "" ? ( <>
+                                {/* {role === "" ? ( <>
                                 <Row className='canvas'>
                                     <Row>
                                         <Nav.Link href="/requested-proposals" > 
@@ -141,7 +141,7 @@ export default function MainNavBar ({role, user, setRole}) {
                                         </Nav.Link>
                                     </Row>
                                 </Row>
-                                </>): null}
+                                </>): null} */}
 
                             </Offcanvas.Body>
 
