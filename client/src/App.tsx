@@ -15,6 +15,8 @@ import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
 import GuestRoutes from "./components/guest/GuestRoutes";
 import { Container } from 'react-bootstrap';
+import RequestedProposals from './components/Secretary/RequestedProposals';
+import SecretaryRoutes from './components/Secretary/SecretaryRoutes';
 
 
 function App() {
@@ -70,6 +72,7 @@ function Main() {
                                             {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
                                                 role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
                                                     role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :
+                                                        role==="" ? <SecretaryRoutes setRoleState={setRole}/> :
                                                         <GuestRoutes setRoleState={setRole}/>
                                             }
                                         </AuthCheck>
