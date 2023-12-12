@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Navbar, Container, Row, Offcanvas, Nav, NavDropdown, Button, DropdownButton, Dropdown, Col } from 'react-bootstrap';
+import { Navbar, Container, Row, Offcanvas, Nav, Image, Col } from 'react-bootstrap';
 import VC from './VC';
 
 
@@ -13,7 +13,7 @@ export default function MainNavBar ({role, user, setRole}) {
             <Navbar collapseOnSelect style={{background:'#002B49', height:"80px"}} fixed="top" variant="dark" className="navbar-padding">
                 <Container fluid className="p-0 d-flex justify-content-between" style={{marginLeft:"40px", marginRight:"40px"}}>
                     <Navbar.Brand className="p-0 m-0 d-inline-flex align-items-center" href='/'>
-                        <img className="" style={{background:'white', borderRadius: '3px', width: '35px', height: '35px'}} src={"../thesis-management-512.png"}/>
+                        <Image className="" style={{background:'white', borderRadius: '3px', width: '35px', height: '35px'}} src={"../thesis-management-512.png"}/>
                          {/*<h1 className="ms-3 my-0">Thesis Management</h1>*/}
                          <Container className="p-0 ms-3 fs-1 fw-bold d-none d-md-block">Thesis Management</Container>
                     </Navbar.Brand>

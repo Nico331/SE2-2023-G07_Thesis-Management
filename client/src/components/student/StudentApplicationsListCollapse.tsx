@@ -15,7 +15,7 @@ const StudentApplicationsListCollapse = () => {
 
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const getDatas = async () => {
+    const getData = async () => {
         const apps = await ApplicationService.getApplicationByStudentId(user.id.toString());
         const props = await ProposalService.fetchAllProposals();
         const profs = await ProfessorService.fetchAllProfessors();
@@ -25,7 +25,7 @@ const StudentApplicationsListCollapse = () => {
     }
 
     useEffect(() => {
-        getDatas();
+        getData();
     }, [refresh])
 
     return (
@@ -75,8 +75,9 @@ const StudentApplicationsListCollapse = () => {
                                             {application.status === "ACCEPTED" && <Badge bg={"success"}>
                                                 {application.status}
                                             </Badge>}
-                                            {application.status === "REJECTED" && <Badge bg={"danger"}>
-                                                {application.status}
+                                            {(application.status === ("REJECTED") || application.status === ("CANCELLED")) && <Badge bg={"danger"}>
+                                                REJECTED
+                                                {/*{application.status}*/}
                                             </Badge>}
                                         </div>
                                     </Row>
