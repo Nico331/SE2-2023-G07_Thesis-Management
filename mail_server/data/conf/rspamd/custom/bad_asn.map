@@ -1,0 +1,31 @@
+# High spam networks, disabled by default
+# ASN SCORE DESC
+# Remove comment to enable score
+#12874 5 #Fastweb SpA, Italy
+#12876 2 #ONLINE S.A.S, France
+#13335 5 #Cloudflare Inc., United States
+#14061 4 #DigitalOcean LLC, United States
+#16276 2 #OVH SAS, France
+#21100 2 #ITL LLC, Ukraine
+#28753 5 #Leaseweb Deutschland GmbH, Germany
+#29119 5 #ServiHosting Networks S.L., Spain
+#29422 5 #Telia Inmics-Nebula Oy, Finland
+#30823 3 #combahton GmbH, Germany
+#31034 5 #Aruba S.p.A, Italy
+#39364 4 #Hormoz IT & Network Waves Connection Co. (PJS), Iran
+#42831 5 #UK Dedicated Servers Limited, United Kingdom
+#43146 2 #Domain names registrar REG.RU Ltd, Russia
+#44493 2 #Chelyabinsk-Signal LLC, Russia
+#46606 2 #Unified Layer, United States
+#49100 4 #Pishgaman Toseeh Ertebatat Company (Private Joint Stock), Iran
+#49505 2 #OOO Network of data-centers Selectel, Russia
+#53755 5 #Input Output Flood LLC, United States
+#55293 4 #A2 Hosting Inc., United States
+#61272 5 #Informacines sistemos ir technologijos - UAB, Lithuania
+#62255 4 #Asmunda New Media Ltd., Seychelles
+#63018 4 #Dedicated.com, United States
+#197518 2 #Rackmarkt SL, Spain
+#197695 2 #Domain names registrar REG.RU Ltd, Russia
+#198068 2 #P.A.G.M. OU, Estonia
+#201942 5 #Soltia Consulting SL, Spain
+#213373 4 #IP Connect Inc
