@@ -1,11 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form, Alert, Nav} from 'react-bootstrap';
+import {
+    Accordion,
+    Card,
+    Button,
+    Badge,
+    ListGroup,
+    Modal,
+    Table,
+    Row,
+    Col,
+    Container,
+    Form,
+    Alert,
+    Nav
+} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
-import { Navigate, useNavigate } from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 
@@ -44,7 +58,7 @@ const BrowseApplications = () => {
     const [proposalToArchive, setProposalToArchive] = useState("");
 
     const handleDownload = (application) => {
-        const { content, name, contentType } = application.file;
+        const {content, name, contentType} = application.file;
 
         const binaryString = atob(content);
         const byteArr = new Uint8Array(binaryString.length);
@@ -55,7 +69,7 @@ const BrowseApplications = () => {
         //const blob = new Blob([byteArray]);
 
         const byteArray = new Int8Array(content);
-        const blob = new Blob([byteArr], { type: contentType });
+        const blob = new Blob([byteArr], {type: contentType});
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -69,10 +83,10 @@ const BrowseApplications = () => {
 
     const handleAccept = async (application) => {
         // Handle accept logic
-        try{
+        try {
             await ApplicationService.acceptApplication(application.id)
-            setRefresh((r)=> !r)
-        }catch{
+            setRefresh((r) => !r)
+        } catch {
             console.error('Errore durante l\'invio al server:');
         }
         console.log(`Application accepted for student: ${application.student.name} ${application.student.surname}`);
@@ -81,10 +95,10 @@ const BrowseApplications = () => {
 
     const handleReject = async (application) => {
         // Handle reject logic
-        try{
+        try {
             await ApplicationService.rejectApplication(application.id)
-            setRefresh((r)=> !r)
-        }catch{
+            setRefresh((r) => !r)
+        } catch {
             console.error('Errore durante l\'invio al server:');
         }
         console.log(`Application rejected for student: ${application.student.name} ${application.student.surname}`);
@@ -93,7 +107,9 @@ const BrowseApplications = () => {
         setShowDeletePopup(false);
         setProposalToDelete("");
         console.log(`Proposal deleted: ${proposalId}`);
-        ProposalService.deleteProposal(proposalId).then(()=>{setRefresh((r)=> !r)})
+        ProposalService.deleteProposal(proposalId).then(() => {
+            setRefresh((r) => !r)
+        })
     };
 
     const handlemodify = (e, proposalsID) => {
@@ -113,8 +129,10 @@ const BrowseApplications = () => {
     const handleArchive = (proposalID) => {
         setShowArchivePopup(false);
         setProposalToArchive("");
-        console.log("proposal archived: "+proposalID);
-        ProposalService.archiveProposal(proposalID).then( () => {setRefresh ((r) => !r)});
+        console.log("proposal archived: " + proposalID);
+        ProposalService.archiveProposal(proposalID).then(() => {
+            setRefresh((r) => !r)
+        });
 
 
     }
@@ -123,12 +141,12 @@ const BrowseApplications = () => {
     return (
         <>
             <Container className="d-flex flex-column">
-                <h2 style={{marginTop:"110px"}}>My Thesis Proposals</h2>
+                <h2 style={{marginTop: "110px"}}>My Thesis Proposals</h2>
 
                 {showsuccessmodal.show ?
                     <>
                         <Modal
-                        show={showsuccessmodal.show}
+                            show={showsuccessmodal.show}
                         >
                             <Modal.Header>
                                 <Modal.Title>
@@ -139,207 +157,223 @@ const BrowseApplications = () => {
                                 {showsuccessmodal.text}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({show: false, type: "", text: ""})}>Close</Button>
+                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({
+                                    show: false,
+                                    type: "",
+                                    text: ""
+                                })}>Close</Button>
                             </Modal.Footer>
                         </Modal>
                     </>
-                : null}
+                    : null}
 
                 <Accordion className="mt-5">
-                    {proposals.map((proposal) => (
-                        proposal.archived != "MANUALLY_ARCHIVED" && (
-                        <Accordion.Item eventKey={proposal.id} key={proposal.id}>
-                            <Accordion.Header>
-                                <Row className={"w-100"}>
-                                    <div className="col-sm-8">
-                                        {proposal.title}&nbsp;
-                                        {proposal.level === "Bachelor" && <Badge>
-                                            {proposal.level}
-                                        </Badge>}
-                                        {proposal.level === "Masters" && <Badge bg={"success"}>
-                                            {proposal.level}
-                                        </Badge>}
-                                        {proposal.level === "PhD" && <Badge bg={"secondary"}>
-                                            {proposal.level}
-                                        </Badge>}
-                                    </div>
-                                    <div className="col-sm-8">
-                                    {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
-                                        {proposal.archived}
-                                    </Badge>}
-                                </div>
-                                    <div className="col-sm-4">
-                                        <Button className="ms-2 mt-2" variant={'primary'} onClick={(e) => handlecopy(e, proposal.id)} >Copy</Button>
-                                        <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
-                                        <Button className="ms-2 mt-2" variant={'danger'}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setShowDeletePopup(() => true);
-                                                    setProposalToDelete(proposal.id)
-                                                }}> Delete </Button>
-                                        <Button className="ms-2 mt-2" variant={'warning'} onClick={(e) => {
-                                            e.stopPropagation();
-                                            setShowArchivePopup(() => true);
-                                            setProposalToArchive(proposal.id);
-                                        }}> Archive </Button>
-                                    </div>
-                                </Row>
+                    {
+                        proposals.length === 0 ? (
+                            <p> You don't have active proposals yet </p>
+                        ) : (
+                            proposals.map((proposal) => (
+                                    <Accordion.Item eventKey={proposal.id} key={proposal.id}>
+                                        <Accordion.Header>
+                                            <Row className={"w-100"}>
+                                                <div className="col-sm-8">
+                                                    {proposal.title}&nbsp;
+                                                    {proposal.level === "Bachelor" && <Badge>
+                                                        {proposal.level}
+                                                    </Badge>}
+                                                    {proposal.level === "Masters" && <Badge bg={"success"}>
+                                                        {proposal.level}
+                                                    </Badge>}
+                                                    {proposal.level === "PhD" && <Badge bg={"secondary"}>
+                                                        {proposal.level}
+                                                    </Badge>}
+                                                </div>
+                                                <div className="col-sm-8">
+                                                    {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
+                                                        {proposal.archived}
+                                                    </Badge>}
+                                                </div>
+                                                <div className="col-sm-4">
+                                                    <Button className="ms-2 mt-2" variant={'primary'}
+                                                            onClick={(e) => handlecopy(e, proposal.id)}>Copy</Button>
+                                                    <Button className="ms-2 mt-2" variant={'secondary'}
+                                                            onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
+                                                    <Button className="ms-2 mt-2" variant={'danger'}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setShowDeletePopup(() => true);
+                                                                setProposalToDelete(proposal.id)
+                                                            }}> Delete </Button>
+                                                    <Button className="ms-2 mt-2" variant={'warning'} onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setShowArchivePopup(() => true);
+                                                        setProposalToArchive(proposal.id);
+                                                    }}> Archive </Button>
+                                                </div>
+                                            </Row>
 
-                            </Accordion.Header>
-                            <Accordion.Body style={{textAlign:'left'}}>
-                                <Row>
-                                    <Col md={6}>
-                                        <b>Thesis Title:</b> {proposal.title}
-                                    </Col>
-                                    <Col md={6}>
-                                        <b>Supervisor:</b> {proposal.supervisor}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6}>
-                                        <b>Co-Supervisor: </b>
-                                            {proposal.coSupervisors.map((coSupervisor) => {
-                                                const matchingProfessor = professors.find((professor) => professor.id === coSupervisor);
-                                                return matchingProfessor ? (
-                                                    <span key={coSupervisor}>
+                                        </Accordion.Header>
+                                        <Accordion.Body style={{textAlign: 'left'}}>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <b>Thesis Title:</b> {proposal.title}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <b>Supervisor:</b> {proposal.supervisor}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <b>Co-Supervisor: </b>
+                                                    {proposal.coSupervisors.map((coSupervisor) => {
+                                                        const matchingProfessor = professors.find((professor) => professor.id === coSupervisor);
+                                                        return matchingProfessor ? (
+                                                            <span key={coSupervisor}>
                                                         {matchingProfessor.name} {matchingProfessor.surname}, &nbsp;
                                                     </span>
-                                                ) : null;
-                                            })}
-                                    </Col>
-                                    <Col md={6}>
-                                        <b>Type:</b> {proposal.type}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6}>
-                                        <b>Required Knowledge:</b> {proposal.requiredKnowledge}
-                                    </Col>
-                                    <Col md={6}>
-                                        <b>Level:</b> {proposal.level}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6}>
-                                        <b>CdS:</b> {proposal.cdS.map((cdS) => {
-                                        return <>{cdS},</>
-                                    })}
-                                    </Col>
-                                    <Col md={6}>
-                                        <b>Expiration Date:</b> {dayjs(proposal.expiration).toDate().toDateString()}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <b>Description:</b> {proposal.description}
-                                    </Col>
-                                    <Col>
-                                        <b>Groups:</b> {proposal.groups.map((group) => {
-                                        return <>{group},</>
-                                    })}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <b>Notes:</b> {proposal.notes}
-                                    </Col>
-                                </Row>
+                                                        ) : null;
+                                                    })}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <b>Type:</b> {proposal.type}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <b>Required Knowledge:</b> {proposal.requiredKnowledge}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <b>Level:</b> {proposal.level}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <b>CdS:</b> {proposal.cdS.map((cdS) => {
+                                                    return <>{cdS},</>
+                                                })}
+                                                </Col>
+                                                <Col md={6}>
+                                                    <b>Expiration
+                                                        Date:</b> {dayjs(proposal.expiration).toDate().toDateString()}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <b>Description:</b> {proposal.description}
+                                                </Col>
+                                                <Col>
+                                                    <b>Groups:</b> {proposal.groups.map((group) => {
+                                                    return <>{group},</>
+                                                })}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <b>Notes:</b> {proposal.notes}
+                                                </Col>
+                                            </Row>
 
-                                <h3 className="mt-3">Applications</h3>
-                                <Accordion className="mt-3">
-                                    {proposal.applications.map((application, index) => (
-                                        <Accordion.Item eventKey={application.id}>
-                                            <Accordion.Header className={"w-100"}>
-                                                <Row className={"w-100"}>
-                                                    <div className="col-sm-8">
-                                                        <strong>Student:</strong> {application.student.name} {application.student.surname} &nbsp;&nbsp;
-                                                        <strong>Status:</strong> {application.status}
-                                                    </div>
-                                                    <div className="col-sm-4">
-                                                        {application.status === 'PENDING' && (
-                                                            <>
-                                                                <Button variant="success"
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            handleAccept(application);
+                                            <h3 className="mt-3">Applications</h3>
+                                            <Accordion className="mt-3">
+                                                {proposal.applications.map((application, index) => (
+                                                    <Accordion.Item eventKey={application.id}>
+                                                        <Accordion.Header className={"w-100"}>
+                                                            <Row className={"w-100"}>
+                                                                <div className="col-sm-8">
+                                                                    <strong>Student:</strong> {application.student.name} {application.student.surname} &nbsp;&nbsp;
+                                                                    <strong>Status:</strong> {application.status}
+                                                                </div>
+                                                                <div className="col-sm-4">
+                                                                    {application.status === 'PENDING' && (
+                                                                        <>
+                                                                            <Button variant="success"
+                                                                                    onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        handleAccept(application);
+                                                                                    }}>
+                                                                                Accept
+                                                                            </Button>{' '}
+                                                                            <Button variant="danger"
+                                                                                    onClick={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                        handleReject(application);
+                                                                                    }}>
+                                                                                Reject
+                                                                            </Button>
+                                                                        </>
+                                                                    )}
+                                                                    {application.status === 'CANCELLED' && (
+                                                                        <span style={{color: 'red'}}>CANCELLED</span>
+                                                                    )}
+                                                                    {application.status === 'ACCEPTED' && (
+                                                                        <span style={{color: 'green'}}>ACCEPTED</span>
+                                                                    )}
+                                                                    {application.status === 'REJECTED' && (
+                                                                        <span style={{color: 'green'}}>REJECTED</span>
+                                                                    )}
+
+                                                                </div>
+                                                            </Row>
+                                                        </Accordion.Header>
+                                                        <Accordion.Body>
+                                                            <div>
+                                                                <h4>Degree Details</h4>
+                                                                <p>
+                                                                    <strong>Degree:</strong> {application.student.codDegree}
+                                                                </p>
+                                                                <p>
+                                                                    <strong>Enrollment
+                                                                        Year:</strong> {application.student.enrollmentYear}
+                                                                </p>
+                                                            </div>
+
+                                                            <div>
+                                                                <h4>Career Details</h4>
+                                                                <Table striped bordered hover>
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Course</th>
+                                                                        <th>CFU</th>
+                                                                        <th>Grade</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {application.student.listExams.map((exam) => (
+                                                                        <tr key={exam.id}>
+                                                                            <td>{exam.titleCourse}</td>
+                                                                            <td>{exam.cfu}</td>
+                                                                            <td>{exam.grade}</td>
+                                                                        </tr>
+                                                                    ))}
+                                                                    </tbody>
+                                                                </Table>
+                                                            </div>
+                                                            {application.file && <Row>
+                                                                <Col>
+                                                                    <b>Attachment: &nbsp;
+                                                                        <Button onClick={() => {
+                                                                            handleDownload(application)
                                                                         }}>
-                                                                    Accept
-                                                                </Button>{' '}
-                                                                <Button variant="danger"
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            handleReject(application);
-                                                                        }}>
-                                                                    Reject
-                                                                </Button>
-                                                            </>
-                                                        )}
-                                                        {application.status === 'CANCELLED' && (
-                                                            <span style={{ color: 'red' }}>CANCELLED</span>
-                                                        )}
-                                                        {application.status === 'ACCEPTED' && (
-                                                            <span style={{ color: 'green' }}>ACCEPTED</span>
-                                                        )}
-                                                        {application.status === 'REJECTED' && (
-                                                            <span style={{ color: 'green' }}>REJECTED</span>
-                                                        )}
+                                                                            Download File
+                                                                        </Button>
+                                                                    </b>
+                                                                </Col>
+                                                            </Row>}
+                                                        </Accordion.Body>
+                                                    </Accordion.Item>))}
+                                            </Accordion>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
 
-                                                    </div>
-                                                </Row>
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <div>
-                                                    <h4>Degree Details</h4>
-                                                    <p>
-                                                        <strong>Degree:</strong> {application.student.codDegree}
-                                                    </p>
-                                                    <p>
-                                                        <strong>Enrollment
-                                                            Year:</strong> {application.student.enrollmentYear}
-                                                    </p>
-                                                </div>
-
-                                                <div>
-                                                    <h4>Career Details</h4>
-                                                    <Table striped bordered hover>
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Course</th>
-                                                            <th>CFU</th>
-                                                            <th>Grade</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {application.student.listExams.map((exam) => (
-                                                            <tr key={exam.id}>
-                                                                <td>{exam.titleCourse}</td>
-                                                                <td>{exam.cfu}</td>
-                                                                <td>{exam.grade}</td>
-                                                            </tr>
-                                                        ))}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                                {application.file && <Row>
-                                                    <Col>
-                                                        <b>Attachment: &nbsp;
-                                                            <Button onClick={()=>{handleDownload(application)}}>
-                                                                Download File
-                                                            </Button>
-                                                        </b>
-                                                    </Col>
-                                                </Row>}
-                                            </Accordion.Body>
-                                        </Accordion.Item>))}
-                                </Accordion>
-                            </Accordion.Body>
-                        </Accordion.Item>
+                            ))
                         )
-                    ))}
+                    }
                 </Accordion>
             </Container>
 
-            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} pagetype={pageType} setsuccesscopy={setSuccessCopy} /> : null}
+            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal}
+                                              setShowAlertModal={setShowAlertModal} setRefresh={setRefresh}
+                                              pagetype={pageType} setsuccesscopy={setSuccessCopy}/> : null}
 
             <Modal
                 show={showDeletePopup}
@@ -379,8 +413,8 @@ const BrowseApplications = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Modal 
-                show={successcopy} 
+            <Modal
+                show={successcopy}
                 onHide={() => setSuccessCopy(false)}
                 size="xl"
                 centered
@@ -397,7 +431,7 @@ const BrowseApplications = () => {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-primary" onClick={() =>setSuccessCopy(false)}>Ok</button>
+                    <button className="btn btn-primary" onClick={() => setSuccessCopy(false)}>Ok</button>
                 </Modal.Footer>
             </Modal>
         </>
