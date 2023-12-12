@@ -1,0 +1,13 @@
+# global_sieve_before script
+# global_sieve_before -> user sieve_before (mailcow UI) -> user sieve_after (mailcow UI) -> global_sieve_after
+
+require ["mailbox", "fileinto"];
+
+if header :contains ["Chat-Version"] [""] {
+  if mailboxexists "DeltaChat" {
+    fileinto "DeltaChat";
+  } else {
+    fileinto :create "DeltaChat";
+  }
+  stop;
+}
