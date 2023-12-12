@@ -75,9 +75,11 @@ const StudentApplicationsListCollapse = () => {
                                             {application.status === "ACCEPTED" && <Badge bg={"success"}>
                                                 {application.status}
                                             </Badge>}
-                                            {(application.status === ("REJECTED") || application.status === ("CANCELLED")) && <Badge bg={"danger"}>
-                                                REJECTED
-                                                {/*{application.status}*/}
+                                            {application.status === ("REJECTED") && <Badge bg={"danger"}>
+                                                {application.status}
+                                            </Badge>}
+                                            {application.status === ("CANCELLED") && <Badge bg={"danger"}>
+                                                {application.status}
                                             </Badge>}
                                         </div>
                                     </Row>
