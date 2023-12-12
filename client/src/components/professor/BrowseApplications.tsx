@@ -57,6 +57,12 @@ const BrowseApplications = () => {
     const [showArchivePopup, setShowArchivePopup] = useState(false);
     const [proposalToArchive, setProposalToArchive] = useState("");
 
+    const [showAcceptPopup, setShowAcceptPopup] = useState(false);
+    const [applicationToAccept, setApplicationToAccept] = useState("");
+
+    const [showRejectPopup, setShowRejectPopup] = useState(false);
+    const [applicationToReject, setApplicationToReject] = useState("");
+
     const handleDownload = (application) => {
         const {content, name, contentType} = application.file;
 
@@ -81,27 +87,22 @@ const BrowseApplications = () => {
         window.URL.revokeObjectURL(url);
     };
 
-    const handleAccept = async (application) => {
-        // Handle accept logic
-        try {
-            await ApplicationService.acceptApplication(application.id)
-            setRefresh((r) => !r)
-        } catch {
-            console.error('Errore durante l\'invio al server:');
-        }
-        console.log(`Application accepted for student: ${application.student.name} ${application.student.surname}`);
+    const handleAccept = async (applicationId) => {
+        setShowAcceptPopup(false);
+        setApplicationToAccept("");
+        ApplicationService.acceptApplication(applicationId).then( () => {
+            setRefresh( (r) => !r);
+        })
 
     };
 
-    const handleReject = async (application) => {
-        // Handle reject logic
-        try {
-            await ApplicationService.rejectApplication(application.id)
-            setRefresh((r) => !r)
-        } catch {
-            console.error('Errore durante l\'invio al server:');
-        }
-        console.log(`Application rejected for student: ${application.student.name} ${application.student.surname}`);
+    const handleReject = async (applicationId) => {
+
+        setShowRejectPopup(false);
+        setApplicationToReject("");
+        ApplicationService.rejectApplication(applicationId).then( () => {
+            setRefresh( (r) => !r)
+        })
     };
     const handleDelete = (proposalId) => {
         setShowDeletePopup(false);
@@ -289,14 +290,16 @@ const BrowseApplications = () => {
                                                                             <Button variant="success"
                                                                                     onClick={(e) => {
                                                                                         e.stopPropagation();
-                                                                                        handleAccept(application);
+                                                                                        setShowAcceptPopup(true);
+                                                                                        setApplicationToAccept(application.id);
                                                                                     }}>
                                                                                 Accept
                                                                             </Button>{' '}
                                                                             <Button variant="danger"
                                                                                     onClick={(e) => {
                                                                                         e.stopPropagation();
-                                                                                        handleReject(application);
+                                                                                        setShowRejectPopup(true);
+                                                                                        setApplicationToReject(application.id);
                                                                                     }}>
                                                                                 Reject
                                                                             </Button>
@@ -309,7 +312,7 @@ const BrowseApplications = () => {
                                                                         <span style={{color: 'green'}}>ACCEPTED</span>
                                                                     )}
                                                                     {application.status === 'REJECTED' && (
-                                                                        <span style={{color: 'green'}}>REJECTED</span>
+                                                                        <span style={{color: 'red'}}>REJECTED</span>
                                                                     )}
 
                                                                 </div>
@@ -391,6 +394,42 @@ const BrowseApplications = () => {
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
                     <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showAcceptPopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Accept
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to accept the application?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleAccept(applicationToAccept)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showRejectPopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Reject
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to reject the application?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleReject(applicationToReject)}>Yes</Button>
                 </Modal.Footer>
             </Modal>
 

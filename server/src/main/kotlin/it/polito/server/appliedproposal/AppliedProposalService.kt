@@ -67,14 +67,14 @@ class AppliedProposalService(
         val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file.content)
         val appliedProposal = appliedProposalRepository.save(application)
         val professor = professorRepository.findById(proposal.get().supervisor).get()
-        emailService.sendSimpleMessage(
+        /*emailService.sendSimpleMessage(
             professor.email,
             "New application",
             "There is a new application for \"${proposal.get().title}\" proposal by the student ${student.get().name} ${student.get().surname}" +
                     "\nBest regards" +
                     "\nGestione Didattica",
             "no-reply@polito.it"
-        )
+        )*/
         return  ResponseEntity.ok(appliedProposal.toDTO())
 
     }
@@ -103,16 +103,7 @@ class AppliedProposalService(
 
     fun acceptProposal(applicationId: String) : ResponseEntity <Any> {
         val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
-        //check if it exists
-        if(appliedProposal == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
-
-        /*
-        //check if proposal already ARCHIVED
-        val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
-        if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
-        */
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
 
         //check if it already ACCEPTED
         if(appliedProposal.status==ApplicationStatus.ACCEPTED)
@@ -126,11 +117,11 @@ class AppliedProposalService(
 
 
         //FIND and REJECT all applications given the proposalId
-        val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId);
+        val applicationsToReject = appliedProposalRepository.findByProposalId(appliedProposal.proposalId)
         applicationsToReject.map { applicationToReject->
             if (applicationToReject.status==ApplicationStatus.PENDING && applicationToReject.id!=applicationId){
                 appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.CANCELLED))
-                val proposal = proposalService.findProposalById(applicationToReject.proposalId)
+                /*val proposal = proposalService.findProposalById(applicationToReject.proposalId)
                 if(proposal!=null){
                     emailService.sendSimpleMessage(
                         "${applicationToReject.studentId}@studenti.polito.it",
@@ -140,12 +131,12 @@ class AppliedProposalService(
                                 "\nGestione Didattica",
                         "no-reply@studenti.polito.it"
                     )
-                }
+                }*/
             }
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
-        val proposal = proposalService.findProposalById(applicationId)
+        /*val proposal = proposalService.findProposalById(applicationId)
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
@@ -158,7 +149,7 @@ class AppliedProposalService(
                     "no-reply@studenti.polito.it"
                 )
             }
-        }
+        }*/
 
         //SETS the PROPOSAL as MANUALLY_ARCHIVED
         proposalService.manuallyArchivedProposal(appliedProposal.proposalId)
@@ -192,7 +183,7 @@ class AppliedProposalService(
 
         //ONLY REJECTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
-        val proposal = proposalService.findProposalById(applicationId)
+        /*val proposal = proposalService.findProposalById(applicationId)
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
@@ -205,7 +196,7 @@ class AppliedProposalService(
                     "no-reply@studenti.polito.it"
                 )
             }
-        }
+        }*/
 
         return ResponseEntity.ok().body("Successful operation")
     }
