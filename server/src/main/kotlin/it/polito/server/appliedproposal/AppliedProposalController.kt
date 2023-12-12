@@ -78,7 +78,7 @@ class AppliedProposalController(
     }
     @GetMapping("/archived/{professorId}")
     fun getArchivedByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
-        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED, archiviation_type.MANUALLY_ARCHIVED )
+        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)
     }
 }
