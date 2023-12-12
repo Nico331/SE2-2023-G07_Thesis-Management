@@ -110,7 +110,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         val applications = appliedProposalRepository.findByProposalId(id)
         applications.forEach { application ->
             if (application.status == ApplicationStatus.PENDING) {
-                appliedProposalRepository.save(application.copy(status = ApplicationStatus.REJECTED))
+                appliedProposalRepository.save(application.copy(status = ApplicationStatus.CANCELLED))
             }
         }
 
