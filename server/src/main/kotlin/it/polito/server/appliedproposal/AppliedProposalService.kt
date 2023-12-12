@@ -227,9 +227,11 @@ class AppliedProposalService(
         return resMap
     }
 
-    fun findByProfessor(professorId: String) : List<StrangeObjectRequestedByDarione>{
+    fun findByProfessor(professorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
         val proposals = proposalRepository.findBySupervisor(professorId);
-        return proposals.map { proposal->
+        return proposals
+            .filter { archiviationTypes.contains(it.archived) }
+            .map { proposal->
 //            println(proposal)
 //            println(proposal.id!!)
             val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }

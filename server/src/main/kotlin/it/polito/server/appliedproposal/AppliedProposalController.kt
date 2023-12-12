@@ -5,6 +5,7 @@ import it.polito.server.professor.Professor
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
+import it.polito.server.proposal.archiviation_type
 import it.polito.server.student.StudentRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -70,9 +71,14 @@ class AppliedProposalController(
         val filteredApplications = appliedProposalService.findByFilters( professorId )
         return ResponseEntity.ok(filteredApplications)
     }
-    @GetMapping("/{professorId}")
-    fun getByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
-        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId )
+    @GetMapping("/active/{professorId}")
+    fun getActiveByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
+        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED )
+        return ResponseEntity.ok(proposalsWithApplications)
+    }
+    @GetMapping("/archived/{professorId}")
+    fun getArchivedByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
+        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED, archiviation_type.MANUALLY_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)
     }
 }
