@@ -283,4 +283,17 @@ class AppliedProposalService(
             )
         }
     }
+
+    fun updateApplicationsStatus(proposal: Proposal) {
+        val newStatus = when (proposal.archived) {
+            archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED -> ApplicationStatus.CANCELLED
+            else -> ApplicationStatus.PENDING
+        }
+        val applications = appliedProposalRepository.findByProposalId(proposal.id!!)
+        for (application in applications) {
+            application.status = newStatus
+            appliedProposalRepository.save( application )
+        }
+
+    }
 }
