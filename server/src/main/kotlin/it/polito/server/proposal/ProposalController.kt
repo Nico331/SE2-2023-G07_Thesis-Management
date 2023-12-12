@@ -54,6 +54,12 @@ class ProposalController (private val proposalService: ProposalService){
         return proposalService.findActiveProposalsBySupervisor(supervisor)
     }
 
+    @GetMapping("/bysupervisor/archived/{supervisor}")
+    fun getArchivedProposalsBySupervisor(@PathVariable supervisor: String): ResponseEntity<Any> {
+        //return only ARCHIVED proposal by supervisor or NOT_FOUND(if the supervisor doesn't exist) or BAD_REQUEST (if supervisor hasn't proposals)
+        return proposalService.findArchivedProposalsBySupervisor(supervisor)
+    }
+
     @GetMapping("/filters")
     fun getProposals(@RequestParam(required = false) filters: Map<String, String>,
                      @RequestParam(required = false) search: String?): ResponseEntity<List<ProposalDTO>> {
