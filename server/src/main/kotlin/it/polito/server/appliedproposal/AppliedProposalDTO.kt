@@ -7,12 +7,15 @@ import java.time.LocalDate
 import java.util.*
 
 data class AppliedProposalDTO (
-        val id: String? = null,
-        val proposalId: String,
-        val studentId: String,
-        val status: ApplicationStatus,
-        val file: FileDTO?
-)
+    val id: String? = null,
+    val proposalId: String,
+    val studentId: String,
+    var status: ApplicationStatus,
+    val file: FileDTO?
+) {
+
+}
+
 data class FileDTO(
         val content: ByteArray,
         val name: String,

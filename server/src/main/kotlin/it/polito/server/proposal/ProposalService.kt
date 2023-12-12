@@ -110,7 +110,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         val applications = appliedProposalRepository.findByProposalId(id)
         applications.forEach { application ->
             if (application.status == ApplicationStatus.PENDING) {
-                appliedProposalRepository.save(application.copy(status = ApplicationStatus.REJECTED))
+                appliedProposalRepository.save(application.copy(status = ApplicationStatus.CANCELLED))
             }
         }
 
@@ -156,5 +156,16 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         }
         query.addCriteria(Criteria.where("archived").`is`(archiviation_type.NOT_ARCHIVED))
         return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO( externalCoSupervisorRepository) }
+    }
+
+    fun findArchivedProposalsBySupervisor(supervisorId: String): ResponseEntity<Any> {
+        //Check if the supervisor exists
+        professorService.findProfessorById(supervisorId)
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisorId' does NOT exist.")
+
+        val allBySupervisor = proposalRepository.findBySupervisor(supervisorId)
+        val archivedOnly = allBySupervisor.filter { it.archived == archiviation_type.MANUALLY_ARCHIVED || it.archived == archiviation_type.EXPIRED }
+            .map { it.toDTO( externalCoSupervisorRepository ) }
+        return ResponseEntity.status(HttpStatus.OK).body(archivedOnly)
     }
 }

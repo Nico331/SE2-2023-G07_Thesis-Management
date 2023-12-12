@@ -7,18 +7,19 @@
 [//]: # (3. [Installation and Execution]&#40;#installation&#41;)
 1. [Introduction](#introduction)
 2. [Log In](#login)
-3. [Are you a student?](#student)
+3. [Virtual Clock](#VC)
+4. [Are you a student?](#student)
 
-   3.1. [Search proposal](#search)
+   4.1. [Search proposal](#search)
    
-   3.2. [Apply for a thesis proposal](#apply)
+   4.2. [Apply for a thesis proposal](#apply)
 
-   3.3. [My proposals applications](#apps)
-4. [Are you a professor?](#professor)
+   4.3. [My proposals applications](#apps)
+5. [Are you a professor?](#professor)
 
-   4.1. [Add a new proposal](#add)
+   5.1. [Add a new proposal](#add)
 
-   4.2. [My thesis proposal](#props)
+   5.2. [My thesis proposal](#props)
 
 ## 1 Introduction <a name="introduction"></a>
 
@@ -119,7 +120,16 @@ An error alert will arise in case of invalid credentials.
 
 <img src="guideImages/login.png" alt="drawing" width="500"/>
 
-## 3 Are you a student? <a name="student"/>
+## 3 Virtual Clock <a name="VC"/>
+
+On the bottom of every page you will see the **Virtual Clock**, by default it shows the current date, but you can change
+its value opening the calendar and selecting a new date. Click the **"set"** button to confirm the new date. The
+**"reset"** button will reinitialize the clock to the current date. The Virtual Clock is used for testing purpose. The
+pages will change their data depending on the Virtual Clock value.
+
+<img src="guideImages/VirtualClock.png" alt="drawing" width="500"/>
+
+## 4 Are you a student? <a name="student"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the
 appropriate page:
@@ -131,7 +141,7 @@ In every moment you can change page or logout browsing the **menu** in the top r
 
 <img src="guideImages/mainStudent.png" alt="drawing" width="500"/>
 
-### 3.1 Search for a thesis proposal <a name="search"/>
+### 4.1 Search for a thesis proposal <a name="search"/>
 
 This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
 
@@ -150,7 +160,7 @@ go to the **application page** using the "Apply" button.
 
 <img src="guideImages/propsList.png" alt="drawing" width="500"/>
 
-### 3.2 Apply for a thesis proposal <a name="apply"/>
+### 4.2 Apply for a thesis proposal <a name="apply"/>
 
 The application page shows information about you and your university career. The page offers you the possibility to
 add a **document** (your CV for example).
@@ -159,7 +169,7 @@ application outcome.
 
 <img src="guideImages/apply.png" alt="drawing" width="500"/>
 
-### 3.3 My proposals applications <a name="apps"/>
+### 4.3 My proposals applications <a name="apps"/>
 
 In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
 that could be:
@@ -169,19 +179,20 @@ that could be:
 
 <img src="guideImages/studentApplications.png" alt="drawing" width="500"/>
 
-## 4 Are you a professor? <a name="professor"/>
+## 5 Are you a professor? <a name="professor"/>
 
 From the main page you can choose between two options each with its own button which will redirect you to the
 appropriate page:
 
 - Add a new thesis proposal
 - My thesis proposals
+- Archive
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
 <img src="guideImages/professorMain.png" alt="drawing" width="500"/>
 
-### 4.1 Add a new thesis proposal <a name="add"/>
+### 5.1 Add a new thesis proposal <a name="add"/>
 
 This page contains the form to add a **new proposal**. You can add your new thesis proposal filling the form and
 submitting it. Pay attention, before you submit the form make sure that the **mandatory fields** (marked with an "*")
@@ -190,7 +201,7 @@ Note that for some fields like Co-supervisors, Research Groups, Keywords, and Cd
 
 <img src="guideImages/addForm.png" alt="drawing" width="500"/>
 
-### 4.2 My thesis proposals <a name="props"/>
+### 5.2 My thesis proposals <a name="props"/>
 
 This page displays your thesis proposals and the respective application. From this page you are able to **delete** or
 **edit** (the edit feature consists in a modal working as the "add proposal page") all your proposals. Clicking the
