@@ -15,6 +15,11 @@ interface Professor {
     name: string;
     surname: string;
 }
+interface ExternalCoSupervisor {
+    email: string;
+    name: string;
+    surname: string;
+}
 
 interface Proposal {
     id: string | null;
@@ -22,6 +27,7 @@ interface Proposal {
     title: string;
     supervisor: string;
     coSupervisors: string[];
+    externalCoSupervisors: ExternalCoSupervisor[];
     keywords: string[];
     type: string;
     groups: string[];
@@ -41,6 +47,7 @@ const ProposalForm: React.FC = () => {
         title: '',
         supervisor: JSON.parse(user).id,
         coSupervisors: [],
+        externalCoSupervisors: [],
         keywords: [],
         type: '',
         groups: [],
@@ -69,14 +76,23 @@ const ProposalForm: React.FC = () => {
 
     const [newKeyword, setNewKeyword] = useState<string>('');
 
-    const addCoSupervisor = (coSupervisor: string) => {
-        setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, coSupervisor]});
+    const addCoSupervisor = (coSupervisor: string, externalCoSupervisor: ExternalCoSupervisor) => {
+        if(!coSupervisor){
+            setProposal({...proposal, externalCoSupervisors: [...proposal.externalCoSupervisors, externalCoSupervisor]});
+        }else{
+            setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, coSupervisor]});
+        }
     };
 
     const removeCoSupervisor = (index: number) => {
         const updatedCoSupervisors = [...proposal.coSupervisors];
         updatedCoSupervisors.splice(index, 1);
         setProposal({...proposal, coSupervisors: updatedCoSupervisors});
+    };
+    const removeCoSupervisorExt = (index: number) => {
+        const updatedCoSupervisors = [...proposal.externalCoSupervisors];
+        updatedCoSupervisors.splice(index, 1);
+        setProposal({...proposal, externalCoSupervisors: updatedCoSupervisors});
     };
 
     const addKeyword = () => {
@@ -227,6 +243,10 @@ const ProposalForm: React.FC = () => {
                                                    professors={professors.filter((professor) =>
                                                        !(proposal?.coSupervisors.includes(professor.id)))}/>
 
+                                <br/>
+                                <h5>
+                                    Internal Co-Supervisors
+                                </h5>
                                 <ListGroup className={"mt-3"}>
                                     {proposal.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
                                         {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
@@ -235,6 +255,24 @@ const ProposalForm: React.FC = () => {
                                             size="sm"
                                             className="float-right"
                                             onClick={() => removeCoSupervisor(index)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </ListGroup.Item>))}
+                                </ListGroup>
+                                <br/>
+                                <h5>
+                                    External Co-Supervisors
+                                </h5>
+                                <ListGroup className={"mt-3"}>
+                                    {proposal.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
+                                        <ListGroup.Item key={index}>
+                                        { cs.name + ' ' + cs.surname + ' ' + cs.email} &nbsp;
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            className="float-right"
+                                            onClick={() => removeCoSupervisorExt(index)}
                                         >
                                             Remove
                                         </Button>
