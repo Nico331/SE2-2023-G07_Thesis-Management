@@ -36,11 +36,12 @@ const BrowseApplications = () => {
     const [showModifyPage, setShowModifyPage] = useState(false);
     const [modifyproposal, setModifyProposal] = useState([]);
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
-    const [showCopyModal, setShowCopyModal] = useState(false);
-    const [copyproposal, setCopyProposal] = useState([]);
     const [successcopy, setSuccessCopy] = useState(false);
 
     const [pageType, setPageType] = useState("");
+
+    const [showArchivePopup, setShowArchivePopup] = useState(false);
+    const [proposalToArchive, setProposalToArchive] = useState("");
 
     const handleDownload = (application) => {
         const { content, name, contentType } = application.file;
@@ -109,6 +110,15 @@ const BrowseApplications = () => {
         setModifyProposal(proposals.find(a => a.id === proposalsID));
     }
 
+    const handleArchive = (proposalID) => {
+        setShowArchivePopup(false);
+        setProposalToArchive("");
+        console.log("proposal archived: "+proposalID);
+        ProposalService.archiveProposal(proposalID).then( () => {setRefresh ((r) => !r)});
+
+
+    }
+
 
     return (
         <>
@@ -137,6 +147,7 @@ const BrowseApplications = () => {
 
                 <Accordion className="mt-5">
                     {proposals.map((proposal) => (
+                        proposal.archived != "MANUALLY_ARCHIVED" && (
                         <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                             <Accordion.Header>
                                 <Row className={"w-100"}>
@@ -152,6 +163,11 @@ const BrowseApplications = () => {
                                             {proposal.level}
                                         </Badge>}
                                     </div>
+                                    <div className="col-sm-8">
+                                    {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
+                                        {proposal.archived}
+                                    </Badge>}
+                                </div>
                                     <div className="col-sm-4">
                                         <Button className="ms-2 mt-2" variant={'primary'} onClick={(e) => handlecopy(e, proposal.id)} >Copy</Button>
                                         <Button className="ms-2 mt-2" variant={'secondary'} onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
@@ -161,11 +177,16 @@ const BrowseApplications = () => {
                                                     setShowDeletePopup(() => true);
                                                     setProposalToDelete(proposal.id)
                                                 }}> Delete </Button>
+                                        <Button className="ms-2 mt-2" variant={'warning'} onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowArchivePopup(() => true);
+                                            setProposalToArchive(proposal.id);
+                                        }}> Archive </Button>
                                     </div>
                                 </Row>
 
                             </Accordion.Header>
-                            <Accordion.Body>
+                            <Accordion.Body style={{textAlign:'left'}}>
                                 <Row>
                                     <Col md={6}>
                                         <b>Thesis Title:</b> {proposal.title}
@@ -313,12 +334,12 @@ const BrowseApplications = () => {
                                 </Accordion>
                             </Accordion.Body>
                         </Accordion.Item>
+                        )
                     ))}
                 </Accordion>
             </Container>
 
             {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} pagetype={pageType} setsuccesscopy={setSuccessCopy} /> : null}
-            {/* {showCopyModal ? <CopyProposal setshowcopymodal={setShowCopyModal} copyproposal={copyproposal} setsuccesscopy={setSuccessCopy} user={user} /> : null} */}
 
             <Modal
                 show={showDeletePopup}
@@ -336,6 +357,25 @@ const BrowseApplications = () => {
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
                     <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showArchivePopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Archive
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to archive the proposal?
+                    "<b>{proposals && proposalToArchive && proposals.filter((p) => p.id === proposalToArchive).pop().title}</b>"?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleArchive(proposalToArchive)}>Yes</Button>
                 </Modal.Footer>
             </Modal>
 

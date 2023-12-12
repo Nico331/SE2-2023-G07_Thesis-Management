@@ -227,9 +227,11 @@ class AppliedProposalService(
         return resMap
     }
 
-    fun findByProfessor(professorId: String) : List<StrangeObjectRequestedByDarione>{
+    fun findByProfessor(professorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
         val proposals = proposalRepository.findBySupervisor(professorId);
-        return proposals.map { proposal->
+        return proposals
+            .filter { archiviationTypes.contains(it.archived) }
+            .map { proposal->
 //            println(proposal)
 //            println(proposal.id!!)
             val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
@@ -282,5 +284,18 @@ class AppliedProposalService(
                 listApplications
             )
         }
+    }
+
+    fun updateApplicationsStatus(proposal: Proposal) {
+        val newStatus = when (proposal.archived) {
+            archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED -> ApplicationStatus.CANCELLED
+            else -> ApplicationStatus.PENDING
+        }
+        val applications = appliedProposalRepository.findByProposalId(proposal.id!!)
+        for (application in applications) {
+            application.status = newStatus
+            appliedProposalRepository.save( application )
+        }
+
     }
 }

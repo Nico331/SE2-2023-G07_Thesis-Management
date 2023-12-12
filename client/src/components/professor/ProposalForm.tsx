@@ -10,14 +10,44 @@ import {useNavigate} from "react-router-dom";
 import ProfessorService from "../../services/ProfessorService";
 import {UserContext} from "../../contexts/UserContexts";
 
-const ProposalForm = () => {
+interface Professor {
+    id: string;
+    name: string;
+    surname: string;
+}
+interface ExternalCoSupervisor {
+    email: string;
+    name: string;
+    surname: string;
+}
+
+interface Proposal {
+    id: string | null;
+    archived: string;
+    title: string;
+    supervisor: string;
+    coSupervisors: string[];
+    externalCoSupervisors: ExternalCoSupervisor[];
+    keywords: string[];
+    type: string;
+    groups: string[];
+    description: string;
+    requiredKnowledge: string;
+    notes: string;
+    expiration: dayjs.Dayjs;
+    level: string;
+    cdS: string[];
+}
+
+const ProposalForm: React.FC = () => {
     const {user, setUser} = useContext(UserContext);
-    const [proposal, setProposal] = useState({
+    const [proposal, setProposal] = useState<Proposal>({
         id: null,
-        archived: "NOT_ARCHIVED",
+        archived: 'NOT_ARCHIVED',
         title: '',
         supervisor: JSON.parse(user).id,
         coSupervisors: [],
+        externalCoSupervisors: [],
         keywords: [],
         type: '',
         groups: [],
@@ -29,7 +59,7 @@ const ProposalForm = () => {
         cdS: [],
     });
 
-    const [professors, setProfessors] = useState([]);
+    const [professors, setProfessors] = useState<Professor[]>([]);
 
     useEffect(() => {
         ProfessorService.fetchAllProfessors().then((res) => {
@@ -37,20 +67,32 @@ const ProposalForm = () => {
         });
     }, []);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const [alert, setAlert] = useState({type: "", message: ""});
+    const [alert, setAlert] = useState<{
+        type: string;
+        message: string
+    }>({type: '', message: ''});
 
-    const [newKeyword, setNewKeyword] = useState('');
+    const [newKeyword, setNewKeyword] = useState<string>('');
 
-    const addCoSupervisor = (coSupervisor) => {
-        setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, coSupervisor]});
+    const addCoSupervisor = (coSupervisor: string, externalCoSupervisor: ExternalCoSupervisor) => {
+        if(!coSupervisor){
+            setProposal({...proposal, externalCoSupervisors: [...proposal.externalCoSupervisors, externalCoSupervisor]});
+        }else{
+            setProposal({...proposal, coSupervisors: [...proposal.coSupervisors, coSupervisor]});
+        }
     };
 
-    const removeCoSupervisor = (index) => {
+    const removeCoSupervisor = (index: number) => {
         const updatedCoSupervisors = [...proposal.coSupervisors];
         updatedCoSupervisors.splice(index, 1);
         setProposal({...proposal, coSupervisors: updatedCoSupervisors});
+    };
+    const removeCoSupervisorExt = (index: number) => {
+        const updatedCoSupervisors = [...proposal.externalCoSupervisors];
+        updatedCoSupervisors.splice(index, 1);
+        setProposal({...proposal, externalCoSupervisors: updatedCoSupervisors});
     };
 
     const addKeyword = () => {
@@ -60,78 +102,78 @@ const ProposalForm = () => {
         }
     };
 
-    const removeKeyword = (index) => {
+    const removeKeyword = (index: number) => {
         const updatedKeywords = [...proposal.keywords];
         updatedKeywords.splice(index, 1);
         setProposal({...proposal, keywords: updatedKeywords});
     };
 
-
-    const addGroup = (group) => {
+    const addGroup = (group: string) => {
         setProposal({...proposal, groups: [...proposal.groups, group]});
     };
 
-    const removeGroup = (index) => {
+    const removeGroup = (index: number) => {
         const updatedGroups = [...proposal.groups];
         updatedGroups.splice(index, 1);
         setProposal({...proposal, groups: updatedGroups});
     };
-    const addCds = (cds) => {
+
+    const addCds = (cds: string) => {
         setProposal({...proposal, cdS: [...proposal.cdS, cds]});
     };
 
-    const removeCds = (index) => {
+    const removeCds = (index: number) => {
         const updatedCds = [...proposal.cdS];
         updatedCds.splice(index, 1);
         setProposal({...proposal, cdS: updatedCds});
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         let valid = true;
-        let errorMessage = "";
-        if(proposal.title.length === 0){
+        let errorMessage = '';
+        if (proposal.title.length === 0) {
             valid = false;
-            errorMessage += `Title should have a value, `
+            errorMessage += `Title should have a value, `;
         }
-        if(proposal.type.length === 0){
+        if (proposal.type.length === 0) {
             valid = false;
-            errorMessage += `Type should have a value, `
+            errorMessage += `Type should have a value, `;
         }
-        if(proposal.level.length === 0){
+        if (proposal.level.length === 0) {
             valid = false;
-            errorMessage += `Level should have a value, `
+            errorMessage += `Level should have a value, `;
         }
-        if(proposal.supervisor.length === 0){
+        if (proposal.supervisor.length === 0) {
             valid = false;
-            errorMessage += `Supervisor should have a value, `
+            errorMessage += `Supervisor should have a value, `;
         }
 
-
-
-
-        if(valid){
-            ProposalService.createProposal(proposal).then(() => {
-                setAlert({type: "success", message: "The proposal has been created correctly! Redirecting to the homepage in 3 seconds..."})
-                setTimeout(() => {
-                    navigate("/browse-applications");
-                }, 3000);
-            }).catch(() => {
-                setAlert({type: "danger", message: "Error!"})
-            });
+        if (valid) {
+            ProposalService.createProposal(proposal)
+                .then(() => {
+                    setAlert({type: 'success', message: 'The proposal has been created correctly! Redirecting to the homepage in 3 seconds...'});
+                    setTimeout(() => {
+                        navigate('/browse-applications');
+                    }, 3000);
+                })
+                .catch(() => {
+                    setAlert({type: 'danger', message: 'Error!'});
+                });
         } else {
-            setAlert({type: "danger", message: errorMessage})
+            setAlert({type: 'danger', message: errorMessage});
         }
     };
 
+    // @ts-ignore
     return (
         <Container>
-            <h1 style={{marginTop:"110px"}}>New Thesis Proposal</h1>
+            <h1 style={{marginTop: "110px"}}>New Thesis Proposal</h1>
             <Form className="mt-5" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="title">
+                        <Form.Group controlId="title">
                             <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
                                 type="text"
@@ -142,9 +184,9 @@ const ProposalForm = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="type">
+                        <Form.Group controlId="type">
                             <Form.Label className="h3">Type*</Form.Label>
-                            <Form.Control as="select" custom value={proposal.type}
+                            <Form.Control as="select" value={proposal.type}
                                           onChange={(e) => setProposal({...proposal, type: e.target.value})}>
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
@@ -158,19 +200,18 @@ const ProposalForm = () => {
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="level">
+                        <Form.Group controlId="level">
                             <Form.Label className="h3">Level*</Form.Label>
-                            <Form.Control as="select" custom value={proposal.level}
+                            <Form.Control as="select" value={proposal.level}
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}>
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Masters">Masters</option>
-                                <option value="PhD">PhD</option>
                             </Form.Control>
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="expiration">
+                        <Form.Group controlId="expiration">
                             <Form.Label className="h3">Expiration*</Form.Label>
                             <Form.Control
                                 type="date"
@@ -184,9 +225,9 @@ const ProposalForm = () => {
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="supervisor">
+                        <Form.Group controlId="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
-                            <Form.Control as="select" custom value={proposal.supervisor} disabled
+                            <Form.Control as="select" value={proposal.supervisor} disabled
                                           onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
                                 <option value="">Select the supervisor</option>
                                 {
@@ -198,9 +239,14 @@ const ProposalForm = () => {
                         <Form.Label className="h3">Co-Supervisors</Form.Label>
                         <Card className={"mt-3 mb-3"}>
                             <Card.Body>
-                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor} professors={professors.filter((professor)=>
-                                    !(proposal?.coSupervisors.includes(professor.id)))}/>
+                                <CoSupervisorInput onAddCoSupervisor={addCoSupervisor}
+                                                   professors={professors.filter((professor) =>
+                                                       !(proposal?.coSupervisors.includes(professor.id)))}/>
 
+                                <br/>
+                                <h5>
+                                    Internal Co-Supervisors
+                                </h5>
                                 <ListGroup className={"mt-3"}>
                                     {proposal.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
                                         {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
@@ -209,6 +255,24 @@ const ProposalForm = () => {
                                             size="sm"
                                             className="float-right"
                                             onClick={() => removeCoSupervisor(index)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </ListGroup.Item>))}
+                                </ListGroup>
+                                <br/>
+                                <h5>
+                                    External Co-Supervisors
+                                </h5>
+                                <ListGroup className={"mt-3"}>
+                                    {proposal.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
+                                        <ListGroup.Item key={index}>
+                                        { cs.name + ' ' + cs.surname + ' ' + cs.email} &nbsp;
+                                        <Button
+                                            variant="danger"
+                                            size="sm"
+                                            className="float-right"
+                                            onClick={() => removeCoSupervisorExt(index)}
                                         >
                                             Remove
                                         </Button>
@@ -250,7 +314,7 @@ const ProposalForm = () => {
                         <Card className={"mb-3"}>
                             <Card.Body>
 
-                                <ListGroup controlid="newKeyword">
+                                <ListGroup>
                                     <div className="d-flex align-items-center">
                                         <div className="col-lg-8">
                                             <Form.Control
@@ -280,7 +344,7 @@ const ProposalForm = () => {
                         </Card>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="description">
+                        <Form.Group controlId="description">
                             <Form.Label className="h3">Description</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -294,7 +358,7 @@ const ProposalForm = () => {
                 </Row>
                 <Row className={"mt-3"}>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="requiredKnoledge">
+                        <Form.Group controlId="requiredKnoledge">
                             <Form.Label className="h3">Required Knowledge</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -306,7 +370,7 @@ const ProposalForm = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12">
-                        <Form.Group controlid="notes">
+                        <Form.Group controlId="notes">
                             <Form.Label className="h3">Notes</Form.Label>
                             <Form.Control
                                 as="textarea"

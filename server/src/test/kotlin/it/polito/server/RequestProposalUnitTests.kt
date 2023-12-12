@@ -1,5 +1,7 @@
 package it.polito.server
 
+import it.polito.server.professor.ProfessorDTO
+import it.polito.server.professor.ProfessorService
 import it.polito.server.requestproposal.RequestProposalDTO
 import it.polito.server.requestproposal.RequestProposalService
 import it.polito.server.requestproposal.RequestProposalController
@@ -18,11 +20,13 @@ class RequestProposalUnitTests {
     private lateinit var requestProposalService: RequestProposalService
     private lateinit var requestProposalController: RequestProposalController
     private lateinit var studentService : StudentService
+    private lateinit var professorService : ProfessorService
 
     @BeforeEach
     fun setUp() {
         requestProposalService = mock(RequestProposalService::class.java)
-        requestProposalController = RequestProposalController(requestProposalService)
+        professorService = mock(ProfessorService::class.java)
+        requestProposalController = RequestProposalController(requestProposalService, professorService)
         studentService = mock(StudentService::class.java)
     }
 
@@ -38,10 +42,19 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         )
 
         `when`(requestProposalService.existsByTitleAndStudentId(newRequestProposalDTO.title, newRequestProposalDTO.studentId)).thenReturn(false)
+        `when`(professorService.findProfessorById(newRequestProposalDTO.supervisorId)).thenReturn(ProfessorDTO(
+                id = newRequestProposalDTO.supervisorId,
+                name = "John",
+                surname = "Doe",
+                email = "johndoe@professor.it",
+                codGroup = "11111",
+                codDepartment = "22222")
+        )
         `when`(requestProposalService.createRequestProposal(newRequestProposalDTO)).thenReturn(
                 RequestProposalDTO(
                         id = "2",
@@ -54,7 +67,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 )
         )
 
@@ -72,7 +86,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         ))
     }
 
@@ -88,7 +103,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         )
 
         `when`(requestProposalService.existsByTitleAndStudentId(existingRequestProposalDTO.title, existingRequestProposalDTO.studentId)).thenReturn(true)
@@ -112,7 +128,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         )
 
         `when`(requestProposalService.updateRequestProposal(requestProposalId, updatedRequestProposalDTO)).thenReturn(
@@ -127,7 +144,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 )
         )
 
@@ -145,7 +163,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         ))
     }
 
@@ -162,7 +181,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         )
 
         `when`(requestProposalService.updateRequestProposal(nonExistingRequestProposalId, updatedRequestProposalDTO)).thenReturn(null)
@@ -214,7 +234,8 @@ class RequestProposalUnitTests {
                 level = "Master",
                 creationDate = LocalDate.now().plusMonths(2),
                 acceptanceDate = null,
-                status = RequestProposalStatus.PENDING
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
         )
 
         `when`(requestProposalService.findRequestProposalById(requestProposalId))
@@ -252,7 +273,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 ),
                 RequestProposalDTO(
                         id = "2",
@@ -265,7 +287,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 )
         )
 
@@ -293,7 +316,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 ),
                 RequestProposalDTO(
                         id = "2",
@@ -306,7 +330,8 @@ class RequestProposalUnitTests {
                         level = "Master",
                         creationDate = LocalDate.now().plusMonths(2),
                         acceptanceDate = null,
-                        status = RequestProposalStatus.PENDING
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
                 )
         )
 

@@ -12,16 +12,16 @@ data class Professor (
     var email : String,
     val codGroup : String,
     val codDepartment : String,
-    private var passwordHash: String? = null
+    //private var passwordHash: String? = null
 
 ) {
-    fun setPassword(password: String) {
+    /*fun setPassword(password: String) {
         this.passwordHash = BCryptPasswordEncoder().encode(password)
     }
 
     fun checkPassword(password: String): Boolean {
         return BCryptPasswordEncoder().matches(password, this.passwordHash)
-    }
+    }*/
 
     fun toDTO () : ProfessorDTO = ProfessorDTO(
         id = this.id,

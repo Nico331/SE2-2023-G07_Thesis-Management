@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import it.polito.server.appliedproposal.ApplicationStatus
 import it.polito.server.appliedproposal.AppliedProposalRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
@@ -98,12 +99,20 @@ class ProposalService (private val proposalRepository : ProposalRepository,
 
         //check if it has already been archived
         val proposalEntity = proposal.get()
-        if(proposalEntity.archived == archiviation_type.MANUALLY_ARCHIVED || proposalEntity.archived == archiviation_type.EXPIRED){
+        if(proposalEntity.archived == archiviation_type.MANUALLY_ARCHIVED){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already archived")
         }
 
         //set to MANUALLY_ARCHIVED and save
         proposalRepository.save(proposalEntity.copy(archived = archiviation_type.MANUALLY_ARCHIVED))
+
+        //REJECT ALL PENDING APPLICATIONS
+        val applications = appliedProposalRepository.findByProposalId(id)
+        applications.forEach { application ->
+            if (application.status == ApplicationStatus.PENDING) {
+                appliedProposalRepository.save(application.copy(status = ApplicationStatus.CANCELLED))
+            }
+        }
 
         return ResponseEntity.ok("Proposal '$id' archived manually successfully")
     }
@@ -147,5 +156,16 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         }
         query.addCriteria(Criteria.where("archived").`is`(archiviation_type.NOT_ARCHIVED))
         return mongoTemplate.find(query, Proposal::class.java).map { it.toDTO( externalCoSupervisorRepository) }
+    }
+
+    fun findArchivedProposalsBySupervisor(supervisorId: String): ResponseEntity<Any> {
+        //Check if the supervisor exists
+        professorService.findProfessorById(supervisorId)
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisorId' does NOT exist.")
+
+        val allBySupervisor = proposalRepository.findBySupervisor(supervisorId)
+        val archivedOnly = allBySupervisor.filter { it.archived == archiviation_type.MANUALLY_ARCHIVED || it.archived == archiviation_type.EXPIRED }
+            .map { it.toDTO( externalCoSupervisorRepository ) }
+        return ResponseEntity.status(HttpStatus.OK).body(archivedOnly)
     }
 }

@@ -1,5 +1,6 @@
 package it.polito.server.clock
 
+import it.polito.server.appliedproposal.AppliedProposalService
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.archiviation_type
 
@@ -10,7 +11,10 @@ import java.time.*
 
 
 @Service
-class ClockService ( private val proposalRepository: ProposalRepository ){
+class ClockService (
+    private val proposalRepository: ProposalRepository,
+    private val appliedProposalService: AppliedProposalService
+){
 
     final var realTimeClock: Clock = Clock.systemDefaultZone()
     final var virtualClock : Clock? = null
@@ -56,6 +60,7 @@ class ClockService ( private val proposalRepository: ProposalRepository ){
         for (proposal in expiredProposals) {
             if (proposal.archived != archiviation_type.MANUALLY_ARCHIVED) {
                 proposal.archived = archiviation_type.EXPIRED
+                appliedProposalService.updateApplicationsStatus(proposal)
                 proposalRepository.save(proposal)
             }
         }
@@ -64,6 +69,7 @@ class ClockService ( private val proposalRepository: ProposalRepository ){
         for (proposal in notExpiredYetProposals) {
             if (proposal.archived != archiviation_type.MANUALLY_ARCHIVED) {
                 proposal.archived = archiviation_type.NOT_ARCHIVED
+                appliedProposalService.updateApplicationsStatus(proposal)
                 proposalRepository.save( proposal )
             }
         }

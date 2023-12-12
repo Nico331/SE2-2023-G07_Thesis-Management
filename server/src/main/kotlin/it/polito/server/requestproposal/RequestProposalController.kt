@@ -1,18 +1,22 @@
 package it.polito.server.requestproposal
 
-
+import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 @RestController
 @RequestMapping("/API/requestProposals")
-class RequestProposalController (private val requestProposalService: RequestProposalService){
+class RequestProposalController (private val requestProposalService: RequestProposalService, private val professorService: ProfessorService){
 
     @PostMapping("")
     fun createRequestProposal(@RequestBody requestProposal: RequestProposalDTO): ResponseEntity<Any> {
         if (requestProposalService.existsByTitleAndStudentId(requestProposal.title, requestProposal.studentId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request Proposal with same Title and Student already in the database")
+        val supervisor = professorService.findProfessorById(requestProposal.supervisorId)
+        if(supervisor == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The supervisor does not exist in the database")
+
         val newRequestProposal = requestProposalService.createRequestProposal(requestProposal)
         return ResponseEntity(newRequestProposal, HttpStatus.CREATED)
     }
@@ -40,19 +44,29 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return ResponseEntity.ok(requestProposals)
     }
 
-    @GetMapping("byStudentId")
-    fun getAllByStudentId(@PathVariable studentId: String) : ResponseEntity<Any>{
-        return requestProposalService.findAllRequestProposalsByStudent(studentId)
+    @GetMapping("/byStudent/{id}")
+    fun getAllByStudentId(@PathVariable id: String) : ResponseEntity<Any>{
+        return requestProposalService.findAllRequestProposalsByStudent(id)
     }
 
-    @PutMapping("/accept/{id}/")
-    fun acceptRequestProposal(@PathVariable id: String): ResponseEntity<Any> {
-        return requestProposalService.acceptRequestProposal(id)
+    @PutMapping("/bySecretary/accept/{id}/")
+    fun acceptRequestProposalBySecretary(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.acceptRequestProposalBySecretary(id)
     }
 
-    @PutMapping("/reject/{id}")
-    fun rejectRequestProposal(@PathVariable id: String): ResponseEntity<Any> {
-        return requestProposalService.rejectRequestProposal(id)
+    @PutMapping("/bySecretary/reject/{id}")
+    fun rejectRequestProposalBySecretary(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.rejectRequestProposalBySecretary(id)
+    }
+
+    @PutMapping("/bySupervisor/accept/{id}/")
+    fun acceptRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.acceptRequestProposalBySupervisor(id)
+    }
+
+    @PutMapping("/bySupervisor/reject/{id}")
+    fun rejectRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
+        return requestProposalService.rejectRequestProposalBySupervisor(id)
     }
 
 }

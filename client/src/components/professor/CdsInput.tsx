@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
-import {Form, Button, Accordion, Card, Row} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button, Accordion } from 'react-bootstrap';
 
-const CdsInput = ({onAddCds}) => {
-    const [cds, setCds] = useState("");
+interface CdsInputProps {
+    onAddCds: (cds: string) => void;
+}
+
+const CdsInput: React.FC<CdsInputProps> = ({ onAddCds }) => {
+    const [cds, setCds] = useState<string>("");
 
     const addCds = () => {
         if (cds) {
@@ -22,7 +26,7 @@ const CdsInput = ({onAddCds}) => {
                             type="text"
                             placeholder="Enter cds name"
                             value={cds}
-                            onChange={(e) => setCds( e.target.value)}
+                            onChange={(e) => setCds(e.target.value)}
                         />
                     </Form.Group>
 
