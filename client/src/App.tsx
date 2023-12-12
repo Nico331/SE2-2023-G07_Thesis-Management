@@ -76,8 +76,8 @@ function Main() {
                                                 {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
                                                     role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
                                                         role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :
-                                                            // role==="" ? <SecretaryRoutes setRoleState={setRole}/> :
-                                                            <GuestRoutes setRoleState={setRole}/>
+                                                            role==="SECRETARY" ? <SecretaryRoutes setRoleState={setRole}/> :
+                                                                <GuestRoutes setRoleState={setRole}/>
                                                 }
                                             </AuthCheck>
                                         </VirtualClockContext.Provider>

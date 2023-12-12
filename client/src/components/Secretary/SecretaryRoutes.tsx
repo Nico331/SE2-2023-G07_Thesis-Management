@@ -4,7 +4,10 @@ import React, {Dispatch, SetStateAction, useState} from "react";
 import Logout from "../login/Logout";
 import Student from "../../types/Student";
 import MainNavBar from "../NavBar";
-import RequestedProposals from "./RequestedProposals";
+import RequestedProposals from "../Secretary/RequestedProposals";
+import Login from "../login/Login";
+import GuestMain from "../guest/GuestMain";
+import SecretaryMain from "./SecretaryMain";
 
 type ProfessorRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -13,10 +16,13 @@ type ProfessorRoutesProps = {
 const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
     return(
         <div className="App" style={{}}>
-            {/* <ProfessorNavigation setRole={setRole} /> */}
+
             <MainNavBar setRole={setRoleState} role={""} user={undefined}/>
+
             <Routes>
-                {/* <Route path="/" element={ </> } /> */}
+                <Route path="/" element={ <SecretaryMain/> } >
+                    <Route path="/*" element={ <NotFound/> } />
+                </Route>
                 <Route path="/requested-proposals" element={<RequestedProposals/>} />
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
             </Routes>

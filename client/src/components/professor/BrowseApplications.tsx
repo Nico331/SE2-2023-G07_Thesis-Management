@@ -36,8 +36,6 @@ const BrowseApplications = () => {
     const [showModifyPage, setShowModifyPage] = useState(false);
     const [modifyproposal, setModifyProposal] = useState([]);
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
-    const [showCopyModal, setShowCopyModal] = useState(false);
-    const [copyproposal, setCopyProposal] = useState([]);
     const [successcopy, setSuccessCopy] = useState(false);
 
     const [pageType, setPageType] = useState("");
@@ -342,7 +340,6 @@ const BrowseApplications = () => {
             </Container>
 
             {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal} setShowAlertModal={setShowAlertModal} setRefresh={setRefresh} pagetype={pageType} setsuccesscopy={setSuccessCopy} /> : null}
-            {/* {showCopyModal ? <CopyProposal setshowcopymodal={setShowCopyModal} copyproposal={copyproposal} setsuccesscopy={setSuccessCopy} user={user} /> : null} */}
 
             <Modal
                 show={showDeletePopup}
