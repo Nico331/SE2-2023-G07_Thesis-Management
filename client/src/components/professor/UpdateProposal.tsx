@@ -249,7 +249,6 @@ function UpdateProposal (props) {
                                         <option value="">Select the type</option>
                                         <option value="Bachelor">Bachelor</option>
                                         <option value="Masters">Masters</option>
-                                        {/* <option value="PhD">PhD</option> */}
                                     </Form.Control>
                                 </Form.Group>
                             </div>

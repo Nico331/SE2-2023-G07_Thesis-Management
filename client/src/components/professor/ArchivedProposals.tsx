@@ -14,7 +14,7 @@ const ArchivedProposals = () => {
     const {user, setUser} = useContext(UserContext);
     useEffect(() => {
         if (user) {
-            ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
+            ApplicationService.getByProfessorIdArchived(JSON.parse(user).id).then((res) => {
                 setProposals(res.data);
             })
         }

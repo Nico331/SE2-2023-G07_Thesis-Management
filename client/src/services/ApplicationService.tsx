@@ -56,7 +56,16 @@ export default {
 
 
     getByProfessorId(professorId){
-        return axios.get(`${endpoint}/${professorId}`,{
+        return axios.get(`${endpoint}/active/${professorId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
+    getByProfessorIdArchived(professorId){
+        return axios.get(`${endpoint}/archived/${professorId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("token")

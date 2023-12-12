@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
-import {Form, Button, Accordion, Card, Row} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button, Accordion } from 'react-bootstrap';
 
-const GroupInput = ({onAddGroup}) => {
-    const [group, setGroup] = useState("");
+interface GroupInputProps {
+    onAddGroup: (group: string) => void;
+}
+
+const GroupInput: React.FC<GroupInputProps> = ({ onAddGroup }) => {
+    const [group, setGroup] = useState<string>("");
 
     const addGroup = () => {
         if (group) {
