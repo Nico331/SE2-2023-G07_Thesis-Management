@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
 import java.util.regex.Pattern
 
 @Service
@@ -30,7 +32,12 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         val external = update.externalCoSupervisors
         if (external != null)
             externalCoSupervisorService.saveNewExternals(external)
-        return proposalRepository.save(update.toDBObj()).toDTO(externalCoSupervisorRepository)
+        return proposalRepository.save(update.copy(archived =
+        if(update.expiration.isAfter(LocalDate.now()))
+            archiviation_type.NOT_ARCHIVED
+        else
+            archiviation_type.EXPIRED
+        ).toDBObj()).toDTO(externalCoSupervisorRepository)
     }
 
     fun createProposal(proposal: ProposalDTO): ProposalDTO {
