@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Container, Modal, Row, } from 'react-bootstrap';
+import { Accordion, Button, Col, Container, Modal, Row, } from 'react-bootstrap';
 import { VirtualClockContext } from '../../contexts/VirtualClockContext';
 import ProfessorService from '../../services/ProfessorService';
 import { UserContext } from '../../contexts/UserContexts';
@@ -56,10 +56,12 @@ const RequestedProposals = () => {
 
     const [rps, setRps] = useState([]);
     useEffect(() => {
-        SecretaryService.fetchAllRequestProposals().then((res) => {
-            setRps(res.data);
-        });
-    }, [rps]);
+        if (user){
+            SecretaryService.fetchAllRequestProposals().then((res) => {
+                setRps(res.data);
+            });
+        }
+    }, [rps,refresh]);
 
     const acceptRP = (id) => {
         setConfirmed({show: false, type: "", id: ""});
@@ -75,7 +77,6 @@ const RequestedProposals = () => {
         });
     }
 
-    console.log(rps);
     return (
         <>
             <Container className="d-flex flex-column" fluid style={{marginTop: "100px"}}>
@@ -84,13 +85,13 @@ const RequestedProposals = () => {
 
             <Accordion className='mt-5' >
                 {rp.map((proposal) => (
-                    <Accordion.Item eventKey={proposal.id}>
+                    <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
                                 <Col sm={8}>{proposal.tittle}</Col>
                                 <Col sm={4}>
-                                    <button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => setConfirmed({show: true, type: 'confirm', id:proposal.id})}>Accept</button>
-                                    <button className="btn btn-danger" onClick={() => setConfirmed({show: true, type: 'reject', id:proposal.id})}>Reject</button>
+                                    <Button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => setConfirmed({show: true, type: 'confirm', id:proposal.id})}>Accept</Button>
+                                    <Button className="btn btn-danger" onClick={() => setConfirmed({show: true, type: 'reject', id:proposal.id})}>Reject</Button>
                                 </Col>
                             </Row>
                             
