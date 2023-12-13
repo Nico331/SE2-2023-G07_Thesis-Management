@@ -42,6 +42,10 @@ class ProposalUnitTests {
                 title = "Updated Proposal",
                 supervisor = "John Doe",
                 coSupervisors = listOf("Jane Smith"),
+                externalCoSupervisors = listOf(
+                    ExternalCoSupervisorDTO("name1", "surname1", "email1"),
+                    ExternalCoSupervisorDTO("name2", "surname2", "email2")
+                ),
                 keywords = listOf("Java", "Spring"),
                 type = "Research",
                 groups = listOf("Group1", "Group2"),
@@ -60,6 +64,10 @@ class ProposalUnitTests {
                         title = "Updated Proposal",
                         supervisor = "John Doe",
                         coSupervisors = listOf("Jane Smith"),
+                        externalCoSupervisors = listOf(
+                            ExternalCoSupervisorDTO("name1", "surname1", "email1"),
+                            ExternalCoSupervisorDTO("name2", "surname2", "email2")
+                        ),
                         keywords = listOf("Java", "Spring"),
                         type = "Research",
                         groups = listOf("Group1", "Group2"),
@@ -81,6 +89,10 @@ class ProposalUnitTests {
                 title = "Updated Proposal",
                 supervisor = "John Doe",
                 coSupervisors = listOf("Jane Smith"),
+                externalCoSupervisors = listOf(
+                    ExternalCoSupervisorDTO("name1", "surname1", "email1"),
+                    ExternalCoSupervisorDTO("name2", "surname2", "email2")
+                ),
                 keywords = listOf("Java", "Spring"),
                 type = "Research",
                 groups = listOf("Group1", "Group2"),
@@ -94,46 +106,6 @@ class ProposalUnitTests {
         ))
     }
 
-/*    @Test
-    fun testCreateProposalWithExternalCoSups () {
-        val newProposalDTO = ProposalDTO(
-            title = "New Proposal",
-            supervisor = "John Doe",
-            coSupervisors = listOf("Jane Smith"),
-            externalCoSupervisors = listOf(ExternalCoSupervisorDTO("name1", "surname1", "email1"), ExternalCoSupervisorDTO("name2", "surname2", "email2")),
-            keywords = listOf("Java", "Spring"),
-            type = "Research",
-            groups = listOf("Group1", "Group2"),
-            description = "New description",
-            requiredKnowledge = "New knowledge",
-            notes = "New notes",
-            expiration = LocalDate.now().plusMonths(2),
-            level = "PhD",
-            cdS = listOf("CD1", "CD2"),
-            archived = archiviation_type.NOT_ARCHIVED
-        )
-
-        val saveResponse = proposalController.createProposal(newProposalDTO)
-
-        assert(saveResponse.statusCode == HttpStatus.CREATED)
-        assert(saveResponse.body == ProposalDTO(
-            id = "2",
-            title = "New Proposal",
-            supervisor = "John Doe",
-            coSupervisors = listOf("Jane Smith"),
-            externalCoSupervisors = listOf(ExternalCoSupervisorDTO("name1", "surname1", "email1"), ExternalCoSupervisorDTO("name2", "surname2", "email2")),
-            keywords = listOf("Java", "Spring"),
-            type = "Research",
-            groups = listOf("Group1", "Group2"),
-            description = "New description",
-            requiredKnowledge = "New knowledge",
-            notes = "New notes",
-            expiration = LocalDate.now().plusMonths(2),
-            level = "PhD",
-            cdS = listOf("CD1", "CD2"),
-            archived = archiviation_type.NOT_ARCHIVED
-        ))
-    }*/
 
     @Test
     fun testCreateProposal() {

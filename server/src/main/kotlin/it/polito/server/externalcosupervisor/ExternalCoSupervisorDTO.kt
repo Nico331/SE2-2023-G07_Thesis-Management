@@ -11,4 +11,11 @@ class ExternalCoSupervisorDTO (
         email = this.email
     )
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ExternalCoSupervisorDTO) return false
+
+        if (name == other.name && surname == other.surname && email == other.email) return true
+        return false
+    }
 }
