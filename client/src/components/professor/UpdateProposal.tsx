@@ -21,6 +21,7 @@ function UpdateProposal (props) {
         title: props.modifyproposal.title,
         supervisor: JSON.parse(user).id,
         coSupervisors: props.modifyproposal.coSupervisors,
+        externalCoSupervisors: props.modifyproposal.externalCoSupervisors || [],
         keywords: props.modifyproposal.keywords,
         type: props.modifyproposal.type,
         groups: props.modifyproposal.groups,
@@ -50,6 +51,12 @@ function UpdateProposal (props) {
         level: '',
         cdS: [],
     }); */
+
+    interface ExternalCoSupervisor {
+        email: string;
+        name: string;
+        surname: string;
+    }
 
     const [professors, setProfessors] = useState([]);
 
@@ -88,7 +95,13 @@ function UpdateProposal (props) {
         }
     };
 
-    const addCoSupervisor = (coSupervisor) => {
+    console.log({updatedprop})
+
+    const addCoSupervisor = (coSupervisor, externalCosupervisor) => {
+        if(externalCosupervisor){
+            setUpdatedprop({...updatedprop, externalCoSupervisors: [...updatedprop.externalCoSupervisors, externalCosupervisor]});
+            return
+        }
         if (coSupervisor !== updatedprop.supervisor) {
             setCoAlert({type: "", message: "", show: false});
             setUpdatedprop({...updatedprop, coSupervisors: [...updatedprop.coSupervisors, coSupervisor]});
@@ -213,7 +226,7 @@ function UpdateProposal (props) {
                         <Row>
                             {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="title">
+                                <Form.Group controlId="title">
                                     <Form.Label className="h3">Title</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -224,9 +237,9 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="type">
+                                <Form.Group controlId="type">
                                     <Form.Label className="h3">Type</Form.Label>
-                                    <Form.Control as="select" custom
+                                    <Form.Control as="select"
                                         value={updatedprop.type}
                                         onChange={(e) => setUpdatedprop({...updatedprop, type: e.target.value})}
                                     >
@@ -242,9 +255,9 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className={"mt-3"}>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="level">
+                                <Form.Group controlId="level">
                                     <Form.Label className="h3">Level</Form.Label>
-                                    <Form.Control as="select" custom value={updatedprop.level}
+                                    <Form.Control as="select"  value={updatedprop.level}
                                                   onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}>
                                         <option value="">Select the type</option>
                                         <option value="Bachelor">Bachelor</option>
@@ -253,7 +266,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="expiration">
+                                <Form.Group controlId="expiration">
                                     <Form.Label className="h3">Expiration</Form.Label>
                                     <Form.Control
                                         type="date"
@@ -267,7 +280,7 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className="mt-3">
                             <Col lg={6} md={12}>
-                                <Form.Group controlid="supervisor">
+                                <Form.Group controlId="supervisor">
                                     <Form.Label className="h3">Supervisor</Form.Label>
                                     <Form.Control type="text"
                                         placeholder={JSON.parse(user).name + ' ' + JSON.parse(user).surname}
@@ -288,11 +301,11 @@ function UpdateProposal (props) {
                                 <Card className={"mt-3 mb-3"}>
                                     <Card.Body>
                                         <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coalert={coalert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
-
+                                        <br/>
                                         <ListGroup className={"mt-3"}>
-                                            {updatedprop.coSupervisors.map((cs, index) => (
-                                                <ListGroup.Item key={index}>
-                                                {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
+                                            {updatedprop.coSupervisors.concat(updatedprop.externalCoSupervisors && updatedprop.externalCoSupervisors.map((it: ExternalCoSupervisor)=>it.email)).map((cs, index) => (<ListGroup.Item key={index}>
+
+                                                {professors.filter((p) => p.id == cs).length ? (professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)) : cs} &nbsp;
                                                 <Button
                                                     variant="danger"
                                                     size="sm"
@@ -339,7 +352,7 @@ function UpdateProposal (props) {
                                 <Card className={"mb-3"}>
                                     <Card.Body>
 
-                                        <ListGroup controlid="newKeyword">
+                                        <ListGroup>
                                             <div className="d-flex align-items-center">
                                                 <div className="col-lg-8">
                                                     <Form.Control
@@ -370,7 +383,7 @@ function UpdateProposal (props) {
                                 </Card>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="description">
+                                <Form.Group controlId="description">
                                     <Form.Label className="h3">Description</Form.Label>
                                     <Form.Control
                                         as="textarea"
@@ -384,7 +397,7 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className={"mt-3"}>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="requiredKnoledge">
+                                <Form.Group controlId="requiredKnoledge">
                                     <Form.Label className="h3">Required Knowledge</Form.Label>
                                     <Form.Control
                                         as="textarea"
@@ -396,7 +409,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlid="notes">
+                                <Form.Group controlId="notes">
                                     <Form.Label className="h3">Notes</Form.Label>
                                     <Form.Control
                                         as="textarea"

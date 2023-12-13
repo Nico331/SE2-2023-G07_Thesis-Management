@@ -267,7 +267,7 @@ const ProposalForm: React.FC = () => {
                                 <ListGroup className={"mt-3"}>
                                     {proposal.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
                                         <ListGroup.Item key={index}>
-                                        { cs.name + ' ' + cs.surname + ' ' + cs.email} &nbsp;
+                                        { cs.email} &nbsp;
                                         <Button
                                             variant="danger"
                                             size="sm"

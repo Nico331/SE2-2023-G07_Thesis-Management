@@ -232,7 +232,7 @@ const BrowseApplications = () => {
                                                             <span key={coSupervisor}>
                                                         {matchingProfessor.name} {matchingProfessor.surname}, &nbsp;
                                                     </span>
-                                                        ) : null;
+                                                        ) : coSupervisor + ", ";
                                                     })}
                                                 </Col>
                                                 <Col md={6}>
