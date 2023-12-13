@@ -11,10 +11,7 @@ data class RequestProposal(
         var studentId: String,
         var supervisorId: String,
         var coSupervisors: List<String>,
-        var company: String,
         var description: String,
-        var level : String,
-        var creationDate: LocalDate = LocalDate.now(),
         var acceptanceDate: LocalDate?= null,
         val secretaryStatus: RequestProposalStatus = RequestProposalStatus.PENDING,
         val supervisorStatus: RequestProposalStatus = RequestProposalStatus.PENDING
@@ -26,10 +23,7 @@ data class RequestProposal(
             studentId = this.studentId,
             supervisorId = this.supervisorId,
             coSupervisors = this.coSupervisors,
-            company = this.company,
             description = this.description,
-            level = this.level,
-            creationDate = this.creationDate,
             acceptanceDate = this.acceptanceDate,
             secretaryStatus = this.secretaryStatus,
             supervisorStatus = this.supervisorStatus

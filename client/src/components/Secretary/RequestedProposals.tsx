@@ -3,20 +3,22 @@ import { Accordion, Col, Container, Modal, Row, } from 'react-bootstrap';
 import { VirtualClockContext } from '../../contexts/VirtualClockContext';
 import ProfessorService from '../../services/ProfessorService';
 import { UserContext } from '../../contexts/UserContexts';
+import axios from 'axios';
+import SecretaryService from '../../services/SecretaryService';
 
 const RequestedProposals = () => {
 
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     const {user, setUser} = useContext(UserContext);
-    const [confirmed, setConfirmed] = useState({show: false, type: ""});
+    const [confirmed, setConfirmed] = useState({show: false, type: "", id: ""});
     
     // useEffect(() => {
     //     
     // }, []);
 
     const rp = [{
-        id: 1,
+        id: "1",
         tittle: "Proposal 1",
         studentID: 1,
         supervisor: "Supervisor 1",
@@ -30,7 +32,7 @@ const RequestedProposals = () => {
         supervisorStatus: "PENDING"
         },
         {
-        id: 2,
+        id: "2",
         tittle: "Proposal 2",
         studentID: 2,
         supervisor: "Supervisor 2",
@@ -45,14 +47,35 @@ const RequestedProposals = () => {
         },
     ]
 
-    const [professors, setProfessors] = useState([]);
-    useEffect(() => {
-        ProfessorService.fetchAllProfessors().then((res) => {
-            setProfessors(res.data);
-        });
-    }, []);
+    // const [professors, setProfessors] = useState([]);
+    // useEffect(() => {
+    //     ProfessorService.fetchAllProfessors().then((res) => {
+    //         setProfessors(res.data);
+    //     });
+    // }, []);
 
-    console.log("asfsafsafsafsafsafsa");
+    const [rps, setRps] = useState([]);
+    useEffect(() => {
+        SecretaryService.fetchAllRequestProposals().then((res) => {
+            setRps(res.data);
+        });
+    }, [rps]);
+
+    const acceptRP = (id) => {
+        setConfirmed({show: false, type: "", id: ""});
+        SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
+            console.log(res.data);
+        });
+    }
+
+    const rejectRP = (id) => {
+        setConfirmed({show: false, type: "", id: ""});
+        SecretaryService.rejectRquestedProposalbySecretary(id).then((res) => {
+            console.log(res.data);
+        });
+    }
+
+    console.log(rps);
     return (
         <>
             <Container className="d-flex flex-column" fluid style={{marginTop: "100px"}}>
@@ -66,8 +89,8 @@ const RequestedProposals = () => {
                             <Row className='w-100'>
                                 <Col sm={8}>{proposal.tittle}</Col>
                                 <Col sm={4}>
-                                    <button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => setConfirmed({show: true, type: 'confirm'})}>Accept</button>
-                                    <button className="btn btn-danger" onClick={() => setConfirmed({show: true, type: 'reject'})}>Reject</button>
+                                    <button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => setConfirmed({show: true, type: 'confirm', id:proposal.id})}>Accept</button>
+                                    <button className="btn btn-danger" onClick={() => setConfirmed({show: true, type: 'reject', id:proposal.id})}>Reject</button>
                                 </Col>
                             </Row>
                             
@@ -80,13 +103,13 @@ const RequestedProposals = () => {
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
                                 <Col md={6}> <b> Co-supervisor: </b> 
-                                    {rp.map((rpu) => {
+                                    {/* {rp.map((rpu) => {
                                         if (rpu.id === proposal.id) {
                                             return rpu.cosupervisor.map((cosupervisor) => (
                                                 <>{cosupervisor}, </>
                                             ))
                                         }
-                                    })}
+                                    })} */}
                                 </Col>
                                 <Col md={6}><b>Supervisor:</b> {proposal.supervisor}</Col>
                                 
@@ -112,7 +135,7 @@ const RequestedProposals = () => {
                 ))}
             </Accordion>
 
-            <Modal show={confirmed.show} onHide={() => setConfirmed({show: false, type: ""})}>
+            <Modal show={confirmed.show} onHide={() => setConfirmed({show: false, type: "", id: ""})}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         {confirmed.type==="confirm" ? <>Accept Requested Proposal</> : 
@@ -124,8 +147,8 @@ const RequestedProposals = () => {
                     confirmed.type==="reject" ? <>Are you sure you want to reject this proposal?</> : null}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-success">Yes</button>
-                    <button className="btn btn-danger">No</button>
+                    <button className="btn btn-success" onClick={() => acceptRP(confirmed.id)}>Yes</button>
+                    <button className="btn btn-danger" onClick={() => rejectRP(confirmed.id)}>No</button>
                 </Modal.Footer>
             </Modal>
         </>
