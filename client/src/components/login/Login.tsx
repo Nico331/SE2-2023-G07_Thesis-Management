@@ -44,14 +44,17 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
             const decodedJwt = jwtDecode(jwt);
             console.log(decodedJwt);
             // @ts-ignore
-            const userRole: string = decodedJwt["realm_access"]["roles"].find((value)=> value==="PROFESSOR" || value==="STUDENT");
+            const userRole: string = decodedJwt["realm_access"]["roles"].find((value)=> value==="PROFESSOR" || value==="STUDENT" || value==="SECRETARY");
             localStorage.setItem("role", userRole);
             sessionStorage.setItem("role", userRole);
 
             console.log("Navigo")
             const userInfo = await axios.get(
                 // @ts-ignore
-                `http://localhost:8081/API/${userRole==="PROFESSOR" ? "professors" : "students"}/${decodedJwt["email"].toString().split("@")[0]}`,
+                `http://localhost:8081/API/${userRole==="PROFESSOR" ? 
+                    "professors" : userRole==="STUDENT" ?  
+                        "students" : "secretaries"
+                }/${decodedJwt["email"].toString().split("@")[0]}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

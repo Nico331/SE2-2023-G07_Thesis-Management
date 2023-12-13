@@ -30,10 +30,10 @@ class WebSecurityConfig {
             it.requestMatchers(HttpMethod.POST,"/API/chat/messages/").permitAll()
             it.requestMatchers(HttpMethod.POST,"/API/login").permitAll()
 
-            it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT)
-            it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT)
-            it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT)
-            it.requestMatchers(HttpMethod.PUT,"/API/appliedProposal/**").hasAnyRole(PROFESSOR, STUDENT)
+            it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
+            it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
+            it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
+            it.requestMatchers(HttpMethod.PUT,"/API/appliedProposal/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.GET, "/realms/").permitAll()
             it.requestMatchers(HttpMethod.GET,"/API/**").authenticated()
             it.requestMatchers(HttpMethod.POST,"/API/**").authenticated()
@@ -78,6 +78,7 @@ class WebSecurityConfig {
     companion object {
         const val PROFESSOR = "PROFESSOR"
         const val STUDENT = "STUDENT"
+        const val SECRETARY = "SECRETARY"
     }
 }
 
