@@ -24,7 +24,7 @@ export default function MainNavBar ({role, user, setRole}) {
 
                     <Navbar.Brand className='links'>
                         {role === "" ? <Nav.Link href='login'>Login</Nav.Link> : null }
-                        {role === "PROFESSOR" || role === "STUDENT"  ? <Nav.Link onClick={() => setShow(true)}>Menu</Nav.Link> : null }
+                        {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ? <Nav.Link onClick={() => setShow(true)}>Menu</Nav.Link> : null }
 
                         <Offcanvas 
                             show={show} 
@@ -44,6 +44,16 @@ export default function MainNavBar ({role, user, setRole}) {
                                     <Offcanvas.Body>
                                         {role === "PROFESSOR" ? ( <>
                                             <Row className='canvas'>
+                                            <Row>
+                                                <Nav.Link href="/" > 
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M9 22V12h6v10M2 10.6L12 2l10 8.6"/>
+                                                    </svg>
+                                                        <p className="ms-3 my-0 fs-3">Main Page</p>
+                                                    </Container> 
+                                                </Nav.Link>
+                                            </Row>
                                                 <Row>
                                                     <Nav.Link href="/browse-applications" >
                                                         <Container className="p-0 m-0 d-inline-flex align-items-center">
@@ -90,6 +100,16 @@ export default function MainNavBar ({role, user, setRole}) {
                                         
                                         {role === "STUDENT" ? ( <>
                                             <Row className='canvas'>
+                                            <Row>
+                                                <Nav.Link href="/" > 
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M9 22V12h6v10M2 10.6L12 2l10 8.6"/>
+                                                    </svg>
+                                                        <p className="ms-3 my-0 fs-3">Main Page</p>
+                                                    </Container> 
+                                                </Nav.Link>
+                                            </Row>
                                                 <Row>
                                                     <Nav.Link href="/proposalList" >
                                                         <Container className="p-0 m-0 d-inline-flex align-items-center">
@@ -136,11 +156,21 @@ export default function MainNavBar ({role, user, setRole}) {
                                 {role === "SECRETARY" ? ( <>
                                 <Row className='canvas'>
                                     <Row>
+                                        <Nav.Link href="/" > 
+                                        <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M9 22V12h6v10M2 10.6L12 2l10 8.6"/>
+                                            </svg>
+                                                <p className="ms-3 my-0 fs-3">Main Page</p>
+                                            </Container> 
+                                        </Nav.Link>
+                                     </Row>
+                                    <Row>
                                         <Nav.Link href="/requested-proposals" > 
                                         <Container className="p-0 m-0 d-inline-flex align-items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-check-lg" viewBox="0 0 16 16">
-                                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/>
-                                                </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M13 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V9l-7-7z"/><path d="M13 3v6h6"/>
+                                            </svg>
                                                 <p className="ms-3 my-0 fs-3">All Requested Proposals</p>
                                             </Container> 
                                         </Nav.Link>

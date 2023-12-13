@@ -17,7 +17,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
     return(
         <div className="App" style={{}}>
 
-            <MainNavBar setRole={setRoleState} role={""} user={undefined}/>
+            <MainNavBar setRole={setRoleState} role={"SECRETARY"} user={undefined}/>
 
             <Routes>
                 <Route path="/" element={ <SecretaryMain/> } >
