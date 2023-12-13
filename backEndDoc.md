@@ -487,10 +487,7 @@ RequestProposal(
         "studentId": String,
         "supervisorId": String,
         "coSupervisors": String[],
-        "company": String,
         "description": String,
-        "level" : String,
-        "creationDate": LocalDate,
         "acceptanceDate": nullable LocalDate,
         "secretaryStatus": RequestProposalStatus,
         "supervisorStatus": RequestProposalStatus
@@ -504,10 +501,7 @@ RequestProposalDTO (
         "studentId": String,
         "supervisorId": String,
         "coSupervisors": String[],
-        "company": String,
         "description": String,
-        "level" : String,
-        "creationDate": LocalDate,
         "acceptanceDate": nullable LocalDate,
         "secretaryStatus": RequestProposalStatus,
         "supervisorStatus": RequestProposalStatus
