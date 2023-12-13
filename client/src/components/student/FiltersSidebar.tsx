@@ -123,14 +123,14 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                     <Form.Group className="mt-2">
                         <Form.Label>Search</Form.Label>
                         <Row className="mt-2">
-                            <Col sm={10}>
+                            <Col sm={9}>
                                 <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
                             </Col>
                             <Col sm={1}>
                                 <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}><i className="bi bi-search"></i></Button>
                             </Col>
                             <Col sm={1}>
-                                <Button variant="danger" onClick={ () => {
+                                <Button className="ms-1" variant="danger" onClick={ () => {
                                     setSearch("");
                                     setMakeSearch(!makeSearch);
                                 }}><i className="bi bi-x-lg"></i></Button>
