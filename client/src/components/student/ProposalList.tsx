@@ -67,8 +67,6 @@ const ProposalList = () => {
         });
     };
 
-    console.log(collapseState);
-
     return (
         <>
             <Container fluid className="px-5">
@@ -123,10 +121,13 @@ const ProposalList = () => {
                                                         <Container className="ms-0 p-0">
                                                             <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
                                                             <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
-                                                            { myApps.find((a) => a.proposalId === p.id) ?
+                                                            {myApps.find((a) => a.status === "PENDING") &&
                                                                 <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
-                                                                <Container className="mt-2" style={{color:"red"}}>You are already applied for this proposal</Container></>
-                                                                :
+                                                                <Container className="mt-2" style={{color: "red"}}>You already have a pending application</Container></>}
+                                                            {myApps.find((a) => a.status === "PENDING") &&
+                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                                <Container className="mt-2" style={{color: "red"}}>You already have an accepted application</Container></>}
+                                                            {!myApps.find((a) => (a.status === "PENDING" || a.status === "ACCEPTED")) &&
                                                                 <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
                                                             }
                                                         </Container>
@@ -138,8 +139,6 @@ const ProposalList = () => {
                                 }
                             </ListGroup>
                         </Container>
-                        {/*<VC refresh={refresh} setRefresh={setRefresh}/>*/}
-                        {/*<VC refresh={refresh} setRefresh={setRefresh} date={date} setDate={setDate}/>*/}
                     </Col>
                 </Row>
 
