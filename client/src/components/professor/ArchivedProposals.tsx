@@ -45,6 +45,20 @@ const ArchivedProposals = () => {
 
     const [proposals, setProposals] = useState([]);
 
+    const [showModifyPage, setShowModifyPage] = useState(false);
+    const [modifyproposal, setModifyProposal] = useState([]);
+    const [pageType, setPageType] = useState("");
+    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
+    const [successcopy, setSuccessCopy] = useState(false);
+
+
+
+    const handlemodify = (e, proposalsID) => {
+        e.stopPropagation();
+        setPageType("modify");
+        setShowModifyPage(true);
+        setModifyProposal(proposals.find(a => a.id === proposalsID));
+    }
     const handleDownload = (application) => {
         const {content, name, contentType} = application.file;
 
@@ -103,6 +117,17 @@ const ArchivedProposals = () => {
                                                     {proposal.archived === "MANUALLY_ARCHIVED" && <Badge bg={"warning"}>
                                                         {proposal.archived}
                                                     </Badge>}
+                                                </div>
+                                                <div className="col-sm-4">
+                                                    {proposal.applications.every(application => application.status !== 'ACCEPTED') && (
+                                                        <Button
+                                                            className="ms-2 mt-2"
+                                                            variant={'secondary'}
+                                                            onClick={(e) => handlemodify(e, proposal.id)}
+                                                        >
+                                                            Modify
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             </Row>
 
@@ -241,6 +266,10 @@ const ArchivedProposals = () => {
                     }
                 </Accordion>
             </Container>
+
+            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal}
+                                              setShowAlertModal={setShowAlertModal} setRefresh={setRefresh}
+                                              pagetype={pageType} setsuccesscopy={setSuccessCopy}/> : null}
 
 
         </>

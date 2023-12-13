@@ -199,12 +199,13 @@ const BrowseApplications = () => {
                                                             onClick={(e) => handlecopy(e, proposal.id)}>Copy</Button>
                                                     <Button className="ms-2 mt-2" variant={'secondary'}
                                                             onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
+                                                    {proposal.applications.every(application => application.status !== 'ACCEPTED') && (
                                                     <Button className="ms-2 mt-2" variant={'danger'}
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 setShowDeletePopup(() => true);
                                                                 setProposalToDelete(proposal.id)
-                                                            }}> Delete </Button>
+                                                            }}> Delete </Button>)}
                                                     <Button className="ms-2 mt-2" variant={'warning'} onClick={(e) => {
                                                         e.stopPropagation();
                                                         setShowArchivePopup(() => true);
