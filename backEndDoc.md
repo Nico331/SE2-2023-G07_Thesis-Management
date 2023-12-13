@@ -59,6 +59,9 @@ ExternalCoSupervisorDTO
 - Get all the active Proposals created by a supervisor
 	- GET ___`/API/proposals/bysupervisor/{supervisorID}`___
 	- Returns an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified and still active (not archived, not expired).
+- Get all the archived (both expired and manually archived) Proposals created by a supervisor
+	- GET ___`/API/proposals/bysupervisor/archived/{supervisorID}`___
+	- Returns an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified and archived (manually archived or expired).
 - Get all the active Proposals matching the filters
 	- GET ___`/API/proposals/filters?filter1=value1&filter2=value2&...`___
 	- Returns the Proposals that match with searching filters.
@@ -266,17 +269,25 @@ Student
 - Get all the applications for a specific proposal.
 	- GET ___`/API/appliedProposal/byproposal/{proposalID}`___
     - Return an array of AppliedProposalDTO objects. The Applications are the only ones related to the proposal specified in the URL.
-- Get all the applications related to a professor.
-	- GET ___`/API/appliedProposal/{professorId}`___
+- Get all the active applications related to a professor.
+	- GET ___`/API/appliedProposal/active/{professorId}`___
 	- Return an array of LongObjProposal objects. 
-    - Every proposal has the specified professor as supervisor.
+    - Every proposal is still active (no expired, no manually archived) and has the specified
+    professor as supervisor.
     - Every proposal contains an array of Application.
       - Every Application object has the student info who has created it.
+- Get all the archived applications related to a professor.
+	- GET ___`/API/appliedProposal/archived/{professorId}`___
+	- Return an array of LongObjProposal objects.
+	- Every proposal is no more active (=> expired or manually archived) and has the specified
+	  professor as supervisor.
+	- Every proposal contains an array of Application.
+		- Every Application object has the student info who has created it.
 - Accept an Application
 	- PUT ___`/API/appliedProposal/accept/{applicationId}`___
 	- Return OK status if success.
 	- Return NOT_FOUND if the Applications doesn't exist.
-    - It reject automatically all the other applications for the same proposal. 
+    - It cancels automatically all the other applications for the same proposal. 
 -  Reject an Application
 	- PUT ___`/API/appliedProposal/reject/{applicationId}`___
 	- Return OK status if success.
@@ -306,10 +317,41 @@ CareerDTO
 }
 ```
 
-## Career APIs
-........
+```json
+Career
+{
+	"id" : nullable String,
+	"studentId" : String,
+	"codCourse" : String,
+	"titleCourse" : String,
+	"cfu" : Int,
+	"grade" : Int,
+	"date" : String
+}
+```
 
-  ----
+
+## Career APIs
+
+- Create a new Career
+	- POST ___`/API/careers`___
+    - Request body must contain a Career object with the `"id" = null`.
+    - Return a _CREATED_ status if success.
+    - Return the just saved CareerDTO with the new _id_ field.
+- Get an existing Career
+    - GET ___`/API/careers/{careerID}`___
+    - Return the requested CareerDTO if exists, otherwise response code 404.
+- Get all existing Careers
+    - GET ___`/API/careers`___
+    - Return an array of CareerDTO objects. It contains all the careers in the database.
+- Update an existing Career
+	- PUT ___`/API/careers/{careerID}`___
+    - Request body must contain the updated CareerDTO object.
+    - Return the just updated and saved CareerDTO object.
+- Delete an existing Career
+    - DELETE ___`/API/careers/{careerID}`___
+    - Return the status OK when success, NOT_FOUND otherwise.
+    ----
 
 # Degree
 
@@ -325,7 +367,35 @@ DegreeDTO
 }
 ```
 
+```json
+Degree
+{
+	"id" : nulalble String,
+	"codDegree" : String,
+	"titleDegree" : String
+}
+```
+
 ## Degree APIs
+
+- Create a new Degree
+	- POST ___`/API/Degree`___
+	- Request body must contain a Degree object with the `"id" = null`.
+	- Return a _CREATED_ status if success.
+	- Return the just saved DegreeDTO with the new _id_ field.
+- Get an existing Career
+	- GET ___`/API/Degree/{DegreeID}`___
+	- Return the requested DegreeDTO if exists, otherwise response code 404.
+- Get all existing Degrees
+	- GET ___`/API/Degree`___
+	- Return an array of DegreeDTO objects. It contains all the Degrees in the database.
+- Update an existing Degree
+	- PUT ___`/API/Degree/{DegreeID}`___
+	- Request body must contain the updated DegreeDTO object.
+	- Return the just updated and saved DegreeDTO object.
+- Delete an existing Career
+	- DELETE ___`/API/Degree/{DegreeID}`___
+	- Return the status OK when success, NOT_FOUND otherwise.
 
 -----
 
@@ -337,9 +407,9 @@ owns 2 different clocks: the real time clock and a virtual clock.
 A scheduled function is run automatically every T time, and check clocks: if a new day has started,
 the server will update all proposal's archived state, depending on the expiration date.
 
-Note that if the proposal has been manually archived by the professor, it will remain archived anyways.
+Note that if the proposal has been manually archived by the professor, it will remain archived anyway.
 
-The virtual clock allow testing and showing features about expirations and time-events handling. It can be setted by
+The virtual clock allow testing and showing features about expirations and time-events handling. It can be set by
 the webapp page.
 
 ## Virtual Clock APIs

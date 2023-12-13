@@ -66,11 +66,12 @@ class AppliedProposalController(
         //return ResponseEntity.ok().build()
     }
 
-    @GetMapping("/{professorId}/filter")
+    /*@GetMapping("/{professorId}/filter")
     fun getByFilters (@PathVariable professorId: String) : ResponseEntity<Any> {
         val filteredApplications = appliedProposalService.findByFilters( professorId )
         return ResponseEntity.ok(filteredApplications)
-    }
+    }*/
+
     @GetMapping("/active/{professorId}")
     fun getActiveByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
         val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED )
