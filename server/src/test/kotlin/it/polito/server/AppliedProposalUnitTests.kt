@@ -3,6 +3,7 @@ package it.polito.server
 import it.polito.server.appliedproposal.*
 import it.polito.server.proposal.Proposal
 import it.polito.server.proposal.ProposalRepository
+import it.polito.server.proposal.archiviation_type
 import it.polito.server.student.StudentRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -10,6 +11,7 @@ import org.mockito.Mockito.*
 import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import java.time.LocalDate
 import java.util.Optional
 
 class AppliedProposalUnitTests {
@@ -189,4 +191,5 @@ class AppliedProposalUnitTests {
         assert(responseEntity.statusCode == HttpStatus.OK)
         assert(responseEntity.body == "Successful operation")
     }
+
 }

@@ -428,3 +428,127 @@ the webapp page.
 - Get server's in use clock.
   - GET ___`/API/virtualclock/getServerClock`___
   - Return the used clock in the server: a virtual clock if set, real time clock otherwise.
+
+# Secretary
+
+It represents the secretary of the university. It can preliminary accept or reject
+a student thesis proposal.
+
+```json
+SecretaryDTO {
+        "id": nullable String,
+        "name": String,
+        "surname" : String,
+        "email" : String,
+}
+```
+
+```json
+Secretary {
+        "id": nullable String,
+        "name": String,
+        "surname" : String,
+        "email" : String,
+}
+```
+
+## Secretary APIs
+
+- Create a new Secretary
+	- POST ___`/API/secretaries`___
+	- Request body must contain a Secretary (__not SecretaryDTO__) object with the `"id" = null`.
+	- Return the just saved SecretaryDTO with the new _id_ field.
+- Update an existing Secretary
+    - PUT ___`/API/secretaries/{secretaryID}`___
+    - Request body must contain the updated SecretaryDTO object.
+    - Return OK status if success and the just updated and saved SecretaryDTO object.
+    - Return NOT_FOUND if the Secretary doesn't exist.
+- Get an existing Secretary
+    - GET ___`/API/secretaries/{secretaryID}`___
+    - Return the requested SecretaryDTO if exists, otherwise response code 404.
+- Get all existing Secretaries
+    - GET ___`/API/secretaries`___
+    - Return an array of SecretaryDTO objects. It contains all the secretaries in the database.
+- Delete an existing Secretary
+    - DELETE ___`/API/secretaries/{secretaryID}`___
+    - Return the status OK when success, NOT_FOUND otherwise.
+
+----
+
+# Request of Proposal
+
+This entity represents a request of thesis proposal by a student.
+It must be accepted by the secretary first, then by the professor.
+
+```json
+RequestProposal(
+        "id": nullable String,
+        "title": String,
+        "studentId": String,
+        "supervisorId": String,
+        "coSupervisors": String[],
+        "company": String,
+        "description": String,
+        "level" : String,
+        "creationDate": LocalDate,
+        "acceptanceDate": nullable LocalDate,
+        "secretaryStatus": RequestProposalStatus,
+        "supervisorStatus": RequestProposalStatus
+}
+```
+
+```json
+RequestProposalDTO (
+        "id": nullable String,
+        "title": String,
+        "studentId": String,
+        "supervisorId": String,
+        "coSupervisors": String[],
+        "company": String,
+        "description": String,
+        "level" : String,
+        "creationDate": LocalDate,
+        "acceptanceDate": nullable LocalDate,
+        "secretaryStatus": RequestProposalStatus,
+        "supervisorStatus": RequestProposalStatus
+}
+```
+
+```
+RequestProposalStatus {
+    PENDING,
+    ACCEPTED,
+    REJECTED
+}
+```
+
+## Request of Proposal APIs
+
+- Create a new Request of Proposal
+	- POST ___`/API/requestProposal`___
+	- Request body must contain a RequestProposalDTO object with the `"id" = null`.
+	- Return CREATED status and the just saved RequestProposalDTO with the new _id_ field if success.
+    - Return BAD_REQUEST if the student has already created that proposal or if
+      the professor doesn't exist.
+- Update an existing Request of Proposal
+    - PUT ___`/API/requestProposal/{requestProposalID}`___
+    - Request body must contain the updated RequestProposalDTO object.
+    - Return OK status and the just updated and saved RequestProposalDTO object if success.
+    - Return NOT_FOUND if the RequestProposal doesn't exist.
+- Get an existing Request of Proposal
+	- GET ___`/API/requestProposal/{requestProposalID}`___
+	- Return the requested RequestProposalDTO if exists, otherwise response code 404.
+- Get all existing Request of Proposals
+	- GET ___`/API/requestProposal`___
+	- Return an array of RequestProposalDTO objects. It contains all the Request of Proposals in the database.
+- Get all the Request of Proposals by a specific student
+	- GET ___`/API/requestProposal/byStudent/{studentID}`___
+	- Return an array of RequestProposalDTO objects. The Request of Proposals are the only ones created by 
+      the student specified in the URL.
+- Acceptance / rejection of a Request of Proposal by the secretary
+	- PUT ___`/API/requestProposal/bySecretary/[accept||reject]/{requestProposalID}`___
+- Acceptance / rejection of a Request of Proposal by the supervisor
+	- PUT ___`/API/requestProposal/bySupervisor/[accept||reject]/{requestProposalID}`___
+- Delete an existing Request of Proposal
+	- DELETE ___`/API/requestProposal/{requestProposalID}`___
+	- Return the status OK when success, NOT_FOUND otherwise.
