@@ -115,6 +115,22 @@
         "clientRole": false,
         "containerId": "e9cc7420-5cde-475c-aa80-04e23918231f",
         "attributes": {}
+      },
+      {
+        "id": "84354e65-1d5d-4d85-b2bf-9b5a0f355c2b",
+        "name": "SECRETARY",
+        "description": "secretary role",
+        "composite": true,
+        "composites": {
+          "client": {
+            "springboot-keycloak-client": [
+              "SECRETARY"
+            ]
+          }
+        },
+        "clientRole": false,
+        "containerId": "e9cc7420-5cde-475c-aa80-04e23918231f",
+        "attributes": {}
       }
     ],
     "client": {
@@ -333,6 +349,15 @@
       "security-admin-console": [],
       "admin-cli": [],
       "springboot-keycloak-client": [
+        {
+          "id": "ed13120d-98a7-4fc3-9141-3d4957f489b1",
+          "name": "SECRETARY",
+          "description": "sercretary client role",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "adc86888-972e-4028-8053-b2e99f5809e7",
+          "attributes": {}
+        },
         {
           "id": "f40a786b-e44f-423b-91e4-f07353875522",
           "name": "STUDENT",
