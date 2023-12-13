@@ -100,6 +100,9 @@ const ArchivedProposals = () => {
                                                     {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
                                                         {proposal.archived}
                                                     </Badge>}
+                                                    {proposal.archived === "MANUALLY_ARCHIVED" && <Badge bg={"warning"}>
+                                                        {proposal.archived}
+                                                    </Badge>}
                                                 </div>
                                             </Row>
 
