@@ -50,7 +50,7 @@ services:
 
 
   keycloak:
-    image: nico331/keycloak
+    image: nico331/custom_keycloak
     container_name: custom_keycloak
   #    environment:
   #      KEYCLOAK_ADMIN: "admin"
