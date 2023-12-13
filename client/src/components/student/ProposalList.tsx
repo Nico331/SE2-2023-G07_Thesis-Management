@@ -36,7 +36,7 @@ const ProposalList = () => {
         const response = await ProposalService.fetchAllProposalsFiltered("");
         setProposals(response.data);
         setPropsOnScreen(response.data.sort((a,b) => {return a.title.localeCompare(b.title)}));
-        setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
+        setCollapseState(response.data.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     };
 
     const getProfessors = async () => {
@@ -66,6 +66,8 @@ const ProposalList = () => {
             return { ...prev, [navId]: !prev[navId] };
         });
     };
+
+    console.log(collapseState);
 
     return (
         <>
@@ -105,9 +107,9 @@ const ProposalList = () => {
                                     propsOnScreen.map((p) =>
                                         <ListGroupItem className="mt-2 p-3" key={"proposal"+p.id}>
                                             <Card>
-                                                <CardHeader onClick={() => handleClick(p.title)} style={{ cursor: "pointer" }}>
+                                                <CardHeader onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
                                                     {p.title}
-                                                    {collapseState[p.title] ?
+                                                    {collapseState[p.id] ?
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">
                                                             <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
                                                         </svg> :
@@ -116,7 +118,7 @@ const ProposalList = () => {
                                                         </svg>
                                                     }
                                                 </CardHeader>
-                                                <Collapse in={collapseState[p.title]}>
+                                                <Collapse in={collapseState[p.id]}>
                                                     <CardBody>
                                                         <Container className="ms-0 p-0">
                                                             <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
