@@ -68,6 +68,7 @@ const ProposalForm: React.FC = () => {
     }, []);
 
     const navigate = useNavigate();
+    const [validated, setValidated] = useState(false);
 
     const [alert, setAlert] = useState<{
         type: string;
@@ -161,6 +162,7 @@ const ProposalForm: React.FC = () => {
                     setAlert({type: 'danger', message: 'Error!'});
                 });
         } else {
+            setValidated(true);
             setAlert({type: 'danger', message: errorMessage});
         }
     };
@@ -169,13 +171,14 @@ const ProposalForm: React.FC = () => {
     return (
         <Container>
             <h1 style={{marginTop: "110px"}}>New Thesis Proposal</h1>
-            <Form className="mt-5" onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} className="mt-5" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlId="title">
                             <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 placeholder="Enter title"
                                 value={proposal.title}
@@ -186,7 +189,7 @@ const ProposalForm: React.FC = () => {
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlId="type">
                             <Form.Label className="h3">Type*</Form.Label>
-                            <Form.Control as="select" value={proposal.type}
+                            <Form.Control required as="select" value={proposal.type}
                                           onChange={(e) => setProposal({...proposal, type: e.target.value})}>
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
@@ -202,7 +205,7 @@ const ProposalForm: React.FC = () => {
                     <div className="col-lg-6 col-md-12">
                         <Form.Group controlId="level">
                             <Form.Label className="h3">Level*</Form.Label>
-                            <Form.Control as="select" value={proposal.level}
+                            <Form.Control required as="select" value={proposal.level}
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}>
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
@@ -214,10 +217,16 @@ const ProposalForm: React.FC = () => {
                         <Form.Group controlId="expiration">
                             <Form.Label className="h3">Expiration*</Form.Label>
                             <Form.Control
+                                required
                                 type="date"
                                 placeholder="Enter expiration"
                                 value={proposal.expiration.format("YYYY-MM-DD")}
-                                onChange={(e) => setProposal({...proposal, expiration: dayjs(e.target.value)})}
+                                onChange={(e) => {
+                                    e.target.value === "" ?
+                                        setProposal({...proposal, expiration: dayjs()})
+                                    :
+                                        setProposal({...proposal, expiration: dayjs(e.target.value)});
+                                }}
                                 min={new Date().toISOString().split("T")[0]}
                             />
                         </Form.Group>
