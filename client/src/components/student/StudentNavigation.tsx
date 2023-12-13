@@ -53,6 +53,7 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
                             onMouseLeave={handleMouseLeave} >
                             <NavDropdown.Item onClick={() => navigate("/proposalList")}> Search proposals </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/myApplicationList")} > My Applications </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/requestForm")} > New Thesis Request </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
                             <NavDropdown.Item onClick={() => logOut()}>Logout</NavDropdown.Item>
                         </NavDropdown>

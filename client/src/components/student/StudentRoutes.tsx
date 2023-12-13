@@ -8,6 +8,7 @@ import React, {Dispatch, SetStateAction} from "react";
 import Logout from "../login/Logout";
 import StudentApplicationsListCollapse from "./StudentApplicationsListCollapse";
 import MainNavBar from "../NavBar";
+import StartRequest from "./StartRequest";
 
 type StudentRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -28,6 +29,7 @@ const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRoleState }) =>{
                 <Route path="/apply/:proposalID" element={<StudentApplyForm />} />
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
                 <Route path="/myApplicationList" element={<StudentApplicationsListCollapse/>} />
+                <Route path="/requestForm" element={<StartRequest/>}/>
             </Routes>
         </>
     )
