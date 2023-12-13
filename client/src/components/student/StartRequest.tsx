@@ -16,10 +16,13 @@ interface Professor {
 interface Request {
     id: string | null;
     title: string;
-    description: string;
-    supervisor: string;
+    studentId: string;
+    supervisorId: string;
     coSupervisors: string[];
-    approvalDate: dayjs.Dayjs;
+    description: string;
+    acceptanceDate: dayjs.Dayjs;
+    secretaryStatus: string;
+    supervisorStatus: string;
 }
 
 const StartRequest: React.FC = () => {
@@ -27,10 +30,13 @@ const StartRequest: React.FC = () => {
     const [request, setRequest] = useState<Request>({
         id: null,
         title: '',
-        description: '',
-        supervisor: '',
+        studentId: JSON.parse(user).id,
+        supervisorId: '',
         coSupervisors: [],
-        approvalDate: null
+        description: '',
+        acceptanceDate: null,
+        secretaryStatus: 'PENDING',
+        supervisorStatus: 'PENDING'
     });
 
     const [professors, setProfessors] = useState<Professor[]>([]);
@@ -75,7 +81,7 @@ const StartRequest: React.FC = () => {
             errorMessage += `Title should have a value, `;
         }
 
-        if (request.supervisor.length === 0) {
+        if (request.supervisorId.length === 0) {
             valid = false;
             errorMessage += `Supervisor should have a value, `;
         }
@@ -123,8 +129,8 @@ const StartRequest: React.FC = () => {
                     <div >
                         <Form.Group controlId="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
-                            <Form.Control as="select" value={request.supervisor}
-                                          onChange={(e) => setRequest({...request, supervisor: e.target.value})}>
+                            <Form.Control as="select" value={request.supervisorId}
+                                          onChange={(e) => setRequest({...request, supervisorId: e.target.value})}>
                                 <option value="">Select the supervisor</option>
                                 {
                                     professors.map((professor) =>

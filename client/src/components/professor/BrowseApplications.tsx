@@ -87,12 +87,34 @@ const BrowseApplications = () => {
         window.URL.revokeObjectURL(url);
     };
 
+    useEffect(() => {
+        if (!showsuccessmodal.show) {
+            // Aggiorna la pagina dopo la chiusura del popup di successo
+            setRefresh((r) => !r);
+        }
+    }, [showsuccessmodal.show]);
+
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);
         setApplicationToAccept("");
-        ApplicationService.acceptApplication(applicationId).then( () => {
-            setRefresh( (r) => !r);
-        })
+        ApplicationService.acceptApplication(applicationId).then(() => {
+            setShowAlertModal({
+                show: true,
+                type: "success",
+                text: "Application accepted"
+            });
+
+            // Chiudi automaticamente il popup dopo 3 secondi
+            setTimeout(() => {
+                setShowAlertModal({
+                    show: false,
+                    type: "",
+                    text: ""
+                });
+                // Aggiorna la pagina dopo la chiusura del popup di successo
+                setRefresh((r) => !r);
+            }, 3000);
+        });
 
     };
 
@@ -100,9 +122,24 @@ const BrowseApplications = () => {
 
         setShowRejectPopup(false);
         setApplicationToReject("");
-        ApplicationService.rejectApplication(applicationId).then( () => {
-            setRefresh( (r) => !r)
-        })
+        ApplicationService.rejectApplication(applicationId).then(() => {
+            setShowAlertModal({
+                show: true,
+                type: "success",
+                text: "Application rejected"
+            });
+
+            // Chiudi automaticamente il popup dopo 3 secondi
+            setTimeout(() => {
+                setShowAlertModal({
+                    show: false,
+                    type: "",
+                    text: ""
+                });
+                // Aggiorna la pagina dopo la chiusura del popup di successo
+                setRefresh((r) => !r);
+            }, 3000);
+        });
     };
     const handleDelete = (proposalId) => {
         setShowDeletePopup(false);
