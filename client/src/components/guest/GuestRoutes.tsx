@@ -6,6 +6,7 @@ import Login from "../login/Login";
 import React, {Dispatch, SetStateAction} from "react";
 import MainNavBar from "../NavBar";
 import RequestedProposals from "../Secretary/RequestedProposals";
+import SecretaryMain from "../Secretary/SecretaryMain";
 
 type GuestRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -21,7 +22,6 @@ const GuestRoutes: React.FC<GuestRoutesProps> = ({setRoleState }) =>{
                     <Route index element={<GuestMain/>} />
                     {/*<Route path="/*" element={ <NotFound/> } />*/}
                 </Route>
-                <Route path="/requested-proposals" element={<RequestedProposals/>} />
                 <Route path="/login" element={<Login setRoleState={setRoleState}/>}/>
             </Routes>
         </>

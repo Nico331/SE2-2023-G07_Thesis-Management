@@ -3,7 +3,7 @@ import {ProfessorBrowseProposals} from './BrowseProposals'
 import {useNavigate} from "react-router-dom";
 import {Container, Image, Button, Col, Card, Row} from "react-bootstrap";
 
-const ZoomableContainer = (props) => {
+export const ZoomableContainer = (props) => {
     const [isHovered, setIsHovered] = useState(false);
     let navigate = useNavigate();
 

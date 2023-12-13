@@ -32,25 +32,7 @@ function UpdateProposal (props) {
         level: props.modifyproposal.level,
         cdS: props.modifyproposal.cdS,
         archived: props.modifyproposal.archived,
-    })
-
-    // -------------------------------------------
-    /* const [proposal, setProposal] = useState({
-        id: null,
-        archived: false,
-        title: '',
-        supervisor: '',
-        coSupervisors: [],
-        keywords: [],
-        type: '',
-        groups: [],
-        description: '',
-        requiredKnowledge: '',
-        notes: '',
-        expiration: dayjs(),
-        level: '',
-        cdS: [],
-    }); */
+    });
 
     interface ExternalCoSupervisor {
         email: string;
