@@ -58,9 +58,8 @@ const RequestedProposals = () => {
                 setRps(res.data);
             });
         }
-    }, [rps,refresh]);
+    }, []);
   
-    console.log(rps);
     const acceptRP = async (id) => {
             setConfirmed({show: false, type: "", id: ""});
             SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
@@ -141,12 +140,12 @@ const RequestedProposals = () => {
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
                                 <Col md={6}> <b> Co-supervisor: </b> 
-                                    {rps.map((rpu) => {
-                                        if (rpu.id === proposal.id) {
-                                            return rpu.coSupervisors.map((cosupervisor) => (
-                                                <>{cosupervisor}, </>
-                                            ))
-                                        }
+                                    {proposal.coSupervisors.map((cosupervisor) => {
+                                        return professors.map((professor) => {
+                                            if (professor.id === cosupervisor) {
+                                                return <>{professor.name} {professor.surname}, </>
+                                            }
+                                        })
                                     })}
                                 </Col>
                                 <Col md={6}><b>Supervisor:</b> {proposal.supervisorId}</Col>
