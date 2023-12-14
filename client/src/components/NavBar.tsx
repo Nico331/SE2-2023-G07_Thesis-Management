@@ -19,7 +19,7 @@ export default function MainNavBar ({role, user, setRole}) {
                     </Navbar.Brand>
 
                     <Col className="" md={4}>
-                        {role === "PROFESSOR" || role === "STUDENT" ? <VC/> : <></>}
+                        {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ? <VC/> : <></>}
                     </Col>
 
                     <Navbar.Brand className='links'>

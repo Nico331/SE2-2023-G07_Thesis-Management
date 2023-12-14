@@ -12,10 +12,7 @@ const RequestedProposals = () => {
 
     const {user, setUser} = useContext(UserContext);
     const [confirmed, setConfirmed] = useState({show: false, type: "", id: ""});
-    
-    // useEffect(() => {
-    //     
-    // }, []);
+    const [result, setResult] = useState({show: false, type: "", text: ""});
 
     const rp = [{
         id: "1",
@@ -63,54 +60,93 @@ const RequestedProposals = () => {
         }
     }, [rps,refresh]);
 
-    const acceptRP = (id) => {
-        setConfirmed({show: false, type: "", id: ""});
-        SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
-            console.log(res.data);
-        });
+    const acceptRP = async (id) => {
+            setConfirmed({show: false, type: "", id: ""});
+            SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
+                if(res.status === 200){
+                    setResult({show: true, type: 'success', text: 'Proposal accepted'});
+                    setTimeout(() => {
+                        setResult({show: false, type: "", text: ""});
+                        setRefresh(!refresh);
+                    }, 3000);
+                }else{
+                    setResult({show: true, type: 'error', text: "Error, try again later"});
+                    setTimeout(() => {
+                        setResult({show: false, type: "", text: ""});
+                        setRefresh(!refresh);
+                    }, 3000);
+                }
+            });
     }
 
     const rejectRP = (id) => {
         setConfirmed({show: false, type: "", id: ""});
-        SecretaryService.rejectRquestedProposalbySecretary(id).then((res) => {
-            console.log(res.data);
+        SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
+            if(res.status === 200){
+                setResult({show: true, type: 'success', text: 'Proposal Rejected'});
+                setTimeout(() => {
+                    setResult({show: false, type: "", text: ""});
+                    setRefresh(!refresh);
+                }, 3000);
+            }else{
+                setResult({show: true, type: 'error', text: "Error, try again later"});
+                setTimeout(() => {
+                    setResult({show: false, type: "", text: ""});
+                    setRefresh(!refresh);
+                }, 3000);
+            }
         });
     }
 
     return (
         <>
             <Container className="d-flex flex-column" fluid style={{marginTop: "100px"}}>
-                <h2>Requested Proposals</h2>
+                <Row>
+                    <h2>Requested Proposals</h2>
+                </Row>
             </Container>  
 
             <Accordion className='mt-5' >
-                {rp.map((proposal) => (
+                {rp.length === 0 ? (
+                    <p> There are not any requested proposal </p>
+                ) : 
+                rp.map((proposal) => (
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
                                 <Col sm={8}>{proposal.tittle}</Col>
                                 <Col sm={4}>
-                                    <Button style={{marginRight: '10px'}} className="btn btn-success" onClick={() => setConfirmed({show: true, type: 'confirm', id:proposal.id})}>Accept</Button>
-                                    <Button className="btn btn-danger" onClick={() => setConfirmed({show: true, type: 'reject', id:proposal.id})}>Reject</Button>
+                                    <Button style={{marginRight: '10px'}} 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setConfirmed({show: true, type: 'confirm', id:proposal.id})}
+                                    }
+                                    variant='success'>Accept</Button>
+
+                                    <Button className="btn btn-danger" 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setConfirmed({show: true, type: 'reject', id:proposal.id})}
+                                    }
+                                    variant='danger'>Reject</Button>
                                 </Col>
                             </Row>
-                            
                         </Accordion.Header>
 
                         <Accordion.Body style={{textAlign:'left'}}>
                             <Row className='w-100'>
-                                <Col md={6}><b>tittle:</b> {proposal.tittle}</Col>
+                                <Col md={6}><b>Tittle:</b> {proposal.tittle}</Col>
                                 <Col md={6}><b>Student ID:</b> {proposal.studentID}</Col>
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
                                 <Col md={6}> <b> Co-supervisor: </b> 
-                                    {/* {rp.map((rpu) => {
+                                    {rp.map((rpu) => {
                                         if (rpu.id === proposal.id) {
                                             return rpu.cosupervisor.map((cosupervisor) => (
                                                 <>{cosupervisor}, </>
                                             ))
                                         }
-                                    })} */}
+                                    })}
                                 </Col>
                                 <Col md={6}><b>Supervisor:</b> {proposal.supervisor}</Col>
                                 
@@ -136,6 +172,18 @@ const RequestedProposals = () => {
                 ))}
             </Accordion>
 
+            <Modal show={result.show} onHide={() => setResult({show: false, type: "", text: ""})}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        {result.type==="success" ? <>Success</> : 
+                        result.type==="error" ? <>Error</> : null}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {result.text}
+                </Modal.Body>
+            </Modal>
+            
             <Modal show={confirmed.show} onHide={() => setConfirmed({show: false, type: "", id: ""})}>
                 <Modal.Header closeButton>
                     <Modal.Title>
@@ -152,6 +200,8 @@ const RequestedProposals = () => {
                     <button className="btn btn-danger" onClick={() => rejectRP(confirmed.id)}>No</button>
                 </Modal.Footer>
             </Modal>
+
+            
         </>
     );
 };

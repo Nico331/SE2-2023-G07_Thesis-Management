@@ -45,7 +45,7 @@
 
 - `BrowseApplications` (in `BrowseApplications.tsx`): Components that shows all the proposal and gives access to the professor to manage them including checking the applications for each proposal, managing the applications, and modifying or deleting the proposal.
 
-<img src="guideImages/professorProposals.jpg" alt="ProfessorProposalsPage" width="500"/>
+<img src="guideImages/professorProposal.png" alt="ProfessorProposalsPage" width="500"/>
 
 - `ProposalForm` (in `ProposalForm.tsx`): The component that includes a form for adding a new proposal.
 
@@ -74,4 +74,8 @@
 - `SecretaryRoutes` (in `StudentRoutes.tsx`): Component of secretary routes and navigation bar.
 - `SecretaryMain` (in `SecretaryMain.tsx`): This component is the main page that the secretary will see after the login.
 
+<img src="guideImages/secretaryMain.png" alt="SecretaryMainPage" width="500"/>
+
 - `RequestedProposals` (in `RequestedProposals.tsx`): Component of all requested proposals that are registered by students and the secretary can accept or reject them.
+
+<img src="guideImages/requestedProposals.png" alt="RequestedProposalsPage" width="500"/>
