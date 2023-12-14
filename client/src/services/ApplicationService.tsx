@@ -22,10 +22,20 @@ export default {
         });
     },
 
-    createApplication(application, fileDTO){
+    createApplicationWithFile(application, fileDTO){
 
         console.log(fileDTO)
         return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, fileDTO,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
+    createApplication(proposalId, studentId){
+
+        return axios.post(`${endpoint}/apply/${proposalId}/${studentId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("token")

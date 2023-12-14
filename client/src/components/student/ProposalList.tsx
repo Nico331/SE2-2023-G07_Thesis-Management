@@ -124,7 +124,7 @@ const ProposalList = () => {
                                                             {myApps.find((a) => a.status === "PENDING") &&
                                                                 <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
                                                                 <Container className="mt-2" style={{color: "red"}}>You already have a pending application</Container></>}
-                                                            {myApps.find((a) => a.status === "PENDING") &&
+                                                            {myApps.find((a) => a.status === "ACCEPTED") &&
                                                                 <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
                                                                 <Container className="mt-2" style={{color: "red"}}>You already have an accepted application</Container></>}
                                                             {!myApps.find((a) => (a.status === "PENDING" || a.status === "ACCEPTED")) &&

@@ -122,27 +122,34 @@ function StudentApplyForm(props) {
         setShowModalConfirmation(false);
 
         try {
-            const requestData = {
-                proposalId:proposalID,
-                studentId:user.id,
-                //file
-                file: undefined
-            };
-
+            console.log(file);
             // Aggiungi il file alla richiesta solo se è presente
 
-            file.arrayBuffer().then((fileContent)=>{
-
-                const fileDTO = {
-                    content: Array.from(new Uint8Array(fileContent)),
-                    name: file && file.name,
-                    originalFilename: file && file.name,
-                    contentType: file && file.type,
-                };
-                ApplicationService.createApplication(requestData, fileDTO).then(()=>{
+            if (file === null) {
+                ApplicationService.createApplicationWithFile({proposalId:proposalID, studentId:user.id,}, null).then(() => {
                     setShowModal(true);
                 });
-            });
+            }
+            else {
+                const requestData = {
+                    proposalId:proposalID,
+                    studentId:user.id,
+                    //file
+                    file: undefined
+                };
+
+                file.arrayBuffer().then((fileContent) => {
+                    const fileDTO = {
+                        content: Array.from(new Uint8Array(fileContent)),
+                        name: file && file.name,
+                        originalFilename: file && file.name,
+                        contentType: file && file.type,
+                    };
+                    ApplicationService.createApplicationWithFile(requestData, fileDTO).then(() => {
+                        setShowModal(true);
+                    });
+                })
+            }
         } catch (error) {
             console.error('Errore durante l\'invio al server:', error);
             setShowModalError(true);
