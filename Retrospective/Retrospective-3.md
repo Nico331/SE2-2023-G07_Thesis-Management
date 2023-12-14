@@ -1,4 +1,4 @@
-# RETROSPECTIVE 02 (Team 07)
+# RETROSPECTIVE 03 (Team 07)
 
 The retrospective should include _at least_ the following
 sections:
@@ -79,31 +79,37 @@ Moreover the #102 for some reason was not counted in the reports.</span>
 
 - What caused your errors in estimation (if any)?
 
+ > Due to the experience acquired in the previous sprints we didn't get outstanding errors.
+
 - What lessons did you learn (both positive and negative) in this sprint?
 
-  > We learnt that the more efficient and effective way to achieve stories is following the point priority order.
+ > We have to test better a task before committing it.
 
-  > Tasks we did not work on (0 time spent) are not considered for the estimation report in YouTrack. A possible solution is add a 1m spent time.
+ > If something isn't working properly (a story not completed) better not to show it during the demo.
+
+ > Build the environment some time before the demo.
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
 
-  > We wrote better and cleaner code.
+ > We have prepared some realistic test data for the demo.
 
-  > We tested in a deeper way.
+ > The tasks have been split properly between team members, in particular the mole of work for backend was
+ > approximately equal to the one for frontend.
 
-  > We managed working time in a better and more homogeneous way during the sprint.
+ > We are trying to consider also the technical debt when we plan the sprint.
 
 - Which ones you were not able to achieve? Why?
 
-  > The work's organization has not been improved yet in terms of clearer division of work between the team members. This has been due to the fact that we created more backend tasks than the frontend ones. Change a role member (frontend to backend) would have been more expensive (because of the training and learning time required).
+ > We think that we achieved the improvement goals set in the previous sprint.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
-  > For the next demo presentation, we should prepare some realistic test data.
+ > For the next sprint we must test the entire system and prepare the environment some hour before the demo.
 
-  > We should manage and reduce the technical debt.
+ > The frontend team have to manage in a better way the errors in order not to lose much time when some problem arises.
 
 - One thing you are proud of as a Team!
 
-  > We are getting to know each other better and beginning to trust each others skills more.
+ > The communication between team members is getting better and better.
 
+ > We have completed a lot of stories during this sprint.
