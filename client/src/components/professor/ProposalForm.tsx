@@ -155,7 +155,7 @@ const ProposalForm: React.FC = () => {
                 .then(() => {
                     setAlert({type: 'success', message: 'The proposal has been created correctly! Redirecting to the homepage in 3 seconds...'});
                     setTimeout(() => {
-                        navigate('/browse-applications');
+                        navigate('/');
                     }, 3000);
                 })
                 .catch(() => {

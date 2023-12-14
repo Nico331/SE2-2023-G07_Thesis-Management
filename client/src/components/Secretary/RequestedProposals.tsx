@@ -58,7 +58,7 @@ const RequestedProposals = () => {
                 setRps(res.data);
             });
         }
-    }, [rps,refresh]);
+    }, [refresh]);
 
     const acceptRP = async (id) => {
             setConfirmed({show: false, type: "", id: ""});
@@ -67,13 +67,13 @@ const RequestedProposals = () => {
                     setResult({show: true, type: 'success', text: 'Proposal accepted'});
                     setTimeout(() => {
                         setResult({show: false, type: "", text: ""});
-                        setRefresh(!refresh);
+                        // setRefresh(!refresh);
                     }, 3000);
                 }else{
                     setResult({show: true, type: 'error', text: "Error, try again later"});
                     setTimeout(() => {
                         setResult({show: false, type: "", text: ""});
-                        setRefresh(!refresh);
+                        // setRefresh(!refresh);
                     }, 3000);
                 }
             });
@@ -108,13 +108,13 @@ const RequestedProposals = () => {
 
             <Accordion className='mt-5' >
                 {rp.length === 0 ? (
-                    <p> There are not any requested proposal </p>
+                    <p> There are any requested proposal </p>
                 ) : 
-                rp.map((proposal) => (
+                rps.map((proposal) => (
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
-                                <Col sm={8}>{proposal.tittle}</Col>
+                                <Col sm={8}>{proposal.title}</Col>
                                 <Col sm={4}>
                                     <Button style={{marginRight: '10px'}} 
                                     onClick={(e) => {
@@ -135,11 +135,12 @@ const RequestedProposals = () => {
 
                         <Accordion.Body style={{textAlign:'left'}}>
                             <Row className='w-100'>
-                                <Col md={6}><b>Tittle:</b> {proposal.tittle}</Col>
-                                <Col md={6}><b>Student ID:</b> {proposal.studentID}</Col>
+                                <Col md={6}><b>Title:</b> {proposal.title}</Col>
+                                <Col md={6}><b>Student ID:</b> {proposal.studentId}</Col>
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
-                                <Col md={6}> <b> Co-supervisor: </b> 
+                                <Col md={6}><b>Supervisor:</b> {proposal.supervisorId}</Col>
+                                <Col md={6}> <b> Co-supervisor: </b>
                                     {rp.map((rpu) => {
                                         if (rpu.id === proposal.id) {
                                             return rpu.cosupervisor.map((cosupervisor) => (
@@ -148,22 +149,20 @@ const RequestedProposals = () => {
                                         }
                                     })}
                                 </Col>
-                                <Col md={6}><b>Supervisor:</b> {proposal.supervisor}</Col>
-                                
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
-                                <Col md={6}> <b> Company: </b> {proposal.company}</Col>
+                                {/*<Col md={6}> <b> Company: </b> {proposal.company}</Col>*/}
                                 
                                 <Col md={6}> <b> Level: </b> {proposal.level}</Col>
                             </Row>
-                            <Row className='w-100' style={{marginTop: '10px'}}>
-                                <Col md={6}> <b> Creation Date: </b> {proposal.creationDate}</Col>
-                                <Col md={6}> <b> Acceptance Date: </b> {proposal.acceptanceDate}</Col>
-                            </Row>
-                            <Row className='w-100' style={{marginTop: '10px'}}>
-                                <Col md={6}> <b> Secretary Status: </b> {proposal.secretaryStatus}</Col>
-                                <Col md={6}> <b> Supervisor Status: </b> {proposal.supervisorStatus}</Col>
-                            </Row>
+                            {/*<Row className='w-100' style={{marginTop: '10px'}}>*/}
+                            {/*    <Col md={6}> <b> Creation Date: </b> {proposal.creationDate}</Col>*/}
+                            {/*    <Col md={6}> <b> Acceptance Date: </b> {proposal.acceptanceDate}</Col>*/}
+                            {/*</Row>*/}
+                            {/*<Row className='w-100' style={{marginTop: '10px'}}>*/}
+                            {/*    <Col md={6}> <b> Secretary Status: </b> {proposal.secretaryStatus}</Col>*/}
+                            {/*    <Col md={6}> <b> Supervisor Status: </b> {proposal.supervisorStatus}</Col>*/}
+                            {/*</Row>*/}
                             <Row className='w-100' style={{marginTop: '10px'}}>
                                 <Col md={6}> <b> Description: </b> {proposal.description}</Col>
                             </Row>
