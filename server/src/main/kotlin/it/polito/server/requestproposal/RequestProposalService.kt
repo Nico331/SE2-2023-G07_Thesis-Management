@@ -60,8 +60,6 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
         requestProposal.acceptanceDate = LocalDate.now()
         requestProposalRepository.save(requestProposal.copy(secretaryStatus = RequestProposalStatus.ACCEPTED))
 
-
-
         return ResponseEntity.ok("Request Proposal '$id' accepted successfully")
     }
 

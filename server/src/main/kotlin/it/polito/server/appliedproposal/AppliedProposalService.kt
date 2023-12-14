@@ -65,6 +65,7 @@ class AppliedProposalService(
             appProposals.forEach{appProposal->
                 run {
                     if (appProposal.status == ApplicationStatus.PENDING || appProposal.status == ApplicationStatus.ACCEPTED) {
+                        println(appProposal)
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).")
                     }
                 }
@@ -128,7 +129,7 @@ class AppliedProposalService(
         applicationsToReject.map { applicationToReject->
             if (applicationToReject.status==ApplicationStatus.PENDING && applicationToReject.id!=applicationId){
                 appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.CANCELLED))
-                /*val proposal = proposalService.findProposalById(applicationToReject.proposalId)
+                val proposal = proposalService.findProposalById(applicationToReject.proposalId)
                 if(proposal!=null){
                     emailService.sendSimpleMessage(
                         "${applicationToReject.studentId}@studenti.polito.it",
@@ -138,12 +139,12 @@ class AppliedProposalService(
                                 "\nGestione Didattica",
                         "no-reply@studenti.polito.it"
                     )
-                }*/
+                }
             }
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
-        /*val proposal = proposalService.findProposalById(applicationId)
+        val proposal = proposalService.findProposalById(applicationId)
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
@@ -156,7 +157,7 @@ class AppliedProposalService(
                     "no-reply@studenti.polito.it"
                 )
             }
-        }*/
+        }
 
         //SETS the PROPOSAL as MANUALLY_ARCHIVED
         proposalService.manuallyArchivedProposal(appliedProposal.proposalId)
@@ -190,7 +191,7 @@ class AppliedProposalService(
 
         //ONLY REJECTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
-        /*val proposal = proposalService.findProposalById(applicationId)
+        val proposal = proposalService.findProposalById(applicationId)
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
@@ -203,7 +204,7 @@ class AppliedProposalService(
                     "no-reply@studenti.polito.it"
                 )
             }
-        }*/
+        }
 
         return ResponseEntity.ok().body("Successful operation")
     }
