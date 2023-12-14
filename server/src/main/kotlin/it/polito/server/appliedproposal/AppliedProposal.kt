@@ -22,7 +22,7 @@ data class AppliedProposal(
             proposalId = this.proposalId,
             studentId = this.studentId,
             status = this.status,
-            file = if (this.file != null) FileDTO(this.file, "application_attachment_" + this.id, "originalFileName", "application/pdf") else null
+            file = if (this.file != null) FileDTO(this.file, "application_attachment_" + this.studentId, "originalFileName", "application/pdf") else null
     )
 }
 
