@@ -61,7 +61,7 @@ jib {
     from {
         auth {
             username = "nico331"//System.getenv("REGISTRY_USERNAME")
-            password = System.getenv("REGISTRY_PASSWORD")
+            password = "Roberta6ilmioamore!"//System.getenv("REGISTRY_PASSWORD")
         }
     }
 }
