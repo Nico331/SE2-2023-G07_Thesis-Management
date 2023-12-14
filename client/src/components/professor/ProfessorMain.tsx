@@ -46,7 +46,6 @@ export const ZoomableContainer = (props) => {
 
 const ProfessorMain= () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-    let navigate = useNavigate();
 
     return (
         <Container className="d-flex flex-column" style={{height:"100vh"}}>
@@ -61,9 +60,6 @@ const ProfessorMain= () => {
                         <ZoomableContainer title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
                         <ZoomableContainer title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
                     </Row>
-                    {/*<Button className="fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/add-proposal")}>Add a new thesis proposal</Button>*/}
-                    {/*<Button className="mt-4 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/browse-applications")}>My thesis proposals</Button>*/}
-                    {/*<Button className="mt-4 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/archived-proposals")}>Archive</Button>*/}
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">
                     <Image className="ratio ratio-16x9" style={{ maxWidth: 400, maxHeight: 167 }} src={"../logoPolito.png"}/>

@@ -129,7 +129,7 @@ const StartRequest: React.FC = () => {
                     <div >
                         <Form.Group controlId="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
-                            <Form.Control as="select" value={request.supervisorId}
+                            <Form.Control required as="select" value={request.supervisorId}
                                           onChange={(e) => setRequest({...request, supervisorId: e.target.value})}>
                                 <option value="">Select the supervisor</option>
                                 {

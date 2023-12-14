@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
     const credentialsWrong = () => {
         setAlert(true);
         setValidated(true);
-        setEmailOrUsername('');
+        // setEmailOrUsername('');
         setPassword('');
     }
 

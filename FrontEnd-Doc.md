@@ -45,7 +45,7 @@
 
 - `BrowseApplications` (in `BrowseApplications.tsx`): Components that shows all the proposal and gives access to the professor to manage them including checking the applications for each proposal, managing the applications, and modifying or deleting the proposal.
 
-<img src="guideImages/ProfessorProposals.jpg" alt="ProfessorProposalsPage" width="500"/>
+<img src="guideImages/professorProposals.jpg" alt="ProfessorProposalsPage" width="500"/>
 
 - `ProposalForm` (in `ProposalForm.tsx`): The component that includes a form for adding a new proposal.
 

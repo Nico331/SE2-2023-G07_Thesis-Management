@@ -20,7 +20,7 @@ const ZoomableContainer = (props) => {
     };
 
     return (
-        <Col xs={12} md={6}>
+        <Col xs={12} md={4}>
             <Container
                 style={containerStyle}
                 onMouseEnter={() => setIsHovered(true)}
@@ -50,7 +50,7 @@ const StudentMain = () => {
 
     return (
         <Container className="d-flex flex-column" style={{height:"100vh"}}>
-            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingTop:"10px", paddingBottom:"80px"}}>
+            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
                 <Container className="p-3 text-center">
                     <h1>Hi {user.name}!</h1>
                     <h1>Welcome to Polito thesis management system</h1>
@@ -61,8 +61,6 @@ const StudentMain = () => {
                         <ZoomableContainer title={"My Applications"} link={"/myApplicationList"} description={"Explore your applications and check their status."}></ZoomableContainer>
                         <ZoomableContainer title={"New Thesis Request"} link={"/requestForm"} description={"Insert a new thesis request"}></ZoomableContainer>
                     </Row>
-                    {/*<Button className="fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/proposalList")}>Search for a thesis proposal</Button>*/}
-                    {/*<Button className="mt-5 fs-3" variant="outline-primary" style={{borderRadius:"30px", width:"400px", height:"60px"}} onClick={() => navigate("/myApplicationList")}>My proposals applications</Button>*/}
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">
                     <Image className="ratio ratio-16x9" style={{ width: 400, height: 167 }} src={"../logoPolito.png"}/>

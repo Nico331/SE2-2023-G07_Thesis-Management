@@ -131,6 +131,16 @@ export default function MainNavBar ({role, user, setRole}) {
                                                     </Nav.Link>
                                                 </Row>
                                                 <Row>
+                                                    <Nav.Link href="/requestForm">
+                                                        <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                                <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                                            </svg>
+                                                            <p className="ms-3 my-0 fs-3">New Thesis Request</p>
+                                                        </Container>
+                                                    </Nav.Link>
+                                                </Row>
+                                                <Row>
                                                     <Nav.Link href="/logout">
                                                         <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-box-arrow-right" viewBox="0 0 16 16">
