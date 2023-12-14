@@ -58,7 +58,7 @@ const RequestedProposals = () => {
                 setRps(res.data);
             });
         }
-    }, [refresh]);
+    }, [rps,refresh]);
 
     const acceptRP = async (id) => {
             setConfirmed({show: false, type: "", id: ""});
@@ -67,13 +67,13 @@ const RequestedProposals = () => {
                     setResult({show: true, type: 'success', text: 'Proposal accepted'});
                     setTimeout(() => {
                         setResult({show: false, type: "", text: ""});
-                        // setRefresh(!refresh);
+                        setRefresh(!refresh);
                     }, 3000);
                 }else{
                     setResult({show: true, type: 'error', text: "Error, try again later"});
                     setTimeout(() => {
                         setResult({show: false, type: "", text: ""});
-                        // setRefresh(!refresh);
+                        setRefresh(!refresh);
                     }, 3000);
                 }
             });
@@ -110,11 +110,11 @@ const RequestedProposals = () => {
                 {rp.length === 0 ? (
                     <p> There are any requested proposal </p>
                 ) : 
-                rps.map((proposal) => (
+                rp.map((proposal) => (
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
-                                <Col sm={8}>{proposal.title}</Col>
+                                <Col sm={8}>{proposal.tittle}</Col>
                                 <Col sm={4}>
                                     <Button style={{marginRight: '10px'}} 
                                     onClick={(e) => {
@@ -199,8 +199,6 @@ const RequestedProposals = () => {
                     <button className="btn btn-danger" onClick={() => rejectRP(confirmed.id)}>No</button>
                 </Modal.Footer>
             </Modal>
-
-            
         </>
     );
 };
