@@ -40,56 +40,6 @@ export const ProfessorBrowseProposals = (props) => {
         console.log(propsOnScreen);
     }, [propsOnScreen]);
 
-    const profs = [
-        {
-            id: "12m0e9rdk2mefkw0349ikfdwde",
-            name: "Elizabeth",
-            surname: "Taylor",
-            email: "elizabeth.taylor@university.edu",
-            codGroup: "MATH-CG",
-            codDepartment: "MATH-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "wocwkje029fkm3f9834j09feio",
-            name: "John",
-            surname: "Smith",
-            email: "john.smith@university.edu",
-            codGroup: "PHYS-CG",
-            codDepartment: "PHYS-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "vmewokc304r3409fk305rtgi54r09",
-            name: "Susan",
-            surname: "Brown",
-            email: "susan.brown@university.edu",
-            codGroup: "CHEM-CG",
-            codDepartment: "CHEM-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "cmweijf39efk340f9i3k4f034f3ed",
-            name: "Robert",
-            surname: "Wilson",
-            email: "robert.wilson@university.edu",
-            codGroup: "COMP-CG",
-            codDepartment: "COMP-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        },
-        {
-            id: "coijef0932k4f09r3igf0g54f34fr3e",
-            name: "Patricia",
-            surname: "Garcia",
-            email: "patricia.garcia@university.edu",
-            codGroup: "BIO-CG",
-            codDepartment: "BIO-DEP",
-            passwordHash: "$2a$12$6OSKfeM73ZRKNbVdrtvFvuazBTYREUfaLAUuAA/W2hvqhmUlIExYe"
-        }
-    ];
-
-    const [professors, setProfessors] = useState(profs);
-    const [proposals, setProposals] = useState(propsOnScreen)
     const [collapseState, setCollapseState] = useState(propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
