@@ -75,14 +75,14 @@ class AppliedProposalService(
         val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file?.content)
         val appliedProposal = appliedProposalRepository.save(application)
         val professor = professorRepository.findById(proposal.get().supervisor).get()
-        /*emailService.sendSimpleMessage(
+        emailService.sendSimpleMessage(
             professor.email,
             "New application",
             "There is a new application for \"${proposal.get().title}\" proposal by the student ${student.get().name} ${student.get().surname}" +
                     "\nBest regards" +
                     "\nGestione Didattica",
             "no-reply@polito.it"
-        )*/
+        )
         return  ResponseEntity.ok(appliedProposal.toDTO())
 
     }
@@ -144,7 +144,7 @@ class AppliedProposalService(
         }
         //ONLY ACCEPTED this application
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.ACCEPTED))
-        val proposal = proposalService.findProposalById(applicationId)
+        val proposal = proposalService.findProposalById(appliedProposal.proposalId)
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
@@ -190,11 +190,15 @@ class AppliedProposalService(
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
 
         //ONLY REJECTED this application
+        println("In reject application")
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
-        val proposal = proposalService.findProposalById(applicationId)
+        val proposal = proposalService.findProposalById(appliedProposal.proposalId)
         if(proposal!=null){
+            println("proposal ook")
             if(professorRepository.findById(proposal.supervisor).isPresent){
+                println("professor ook")
                 val professor = professorRepository.findById(proposal.supervisor).get()
+                println("sending email to ${appliedProposal.studentId}")
                 emailService.sendSimpleMessage(
                     "${appliedProposal.studentId}@studenti.polito.it",
                     "Application rejected",

@@ -59,7 +59,7 @@ const RequestedProposals = () => {
             });
         }
     }, [refresh]);
-  
+
     const acceptRP = async (id) => {
             setConfirmed({show: false, type: "", id: ""});
             SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
@@ -81,7 +81,7 @@ const RequestedProposals = () => {
 
     const rejectRP = (id) => {
         setConfirmed({show: false, type: "", id: ""});
-        SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
+        SecretaryService.rejectRquestedProposalbySecretary(id).then((res) => {
             if(res.status === 200){
                 setResult({show: true, type: 'success', text: 'Proposal Rejected'});
                 setTimeout(() => {
@@ -104,31 +104,44 @@ const RequestedProposals = () => {
                 <Row>
                     <h2>Requested Proposals</h2>
                 </Row>
-            </Container>  
+            </Container>
 
             <Accordion className='mt-5' >
                 {rps.length === 0 ? (
                     <p> There are not any requested proposal </p>
-                ) : 
+                ) :
                 rps.map((proposal) => (
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
                                 <Col sm={8}>{proposal.title}</Col>
                                 <Col sm={4}>
-                                    <Button style={{marginRight: '10px'}} 
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setConfirmed({show: true, type: 'confirm', id:proposal.id})}
-                                    }
-                                    variant='success'>Accept</Button>
+                                    {
+                                        proposal.secretaryStatus==="PENDING" ?
+                                            <>
+                                                <Button style={{marginRight: '10px'}}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setConfirmed({show: true, type: 'confirm', id:proposal.id})}
+                                                        }
+                                                        variant='success'>Accept</Button>
 
-                                    <Button className="btn btn-danger" 
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setConfirmed({show: true, type: 'reject', id:proposal.id})}
+                                                <Button className="btn btn-danger"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setConfirmed({show: true, type: 'reject', id:proposal.id})}
+                                                        }
+                                                        variant='danger'>Reject</Button>
+                                            </> :
+                                            <>
+                                                <div>
+                                                    {proposal.secretaryStatus==="REJECTED" ?
+                                                        <div> "REJECTED" </div> :
+                                                        <div> "ACCEPTED" </div>
+                                                    }
+                                                </div>
+                                            </>
                                     }
-                                    variant='danger'>Reject</Button>
                                 </Col>
                             </Row>
                         </Accordion.Header>
@@ -139,7 +152,7 @@ const RequestedProposals = () => {
                                 <Col md={6}><b>Student ID:</b> {proposal.studentId}</Col>
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
-                                <Col md={6}> <b> Co-supervisor: </b> 
+                                <Col md={6}> <b> Co-supervisor: </b>
                                     {proposal.coSupervisors.map((cosupervisor) => {
                                         return professors.map((professor) => {
                                             if (professor.id === cosupervisor) {
@@ -149,11 +162,11 @@ const RequestedProposals = () => {
                                     })}
                                 </Col>
                                 <Col md={6}><b>Supervisor:</b> {professors.map((professor) => professor.id === proposal.supervisorId ?  professor.name + " " + professor.surname : null)} ({proposal.supervisorId})</Col>
-                                
+
                             </Row>
                             {/* <Row className='w-100' style={{marginTop: '10px'}}>
                                 <Col md={6}> <b> Company: </b> {proposal.company}</Col>
-                                
+
                                 <Col md={6}> <b> Level: </b> {proposal.level}</Col>
                             </Row> */}
                             {/* <Row className='w-100' style={{marginTop: '10px'}}>
@@ -175,7 +188,7 @@ const RequestedProposals = () => {
             <Modal show={result.show} onHide={() => setResult({show: false, type: "", text: ""})}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {result.type==="success" ? <>Success</> : 
+                        {result.type==="success" ? <>Success</> :
                         result.type==="error" ? <>Error</> : null}
                     </Modal.Title>
                 </Modal.Header>
@@ -183,25 +196,32 @@ const RequestedProposals = () => {
                     {result.text}
                 </Modal.Body>
             </Modal>
-            
+
             <Modal show={confirmed.show} onHide={() => setConfirmed({show: false, type: "", id: ""})}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {confirmed.type==="confirm" ? <>Accept Requested Proposal</> : 
+                        {confirmed.type==="confirm" ? <>Accept Requested Proposal</> :
                         confirmed.type==="reject" ? <>Reject Requested Proposal</> : null}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {confirmed.type==="confirm" ? <>Are you sure you want to accept this proposal?</> : 
+                    {confirmed.type==="confirm" ? <>Are you sure you want to accept this proposal?</> :
                     confirmed.type==="reject" ? <>Are you sure you want to reject this proposal?</> : null}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className="btn btn-success" onClick={() => acceptRP(confirmed.id)}>Yes</button>
-                    <button className="btn btn-danger" onClick={() => rejectRP(confirmed.id)}>No</button>
+                    {
+                        confirmed.type==="confirm" ?
+                            <button className="btn btn-success" onClick={() => acceptRP(confirmed.id)}>Yes</button> :
+                            <button className="btn btn-success" onClick={() => rejectRP(confirmed.id)}>Yes</button>
+                    }
+                    <button className="btn btn-danger" onClick={() => {
+                        setConfirmed({show: false, type: ""});
+                        setRefresh(!refresh);
+                    }}>No</button>
                 </Modal.Footer>
-            </Modal>    
+            </Modal>
         </>
     );
 };
 
-export default RequestedProposals;   
+export default RequestedProposals;
