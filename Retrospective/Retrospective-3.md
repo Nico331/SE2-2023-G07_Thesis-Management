@@ -54,12 +54,12 @@ Moreover the #102 for some reason was not counted in the reports.</span>
 
 - Hours per task average, standard deviation (estimate and actual)
     - Estimate:
-        - Average = 2h 55m
-        - Standard deviation = 3h
+        - Average = 2h 14m
+        - Standard deviation = 2h 9m
     - Actual:
-        - Average = 2h 50m
-        - Standard deviation = 2h 53m
-- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 122.5 / 120 - 1 = 0.02
+        - Average = 2h 20m
+        - Standard deviation = 2h 3m
+- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 110 / 115 - 1 = - 0.04
 
 ## QUALITY MEASURES
 
