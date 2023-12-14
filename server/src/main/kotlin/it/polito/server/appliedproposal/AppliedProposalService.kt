@@ -60,8 +60,16 @@ class AppliedProposalService(
         if(existingApplication != null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (APPLICATION ALREADY EXISTS).")
         //check if student already has an application
-        if(!appliedProposalRepository.existsAppliedProposalByStudentId(studentId))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).")
+        if(!appliedProposalRepository.existsAppliedProposalByStudentId(studentId)){
+            val appProposals = appliedProposalRepository.findByStudentId(studentId)
+            appProposals.forEach{appProposal->
+                run {
+                    if (appProposal.status == ApplicationStatus.PENDING || appProposal.status == ApplicationStatus.ACCEPTED) {
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).")
+                    }
+                }
+            }
+        }
 
         val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file?.content)
         val appliedProposal = appliedProposalRepository.save(application)
