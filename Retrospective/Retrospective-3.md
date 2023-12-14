@@ -13,7 +13,7 @@ sections:
 
 - Number of stories committed vs. done:<span style="color:green"> 9 committed and 7 done
 - Total points committed vs. done: <span style="color:green">35 committed and 27 done
-- Nr of hours planned vs. spent (as a team):<span style="color:green"> 112h planned and 115h done
+- Nr of hours planned vs. spent (as a team):<span style="color:green"> 112h planned and 117h done
 
 **Remember** a story is done ONLY if it fits the Definition of Done:
 
@@ -31,17 +31,17 @@ All the unit and e2e tests for the completed stories are passing.
 ### Detailed statistics
 
 | Story | # Tasks | Points | Hours est. | Hours actual |
-| ----- | ------- | ------ | ---------- | ------------ |
-| _#0_  | 28      |        | 68h       | 71h 45m         |
-| _#10_  | 1       | 8      | 6h         | 3h       |
-| _#12_  | 2       | 2      | 3h     | 3h       |
+| ----- | ------- | ------ |------------|--------------|
+| _#0_  | 28      |        | 66h        | 72h 15m      |
+| _#10_  | 1       | 8      | 6h         | 3h           |
+| _#12_  | 2       | 2      | 3h         | 3h           |
 | _#13_  | 3       | 3      | 3h         | 3h 30m       |
-| _#14_  | 1       | 3      | 1h         | 1h       |
-| _#15_  | 1       | 5      | 1h         | 30m       |
-| _#16_  | 1       | 3      | 2h         | 1h       |
-| _#17_ (NC)  | 3/4       | 3      | 6h         | 7h 30m      |
-| _#115_  | 3       | 3      | 9h         | 9h      |
-| _#116_ (NC)  | 4/7       | 5      | 16h 30m        | 9h      |
+| _#14_  | 1       | 3      | 1h         | 1h           |
+| _#15_  | 1       | 5      | 1h         | 30m          |
+| _#16_  | 1       | 3      | 2h         | 1h           |
+| _#17_ (NC)  | 3/4       | 3      | 6h         | 7h 30m       |
+| _#115_  | 3       | 3      | 9h         | 9h           |
+| _#116_ (NC)  | 4/7       | 5      | 15h        | 15h 15m      |
 
 <span style="color:green">
 Note that the story id is consistent with the one on YouTrack, but not with the one provided by the professors.</span>
@@ -54,10 +54,10 @@ Moreover the #102 for some reason was not counted in the reports.</span>
 
 - Hours per task average, standard deviation (estimate and actual)
     - Estimate:
-        - Average = 2h 55m
+        - Average = 2h 38m
         - Standard deviation = 3h
     - Actual:
-        - Average = 2h 50m
+        - Average = 2h 49m
         - Standard deviation = 2h 53m
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 122.5 / 120 - 1 = 0.02
 
