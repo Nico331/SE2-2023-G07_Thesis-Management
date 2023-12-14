@@ -29,7 +29,6 @@ class AppliedProposalService(
         //return application if exists or null
         return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
     }
-
     fun findAll() : List<AppliedProposalDTO> {
         //return list of application (in case nothing exists yet empty list)
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
@@ -45,7 +44,7 @@ class AppliedProposalService(
         return ResponseEntity.status(HttpStatus.OK).body("Application with ID $id successfully deleted.")
     }
 
-    fun applyForProposal(proposalId: String, studentId: String, file: FileDTO) : ResponseEntity<Any> {
+    fun applyForProposal(proposalId: String, studentId: String, file: FileDTO?) : ResponseEntity<Any> {
 
         val proposal = proposalRepository.findById(proposalId)
         val student = studentRepository.findById(studentId)
@@ -64,7 +63,7 @@ class AppliedProposalService(
         if(!appliedProposalRepository.existsAppliedProposalByStudentId(studentId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).")
 
-        val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file.content)
+        val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file?.content)
         val appliedProposal = appliedProposalRepository.save(application)
         val professor = professorRepository.findById(proposal.get().supervisor).get()
         /*emailService.sendSimpleMessage(

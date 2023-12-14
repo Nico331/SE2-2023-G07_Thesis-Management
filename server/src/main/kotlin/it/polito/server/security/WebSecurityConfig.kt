@@ -30,6 +30,12 @@ class WebSecurityConfig {
             it.requestMatchers(HttpMethod.POST,"/API/chat/messages/").permitAll()
             it.requestMatchers(HttpMethod.POST,"/API/login").permitAll()
 
+
+
+            it.requestMatchers(HttpMethod.PUT, "/API/bySecretary/accept/*").hasAnyRole(SECRETARY)
+            it.requestMatchers(HttpMethod.PUT, "/API/bySecretary/reject/*").hasAnyRole(SECRETARY)
+            it.requestMatchers(HttpMethod.PUT, "/API/bySupervisor/accept/*").hasAnyRole(PROFESSOR)
+            it.requestMatchers(HttpMethod.PUT, "/API/bySupervisor/reject/*").hasAnyRole(PROFESSOR)
             it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)

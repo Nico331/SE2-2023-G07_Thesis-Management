@@ -8,21 +8,21 @@ import org.springframework.http.ResponseEntity
 @RequestMapping("/API/secretaries")
 class SecretaryController(private val secretaryService: SecretaryService) {
 
-    @PostMapping("")
-    fun createSecretary(@RequestBody secretary: Secretary): ResponseEntity<Any> {
-        return secretaryService.createSecretary(secretary)
-    }
-
-    @PutMapping("/{id}")
-    fun updateSecretary (@PathVariable id : String , @RequestBody update : SecretaryDTO) : ResponseEntity<SecretaryDTO> {
-        val updatedSecretary = secretaryService.updateSecretary(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity.ok(updatedSecretary)
-    }
-
-    @DeleteMapping("/{id}")
-    fun deleteSecretary(@PathVariable id: String):ResponseEntity<Any>{
-        return secretaryService.deleteSecretary(id)
-    }
+//    @PostMapping("")
+//    fun createSecretary(@RequestBody secretary: Secretary): ResponseEntity<Any> {
+//        return secretaryService.createSecretary(secretary)
+//    }
+//
+//    @PutMapping("/{id}")
+//    fun updateSecretary (@PathVariable id : String , @RequestBody update : SecretaryDTO) : ResponseEntity<SecretaryDTO> {
+//        val updatedSecretary = secretaryService.updateSecretary(id, update ) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+//        return ResponseEntity.ok(updatedSecretary)
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    fun deleteSecretary(@PathVariable id: String):ResponseEntity<Any>{
+//        return secretaryService.deleteSecretary(id)
+//    }
 
     @GetMapping("/{id}")
     fun getSecretary(@PathVariable id: String): ResponseEntity<SecretaryDTO>{
