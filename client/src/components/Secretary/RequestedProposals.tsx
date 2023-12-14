@@ -58,7 +58,7 @@ const RequestedProposals = () => {
                 setRps(res.data);
             });
         }
-    }, [rps,refresh]);
+    }, [refresh]);
 
     const acceptRP = async (id) => {
             setConfirmed({show: false, type: "", id: ""});
@@ -107,14 +107,14 @@ const RequestedProposals = () => {
             </Container>  
 
             <Accordion className='mt-5' >
-                {rp.length === 0 ? (
+                {rps.length === 0 ? (
                     <p> There are any requested proposal </p>
                 ) : 
-                rp.map((proposal) => (
+                rps.map((proposal) => (
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
-                                <Col sm={8}>{proposal.tittle}</Col>
+                                <Col sm={8}>{proposal.title}</Col>
                                 <Col sm={4}>
                                     <Button style={{marginRight: '10px'}} 
                                     onClick={(e) => {
