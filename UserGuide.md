@@ -26,7 +26,7 @@
    5.3 [Archive](#archive)
 6. [Are you a secretary?](#secretary)
 
-   6.1 [Requested rpoposals](#requestedproposals)
+   6.1 [Requested proposals](#requestedproposals)
 
 ## 1 Introduction <a name="introduction"></a>
 
