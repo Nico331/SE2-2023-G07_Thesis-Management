@@ -67,7 +67,7 @@ Moreover the #102 for some reason was not counted in the reports.</span>
     - Total hours estimated: 7h 30m
     - Total hours spent: 7h
     - Nr of automated unit test cases: 65
-    - Coverage (if available):
+    - Coverage (if available): 27,9% (back-end)
 - E2E testing:
     - Total hours estimated: 4h
     - Total hours spent: 6h
