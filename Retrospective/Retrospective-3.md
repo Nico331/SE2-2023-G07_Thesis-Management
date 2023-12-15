@@ -78,14 +78,15 @@ Moreover the #102 for some reason was not counted in the reports.</span>
     - Total hours estimated: 9h 30m (Tasks: General previous APIs fix, API security (chained), Code review frontend, Insert external supervisor, Sonarcube setup)
     - Total hours spent: 16h 45m
     - Hours estimated for remediation by SonarQube:
-        - Remediation effort: 0 (Reliability) + 0 (Security) + 0 (Maintainability) = 0
-    - Hours estimated for remediation by SonarQube only for the selected and planned issues: 0
-    - Hours spent on remediation: 0
-    - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0,2 %
+        - Remediation effort: 0 (Reliability) + 2h (Security) + 15h (Maintainability) = 17h
+    - Hours estimated for remediation by SonarQube only for the selected and planned issues: 4h
+    - Hours spent on remediation: 3h (The Sonarcube report have gone from 2d 1h to 1d 2h) 
+    - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0,4 %
     - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability ):
         - Reliability: A
         - Security: A
         - Maintainability: A
+     (Modified after the retrospective feedback from the professor)
 
 ## ASSESSMENT
 
