@@ -79,13 +79,13 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
     };
 
     return (
-        <Container className="d-flex flex-column">
-            <Container className="d-flex flex-column align-items-center" style={{marginTop: "120px"}}>
+        <Container className="p-0 d-flex flex-column">
+            <Container className="p-0 d-flex flex-column align-items-center justify-content-center" style={{marginTop:"130px"}}>
                 {alert ? <Alert variant="danger" style={{width:"50vh"}} onClick={() => setAlert(false)}>
                     Invalid username or password!
                 </Alert> : <></>}
-                <Container className="mt-4 border border-2 d-flex flex-column" style={{borderRadius:"30px", height:"60vh", width:"50vh"}}>
-                    <Container className="mt-5 d-flex justify-content-center">
+                <Container className="p-3 mt-4 border border-2 d-flex flex-column" style={{borderRadius:"30px", maxWidth: "450px", minWidth: "334px"}}>
+                    <Container className="p-2 mt-5 d-flex justify-content-center">
                         <Image style={{ width: 263, height: 110 }} src={"../Polito-Logo.png"}/>
                     </Container>
                     <Container style={{height: 'inherit'}}>
