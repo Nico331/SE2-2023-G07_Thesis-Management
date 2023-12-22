@@ -12,7 +12,7 @@ import {
     Container,
     Form,
     Alert,
-    Nav
+    Nav, ButtonGroup
 } from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
@@ -22,6 +22,8 @@ import UpdateProposal from "./UpdateProposal";
 import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
+import { BsClipboard, BsPencil, BsTrash, BsArchive } from 'react-icons/bs'; // Import icons as needed
+
 
 const BrowseApplications = () => {
     const {refresh, setRefresh} = useContext(VirtualClockContext);
@@ -219,7 +221,7 @@ const BrowseApplications = () => {
                                                     {proposal.level === "Bachelor" && <Badge>
                                                         {proposal.level}
                                                     </Badge>}
-                                                    {proposal.level === "Masters" && <Badge bg={"success"}>
+                                                    {proposal.level === "Masters" && <Badge bg={"danger"}>
                                                         {proposal.level}
                                                     </Badge>}
                                                     {proposal.level === "PhD" && <Badge bg={"secondary"}>
@@ -232,22 +234,47 @@ const BrowseApplications = () => {
                                                     </Badge>}
                                                 </div>
                                                 <div className="col-sm-4">
-                                                    <Button className="ms-2 mt-2" variant={'primary'}
-                                                            onClick={(e) => handlecopy(e, proposal.id)}>Copy</Button>
-                                                    <Button className="ms-2 mt-2" variant={'secondary'}
-                                                            onClick={(e) => handlemodify(e, proposal.id)}> Modify </Button>
-                                                    {proposal.applications.every(application => application.status !== 'ACCEPTED') && (
-                                                    <Button className="ms-2 mt-2" variant={'danger'}
+                                                    <ButtonGroup>
+                                                        <Button
+                                                            variant="primary"
+                                                            onClick={(e) => handlecopy(e, proposal.id)}
+                                                        >
+                                                            <BsClipboard /> {/* Copy Icon */}
+                                                        </Button>
+
+                                                        <Button
+                                                            variant="primary"
+                                                            onClick={(e) => handlemodify(e, proposal.id)}
+                                                        >
+                                                            <BsPencil /> {/* Pencil/Modify Icon */}
+                                                        </Button>
+                                                        <Button
+                                                            variant="primary"
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
-                                                                setShowDeletePopup(() => true);
-                                                                setProposalToDelete(proposal.id)
-                                                            }}> Delete </Button>)}
-                                                    <Button className="ms-2 mt-2" variant={'warning'} onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setShowArchivePopup(() => true);
-                                                        setProposalToArchive(proposal.id);
-                                                    }}> Archive </Button>
+                                                                setShowArchivePopup(() => true);
+                                                                setProposalToArchive(proposal.id);
+                                                            }}
+                                                        >
+                                                            <BsArchive /> {/* Archive Icon */}
+                                                        </Button>
+
+                                                        {proposal.applications.every(
+                                                            (application) => application.status !== 'ACCEPTED'
+                                                        ) && (
+                                                            <Button
+                                                                variant="danger"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setShowDeletePopup(() => true);
+                                                                    setProposalToDelete(proposal.id);
+                                                                }}
+                                                            >
+                                                                <BsTrash /> {/* Trash/Delete Icon */}
+                                                            </Button>
+                                                        )}
+
+                                                    </ButtonGroup>
                                                 </div>
                                             </Row>
 

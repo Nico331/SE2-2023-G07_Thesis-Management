@@ -29,7 +29,7 @@ export default function MainNavBar ({role, user, setRole}) {
                         <Offcanvas 
                             show={show} 
                             onHide={() => setShow(false)} 
-                            style={{background:'#005574', width: '30%'}} 
+                            style={{background:'#002B49', width: '30%'}}
                             className={"justify-content-end"} 
                             placement='end'
                             backdrop={true}

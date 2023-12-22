@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
+import './custom.scss';
 import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
 import AuthCheck from "./components/login/AuthCheck";
 import {

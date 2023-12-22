@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
 import ProposalService from "../../services/ProposalService";
 import ApplicationService from "../../services/ApplicationService";

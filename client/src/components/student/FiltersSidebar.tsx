@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css';
 import { Form, Button, Col, Container, Row } from 'react-bootstrap';
 import Select from 'react-select';

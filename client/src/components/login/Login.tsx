@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Form, Button, Image, Alert} from 'react-bootstrap';
 import {RoleContext, TokenContext, UserContext} from "../../contexts/UserContexts";
 import axios from "axios";

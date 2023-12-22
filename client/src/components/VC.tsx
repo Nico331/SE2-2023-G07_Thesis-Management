@@ -70,7 +70,7 @@ const VC = () => {
                     onChange={(e) => handleDateChange(e.target.value)}
                     onKeyDown={(e) => e.preventDefault()}
                 />
-                <Button className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+                <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
                 <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
             </Form.Group>
         </Container>

@@ -103,7 +103,7 @@ const ArchivedProposals = () => {
                                                     {proposal.level === "Bachelor" && <Badge>
                                                         {proposal.level}
                                                     </Badge>}
-                                                    {proposal.level === "Masters" && <Badge bg={"success"}>
+                                                    {proposal.level === "Masters" && <Badge bg={"danger"}>
                                                         {proposal.level}
                                                     </Badge>}
                                                     {proposal.level === "PhD" && <Badge bg={"secondary"}>
@@ -122,7 +122,7 @@ const ArchivedProposals = () => {
                                                     {proposal.applications.every(application => application.status !== 'ACCEPTED') && (
                                                         <Button
                                                             className="ms-2 mt-2"
-                                                            variant={'secondary'}
+                                                            variant={'primary'}
                                                             onClick={(e) => handlemodify(e, proposal.id)}
                                                         >
                                                             Modify
