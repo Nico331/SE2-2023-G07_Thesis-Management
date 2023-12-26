@@ -9,6 +9,9 @@ import Logout from "../login/Logout";
 import StudentApplicationsListCollapse from "./StudentApplicationsListCollapse";
 import MainNavBar from "../NavBar";
 import StartRequest from "./StartRequest";
+import Forum from "../forum/Forum";
+import ForumForm from "../forum/ForumForm";
+import TopicPage from "../forum/TopicPage";
 
 type StudentRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -30,6 +33,10 @@ const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRoleState }) =>{
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
                 <Route path="/myApplicationList" element={<StudentApplicationsListCollapse/>} />
                 <Route path="/requestForm" element={<StartRequest/>}/>
+                <Route path="/forum" element={<Forum/>} />
+                <Route path="/forum/new" element={<ForumForm/>} />
+                <Route path="/forum/:forumId" element={<TopicPage />} />
+
             </Routes>
         </>
     )

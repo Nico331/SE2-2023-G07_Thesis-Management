@@ -31,9 +31,13 @@ const TopicPage: React.FC = (  ) => {
     const {user, setUser} = useContext(UserContext)
     const { forumId } = useParams()
     const audio = new Audio('../iphone_sound.mp3');
-    const [soundEnabled, setSoundEnabled] = useState((localStorage.getItem("sound") || "true")==="true");
+    const [soundEnabled, setSoundEnabled] = useState("false");
     const [topic, setTopic] = useState<Topic | null>(null)
     const [n, setN] = useState<number>(0);
+    useEffect(() => {
+        const savedSoundPreference = localStorage.getItem("sound") === "true";
+        setSoundEnabled(savedSoundPreference);
+    }, []);
     useEffect(()=>{
        if(forumId){
            getTopic(forumId)
@@ -46,9 +50,13 @@ const TopicPage: React.FC = (  ) => {
        }
     },[forumId])
     const toggleSound = () => {
-        setSoundEnabled(!soundEnabled);
-        localStorage.setItem("sound", soundEnabled ? "true" : "false");
+        const newSoundEnabled = ! soundEnabled;
+        localStorage.setItem("sound", newSoundEnabled ? "true" : "false");
+        setSoundEnabled(newSoundEnabled);
     };
+    useEffect(()=>{
+        console.log(`enabled: ${soundEnabled}`)
+    },[soundEnabled])
     useEffect(() => {
         if(topic){
             if(!webSocket.current){
@@ -63,8 +71,15 @@ const TopicPage: React.FC = (  ) => {
                 } else if(receivedMessage.type==="newMessage"){
                     setMessages((prevMessages) => [...prevMessages, receivedMessage.message]);
                     setTopic({...topic, responseCount: topic.responseCount+1})
-                    if(soundEnabled && receivedMessage.message.author.id===JSON.parse(user).id){
-                        audio.play();
+                    if(soundEnabled && receivedMessage.message.author.id!==JSON.parse(user).id){
+                        console.log(soundEnabled)
+                        audio.play()
+                            .then(p=>{
+                                console.log(p)
+                            })
+                            .catch(e=>
+                            console.log(e)
+                        );
                     }
                 }
             };
