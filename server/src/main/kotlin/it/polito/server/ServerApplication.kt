@@ -9,5 +9,5 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class ServerApplication
 
 fun main(args: Array<String>) {
-    val context = runApplication<ServerApplication>(*args)
+    runApplication<ServerApplication>(*args)
 }

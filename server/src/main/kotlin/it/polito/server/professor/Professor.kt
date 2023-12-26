@@ -1,20 +1,21 @@
 package it.polito.server.professor;
 
+import it.polito.server.forum.ForumUser
+import it.polito.server.forum.ForumUserInterface
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Document
 data class Professor (
-    @Id val id: String? = null,
-    var name : String,
-    var surname : String,
+    @Id override val id: String? = null,
+    override var name: String,
+    override var surname: String,
     var email : String,
     val codGroup : String,
     val codDepartment : String,
     //private var passwordHash: String? = null
 
-) {
+): ForumUserInterface {
     /*fun setPassword(password: String) {
         this.passwordHash = BCryptPasswordEncoder().encode(password)
     }

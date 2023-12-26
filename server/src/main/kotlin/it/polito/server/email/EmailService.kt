@@ -18,7 +18,6 @@ class EmailService(@Autowired private val emailSender: JavaMailSender) {
             message.text = text
             emailSender.send(message)
         } catch (e: MailException) {
-            // Log dell'errore
             println("Errore nell'invio della mail a $to: ${e.message}")
         }
     }

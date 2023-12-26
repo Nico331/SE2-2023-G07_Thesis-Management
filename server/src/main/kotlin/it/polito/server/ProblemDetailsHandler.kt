@@ -36,3 +36,6 @@ class InvalidInputException(private val msg: String?): RuntimeException() {
     override val message: String?
         get() = msg
 }
+
+class ForumNotFoundException(val forumId: String) : RuntimeException("Forum not found: $forumId")
+

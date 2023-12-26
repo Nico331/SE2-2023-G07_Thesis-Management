@@ -18,7 +18,6 @@ class WebApplicationConfig : WebMvcConfigurer {
         registry.addViewController("/notFound").setViewName("forward:/index.html");
     }
 
-
     @Bean
     fun containerCustomizer(): WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
         return WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {

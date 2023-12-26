@@ -1,5 +1,6 @@
 package it.polito.server.security
 
+import it.polito.server.forumMessage.WebSocketHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsConfigurationSource
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
+import java.net.http.WebSocket
 
 
 @Configuration
@@ -22,18 +24,28 @@ class WebSecurityConfig {
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
-
+            it.requestMatchers("/ws/**").permitAll()
             it.requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
             it.requestMatchers(HttpMethod.PUT,"/API/**").permitAll()
+            it.requestMatchers(HttpMethod.GET,"/websocket/**").permitAll()
+            it.requestMatchers(HttpMethod.GET,"/index.html/**").permitAll()
+
             it.requestMatchers(HttpMethod.PUT,"/API/virtualclock/**").permitAll()
             it.requestMatchers(HttpMethod.POST,"/API/virtualclock/**").permitAll()
             it.requestMatchers(HttpMethod.GET,"/API/virtualclock/**").permitAll()
-            it.requestMatchers(HttpMethod.POST,"/API/chat/messages/").permitAll()
+
             it.requestMatchers(HttpMethod.POST,"/API/login").permitAll()
 
+            it.requestMatchers(HttpMethod.GET,"/API/forums/**").authenticated()
+            it.requestMatchers(HttpMethod.POST,"/API/forums/**").hasAnyRole(PROFESSOR)
+            it.requestMatchers(HttpMethod.DELETE,"/API/forums/**").hasAnyRole(PROFESSOR)
+            it.requestMatchers(HttpMethod.PUT,"/API/forums/**").hasAnyRole(PROFESSOR)
+
             it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySecretary/reject/*").hasAnyRole(SECRETARY)
+            it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySecretary/accept/*").hasAnyRole(SECRETARY)
             it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySupervisor/accept/*").hasAnyRole(PROFESSOR)
             it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySupervisor/reject/*").hasAnyRole(PROFESSOR)
+
             it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
@@ -71,10 +83,11 @@ class WebSecurityConfig {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = mutableListOf("http://localhost:3000/socket.io")
+        configuration.allowedOrigins = mutableListOf("http://localhost:3000/socket.io","ws://localhost:3000","ws://localhost:3000/ws")
         //configuration.allowedMethods = mutableListOf("GET", "POST")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
+
         return source
     }
 

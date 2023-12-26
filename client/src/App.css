@@ -78,3 +78,9 @@
   padding: 4px 9px 4px 8px;
   background: rgba(247, 247, 247, 0.1);
 }
+
+
+.divider-line {
+  border-right: 1px solid rgba(12, 49, 70, 0.3);
+  height: 100%;
+}

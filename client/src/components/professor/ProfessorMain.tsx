@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import {ProfessorBrowseProposals} from './BrowseProposals'
 import {useNavigate} from "react-router-dom";
-import {Container, Image, Button, Col, Card, Row} from "react-bootstrap";
+import {Container, Image, Col, Card, Row} from "react-bootstrap";
 
 export const ZoomableContainer = (props) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -45,6 +44,7 @@ export const ZoomableContainer = (props) => {
 };
 
 const ProfessorMain= () => {
+    // @ts-ignore
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
     return (
@@ -59,6 +59,7 @@ const ProfessorMain= () => {
                         <ZoomableContainer title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
                         <ZoomableContainer title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
                         <ZoomableContainer title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
+                        <ZoomableContainer title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">

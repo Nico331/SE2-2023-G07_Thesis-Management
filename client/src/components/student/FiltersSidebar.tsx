@@ -146,7 +146,11 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
                     <Form.Group className="mt-2">
                         <Form.Label>Supervisor</Form.Label>
-                        <Select options={professors.map((p: prof) => {return { value: p.id,  label: p.name + " " + p.surname}}).sort((a,b) => {return a.label.localeCompare(b.label)})} isMulti value={supervisors} onChange={(selectedOptions) => {setSupervisors(selectedOptions)}}/>
+                        <Select options={professors.map((p: prof) => {return { value: p.id,  label: p.name + " " + p.surname}}).sort((a,b) => {return a.label.localeCompare(b.label)})}
+                                isMulti
+                                value={supervisors}
+                                onChange={(selectedOptions) => {setSupervisors(selectedOptions)}}
+                        />
                     </Form.Group>
 
                     <Row className="mt-2 p-0">
