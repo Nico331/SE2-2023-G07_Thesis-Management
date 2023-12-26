@@ -91,7 +91,7 @@ const TopicPage: React.FC = (  ) => {
             //     }
             // };
         }
-    }, [topic]);
+    }, [topic, soundEnabled]);
 
     const handleSendMessage = () => {
         if(text.trim()!==""){
