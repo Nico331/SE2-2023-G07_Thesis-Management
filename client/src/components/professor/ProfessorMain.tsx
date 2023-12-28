@@ -19,7 +19,7 @@ export const ZoomableContainer = (props) => {
     };
 
     return (
-        <Col xs={12} md={4}>
+        <Col className="p-2" xs={12} md={4}>
             <Container
                 style={containerStyle}
                 onMouseEnter={() => setIsHovered(true)}
@@ -48,17 +48,19 @@ const ProfessorMain= () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
     return (
-        <Container className="d-flex flex-column" style={{height:"100vh"}}>
-            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
+        <Container className="d-flex flex-column p-0" style={{height:"100vh"}}>
+            <Container className="d-flex flex-column justify-content-between p-0" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
                 <Container className="p-3 text-center">
                     <h1>Hi {user.name}!</h1>
                     <h1>Welcome to Polito thesis management system</h1>
                 </Container>
-                <Container>
+                <Container className="p-0">
                     <Row>
                         <ZoomableContainer title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
                         <ZoomableContainer title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
                         <ZoomableContainer title={"Cosupervised proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
+                    </Row>
+                    <Row className="justify-content-center">
                         <ZoomableContainer title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
                         <ZoomableContainer title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
                     </Row>

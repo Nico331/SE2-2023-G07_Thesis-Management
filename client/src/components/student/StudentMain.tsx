@@ -20,7 +20,7 @@ const ZoomableContainer = (props) => {
     };
 
     return (
-        <Col xs={12} md={4}>
+        <Col className="p-2" xs={12} md={3}>
             <Container
                 style={containerStyle}
                 onMouseEnter={() => setIsHovered(true)}
@@ -49,14 +49,14 @@ const StudentMain = () => {
     let navigate = useNavigate();
 
     return (
-        <Container className="d-flex flex-column" style={{height:"100vh"}}>
-            <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
+        <Container className="d-flex flex-column p-0" style={{height:"100vh"}}>
+            <Container className="d-flex flex-column justify-content-between p-0" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
                 <Container className="p-3 text-center">
                     <h1>Hi {user.name}!</h1>
                     <h1>Welcome to Polito thesis management system</h1>
                 </Container>
-                <Container>
-                    <Row>
+                <Container className="p-0">
+                    <Row className="justify-content-center">
                         <ZoomableContainer title={"Proposals List"} link={"/proposalList"} description={"Browse the list of active thesis proposals and apply for the ones you are interested in."}></ZoomableContainer>
                         <ZoomableContainer title={"My Applications"} link={"/myApplicationList"} description={"Explore your applications and check their status."}></ZoomableContainer>
                         <ZoomableContainer title={"New Thesis Request"} link={"/requestForm"} description={"Insert a new thesis request"}></ZoomableContainer>
