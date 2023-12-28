@@ -11,6 +11,7 @@ import ArchivedProposals from "./ArchivedProposals";
 import Forum from "../forum/Forum";
 import ForumForm from "../forum/ForumForm";
 import TopicPage from "../forum/TopicPage";
+import BrowseApplicationsAsCosupervisor from "./BrowseApplicationsAsCosupervisor";
 
 type ProfessorRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -28,6 +29,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
                 </Route>
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
                 <Route path="/browse-applications" element={<BrowseApplications/>} />
+                <Route path="/browse-applications-cosupervisor" element={<BrowseApplicationsAsCosupervisor/>} />
                 <Route path="/add-proposal" element={<ProposalForm/>} />
                 <Route path="/archived-proposals" element={<ArchivedProposals/>} />
                 <Route path="/forum" element={<Forum/>} />
