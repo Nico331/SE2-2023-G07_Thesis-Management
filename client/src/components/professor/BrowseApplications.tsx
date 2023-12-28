@@ -22,7 +22,8 @@ import UpdateProposal from "./UpdateProposal";
 import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
-import { BsClipboard, BsPencil, BsTrash, BsArchive } from 'react-icons/bs'; // Import icons as needed
+import { FaRegCopy } from "react-icons/fa";
+import { BsPencil, BsTrash, BsArchive } from 'react-icons/bs'; // Import icons as needed
 
 
 const BrowseApplications = () => {
@@ -239,7 +240,7 @@ const BrowseApplications = () => {
                                                             variant="primary"
                                                             onClick={(e) => handlecopy(e, proposal.id)}
                                                         >
-                                                            <BsClipboard /> {/* Copy Icon */}
+                                                            <FaRegCopy /> {/* Copy Icon */}
                                                         </Button>
 
                                                         <Button
