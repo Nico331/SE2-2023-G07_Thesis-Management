@@ -66,7 +66,7 @@ class AppliedProposalController(
         //return ResponseEntity.ok().build()
     }
 
-    @PutMapping("/{proposalId}")
+    @PutMapping("/withdraw/{proposalId}")
     fun withdrawProposal(@PathVariable proposalId: String) : ResponseEntity<Any>{
         return appliedProposalService.withdrawProposal(proposalId)
     }
