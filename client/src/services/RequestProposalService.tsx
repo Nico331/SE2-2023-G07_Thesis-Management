@@ -11,4 +11,29 @@ export default {
             }
         });
     },
+    updateRequestProposal(requestData, id) {
+        return axios.put(endpoint + `${'/'+id}`, requestData,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+    fetchAllRequestProposals() {
+        return axios.get(endpoint,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
+    deleteRequestProposals(id) {
+        return axios.delete(`${endpoint}/${id}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
 };

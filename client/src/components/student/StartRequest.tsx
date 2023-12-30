@@ -94,8 +94,8 @@ const StartRequest: React.FC = () => {
                         navigate('/');
                     }, 3000);
                 })
-                .catch(() => {
-                    setAlert({type: 'danger', message: 'Error!'});
+                .catch((e) => {
+                    setAlert({type: 'danger', message: 'Error! ' + e.response.data});
                 });
         } else {
             setValidated(true);
