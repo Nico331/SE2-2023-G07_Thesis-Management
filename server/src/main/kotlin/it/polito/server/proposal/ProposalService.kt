@@ -184,4 +184,6 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         val allProposals= proposalRepository.findByCoSupervisors(coSupervisorId)
         return ResponseEntity.status(HttpStatus.OK).body(allProposals)
     }
+
+
 }

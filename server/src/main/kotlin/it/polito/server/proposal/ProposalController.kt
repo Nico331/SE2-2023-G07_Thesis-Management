@@ -31,6 +31,8 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(updatedProposal)
     }
 
+
+
     @GetMapping("")
     fun getAll(): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findAll()

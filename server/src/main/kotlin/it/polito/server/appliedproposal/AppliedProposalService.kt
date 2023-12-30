@@ -301,4 +301,13 @@ class AppliedProposalService(
         }
 
     }
+
+    fun withdrawProposal(appliedProposalId: String): ResponseEntity<Any>{
+        val proposal = appliedProposalRepository.findById(appliedProposalId)
+        return if(proposal.isPresent){
+            ResponseEntity(appliedProposalRepository.save(proposal.get().copy(status = ApplicationStatus.CANCELLED)),HttpStatus.OK)
+        } else {
+            ResponseEntity("Application not fount", HttpStatus.NOT_FOUND)
+        }
+    }
 }
