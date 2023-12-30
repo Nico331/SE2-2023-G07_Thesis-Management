@@ -175,4 +175,13 @@ class ProposalService (private val proposalRepository : ProposalRepository,
             .map { it.toDTO( externalCoSupervisorRepository ) }
         return ResponseEntity.status(HttpStatus.OK).body(archivedOnly)
     }
+
+    fun findProposalsByCoSupervisor(coSupervisorId: String): ResponseEntity<Any> {
+        //Check if the CoSupervisor exists
+        professorService.findProfessorById(coSupervisorId)
+                ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: CoSupervisor '$coSupervisorId' does NOT exist.")
+
+        val allProposals= proposalRepository.findByCoSupervisors(coSupervisorId)
+        return ResponseEntity.status(HttpStatus.OK).body(allProposals)
+    }
 }

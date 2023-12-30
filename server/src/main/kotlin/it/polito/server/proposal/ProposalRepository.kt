@@ -11,5 +11,5 @@ interface ProposalRepository : MongoRepository<Proposal, String> {
     fun findByExpirationIsBefore (actualDate : LocalDate ) : List<Proposal>
     fun findByExpirationIsGreaterThanEqual (actualDate: LocalDate) : List<Proposal>
     fun findByArchived (archiviationType: archiviation_type) : List<Proposal>
-
+    fun findByCoSupervisors(coSupervisor: String): List<Proposal>
 }

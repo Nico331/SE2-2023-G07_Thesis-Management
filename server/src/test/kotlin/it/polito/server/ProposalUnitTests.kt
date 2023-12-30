@@ -571,4 +571,80 @@ class ProposalUnitTests {
         assert(responseEntity != null) { "ResponseEntity is null" }
         assert(responseEntity!!.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
     }*/
+
+    @Test
+    fun testGetProposalsByCoSupervisor() {
+        val coSupervisorId = "coSupervisorId"
+        val proposalDTOList = listOf(
+                ProposalDTO(
+                        id = "1",
+                        title = "Proposal 1",
+                        supervisor = "John Doe",
+                        coSupervisors = listOf(coSupervisorId),
+                        keywords = listOf("Java", "Spring"),
+                        type = "Research",
+                        groups = listOf("Group1", "Group2"),
+                        description = "Description 1",
+                        requiredKnowledge = "Knowledge 1",
+                        notes = "Notes 1",
+                        expiration = LocalDate.now().plusMonths(2),
+                        level = "Master",
+                        cdS = listOf("CD1", "CD2"),
+                        archived = archiviation_type.NOT_ARCHIVED
+                ),
+                ProposalDTO(
+                        id = "2",
+                        title = "Proposal 2",
+                        supervisor = "Jane Smith",
+                        coSupervisors = listOf(coSupervisorId),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.MANUALLY_ARCHIVED
+                )
+        )
+
+        `when`(proposalService.findProposalsByCoSupervisor(coSupervisorId)).thenReturn(
+                ResponseEntity.ok(proposalDTOList)
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(coSupervisorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == proposalDTOList)
+    }
+
+    @Test
+    fun testGetProposalsByCoSupervisorNotFound() {
+        val nonExistingCoSupervisorId = "nonExistingCoSupervisorId"
+
+        `when`(proposalService.findProposalsByCoSupervisor(nonExistingCoSupervisorId)).thenReturn(
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: CoSupervisor '$nonExistingCoSupervisorId' does NOT exist.")
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(nonExistingCoSupervisorId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Error: CoSupervisor '$nonExistingCoSupervisorId' does NOT exist.")
+    }
+
+    @Test
+    fun testGetProposalsByCoSupervisorEmptyList() {
+        val coSupervisorWithNoProposals = "coSupervisorWithNoProposals"
+
+        `when`(proposalService.findProposalsByCoSupervisor(coSupervisorWithNoProposals)).thenReturn(
+                ResponseEntity.ok(emptyList<ProposalDTO>())
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(coSupervisorWithNoProposals)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<ProposalDTO>())
+    }
 }
