@@ -38,6 +38,9 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
     fun existsByTitleAndStudentId (requestProposalTitle : String, requestProposalStudentId : String): Boolean {
         return requestProposalRepository.existsRequestProposalByTitleAndStudentId (requestProposalTitle, requestProposalStudentId)
     }
+    fun existsByStudentId (requestProposalStudentId : String): Boolean {
+        return requestProposalRepository.existsRequestProposalByStudentId (requestProposalStudentId)
+    }
 
     fun findAllRequestProposalsByStudent(studentId : String) : ResponseEntity <Any> {
 
@@ -78,9 +81,8 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
     fun acceptRequestProposalBySupervisor(id: String): ResponseEntity<Any> {
         val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
 
-        /*AGGIUNGERLO UNA VOLTA IMPLEMENTATO L'ACCETTAZIONE DELLA SEGRETERIA
         if(requestProposal.acceptanceDate == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")*/
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")
 
         if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
@@ -93,9 +95,8 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
     fun rejectRequestProposalBySupervisor(id: String): ResponseEntity<Any> {
         val requestProposal = requestProposalRepository.findById(id).orElse(null) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
 
-        /*AGGIUNGERLO UNA VOLTA IMPLEMENTATO L'ACCETTAZIONE DELLA SEGRETERIA
         if(requestProposal.acceptanceDate == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")*/
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal has not yet been accepted by the secretariat")
 
         if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")

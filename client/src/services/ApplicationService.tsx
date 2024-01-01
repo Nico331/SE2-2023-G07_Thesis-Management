@@ -63,6 +63,16 @@ export default {
 
     },
 
+    withdrawApplication(applicationId){
+        return axios.put(`${endpoint}/withdraw/${applicationId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+
+    },
+
 
 
     getByProfessorId(professorId){

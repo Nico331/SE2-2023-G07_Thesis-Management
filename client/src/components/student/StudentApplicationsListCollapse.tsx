@@ -14,6 +14,8 @@ const StudentApplicationsListCollapse = () => {
     const [supervisors, setSupervisors] = useState([]);
 
     const {refresh, setRefresh} = useContext(VirtualClockContext);
+    const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
+    const [applicationToWithdraw, setApplicationToWithdraw] = useState("");
 
     const getData = async () => {
         const apps = await ApplicationService.getApplicationByStudentId(user.id.toString());
@@ -22,6 +24,16 @@ const StudentApplicationsListCollapse = () => {
         setStudentApplications(apps.data);
         setStudentProposals(props.data);
         setSupervisors(profs.data);
+    }
+
+
+    const handleWithdraw = (proposalID) => {
+        setShowWithdrawPopup(false);
+        ApplicationService.withdrawApplication(proposalID).then(() => {
+            setRefresh((r) => !r)
+        });
+
+
     }
 
     useEffect(() => {
@@ -81,6 +93,18 @@ const StudentApplicationsListCollapse = () => {
                                             {application.status === ("CANCELLED") && <Badge bg={"danger"}>
                                                 {application.status}
                                             </Badge>}
+                                        </div>
+                                        <div className="col-sm-4">
+                                            {application.status === "PENDING" && <Button
+                                                variant="primary"
+                                                onClick={(e) => {
+                                                    setApplicationToWithdraw(application.id)
+                                                    setShowWithdrawPopup(true);
+                                                    e.stopPropagation()
+                                                }}
+                                            >
+                                                Withdraw
+                                            </Button>}
                                         </div>
                                     </Row>
 
@@ -160,6 +184,23 @@ const StudentApplicationsListCollapse = () => {
 
                 </Accordion>
             </Container>
+            <Modal
+                show={showWithdrawPopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Withdraw application
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to withdraw the application? ?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleWithdraw(applicationToWithdraw)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 

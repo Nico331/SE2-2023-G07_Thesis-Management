@@ -66,6 +66,11 @@ class AppliedProposalController(
         //return ResponseEntity.ok().build()
     }
 
+    @PutMapping("/withdraw/{proposalId}")
+    fun withdrawProposal(@PathVariable proposalId: String) : ResponseEntity<Any>{
+        return appliedProposalService.withdrawProposal(proposalId)
+    }
+
     /*@GetMapping("/{professorId}/filter")
     fun getByFilters (@PathVariable professorId: String) : ResponseEntity<Any> {
         val filteredApplications = appliedProposalService.findByFilters( professorId )

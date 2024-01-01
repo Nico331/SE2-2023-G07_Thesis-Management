@@ -1,6 +1,8 @@
 package it.polito.server
 
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
+import it.polito.server.professor.Professor
+import it.polito.server.professor.ProfessorDTO
 import it.polito.server.proposal.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -481,4 +483,168 @@ class ProposalUnitTests {
         assert(responseEntity.body == "Error: Proposal is already archived")
     }
 
+
+    @Test
+    fun testGetArchivedProposalsBySupervisor() {
+        val supervisor = "John Doe"
+        val archivedProposalDTOList = listOf(
+                ProposalDTO(
+                        id = "1",
+                        title = "Archived Proposal 1",
+                        supervisor = supervisor,
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Java", "Spring"),
+                        type = "Research",
+                        groups = listOf("Group1", "Group2"),
+                        description = "Description 1",
+                        requiredKnowledge = "Knowledge 1",
+                        notes = "Notes 1",
+                        expiration = LocalDate.now().minusMonths(2),
+                        level = "Master",
+                        cdS = listOf("CD1", "CD2"),
+                        archived = archiviation_type.MANUALLY_ARCHIVED
+                ),
+                ProposalDTO(
+                        id = "2",
+                        title = "Archived Proposal 2",
+                        supervisor = supervisor,
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().minusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.EXPIRED
+                )
+        )
+
+        `when`(proposalService.findArchivedProposalsBySupervisor(supervisor))
+                .thenReturn(ResponseEntity.ok(archivedProposalDTOList))
+
+        val responseEntity = proposalController.getArchivedProposalsBySupervisor(supervisor)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == archivedProposalDTOList)
+    }
+
+    @Test
+    fun testGetArchivedProposalsBySupervisorNotFound() {
+        val nonExistingSupervisor = "NonExistingSupervisor"
+
+        `when`(proposalService.findArchivedProposalsBySupervisor(nonExistingSupervisor))
+                .thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Error: Supervisor '$nonExistingSupervisor' does NOT exist."))
+
+        val responseEntity = proposalController.getArchivedProposalsBySupervisor(nonExistingSupervisor)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Error: Supervisor '$nonExistingSupervisor' does NOT exist.")
+    }
+
+    @Test
+    fun testGetArchivedProposalsBySupervisorEmptyList() {
+        val supervisorWithNoArchivedProposals = "NoArchivedProposalsSupervisor"
+
+        `when`(proposalService.findArchivedProposalsBySupervisor(supervisorWithNoArchivedProposals)).thenReturn(
+                ResponseEntity.ok(emptyList<ProposalDTO>())
+        )
+
+        val responseEntity = proposalController.getArchivedProposalsBySupervisor(supervisorWithNoArchivedProposals)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<ProposalDTO>())
+    }
+    /*@Test
+    fun testGetArchivedProposalsExceptionHandling() {
+        val supervisorID = "1"
+
+        `when`(professorService.findProfessorById(supervisorID)).thenReturn(ProfessorDTO(id = supervisorID, name = "John", surname = "Doe", email = "JohnDoe@gmail.com", codGroup = "11111", codDepartment = "22222"))
+
+        `when`(proposalService.findArchivedProposalsBySupervisor(supervisorID)).thenThrow(RuntimeException("An unexpected error occurred."))
+
+        val responseEntity = proposalController.getArchivedProposalsBySupervisor(supervisorID)
+
+        assert(responseEntity != null) { "ResponseEntity is null" }
+        assert(responseEntity!!.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+    }*/
+
+    @Test
+    fun testGetProposalsByCoSupervisor() {
+        val coSupervisorId = "coSupervisorId"
+        val proposalDTOList = listOf(
+                ProposalDTO(
+                        id = "1",
+                        title = "Proposal 1",
+                        supervisor = "John Doe",
+                        coSupervisors = listOf(coSupervisorId),
+                        keywords = listOf("Java", "Spring"),
+                        type = "Research",
+                        groups = listOf("Group1", "Group2"),
+                        description = "Description 1",
+                        requiredKnowledge = "Knowledge 1",
+                        notes = "Notes 1",
+                        expiration = LocalDate.now().plusMonths(2),
+                        level = "Master",
+                        cdS = listOf("CD1", "CD2"),
+                        archived = archiviation_type.NOT_ARCHIVED
+                ),
+                ProposalDTO(
+                        id = "2",
+                        title = "Proposal 2",
+                        supervisor = "Jane Smith",
+                        coSupervisors = listOf(coSupervisorId),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.MANUALLY_ARCHIVED
+                )
+        )
+
+        `when`(proposalService.findProposalsByCoSupervisor(coSupervisorId)).thenReturn(
+                ResponseEntity.ok(proposalDTOList)
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(coSupervisorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == proposalDTOList)
+    }
+
+    @Test
+    fun testGetProposalsByCoSupervisorNotFound() {
+        val nonExistingCoSupervisorId = "nonExistingCoSupervisorId"
+
+        `when`(proposalService.findProposalsByCoSupervisor(nonExistingCoSupervisorId)).thenReturn(
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: CoSupervisor '$nonExistingCoSupervisorId' does NOT exist.")
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(nonExistingCoSupervisorId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Error: CoSupervisor '$nonExistingCoSupervisorId' does NOT exist.")
+    }
+
+    @Test
+    fun testGetProposalsByCoSupervisorEmptyList() {
+        val coSupervisorWithNoProposals = "coSupervisorWithNoProposals"
+
+        `when`(proposalService.findProposalsByCoSupervisor(coSupervisorWithNoProposals)).thenReturn(
+                ResponseEntity.ok(emptyList<ProposalDTO>())
+        )
+
+        val responseEntity = proposalController.getProposalsByCoSupervisor(coSupervisorWithNoProposals)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<ProposalDTO>())
+    }
 }

@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import it.polito.server.externalcosupervisor.ExternalCoSupervisor
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
@@ -30,6 +31,8 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(updatedProposal)
     }
 
+
+
     @GetMapping("")
     fun getAll(): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findAll()
@@ -59,6 +62,14 @@ class ProposalController (private val proposalService: ProposalService){
         //return only ARCHIVED proposal by supervisor or NOT_FOUND(if the supervisor doesn't exist) or BAD_REQUEST (if supervisor hasn't proposals)
         return proposalService.findArchivedProposalsBySupervisor(supervisor)
     }
+
+    @GetMapping("/byCoSupervisor/{coSupervisor}")
+    fun getProposalsByCoSupervisor(@PathVariable coSupervisor: String): ResponseEntity<Any> {
+       //return ALL PROPOSAL by CoSupervisor
+        return proposalService.findProposalsByCoSupervisor(coSupervisor)
+    }
+
+
 
     @GetMapping("/filters")
     fun getProposals(@RequestParam(required = false) filters: Map<String, String>,

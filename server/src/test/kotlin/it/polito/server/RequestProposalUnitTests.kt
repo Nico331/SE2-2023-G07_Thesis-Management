@@ -321,5 +321,135 @@ class RequestProposalUnitTests {
         assert(responseEntity.body == "Error: Student '$nonExistingStudentId' does NOT exist.")
     }
 
+    @Test
+    fun testAcceptRequestProposalBySecretary() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySecretary(requestId))
+                .thenReturn(ResponseEntity.ok("Request Proposal '$requestId' accepted successfully"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySecretary(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Request Proposal '$requestId' accepted successfully")
+    }
+
+    @Test
+    fun testRejectRequestProposalBySecretary() {
+        val requestId = "1"
+
+        `when`(requestProposalService.rejectRequestProposalBySecretary(requestId))
+                .thenReturn(ResponseEntity.ok("Request Proposal '$requestId' rejected successfully"))
+
+        val responseEntity = requestProposalController.rejectRequestProposalBySecretary(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Request Proposal '$requestId' rejected successfully")
+    }
+
+    @Test
+    fun testAcceptRequestProposalBySupervisor() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySupervisor(requestId))
+                .thenReturn(ResponseEntity.ok("Request Proposal '$requestId' accepted successfully"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySupervisor(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Request Proposal '$requestId' accepted successfully")
+    }
+
+    @Test
+    fun testRejectRequestProposalBySupervisor() {
+        val requestId = "1"
+
+        `when`(requestProposalService.rejectRequestProposalBySupervisor(requestId))
+                .thenReturn(ResponseEntity.ok("Request Proposal '$requestId' rejected successfully"))
+
+        val responseEntity = requestProposalController.rejectRequestProposalBySupervisor(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Request Proposal '$requestId' rejected successfully")
+    }
+
+    @Test
+    fun testAcceptRequestProposalBySecretary_NotFound() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySecretary(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySecretary(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Request Proposal doesn't exist")
+    }
+
+    @Test
+    fun testRejectRequestProposalBySecretary_NotFound() {
+        val requestId = "1"
+
+        `when`(requestProposalService.rejectRequestProposalBySecretary(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist"))
+
+        val responseEntity = requestProposalController.rejectRequestProposalBySecretary(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Request Proposal doesn't exist")
+    }
+
+    @Test
+    fun testAcceptRequestProposalBySecretary_BadRequest() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySecretary(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySecretary(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Error: Request Proposal is not in a pending state")
+    }
+
+    @Test
+    fun testAcceptRequestProposalBySupervisor_NotFound() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySupervisor(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySupervisor(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Request Proposal doesn't exist")
+    }
+
+    @Test
+    fun testRejectRequestProposalBySupervisor_NotFound() {
+        val requestId = "1"
+
+        `when`(requestProposalService.rejectRequestProposalBySupervisor(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist"))
+
+        val responseEntity = requestProposalController.rejectRequestProposalBySupervisor(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Request Proposal doesn't exist")
+    }
+
+    @Test
+    fun testAcceptRequestProposalBySupervisor_BadRequest() {
+        val requestId = "1"
+
+        `when`(requestProposalService.acceptRequestProposalBySupervisor(requestId))
+                .thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state"))
+
+        val responseEntity = requestProposalController.acceptRequestProposalBySupervisor(requestId)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Error: Request Proposal is not in a pending state")
+    }
+
 
 }
