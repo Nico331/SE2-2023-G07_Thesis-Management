@@ -100,7 +100,7 @@ class RequestProposalUnitTests {
         val responseEntity = requestProposalController.createRequestProposal(existingRequestProposalDTO)
 
         assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
-        assert(responseEntity.body == "Request Proposal with same Title and Student already in the database")
+        assert(responseEntity.body == "Request Proposal for the same Student already exists")
     }
 
     @Test
