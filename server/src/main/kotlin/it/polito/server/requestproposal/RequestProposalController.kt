@@ -13,9 +13,8 @@ class RequestProposalController (private val requestProposalService: RequestProp
     fun createRequestProposal(@RequestBody requestProposal: RequestProposalDTO): ResponseEntity<Any> {
         if (requestProposalService.existsByStudentId(requestProposal.studentId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request Proposal for the same Student already exists")
-        val supervisor = professorService.findProfessorById(requestProposal.supervisorId)
-        if(supervisor == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The supervisor does not exist in the database")
+        professorService.findProfessorById(requestProposal.supervisorId)
+            ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The supervisor does not exist in the database")
 
         val newRequestProposal = requestProposalService.createRequestProposal(requestProposal)
         return ResponseEntity(newRequestProposal, HttpStatus.CREATED)

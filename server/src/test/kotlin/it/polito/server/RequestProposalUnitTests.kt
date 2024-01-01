@@ -95,7 +95,7 @@ class RequestProposalUnitTests {
                 supervisorStatus = RequestProposalStatus.PENDING
         )
 
-        `when`(requestProposalService.existsByTitleAndStudentId(existingRequestProposalDTO.title, existingRequestProposalDTO.studentId)).thenReturn(true)
+        `when`(requestProposalService.existsByStudentId(existingRequestProposalDTO.studentId)).thenReturn(true)
 
         val responseEntity = requestProposalController.createRequestProposal(existingRequestProposalDTO)
 
