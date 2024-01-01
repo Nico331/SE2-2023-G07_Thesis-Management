@@ -204,6 +204,7 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter title"
                                 value={proposal.title}
                                 onChange={(e) => setProposal({...proposal, title: e.target.value})}
+                                id="title"
                             />
                         </Form.Group>
                     </div>
@@ -211,7 +212,8 @@ const ProposalForm: React.FC = () => {
                         <Form.Group controlId="type">
                             <Form.Label className="h3">Type*</Form.Label>
                             <Form.Control required as="select" value={proposal.type}
-                                          onChange={(e) => setProposal({...proposal, type: e.target.value})}>
+                                          onChange={(e) => setProposal({...proposal, type: e.target.value})}
+                                          id="type">
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
                                 <option value="Experimental">Experimental</option>
@@ -227,7 +229,8 @@ const ProposalForm: React.FC = () => {
                         <Form.Group controlId="level">
                             <Form.Label className="h3">Level*</Form.Label>
                             <Form.Control required as="select" value={proposal.level}
-                                          onChange={(e) => setProposal({...proposal, level: e.target.value})}>
+                                          onChange={(e) => setProposal({...proposal, level: e.target.value})}
+                                          id="level">
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Masters">Masters</option>
@@ -249,6 +252,7 @@ const ProposalForm: React.FC = () => {
                                         setProposal({...proposal, expiration: dayjs(e.target.value)});
                                 }}
                                 min={new Date().toISOString().split("T")[0]}
+                                id="exp"
                             />
                         </Form.Group>
                     </div>
@@ -258,7 +262,8 @@ const ProposalForm: React.FC = () => {
                         <Form.Group controlId="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control as="select" value={proposal.supervisor} disabled
-                                          onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}>
+                                          onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}
+                                          id="supervisor">
                                 <option value="">Select the supervisor</option>
                                 {
                                     professors.map((professor) => <option
@@ -352,11 +357,12 @@ const ProposalForm: React.FC = () => {
                                                 placeholder="Enter keyword"
                                                 value={newKeyword}
                                                 onChange={(e) => setNewKeyword(e.target.value)}
+                                                id="keyword-input"
                                             />
                                         </div>
                                         &nbsp;&nbsp;
                                         <div className="col-lg-4">
-                                            <Button variant="primary" onClick={addKeyword}>
+                                            <Button id='add-keyword-btn' variant="primary" onClick={addKeyword}>
                                                 Add keyword
                                             </Button>
                                         </div>
@@ -382,6 +388,7 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter description"
                                 value={proposal.description}
                                 onChange={(e) => setProposal({...proposal, description: e.target.value})}
+                                id="description"
                             />
                         </Form.Group>
                     </div>
@@ -396,6 +403,7 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter required knowloedge"
                                 value={proposal.requiredKnowledge}
                                 onChange={(e) => setProposal({...proposal, requiredKnowledge: e.target.value})}
+                                id="requiredKnoledge"
                             />
                         </Form.Group>
                     </div>
@@ -408,6 +416,7 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter notes"
                                 value={proposal.notes}
                                 onChange={(e) => setProposal({...proposal, notes: e.target.value})}
+                                id="notes"
                             />
                         </Form.Group>
                     </div>
@@ -435,7 +444,7 @@ const ProposalForm: React.FC = () => {
                 </Card>
                 {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                 <br/>
-                <Button variant="primary" type="submit">
+                <Button id='submit-btn' variant="primary" type="submit">
                     Submit
                 </Button>
                 <br/><br/>

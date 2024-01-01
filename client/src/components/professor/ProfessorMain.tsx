@@ -25,6 +25,7 @@ export const ZoomableContainer = (props) => {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={() => navigate(props.link)}
+                id={props.id}
             >
                 <Card style={{flex:1}}>
                     <Card.Body>
@@ -56,13 +57,13 @@ const ProfessorMain= () => {
                 </Container>
                 <Container className="p-0">
                     <Row>
-                        <ZoomableContainer title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
-                        <ZoomableContainer title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
+                        <ZoomableContainer id={"new-proposal"} title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
+                        <ZoomableContainer id={"my-proposal"} title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
                         <ZoomableContainer title={"Cosupervised proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
-                        <ZoomableContainer title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
-                        <ZoomableContainer title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
+                        <ZoomableContainer id={"archive-proposal"} title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
+                        <ZoomableContainer id={"forum"} title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">

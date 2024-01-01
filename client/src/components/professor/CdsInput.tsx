@@ -27,10 +27,11 @@ const CdsInput: React.FC<CdsInputProps> = ({ onAddCds }) => {
                             placeholder="Enter cds name"
                             value={cds}
                             onChange={(e) => setCds(e.target.value)}
+                            id='cds-input'
                         />
                     </Form.Group>
 
-                    <Button className="mt-3" variant="primary" onClick={addCds}>
+                    <Button id='add-cds-btn' className="mt-3" variant="primary" onClick={addCds}>
                         Add Cds
                     </Button>
                 </Accordion.Body>

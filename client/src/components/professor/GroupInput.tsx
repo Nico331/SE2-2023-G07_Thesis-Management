@@ -27,10 +27,11 @@ const GroupInput: React.FC<GroupInputProps> = ({ onAddGroup }) => {
                             placeholder="Enter group name"
                             value={group}
                             onChange={(e) => setGroup(e.target.value)}
+                            id='group-input'
                         />
                     </Form.Group>
 
-                    <Button className="mt-3" variant="primary" onClick={addGroup}>
+                    <Button id='add-group-btn' className="mt-3" variant="primary" onClick={addGroup}>
                         Add Group
                     </Button>
                 </Accordion.Body>

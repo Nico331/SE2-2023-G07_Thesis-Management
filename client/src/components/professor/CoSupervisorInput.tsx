@@ -56,6 +56,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     variant={!isExternal ? 'primary' : 'secondary'}
                                     value={false}
                                     onClick={() => setIsExternal(false)}
+                                    id="internal"
                                 >
                                     Internal
                                 </ToggleButton>
@@ -63,6 +64,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     variant={isExternal ? 'primary' : 'secondary'}
                                     value={true}
                                     onClick={() => setIsExternal(true)}
+                                    id="external"
                                 >
                                     External
                                 </ToggleButton>
@@ -80,6 +82,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                         onChange={(e) =>
                                             setExternalCoSupervisor({ ...externalCoSupervisor, name: e.target.value })
                                         }
+                                        id="name-input"
                                     />
                                 </div>
 
@@ -91,6 +94,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     onChange={(e) =>
                                         setExternalCoSupervisor({ ...externalCoSupervisor, surname: e.target.value })
                                     }
+                                    id='surname-input'
                                 />
                                 </div>
                                     <div className={"col-4"}>
@@ -101,6 +105,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     onChange={(e) =>
                                         setExternalCoSupervisor({ ...externalCoSupervisor, email: e.target.value })
                                     }
+                                    id='email-input'
                                 />
                                     </div>
                             </Row>
@@ -133,7 +138,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                             </Form.Control>
                         )}
                     </Form.Group>
-                    <Button className="mt-3" variant="primary" onClick={addCoSupervisor}>
+                    <Button id="add-cosup-button" className="mt-3" variant="primary" onClick={addCoSupervisor}>
                         Add Co-Supervisor
                     </Button>
                     {coalert && coalert.show ? (
