@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Navbar, Container, Row, Offcanvas, Nav, Image, Col} from 'react-bootstrap';
 import VC from './VC';
 import {UserContext} from "../contexts/UserContexts";
@@ -6,10 +6,39 @@ import {useNavigate} from "react-router-dom";
 
 
 export default function MainNavBar({role, undef_user, setRole}) {
-
     const [show, setShow] = useState(false);
     const {user, setUser} = useContext(UserContext);
     const navigate = useNavigate();
+
+    const [helloScreenSmall, setHelloScreenSmall] = useState(window.matchMedia('(max-width: 1000px)').matches);
+    const [headerScreenSmall, setHeaderScreenSmall] = useState(window.matchMedia('(max-width: 700px)').matches);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setHelloScreenSmall(window.innerWidth <= 1000);
+            setHeaderScreenSmall(window.innerWidth <= 700);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const Hello = () => {
+        if (!helloScreenSmall) {
+            return (
+                <span className="d-none d-sm-block">
+                <Col className="" md={2}>
+                    Hi,
+                    {role === "PROFESSOR" ? " Prof." : ""}
+                    {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ? JSON.parse(user) && (" " + JSON.parse(user).name + " " + JSON.parse(user).surname) : ""}
+                </Col>
+            </span>
+            );
+        }
+    };
 
     return (
         <>
@@ -21,12 +50,14 @@ export default function MainNavBar({role, undef_user, setRole}) {
                         <Image className=""
                                style={{background: 'white', borderRadius: '3px', width: '35px', height: '35px'}}
                                src={"../thesis-management-512.png"}/>
-                        {/*<h1 className="ms-3 my-0">Thesis Management</h1>*/}
-                        <Container className="p-0 ms-3 fs-1 fw-bold d-none d-md-block">Thesis Management</Container>
+                        {headerScreenSmall ? <></> : <Container className="p-0 ms-3 fs-1 fw-bold d-none d-sm-block">Thesis Management</Container>}
                     </Navbar.Brand>
 
                     <Col className="" md={4}>
-                        {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ? <VC/> : <></>}
+                        {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ?
+                            <VC />
+                            :
+                            <></>}
                     </Col>
 
                     <Navbar.Brand className='links'>
@@ -37,13 +68,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                             <>
                                 <Nav.Link onClick={() => setShow(true)}>
                                     <div style={{display: 'flex', alignItems: 'center'}}>
-                                        <span>
-                                            <Col className="" md={2}>
-                                                Hi,
-                                                {role === "PROFESSOR" ? " Prof." : ""}
-                                                {role === "PROFESSOR" || role === "STUDENT" || role === "SECRETARY" ? JSON.parse(user) && (" " + JSON.parse(user).name + " " + JSON.parse(user).surname) : ""}
-                                            </Col>
-                                        </span>
+                                        <Hello />
                                         &nbsp;&nbsp;
                                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35" height="35"
                                              viewBox="0 0 50 50">

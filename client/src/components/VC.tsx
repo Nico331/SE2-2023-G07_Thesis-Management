@@ -1,20 +1,28 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react';
-import {Button, Container, Form} from 'react-bootstrap';
+import {Button, Container, Form, OverlayTrigger, Popover} from 'react-bootstrap';
+import { FaRegClock } from "react-icons/fa";
 import ClockService from "../services/ClockService";
 import {VirtualClockContext} from "../contexts/VirtualClockContext";
 import dayjs from "dayjs";
 
-// type VirtualClockProps = {
-//     refresh: boolean;
-//     setRefresh: Dispatch<SetStateAction<boolean>>;
-// };
-
-const VC = () => {
+export default function VC() {
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 1240px)').matches);
     const [timerId, setTimerId] = useState(null);
     const [date, setDate] = useState("");
     const [dateOnForm, setDateOnForm] = useState("");
-
     const {refresh, setRefresh} = useContext(VirtualClockContext);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsScreenSmall(window.innerWidth <= 1240);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         let id = setInterval(() => {
@@ -59,22 +67,73 @@ const VC = () => {
         setRefresh(!refresh);
     };
 
+    const renderVCOverlay = (
+        <Popover id="vc-popover">
+            <Popover.Body>
+                <Container className="d-flex justify-content-center align-items-center">
+                    <Form.Group className="d-flex flex-row" controlId="expiration">
+                        <Form.Control
+                            type="datetime-local"
+                            placeholder="Enter date"
+                            value={dateOnForm}
+                            style={{maxWidth:"30vh"}}
+                            onChange={(e) => handleDateChange(e.target.value)}
+                            onKeyDown={(e) => e.preventDefault()}
+                        />
+                        <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+                        <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+                    </Form.Group>
+                </Container>
+            </Popover.Body>
+        </Popover>
+    );
+
     return (
-        <Container className="d-flex justify-content-center align-items-center">
-            <Form.Group className="d-flex flex-row" controlId="expiration">
-                <Form.Control
-                    type="datetime-local"
-                    placeholder="Enter date"
-                    value={dateOnForm}
-                    style={{maxWidth:"30vh"}}
-                    onChange={(e) => handleDateChange(e.target.value)}
-                    onKeyDown={(e) => e.preventDefault()}
-                />
-                <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
-                <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
-            </Form.Group>
-        </Container>
+        <>
+        {isScreenSmall ?
+            (
+                <OverlayTrigger
+                    trigger="click"
+                    key="vc-overlay"
+                    placement="bottom"
+                    overlay={renderVCOverlay}
+                >
+                    <Button variant="danger">
+                        <FaRegClock className="mb-1 me-1"/>
+                        VirtualClock
+                    </Button>
+                </OverlayTrigger>
+            )
+            :
+            <Container className="d-flex justify-content-center align-items-center">
+                <Form.Group className="d-flex flex-row" controlId="expiration">
+                    <Form.Control
+                        type="datetime-local"
+                        placeholder="Enter date"
+                        value={dateOnForm}
+                        style={{maxWidth:"30vh"}}
+                        onChange={(e) => handleDateChange(e.target.value)}
+                        onKeyDown={(e) => e.preventDefault()}
+                    />
+                    <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+                    <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+                </Form.Group>
+            </Container>
+        }
+        </>
+        // <Container className="d-flex justify-content-center align-items-center">
+        //     <Form.Group className="d-flex flex-row" controlId="expiration">
+        //         <Form.Control
+        //             type="datetime-local"
+        //             placeholder="Enter date"
+        //             value={dateOnForm}
+        //             style={{maxWidth:"30vh"}}
+        //             onChange={(e) => handleDateChange(e.target.value)}
+        //             onKeyDown={(e) => e.preventDefault()}
+        //         />
+        //         <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+        //         <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+        //     </Form.Group>
+        // </Container>
     );
 }
-
-export default VC;
