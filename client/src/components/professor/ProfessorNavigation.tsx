@@ -55,6 +55,7 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
                             <NavDropdown.Item onClick={() => navigate("/browse-applications-cosupervisor")}> Browse cosupervised proposals and applications </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/archived-proposals")}> Browse archived proposals </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => navigate("/add-proposal")}> Add proposals </NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => navigate("/browse-requests")}> Browse students' requests </NavDropdown.Item>
                             <NavDropdown.Divider /> {}
                             <NavDropdown.Item onClick={() => logOut()}>Logout</NavDropdown.Item>
                         </NavDropdown>

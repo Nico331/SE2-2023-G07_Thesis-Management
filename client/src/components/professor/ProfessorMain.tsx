@@ -64,6 +64,7 @@ const ProfessorMain= () => {
                     <Row className="justify-content-center">
                         <ZoomableContainer id={"archive-proposal"} title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
                         <ZoomableContainer id={"forum"} title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
+                        <ZoomableContainer id={"students-requests"} title={"Requests"} link={"/browse-requests"} description={"Browse, accept/reject and ask to modify students' thesis requests."}></ZoomableContainer>
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">

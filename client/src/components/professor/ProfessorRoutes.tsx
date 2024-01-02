@@ -12,6 +12,7 @@ import Forum from "../forum/Forum";
 import ForumForm from "../forum/ForumForm";
 import TopicPage from "../forum/TopicPage";
 import BrowseApplicationsAsCosupervisor from "./BrowseApplicationsAsCosupervisor";
+import BrowseRequests from "./BrowseRequests";
 
 type ProfessorRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;
@@ -35,6 +36,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
                 <Route path="/forum" element={<Forum/>} />
                 <Route path="/forum/new" element={<ForumForm/>} />
                 <Route path="/forum/:forumId" element={<TopicPage />} />
+                <Route path="/browse-requests" element={<BrowseRequests />} />
                 <Route path="/logout" element={<Logout setRole={setRoleState}/>} />
             </Routes>
         </div>

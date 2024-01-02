@@ -1,6 +1,6 @@
 import axios from '../axiosInstance';
 
-const endpoint = '/careers';
+const endpoint = '/Career';
 
 export default {
     fetchCareer(id) {
@@ -13,7 +13,7 @@ export default {
     },
 
     fetchAllCareers() {
-        return axios.get(endpoint,{
+        return axios.get(`${endpoint}`,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("token")
