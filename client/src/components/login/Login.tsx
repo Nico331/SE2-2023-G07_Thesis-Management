@@ -84,12 +84,12 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                 {alert ? <Alert variant="danger" style={{width:"50vh"}} onClick={() => setAlert(false)}>
                     Invalid username or password!
                 </Alert> : <></>}
-                <Container className="p-3 mt-4 border border-2 d-flex flex-column" style={{borderRadius:"30px", maxWidth: "450px", minWidth: "334px"}}>
+                <Container className="p-3 mt-4 border border-2 d-flex flex-column" style={{borderRadius:"30px", maxWidth: "450px", minWidth: "300px", minHeight:"440px", maxHeight:"475px"}}>
                     <Container className="p-2 mt-5 d-flex justify-content-center">
                         <Image style={{ width: 263, height: 110 }} src={"../Polito-Logo.png"}/>
                     </Container>
                     <Container style={{height: 'inherit'}}>
-                        <Form noValidate className="mt-5" validated={validated} onSubmit={handleLogin}>
+                        <Form noValidate className="mt-4" validated={validated} onSubmit={handleLogin}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email o Username</Form.Label>
                                 <Form.Control
@@ -113,7 +113,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                             </Form.Group>
 
                             <div className="d-flex justify-content-center" >
-                                <Button className="mt-5" variant="primary" type="submit" style={{background: hover ? "#006d72" : '#00838B'}}
+                                <Button className="mt-4" variant="primary" type="submit" style={{background: hover ? "#006d72" : '#00838B'}}
                                         onMouseEnter={() => setHover(true)}
                                         onMouseOut={() => setHover(false)}
                                         onTouchStart={() => setHover(true)}
