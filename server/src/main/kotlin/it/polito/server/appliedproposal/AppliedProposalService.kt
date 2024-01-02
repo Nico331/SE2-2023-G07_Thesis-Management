@@ -310,4 +310,62 @@ class AppliedProposalService(
             ResponseEntity("Application not fount", HttpStatus.NOT_FOUND)
         }
     }
+
+
+    fun findByCoSupervisor(coSupervisorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
+        val proposals = proposalRepository.findByCoSupervisors(coSupervisorId);
+        return proposals
+                .filter { archiviationTypes.contains(it.archived) }
+                .map { proposal->
+                    val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
+
+                    val listApplications = appliedProposals.map { appliedProposal->
+                        val student = studentRepository.findById(appliedProposal.studentId).map { it.toDTO() }.get()
+
+                        val listExams = careerRepository.findByStudentId(student.id!!).map { it.toDTO() }
+                        return@map Applications(
+                                appliedProposal.id,
+                                appliedProposal.proposalId,
+                                Student(
+                                        student.id,
+                                        student.surname,
+                                        student.name,
+                                        student.gender,
+                                        student.nationality,
+                                        student.email,
+                                        student.codDegree,
+                                        student.enrollmentYear,
+                                        listExams
+                                ),
+                                appliedProposal.status,
+                                appliedProposal.file
+                        )
+                    }
+                    //val nameSupervisor = professorRepository.findById(proposal.supervisor)
+                    /*
+                    val coSup = proposal.coSupervisors.map { it ->
+                        val prof = professorRepository.findById(it).get();
+                        return@map "${prof.name} ${prof.surname}"
+                    }
+
+                     */
+                    return@map StrangeObjectRequestedByDarione(
+                            proposal.id,
+                            proposal.title,
+                            proposal.supervisor,
+                            proposal.coSupervisors,
+                            proposal.keywords,
+                            proposal.type,
+                            proposal.groups,
+                            proposal.description,
+                            proposal.requiredKnowledge,
+                            proposal.notes,
+                            proposal.expiration,
+                            proposal.level,
+                            proposal.cdS,
+                            proposal.archived,
+                            listApplications
+                    )
+                }
+    }
 }
