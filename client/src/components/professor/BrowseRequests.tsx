@@ -52,11 +52,26 @@ const BrowseRequests = () => {
 
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
+    const [isSupervisor, setIsSupervisor] = useState(false);
+
 
     useEffect(() => {
         if (user) {
             RequestProposalService.fetchAllRequestProposals().then((res) => {
-                const myReq = res.data.filter((req) => req.supervisorId === JSON.parse(user).id);
+                const userId = JSON.parse(user).id;
+
+                const myReq = res.data.filter((req) => {
+                    // Verifica se il supervisorId corrisponde all'ID dell'utente
+                    const isSupervisor = req.supervisorId === userId;
+                    if(isSupervisor)
+                        setIsSupervisor(true);
+
+                    // Verifica se almeno uno dei cosupervisori ha l'ID dell'utente
+                    const hasCoSupervisor = req.coSupervisors.some(cosupervisor => cosupervisor === userId);
+
+                    // Restituisce true se soddisfa almeno una delle condizioni
+                    return isSupervisor || hasCoSupervisor;
+                });
                 setMyRequests(myReq);
 
             });
@@ -189,7 +204,7 @@ const BrowseRequests = () => {
                                                     </div>
                                                 </Row>
                                                 <div className="col-sm-4">
-                                                    {request.supervisorStatus === 'ACCEPTED' && (
+                                                    {isSupervisor && request.supervisorStatus === "PENDING" && request.secretaryStatus === 'ACCEPTED' && (
                                                             <>
                                                                 <ButtonGroup>
                                                                     <Button variant="success"
@@ -215,15 +230,18 @@ const BrowseRequests = () => {
 
                                                     }
                                                     {
-                                                        request.supervisorStatus === 'PENDING' && (
+                                                        isSupervisor && request.secretaryStatus === 'PENDING' && (
                                                             <span>Waiting for secretary's approval</span>
                                                         )
                                                     }
                                                     {
-                                                        request.supervisorStatus === 'REJECTED' && (
+                                                        isSupervisor && request.secretaryStatus === 'REJECTED' && (
                                                             <span>Secretary rejected this request</span>
                                                         )
                                                     }
+                                                    {!isSupervisor && ( // se non è un supervisor
+                                                        <span>You're cosupervisor</span>
+                                                    )}
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body style={{textAlign: 'left'}}>
