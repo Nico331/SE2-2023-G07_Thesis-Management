@@ -108,6 +108,36 @@ class ProposalUnitTests {
         ))
     }
 
+    @Test
+    fun testUpdateNonExistingProposal() {
+        val proposalId = "999"
+        val updatedProposalDTO = ProposalDTO(
+                title = "Updated Proposal",
+                supervisor = "John Doe",
+                coSupervisors = listOf("Jane Smith"),
+                externalCoSupervisors = listOf(
+                        ExternalCoSupervisorDTO("name1", "surname1", "email1"),
+                        ExternalCoSupervisorDTO("name2", "surname2", "email2")
+                ),
+                keywords = listOf("Java", "Spring"),
+                type = "Research",
+                groups = listOf("Group1", "Group2"),
+                description = "Updated description",
+                requiredKnowledge = "Updated knowledge",
+                notes = "Updated notes",
+                expiration = LocalDate.now().plusMonths(1),
+                level = "Master",
+                cdS = listOf("CD1", "CD2"),
+                archived = archiviation_type.NOT_ARCHIVED
+        )
+
+        `when`(proposalService.updateProposal(proposalId, updatedProposalDTO)).thenReturn(null)
+
+        val responseEntity = proposalController.updateProposal(proposalId, updatedProposalDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+    }
+
 
     @Test
     fun testCreateProposal() {
@@ -275,6 +305,62 @@ class ProposalUnitTests {
         val responseEntity = proposalController.getAll()
         assert(responseEntity.statusCode == HttpStatus.OK)
         assert(responseEntity.body == proposalDTOList)
+    }
+
+    @Test
+    fun testGetActiveProposalsForStudent() {
+        val studentId = "student123"
+        val activeProposals = listOf(ProposalDTO(
+                id = "1",
+                title = "Proposal 1",
+                supervisor = "John Doe",
+                coSupervisors = listOf("Jane Smith"),
+                keywords = listOf("Java", "Spring"),
+                type = "Research",
+                groups = listOf("Group1", "Group2"),
+                description = "Description 1",
+                requiredKnowledge = "Knowledge 1",
+                notes = "Notes 1",
+                expiration = LocalDate.now().plusMonths(2),
+                level = "Master",
+                cdS = listOf("CD1", "CD2"),
+                archived = archiviation_type.NOT_ARCHIVED
+        ),
+                ProposalDTO(
+                        id = "2",
+                        title = "Proposal 2",
+                        supervisor = "Jane Smith",
+                        coSupervisors = listOf("John Doe"),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.NOT_ARCHIVED
+                ))
+
+        `when`(proposalService.findActiveByStudent(studentId)).thenReturn(activeProposals)
+
+        val responseEntity = proposalController.getAllByStudent(studentId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == activeProposals)
+    }
+
+    @Test
+    fun testGetNoActiveProposalsForStudent() {
+        val studentId = "student456"
+
+        `when`(proposalService.findActiveByStudent(studentId)).thenReturn(emptyList())
+
+        val responseEntity = proposalController.getAllByStudent(studentId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body?.isEmpty() ?: true)
     }
 
     @Test
@@ -481,6 +567,85 @@ class ProposalUnitTests {
 
         assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
         assert(responseEntity.body == "Error: Proposal is already archived")
+    }
+
+    @Test
+    fun testManuallyArchivedProposalError() {
+        val proposalId = "1"
+        val proposalEntity = Proposal(
+                id = "1",
+                title = "Active Proposal 1",
+                supervisor = "supervisor",
+                coSupervisors = listOf("Jane Smith"),
+                keywords = listOf("Java", "Spring"),
+                type = "Research",
+                groups = listOf("Group1", "Group2"),
+                description = "Description 1",
+                requiredKnowledge = "Knowledge 1",
+                notes = "Notes 1",
+                expiration = LocalDate.now().plusMonths(2),
+                level = "Master",
+                cdS = listOf("CD1", "CD2"),
+                archived = archiviation_type.MANUALLY_ARCHIVED
+        )
+
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(proposalEntity))
+        `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error")
+        )
+
+        val responseEntity = proposalController.setManuallyArchivedProposal(proposalId)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Internal Server Error")
+    }
+
+    @Test
+    fun testManuallyArchivedProposalInvalidId() {
+        val proposalId = "invalid_id"
+
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.empty())
+
+        `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Invalid proposal ID")
+        )
+
+        val responseEntity = proposalController.setManuallyArchivedProposal(proposalId)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Error: Invalid proposal ID")
+    }
+
+    @Test
+    fun testManuallyArchivedProposalNegativeExpiration() {
+        val proposalId = "1"
+
+        val proposalEntity = Proposal(
+                id = proposalId,
+                title = "Active Proposal 1",
+                supervisor = "supervisor",
+                coSupervisors = listOf("Jane Smith"),
+                keywords = listOf("Java", "Spring"),
+                type = "Research",
+                groups = listOf("Group1", "Group2"),
+                description = "Description 1",
+                requiredKnowledge = "Knowledge 1",
+                notes = "Notes 1",
+                expiration = LocalDate.now().plusMonths(2),
+                level = "Master",
+                cdS = listOf("CD1", "CD2"),
+                archived = archiviation_type.NOT_ARCHIVED
+        )
+
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(proposalEntity))
+        `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Negative expiration date")
+        )
+
+        val responseEntity = proposalController.setManuallyArchivedProposal(proposalId)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Error: Negative expiration date")
     }
 
 

@@ -31,13 +31,12 @@ class ProposalController (private val proposalService: ProposalService){
         return ResponseEntity.ok(updatedProposal)
     }
 
-
-
     @GetMapping("")
     fun getAll(): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findAll()
         return ResponseEntity.ok(proposals)
     }
+
     @GetMapping("/student/{studentid}")
     fun getAllByStudent( @PathVariable studentid : String ): ResponseEntity<List<ProposalDTO>>{
         val proposals = proposalService.findActiveByStudent( studentid )
@@ -68,8 +67,6 @@ class ProposalController (private val proposalService: ProposalService){
        //return ALL PROPOSAL by CoSupervisor
         return proposalService.findProposalsByCoSupervisor(coSupervisor)
     }
-
-
 
     @GetMapping("/filters")
     fun getProposals(@RequestParam(required = false) filters: Map<String, String>,
