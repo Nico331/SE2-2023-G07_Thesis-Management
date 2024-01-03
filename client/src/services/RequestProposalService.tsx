@@ -36,4 +36,22 @@ export default {
             }
         });
     },
+
+    acceptRequestProposalProf(id){
+        return axios.put(`${endpoint}/bySupervisor/accept/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
+    rejectRequestProposalProf(id){
+        return axios.put(`${endpoint}/bySupervisor/reject/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    }
 };

@@ -44,6 +44,13 @@ const BrowseRequests = () => {
     const [exams, setExams] = useState([]);
 
 
+    const [showAcceptPopup, setShowAcceptPopup] = useState(false);
+    const [requestToAccept, setRequestToAccept] = useState("");
+
+    const [showRejectPopup, setShowRejectPopup] = useState(false);
+    const [requestToReject, setRequestToReject] = useState("");
+
+    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
 
     useEffect(() => {
@@ -74,7 +81,60 @@ const BrowseRequests = () => {
         });
     }, [refresh]);
 
+    useEffect(() => {
+        if (!showsuccessmodal.show) {
+            // Aggiorna la pagina dopo la chiusura del popup di successo
+            setRefresh((r) => !r);
+        }
+    }, [showsuccessmodal.show]);
 
+    const handleAccept = async (applicationId) => {
+        setShowAcceptPopup(false);
+        setRequestToAccept("");
+        RequestProposalService.acceptRequestProposalProf(applicationId).then(() => {
+            setShowAlertModal({
+                show: true,
+                type: "success",
+                text: "Application accepted"
+            });
+
+            // Chiudi automaticamente il popup dopo 3 secondi
+            setTimeout(() => {
+                setShowAlertModal({
+                    show: false,
+                    type: "",
+                    text: ""
+                });
+                // Aggiorna la pagina dopo la chiusura del popup di successo
+                setRefresh((r) => !r);
+            }, 3000);
+        });
+
+    };
+
+    const handleReject = async (applicationId) => {
+
+        setShowRejectPopup(false);
+        setRequestToReject("");
+        RequestProposalService.rejectRequestProposalProf(applicationId).then(() => {
+            setShowAlertModal({
+                show: true,
+                type: "success",
+                text: "Application rejected"
+            });
+
+            // Chiudi automaticamente il popup dopo 3 secondi
+            setTimeout(() => {
+                setShowAlertModal({
+                    show: false,
+                    type: "",
+                    text: ""
+                });
+                // Aggiorna la pagina dopo la chiusura del popup di successo
+                setRefresh((r) => !r);
+            }, 3000);
+        });
+    };
 
 
 
@@ -83,6 +143,30 @@ const BrowseRequests = () => {
         <>
             <Container className="d-flex flex-column">
                 <h2 style={{marginTop: "110px"}}>Requests</h2>
+
+                {showsuccessmodal.show ?
+                    <>
+                        <Modal
+                            show={showsuccessmodal.show}
+                        >
+                            <Modal.Header>
+                                <Modal.Title>
+                                    {showsuccessmodal.type === "success" ? "Success" : "Error"}
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {showsuccessmodal.text}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({
+                                    show: false,
+                                    type: "",
+                                    text: ""
+                                })}>Close</Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </>
+                    : null}
 
                 <Accordion className="mt-5">
                     {
@@ -104,6 +188,43 @@ const BrowseRequests = () => {
                                                         {request.title}&nbsp;
                                                     </div>
                                                 </Row>
+                                                <div className="col-sm-4">
+                                                    {request.supervisorStatus === 'ACCEPTED' && (
+                                                            <>
+                                                                <ButtonGroup>
+                                                                    <Button variant="success"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setShowAcceptPopup(true);
+                                                                                setRequestToAccept(request.id);
+                                                                            }}>
+                                                                        Accept
+                                                                    </Button>{' '}
+                                                                    <Button variant="danger"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setShowRejectPopup(true);
+                                                                                setRequestToReject(request.id);
+                                                                            }}>
+                                                                        Reject
+                                                                    </Button>
+                                                                </ButtonGroup>
+                                                            </>
+
+                                                        )
+
+                                                    }
+                                                    {
+                                                        request.supervisorStatus === 'PENDING' && (
+                                                            <span>Waiting for secretary's approval</span>
+                                                        )
+                                                    }
+                                                    {
+                                                        request.supervisorStatus === 'REJECTED' && (
+                                                            <span>Secretary rejected this request</span>
+                                                        )
+                                                    }
+                                                </div>
                                             </Accordion.Header>
                                             <Accordion.Body style={{textAlign: 'left'}}>
                                                 <Row>
@@ -230,6 +351,42 @@ const BrowseRequests = () => {
                     }
                 </Accordion>
             </Container>
+
+            <Modal
+                show={showAcceptPopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Accept
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to accept the application?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleAccept(requestToAccept)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showRejectPopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Reject
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to reject the application?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleReject(requestToReject)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 
