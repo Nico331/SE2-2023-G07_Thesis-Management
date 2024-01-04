@@ -16,7 +16,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
     useEffect(() => {
         const handleResize = () => {
             setHelloScreenSmall(window.innerWidth <= 1000);
-            setHeaderScreenSmall(window.innerWidth <= 700);
+            setHeaderScreenSmall(window.innerWidth <= 770);
         };
 
         window.addEventListener('resize', handleResize);
@@ -60,7 +60,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                             <></>}
                     </Col>
 
-                    <Navbar.Brand className='links'>
+                    <Navbar.Brand className='links p-0'>
                         {role === "" ?
                             <Nav.Link onClick={()=>navigate('login')}>
                                 Login</Nav.Link> : null}
@@ -84,9 +84,9 @@ export default function MainNavBar({role, undef_user, setRole}) {
                         <Offcanvas
                             show={show}
                             onHide={() => setShow(false)}
-                            style={{background: '#002B49', width: '30%'}}
+                            style={headerScreenSmall ? {background: '#002B49', width: '100%', height: '50%'} : {background: '#002B49', width: '30%'}}
                             className={"justify-content-end"}
-                            placement='end'
+                            placement={headerScreenSmall ? 'top' : 'end'}
                             backdrop={true}
                             scroll={true}
                         >
@@ -100,7 +100,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                 {role === "PROFESSOR" ? (<>
                                     <Row className='canvas'>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/")} id='menu-mainpage'>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/");
+                                                setShow(false);
+                                            }} id='menu-mainpage'>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
@@ -114,7 +117,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/browse-applications")} id='menu-myproposals'>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/browse-applications");
+                                                setShow(false);
+                                            }} id='menu-myproposals'>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-search"
@@ -127,7 +133,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/browse-applications-cosupervisor")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/browse-applications-cosupervisor");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg width="28" height="28" className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
@@ -137,7 +146,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/archived-proposals")} id="menu-archive">
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/archived-proposals");
+                                                setShow(false);
+                                            }} id="menu-archive">
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-archive"
@@ -150,7 +162,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/add-proposal")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/add-proposal");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-plus-lg"
@@ -163,7 +178,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/logout")} id="menu-logout">
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/logout");
+                                                setShow(false);
+                                            }} id="menu-logout">
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-box-arrow-right"
@@ -183,7 +201,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                 {role === "STUDENT" ? (<>
                                     <Row className='canvas'>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
@@ -197,7 +218,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/proposalList")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/proposalList");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-search"
@@ -210,7 +234,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/myApplicationList")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/myApplicationList");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-check-lg"
@@ -223,7 +250,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/requestForm")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/requestForm");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-plus-lg"
@@ -236,7 +266,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/request")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/request");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-check-lg"
@@ -249,7 +282,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/logout")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/logout");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-box-arrow-right"
@@ -290,7 +326,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                 {role === "SECRETARY" ? (<>
                                     <Row className='canvas'>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
@@ -304,7 +343,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/requested-proposals")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/requested-proposals");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
@@ -319,7 +361,10 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/logout")}>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/logout");
+                                                setShow(false);
+                                            }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-box-arrow-right"

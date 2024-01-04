@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from 'react';
-import {Button, Container, Form, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Button, Container, Form, OverlayTrigger, Popover, Row} from 'react-bootstrap';
 import { FaRegClock } from "react-icons/fa";
 import ClockService from "../services/ClockService";
 import {VirtualClockContext} from "../contexts/VirtualClockContext";
@@ -70,19 +70,22 @@ export default function VC() {
     const renderVCOverlay = (
         <Popover id="vc-popover">
             <Popover.Body>
-                <Container className="d-flex justify-content-center align-items-center">
-                    <Form.Group className="d-flex flex-row" controlId="expiration">
+                <Container className="d-flex flex-column align-items-center">
+                    <Form.Group className="mb-3" controlId="expiration">
                         <Form.Control
                             type="datetime-local"
                             placeholder="Enter date"
                             value={dateOnForm}
-                            style={{maxWidth:"30vh"}}
+                            style={{ maxWidth: "30vh" }}
+                            rootClose={true}
                             onChange={(e) => handleDateChange(e.target.value)}
                             onKeyDown={(e) => e.preventDefault()}
                         />
-                        <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
-                        <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
                     </Form.Group>
+                    <Container className="d-flex justify-content-between">
+                        <Button variant={"secondary"} disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
+                        <Button variant="danger" onClick={handleReset}>Reset</Button>
+                    </Container>
                 </Container>
             </Popover.Body>
         </Popover>
@@ -97,6 +100,7 @@ export default function VC() {
                     key="vc-overlay"
                     placement="bottom"
                     overlay={renderVCOverlay}
+                    rootClose={true}
                 >
                     <Button variant="danger">
                         <FaRegClock className="mb-1 me-1"/>
@@ -122,19 +126,5 @@ export default function VC() {
             </Container>
         }
         </>
-        // <Container className="d-flex justify-content-center align-items-center">
-        //     <Form.Group className="d-flex flex-row" controlId="expiration">
-        //         <Form.Control
-        //             type="datetime-local"
-        //             placeholder="Enter date"
-        //             value={dateOnForm}
-        //             style={{maxWidth:"30vh"}}
-        //             onChange={(e) => handleDateChange(e.target.value)}
-        //             onKeyDown={(e) => e.preventDefault()}
-        //         />
-        //         <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
-        //         <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
-        //     </Form.Group>
-        // </Container>
     );
 }
