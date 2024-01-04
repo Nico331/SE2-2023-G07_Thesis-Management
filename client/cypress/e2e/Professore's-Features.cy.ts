@@ -1,5 +1,5 @@
 
-describe("Professore Accesses", () => {
+describe("Professore's features", () => {
 
   const professorID = "p300001@polito.it";
   const professorPass = "p300001";
@@ -20,6 +20,7 @@ describe("Professore Accesses", () => {
   const cds = "Computer Engineering";
   
   beforeEach("login", () => {
+    cy.viewport(1920, 1080);
     cy.visit("http://localhost:3000");
 
     cy.get(".btn-primary").click();
@@ -59,28 +60,46 @@ describe("Professore Accesses", () => {
     cy.get("#submit-btn").click();
   });
 
+  const newTitle = "Test Proposal Modified";
+  const newLevel = "Bachelor";
+  const newExp = "2024-03-05";
+  const newType = "Experimental";
   const cosupervisorID = "p300003";
+  const newCosupervisorID = "p300004";
   const removeKeyword = "Artificial Neural Networks";
+  const newKeyword = "Machine Learning";
   const newRequiredKnowledge = ", python";
   const newCds = "Computer Science";
 
   it("Edit a proposal", () => {
     cy.get("#my-proposal").click();
     cy.contains("Test Proposal").find("#modify-btn").click();
-    cy.get("#title").clear().type("Test Proposal Modified");
-    cy.get("#type").select("Experimental");
-    cy.get("#level").select("Bachelor");
-    cy.get("#exp").clear().type("2024-03-05");
+    cy.get("#title").clear().type(newTitle);
+    cy.get("#type").select(newType);
+    cy.get("#level").select(newLevel);
+    cy.get("#exp").clear().type(newExp);
     cy.get("#remove-" + cosupervisorID).click();
-    cy.get("#cosupervisor").select("p300004");
+    cy.get("#cosupervisor").select(newCosupervisorID);
     cy.get("#add-cosup-button").click();
     cy.get("#remove-" + keywords.indexOf(removeKeyword)).click();
-    cy.get("#keyword-input").type("Machine Learning");
+    cy.get("#keyword-input").type(newKeyword);
     cy.get("#add-keyword-btn").click();
     cy.get("#requiredKnoledge").type(newRequiredKnowledge);
     cy.get("#cds-input").type(newCds);
     cy.get("#add-cds-btn").click();
     cy.get("#update-btn").click();
+    cy.get("#close-modal-btn").click();
+  });
+
+  const studentName = "Michael Johnson";
+
+  it("Accept or reject an application", () => {
+    cy.get("#my-proposal").click();
+    cy.contains("Test Proposal Copied").click();
+    cy.contains("Student: " + studentName).within(() => {
+      cy.get("#accept-btn").click();
+    })
+    cy.get("#accept-yes-btn").click();
     cy.get("#close-modal-btn").click();
   });
 
@@ -106,20 +125,42 @@ describe("Professore Accesses", () => {
     cy.get(".btn-close-white").click();
   });
 
+  const deletedTitle = "Test Proposal Copied";
+
   it("Delete a proposal", () => {
     cy.get("#my-proposal").click();
-    cy.contains("Test Proposal Copied").find("#delete-btn").click();
+    cy.contains(deletedTitle).find("#delete-btn").click();
     cy.get("#delete-yes-btn").click();
   });
+
+  const newTopic = "Test Topic";
+  const topicThesis = "Test Proposal Modified";
+  const topicDescription = "Test Description";
+  const topicVisibility = "Public";
 
   it("Create a new topic in the forum", () => {
     cy.get("#forum").click();
     cy.get("#new-topic-btn").click();
-    cy.get("#name").type("Test Topic");
-    cy.get("#thesis").select("Test Proposal");
-    cy.get("#description").type("Test Description");
-    cy.get("#visibility").select("Public");
+    cy.get("#name").type(newTopic);
+    cy.get("#thesis").select(topicThesis);
+    cy.get("#description").type(topicDescription);
+    cy.get("#visibility").select(topicVisibility);
     cy.get("#create-btn").click();
+  });
+
+  const date = "2024-06-24T00:00:00";
+
+  it("Change the VC", () => {
+    cy.get("#vc-input").clear().type(date);
+    cy.get("#set-btn").click({force: true});
+    cy.wait(4000);
+    cy.get("#reset-btn").click();
+  });
+
+  it("Logout", () => {
+    cy.wait(4000);
+    cy.get("#menu").click();
+    cy.get("#menu-logout").click();
   });
 
 });

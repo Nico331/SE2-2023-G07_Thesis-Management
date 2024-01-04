@@ -114,9 +114,10 @@ export default function VC() {
                         style={{maxWidth:"30vh"}}
                         onChange={(e) => handleDateChange(e.target.value)}
                         onKeyDown={(e) => e.preventDefault()}
+                        id="vc-input"
                     />
-                    <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate}>Set</Button>
-                    <Button className="ms-2" variant="danger" onClick={handleReset}>Reset</Button>
+                    <Button variant={"secondary"} className="ms-3" disabled={date === dateOnForm} onClick={setNewDate} id="set-btn">Set</Button>
+                    <Button className="ms-2" variant="danger" onClick={handleReset} id="reset-btn">Reset</Button>
                 </Form.Group>
             </Container>
         }

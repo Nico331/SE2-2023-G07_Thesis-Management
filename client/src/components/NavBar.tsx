@@ -163,7 +163,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                             </Nav.Link>
                                         </Row>
                                         <Row>
-                                            <Nav.Link onClick={()=>navigate("/logout")}>
+                                            <Nav.Link onClick={()=>navigate("/logout")} id="menu-logout">
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-box-arrow-right"

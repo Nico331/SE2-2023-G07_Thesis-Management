@@ -347,7 +347,7 @@ const BrowseApplications = () => {
                                             <h3 className="mt-3">Applications</h3>
                                             <Accordion className="mt-3">
                                                 {proposal.applications.map((application, index) => (
-                                                    <Accordion.Item eventKey={application.id}>
+                                                    <Accordion.Item eventKey={application.id} id="applicaitons-btn">
                                                         <Accordion.Header className={"w-100"}>
                                                             <Row className={"w-100"}>
                                                                 <div className="col-sm-8">
@@ -362,7 +362,8 @@ const BrowseApplications = () => {
                                                                                         e.stopPropagation();
                                                                                         setShowAcceptPopup(true);
                                                                                         setApplicationToAccept(application.id);
-                                                                                    }}>
+                                                                                    }}
+                                                                                    id="accept-btn">
                                                                                 Accept
                                                                             </Button>{' '}
                                                                             <Button variant="danger"
@@ -370,7 +371,8 @@ const BrowseApplications = () => {
                                                                                         e.stopPropagation();
                                                                                         setShowRejectPopup(true);
                                                                                         setApplicationToReject(application.id);
-                                                                                    }}>
+                                                                                    }}
+                                                                                    id="reject-btn">
                                                                                 Reject
                                                                             </Button>
                                                                         </>
@@ -480,8 +482,8 @@ const BrowseApplications = () => {
                     Are you sure you want to accept the application?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleAccept(applicationToAccept)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)} id="accept-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleAccept(applicationToAccept)} id="accept-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -498,8 +500,8 @@ const BrowseApplications = () => {
                     Are you sure you want to reject the application?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleReject(applicationToReject)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)} id="reject-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleReject(applicationToReject)} id="reject-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
 
