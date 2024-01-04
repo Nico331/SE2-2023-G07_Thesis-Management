@@ -10,7 +10,7 @@ data class RequestProposalDTO (
         var coSupervisors: List<String>,
         var description: String,
         var acceptanceDate: LocalDate?= null,
-        val secretaryStatus: RequestProposalStatus = RequestProposalStatus.PENDING,
+        var secretaryStatus: RequestProposalStatus = RequestProposalStatus.PENDING,
         val supervisorStatus: RequestProposalStatus = RequestProposalStatus.PENDING
 ){
     fun toDBObj () : RequestProposal = RequestProposal(
