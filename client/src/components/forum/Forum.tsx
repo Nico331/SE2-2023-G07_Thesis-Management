@@ -25,7 +25,8 @@ const Forum: React.FC = () => {
             <div style={{paddingTop: 40}}>
                 <Button onClick={()=>{
                     navigate("/forum/new")
-                }}>
+                }}
+                id="new-topic-btn">
                     Create new topic
                 </Button>
             </div>

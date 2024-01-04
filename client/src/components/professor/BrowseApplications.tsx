@@ -202,7 +202,7 @@ const BrowseApplications = () => {
                                     show: false,
                                     type: "",
                                     text: ""
-                                })}>Close</Button>
+                                })} id="close-modal-btn">Close</Button>
                             </Modal.Footer>
                         </Modal>
                     </>
@@ -239,6 +239,7 @@ const BrowseApplications = () => {
                                                         <Button
                                                             variant="primary"
                                                             onClick={(e) => handlecopy(e, proposal.id)}
+                                                            id="copy-btn"
                                                         >
                                                             <FaRegCopy /> {/* Copy Icon */}
                                                         </Button>
@@ -246,6 +247,7 @@ const BrowseApplications = () => {
                                                         <Button
                                                             variant="primary"
                                                             onClick={(e) => handlemodify(e, proposal.id)}
+                                                            id="modify-btn"
                                                         >
                                                             <BsPencil /> {/* Pencil/Modify Icon */}
                                                         </Button>
@@ -256,6 +258,7 @@ const BrowseApplications = () => {
                                                                 setShowArchivePopup(() => true);
                                                                 setProposalToArchive(proposal.id);
                                                             }}
+                                                            id="archive-btn"
                                                         >
                                                             <BsArchive /> {/* Archive Icon */}
                                                         </Button>
@@ -270,6 +273,7 @@ const BrowseApplications = () => {
                                                                     setShowDeletePopup(() => true);
                                                                     setProposalToDelete(proposal.id);
                                                                 }}
+                                                                id="delete-btn"
                                                             >
                                                                 <BsTrash /> {/* Trash/Delete Icon */}
                                                             </Button>
@@ -458,8 +462,8 @@ const BrowseApplications = () => {
                     "<b>{proposals && proposalToDelete && proposals.filter((p) => p.id === proposalToDelete).pop().title}</b>"?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)} id="delete-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleDelete(proposalToDelete)} id='delete-yes-btn'>Yes</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -513,8 +517,8 @@ const BrowseApplications = () => {
                     "<b>{proposals && proposalToArchive && proposals.filter((p) => p.id === proposalToArchive).pop().title}</b>"?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleArchive(proposalToArchive)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)} id='arch-no-btn'>No</Button>
+                    <Button variant={"danger"} onClick={() => handleArchive(proposalToArchive)} id='arch-yes-btn'>Yes</Button>
                 </Modal.Footer>
             </Modal>
 

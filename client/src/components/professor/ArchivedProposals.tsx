@@ -124,6 +124,7 @@ const ArchivedProposals = () => {
                                                             className="ms-2 mt-2"
                                                             variant={'primary'}
                                                             onClick={(e) => handlemodify(e, proposal.id)}
+                                                            id="restore-btn"
                                                         >
                                                             Modify
                                                         </Button>

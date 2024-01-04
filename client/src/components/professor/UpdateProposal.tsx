@@ -215,6 +215,7 @@ function UpdateProposal (props) {
                                         placeholder= {props.modifyproposal.title}
                                         value={updatedprop.title}
                                         onChange={(e) => setUpdatedprop({...updatedprop, title: e.target.value})}
+                                        id="title"
                                     />
                                 </Form.Group>
                             </div>
@@ -224,6 +225,7 @@ function UpdateProposal (props) {
                                     <Form.Control as="select"
                                         value={updatedprop.type}
                                         onChange={(e) => setUpdatedprop({...updatedprop, type: e.target.value})}
+                                        id="type"
                                     >
                                         <option value="">Select the type</option>
                                         <option value="In company">In company</option>
@@ -240,7 +242,9 @@ function UpdateProposal (props) {
                                 <Form.Group controlId="level">
                                     <Form.Label className="h3">Level</Form.Label>
                                     <Form.Control as="select"  value={updatedprop.level}
-                                                  onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}>
+                                                  onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}
+                                                  id="level"
+                                    >
                                         <option value="">Select the type</option>
                                         <option value="Bachelor">Bachelor</option>
                                         <option value="Masters">Masters</option>
@@ -256,6 +260,7 @@ function UpdateProposal (props) {
                                         value={updatedprop.expiration.format("YYYY-MM-DD")}
                                         onChange={(e) => setUpdatedprop({...updatedprop, expiration: dayjs(e.target.value)})}
                                         min={new Date().toISOString().split("T")[0]}
+                                        id="exp"
                                     />
                                 </Form.Group>
                             </div>
@@ -293,6 +298,7 @@ function UpdateProposal (props) {
                                                     size="sm"
                                                     className="float-right"
                                                     onClick={() => removeCoSupervisor(index)}
+                                                    id={"remove-" + cs}
                                                 >
                                                     Remove
                                                 </Button>
@@ -342,11 +348,12 @@ function UpdateProposal (props) {
                                                         placeholder="Enter keyword"
                                                         value={newKeyword}
                                                         onChange={(e) => setNewKeyword(e.target.value)}
+                                                        id="keyword-input"
                                                     />
                                                 </div>
                                                 &nbsp;&nbsp;
                                                 <div className="col-lg-4">
-                                                    <Button variant="primary" onClick={addKeyword}>
+                                                    <Button variant="primary" onClick={addKeyword} id="add-keyword-btn">
                                                         Add keyword
                                                     </Button>
                                                 </div>
@@ -355,7 +362,8 @@ function UpdateProposal (props) {
                                                 {console.log(updatedprop.keywords)}
                                                 {updatedprop.keywords.map((keyword, index) => (
                                                     <Button variant="primary" key={index} className="m-2"
-                                                            onClick={() => removeKeyword(index)}>
+                                                            onClick={() => removeKeyword(index)}
+                                                            id={"remove-" + index}>
                                                         {keyword}{' '}<FaTimes/>
                                                     </Button>))}
                                             </div>
@@ -434,7 +442,7 @@ function UpdateProposal (props) {
                 {/*-----------------------*/}
                 <Modal.Footer>
                     <Button variant="danger" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
-                    {props.pagetype === "modify" ? <Button onClick={(e) => handleSubmit(e)}>Update</Button> : <Button variant="success" onClick={(e) => handleSubmit(e)}>Create a Copy</Button>}
+                    {props.pagetype === "modify" ? <Button onClick={(e) => handleSubmit(e)} id="update-btn">Update</Button> : <Button variant="success" onClick={(e) => handleSubmit(e)} id="create-copy-btn">Create a Copy</Button>}
                 </Modal.Footer>
             </Modal>
         </>

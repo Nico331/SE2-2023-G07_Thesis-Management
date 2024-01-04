@@ -59,7 +59,7 @@ const ProfessorMain= () => {
                     <Row>
                         <ZoomableContainer id={"new-proposal"} title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
                         <ZoomableContainer id={"my-proposal"} title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
-                        <ZoomableContainer title={"Cosupervised proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
+                        <ZoomableContainer id={"cosup-proposal"} title={"Cosupervised proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
                         <ZoomableContainer id={"archive-proposal"} title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>

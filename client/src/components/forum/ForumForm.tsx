@@ -52,6 +52,7 @@ const ForumForm: React.FC = () => {
                                     placeholder="Enter topic name"
                                     value={topic.name}
                                     onChange={(e) => setTopic({ ...topic, name: e.target.value })}
+                                    id="name"
                                 />
                             </Form.Group>
                         </div>
@@ -62,6 +63,7 @@ const ForumForm: React.FC = () => {
                                     options={ theses.map((thesis) => {return { value: thesis.id, label: thesis.title }})}
                                     value={theses.find(thesis => thesis.id === topic.thesis)?.title}
                                     onChange={(newValue) => setSelectedThesis(newValue)}
+                                    id='thesis'
                                 />
                             </Form.Group>
                         </div>
@@ -77,6 +79,7 @@ const ForumForm: React.FC = () => {
                                     placeholder="Enter description"
                                     value={topic.description}
                                     onChange={(e) => setTopic({ ...topic, description: e.target.value })}
+                                    id='description'
                                 />
                             </Form.Group>
                         </div>
@@ -86,7 +89,8 @@ const ForumForm: React.FC = () => {
                             <Form.Group controlId="visibility">
                                 <Form.Label className="h3">Visibility*</Form.Label>
                                 <Form.Control as="select" value={topic.visibility}
-                                              onChange={(e) => setTopic({ ...topic, visibility: e.target.value})}>
+                                              onChange={(e) => setTopic({ ...topic, visibility: e.target.value})}
+                                              id='visibility'>
                                     <option value="PUBLIC">Public</option>
                                     <option value="PROTECTED">Protected</option>
                                     <option value="PRIVATE">Private</option>
@@ -95,7 +99,7 @@ const ForumForm: React.FC = () => {
                         </div>
                     </Row>
                     <br />
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" id='create-btn'>
                         Create Topic
                     </Button>
                     <br /><br />
