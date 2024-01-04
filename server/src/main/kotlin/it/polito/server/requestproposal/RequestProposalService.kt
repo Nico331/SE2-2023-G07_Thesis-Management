@@ -136,4 +136,11 @@ class RequestProposalService (
         return ResponseEntity.ok("Notification for Request Proposal '$proposalId' sent successfully")
     }
 
+    fun findAllRequestProposalsByProfessor(id: String): ResponseEntity<Any> {
+        val allRequestProposal = requestProposalRepository.findBySupervisorIdOrCoSupervisorsContaining(id).map{(it.toDTO())}
+        if (allRequestProposal.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Professor '$id' has NO Request for Proposals.")
+        return ResponseEntity.ok(allRequestProposal)
+    }
+
 }
