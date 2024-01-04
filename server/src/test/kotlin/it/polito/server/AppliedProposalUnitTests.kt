@@ -2,6 +2,7 @@ package it.polito.server
 
 import it.polito.server.appliedproposal.*
 import it.polito.server.proposal.Proposal
+import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.archiviation_type
 import it.polito.server.student.StudentRepository
@@ -542,20 +543,160 @@ class AppliedProposalUnitTests {
         assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         assert(responseEntity.body == "Internal Server Error")
     }
+    @Test
+    fun testGetActiveByProfessorId() {
+        val professorId = "prof123"
+        val proposalsWithApplications = listOf(
+                StrangeObjectRequestedByDarione(id = "2",
+                        title = "Proposal 2",
+                        supervisor = "prof123",
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.NOT_ARCHIVED,
+                        applications = emptyList()
+                ),
+                StrangeObjectRequestedByDarione(
+                        id = "1",
+                        title = "Proposal 1",
+                        supervisor = "prof123",
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Java", "Spring"),
+                        type = "Research",
+                        groups = listOf("Group1", "Group2"),
+                        description = "Description 1",
+                        requiredKnowledge = "Knowledge 1",
+                        notes = "Notes 1",
+                        expiration = LocalDate.now().plusMonths(2),
+                        level = "Master",
+                        cdS = listOf("CD1", "CD2"),
+                        archived = archiviation_type.NOT_ARCHIVED,
+                        applications = emptyList()
+                )
+        )
+
+        `when`(appliedProposalService.findByProfessor(professorId, archiviation_type.NOT_ARCHIVED))
+                .thenReturn(proposalsWithApplications)
+
+        val responseEntity = appliedProposalController.getActiveByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == ResponseEntity.ok(proposalsWithApplications).body)
+    }
+
+    @Test
+    fun testGetActiveByProfessorIdNoActiveProposals() {
+        val professorId = "prof123"
+
+        `when`(appliedProposalService.findByProfessor(professorId, archiviation_type.NOT_ARCHIVED))
+                .thenReturn(emptyList())
+
+        val responseEntity = appliedProposalController.getActiveByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<StrangeObjectRequestedByDarione>())
+    }
+
+    @Test
+    fun testGetActiveByProfessorIdExpiredProposals() {
+        val professorId = "prof123"
+        val expiredProposal =
+                StrangeObjectRequestedByDarione(id = "2",
+                        title = "Proposal 2",
+                        supervisor = "prof123",
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.EXPIRED,
+                        applications = emptyList()
+                )
+
+                `when`(appliedProposalService.findByProfessor(professorId, archiviation_type.NOT_ARCHIVED))
+                        .thenReturn(listOf(expiredProposal))
+
+        val responseEntity = appliedProposalController.getActiveByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+    }
+
+    @Test
+    fun testGetArchivedByProfessorId() {
+        val professorId = "prof456"
+        val proposalsWithApplications = listOf(
+                StrangeObjectRequestedByDarione(id = "2",
+                        title = "Proposal 2",
+                        supervisor = "prof123",
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Kotlin", "Spring"),
+                        type = "Thesis",
+                        groups = listOf("Group2", "Group3"),
+                        description = "Description 2",
+                        requiredKnowledge = "Knowledge 2",
+                        notes = "Notes 2",
+                        expiration = LocalDate.now().plusMonths(3),
+                        level = "PhD",
+                        cdS = listOf("CD2", "CD3"),
+                        archived = archiviation_type.MANUALLY_ARCHIVED,
+                        applications = emptyList()
+                ),
+                StrangeObjectRequestedByDarione(
+                        id = "1",
+                        title = "Proposal 1",
+                        supervisor = "prof123",
+                        coSupervisors = listOf("Jane Smith"),
+                        keywords = listOf("Java", "Spring"),
+                        type = "Research",
+                        groups = listOf("Group1", "Group2"),
+                        description = "Description 1",
+                        requiredKnowledge = "Knowledge 1",
+                        notes = "Notes 1",
+                        expiration = LocalDate.now().plusMonths(2),
+                        level = "Master",
+                        cdS = listOf("CD1", "CD2"),
+                        archived = archiviation_type.EXPIRED,
+                        applications = emptyList()
+                )
+        )
+
+        `when`(appliedProposalService.findByProfessor(professorId, archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED))
+                .thenReturn(proposalsWithApplications)
+
+        val responseEntity = appliedProposalController.getArchivedByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == proposalsWithApplications)
+    }
+
+    @Test
+    fun testGetArchivedByProfessorIdNoArchivedProposals() {
+        val professorId = "prof456"
+
+        `when`(appliedProposalService.findByProfessor(professorId, archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED))
+                .thenReturn(emptyList())
+
+        val responseEntity = appliedProposalController.getArchivedByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<StrangeObjectRequestedByDarione>())
+    }
 
 
     /*
     MANCANO TEST PER QUESTE APIs:
-    @GetMapping("/active/{professorId}")
-    fun getActiveByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
-        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED )
-        return ResponseEntity.ok(proposalsWithApplications)
-    }
-    @GetMapping("/archived/{professorId}")
-    fun getArchivedByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
-        val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED )
-        return ResponseEntity.ok(proposalsWithApplications)
-    }
 
     @GetMapping("/active/{coSupervisorId}")
     fun getActiveByCoSupervisorId (@PathVariable coSupervisorId: String) : ResponseEntity<Any> {

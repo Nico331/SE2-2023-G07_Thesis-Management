@@ -104,6 +104,73 @@ class RequestProposalUnitTests {
     }
 
     @Test
+    fun testCreateRequestProposalSupervisorNotFound() {
+        val newRequestProposalDTO = RequestProposalDTO(
+                title = "Existing Request Proposal",
+                studentId = "1",
+                supervisorId = "John Doe",
+                coSupervisors = listOf("Sup1", "Sup2"),
+                description = "New description",
+                acceptanceDate = null,
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
+        )
+
+        `when`(requestProposalService.existsByTitleAndStudentId(newRequestProposalDTO.title, newRequestProposalDTO.studentId)).thenReturn(false)
+        `when`(professorService.findProfessorById(newRequestProposalDTO.supervisorId)).thenReturn(null)
+
+        val responseEntity = requestProposalController.createRequestProposal(newRequestProposalDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "The supervisor does not exist in the database")
+    }
+
+    @Test
+    fun testCreateRequestProposalExistingStudent() {
+        val existingStudentId = "ExistingStudent"
+        val newRequestProposalDTO = RequestProposalDTO(
+                title = "New Request Proposal",
+                studentId = existingStudentId,
+                supervisorId = "John Doe",
+                coSupervisors = listOf("Sup1", "Sup2"),
+                description = "New description",
+                acceptanceDate = null,
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
+        )
+
+        `when`(requestProposalService.existsByStudentId(existingStudentId)).thenReturn(true)
+
+        val responseEntity = requestProposalController.createRequestProposal(newRequestProposalDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Request Proposal for the same Student already exists")
+    }
+
+    /*@Test
+    fun testCreateRequestProposalInternalServerError() {
+        val newRequestProposalDTO = RequestProposalDTO(
+                title = "New Request Proposal",
+                studentId = "1",
+                supervisorId = "John Doe",
+                coSupervisors = listOf("Sup1", "Sup2"),
+                description = "New description",
+                acceptanceDate = null,
+                secretaryStatus = RequestProposalStatus.PENDING,
+                supervisorStatus = RequestProposalStatus.PENDING
+        )
+
+        `when`(requestProposalService.existsByStudentId(newRequestProposalDTO.studentId)).thenReturn(false)
+        `when`(professorService.findProfessorById(newRequestProposalDTO.supervisorId)).thenReturn(null)
+        `when`(requestProposalService.createRequestProposal(newRequestProposalDTO)).thenThrow(RuntimeException("Simulated Internal Server Error"))
+
+        val responseEntity = requestProposalController.createRequestProposal(newRequestProposalDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Simulated Internal Server Error")
+    }*/
+
+    @Test
     fun testUpdateRequestProposal() {
         val requestProposalId = "1"
         val updatedRequestProposalDTO = RequestProposalDTO(
@@ -197,6 +264,19 @@ class RequestProposalUnitTests {
     }
 
     @Test
+    fun testDeleteRequestProposalInternalServerError() {
+        val requestProposalId = "1"
+
+        `when`(requestProposalService.deleteRequestProposal(requestProposalId))
+                .thenReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"))
+
+        val responseEntity = requestProposalController.deleteRequestProposal(requestProposalId)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Internal Server Error")
+    }
+
+    @Test
     fun testGetRequestProposal() {
         val requestProposalId = "1"
         val requestProposalDTO = RequestProposalDTO(
@@ -269,6 +349,19 @@ class RequestProposalUnitTests {
     }
 
     @Test
+    fun testGetAllRequestProposalsEmptyList() {
+        val emptyList: List<RequestProposalDTO> = emptyList()
+
+        `when`(requestProposalService.findAllRequestProposals())
+                .thenReturn(emptyList)
+
+        val responseEntity = requestProposalController.getAll()
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList)
+    }
+
+    @Test
     fun testGetAllRequestProposalsByStudentId() {
         val studentId = "123"
         val requestProposalDTOList = listOf(
@@ -319,6 +412,31 @@ class RequestProposalUnitTests {
 
         assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
         assert(responseEntity.body == "Error: Student '$nonExistingStudentId' does NOT exist.")
+    }
+    @Test
+    fun testGetAllRequestProposalsByStudentIdEmptyList() {
+        val studentId = "456"
+
+        `when`(requestProposalService.findAllRequestProposalsByStudent(studentId))
+                .thenReturn(ResponseEntity.ok(emptyList<RequestProposalDTO>()))
+
+        val responseEntity = requestProposalController.getAllByStudentId(studentId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<RequestProposalDTO>())
+    }
+
+    @Test
+    fun testGetAllRequestProposalsByStudentIdInternalServerError() {
+        val studentId = "789"
+
+        `when`(requestProposalService.findAllRequestProposalsByStudent(studentId))
+                .thenReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"))
+
+        val responseEntity = requestProposalController.getAllByStudentId(studentId)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Internal Server Error")
     }
 
     @Test
