@@ -68,4 +68,8 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return requestProposalService.rejectRequestProposalBySupervisor(id)
     }
 
+    @PostMapping("/requestOfChangeByProfessor/{professorId}/{proposalId}")
+    fun requestOfChangeByProfessor(@PathVariable professorId: String, @PathVariable proposalId: String, @RequestBody message : String): ResponseEntity<Any> {
+        return requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)
+    }
 }
