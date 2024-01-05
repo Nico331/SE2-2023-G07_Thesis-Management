@@ -1,8 +1,5 @@
 package it.polito.server
 
-import it.polito.server.professor.Professor
-import it.polito.server.professor.ProfessorDTO
-import it.polito.server.requestproposal.RequestProposalDTO
 import it.polito.server.student.Student
 import it.polito.server.student.StudentController
 import it.polito.server.student.StudentDTO
