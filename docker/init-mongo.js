@@ -415,3 +415,52 @@ const externalCoSupervisors = [
 ]
 
 db.externalCoSupervisor.insertMany(externalCoSupervisors)
+
+const requestForProposals = [
+    {
+        "_id": "1",
+        "title": "Smart Home Automation System",
+        "description": "Develop a system that intelligently automates various tasks in a home, such as lighting, temperature control, and security, using IoT devices.",
+        "studentId": "s300001",
+        "supervisorId" : "p300001",
+        "coSupervisors" : ["p300002"],
+        "acceptanceDate" : null,
+        "secretaryStatus" : "PENDING",
+        "supervisorStatus" : "PENDING"
+    },
+    {
+        "_id": "2",
+        "title": "Machine Learning for Medical Diagnosis",
+        "description": "Apply machine learning techniques to analyze medical data and assist in the early diagnosis of diseases, improving healthcare efficiency.",
+        "studentId": "s300002",
+        "supervisorId" : "p300003",
+        "coSupervisors" : ["p300001", "p300005"],
+        "acceptanceDate" : null,
+        "secretaryStatus" : "PENDING",
+        "supervisorStatus" : "PENDING"
+    },
+    {
+        "_id": "3",
+        "title": "Blockchain-based Supply Chain Management",
+        "description": "Explore the implementation of blockchain technology to enhance transparency and traceability in supply chain management for improved efficiency.",
+        "studentId": "s300003",
+        "supervisorId" : "p300004",
+        "coSupervisors" : [],
+        "acceptanceDate" : null,
+        "secretaryStatus" : "PENDING",
+        "supervisorStatus" : "PENDING"
+    },
+    {
+        "_id": "4",
+        "title": "Autonomous Drone Navigation",
+        "description": "Design and implement algorithms for autonomous drone navigation, enabling drones to navigate through complex environments with obstacle avoidance.",
+        "studentId": "s300004",
+        "supervisorId" : "p300002",
+        "coSupervisors" : ["p300001", "p300003", "p300004"],
+        "acceptanceDate" : null,
+        "secretaryStatus" : "PENDING",
+        "supervisorStatus" : "PENDING"
+    }
+];
+
+db.requestProposal.insertMany(requestForProposals);

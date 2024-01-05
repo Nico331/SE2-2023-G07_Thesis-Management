@@ -71,12 +71,6 @@ class AppliedProposalController(
         return appliedProposalService.withdrawProposal(proposalId)
     }
 
-    /*@GetMapping("/{professorId}/filter")
-    fun getByFilters (@PathVariable professorId: String) : ResponseEntity<Any> {
-        val filteredApplications = appliedProposalService.findByFilters( professorId )
-        return ResponseEntity.ok(filteredApplications)
-    }*/
-
     @GetMapping("/active/{professorId}")
     fun getActiveByProfessorId (@PathVariable professorId: String) : ResponseEntity<Any> {
         val proposalsWithApplications = appliedProposalService.findByProfessor( professorId, archiviation_type.NOT_ARCHIVED )
@@ -88,7 +82,7 @@ class AppliedProposalController(
         return ResponseEntity.ok(proposalsWithApplications)
     }
 
-    @GetMapping("/active/{coSupervisorId}")
+    @GetMapping("/active/cosupervisor/{coSupervisorId}")
     fun getActiveByCoSupervisorId (@PathVariable coSupervisorId: String) : ResponseEntity<Any> {
         val proposalsWithApplications = appliedProposalService.findByCoSupervisor( coSupervisorId, archiviation_type.NOT_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)

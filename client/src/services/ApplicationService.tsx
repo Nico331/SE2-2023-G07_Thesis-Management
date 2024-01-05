@@ -83,6 +83,14 @@ export default {
             }
         });
     },
+    getByCosupervisorId(cosupervisorId){
+        return axios.get(`${endpoint}/active/cosupervisor/${cosupervisorId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
 
     getByProfessorIdArchived(professorId){
         return axios.get(`${endpoint}/archived/${professorId}`,{

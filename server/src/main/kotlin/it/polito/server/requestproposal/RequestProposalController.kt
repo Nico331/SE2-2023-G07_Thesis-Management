@@ -53,7 +53,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return requestProposalService.findAllRequestProposalsByProfessor(id)
     }
 
-    @PutMapping("/bySecretary/accept/{id}/")
+    @PutMapping("/bySecretary/accept/{id}")
     fun acceptRequestProposalBySecretary(@PathVariable id: String): ResponseEntity<Any> {
         return requestProposalService.acceptRequestProposalBySecretary(id)
     }
@@ -63,7 +63,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return requestProposalService.rejectRequestProposalBySecretary(id)
     }
 
-    @PutMapping("/bySupervisor/accept/{id}/")
+    @PutMapping("/bySupervisor/accept/{id}")
     fun acceptRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
         return requestProposalService.acceptRequestProposalBySupervisor(id)
     }
@@ -74,7 +74,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
     }
 
     @PostMapping("/requestOfChangeByProfessor/{professorId}/{proposalId}")
-    fun requestOfChangeByProfessor(@PathVariable professorId: String, @PathVariable proposalId: String, @RequestBody message : String): ResponseEntity<Any> {
+    fun requestOfChangeByProfessor(@PathVariable professorId: String, @PathVariable proposalId: String, @RequestBody message : MessageFromProfessorDTO): ResponseEntity<Any> {
         return requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)
     }
 }

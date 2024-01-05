@@ -111,7 +111,7 @@ class RequestProposalService (
         return ResponseEntity.ok("Request Proposal '$id' rejected successfully")
     }
 
-    fun requestOfChangeByProfessor(professorId: String, proposalId: String, message: String): ResponseEntity<Any> {
+    fun requestOfChangeByProfessor(professorId: String, proposalId: String, message: MessageFromProfessorDTO): ResponseEntity<Any> {
         val requestProposal = requestProposalRepository.findById(proposalId).orElse(null).toDTO() ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
 
         if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
@@ -127,8 +127,9 @@ class RequestProposalService (
                     "modifications to make. Follows the professor's requests" +
                     "\nBest regards" +
                     "\nGestione Didattica" +
-                    "\n---------------------" +
-                    "\n$message",
+                    "\n---------------------\n" +
+                    message.message +
+                    "\n---------------------\n",
             "no-reply@studenti.polito.it"
         )
 

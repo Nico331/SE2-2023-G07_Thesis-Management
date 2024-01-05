@@ -21,7 +21,7 @@ const BrowseApplicationsAsCosupervisor = () => {
     const {user, setUser} = useContext(UserContext);
     useEffect(() => {
         if (user) {
-            ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
+            ApplicationService.getByCosupervisorId(JSON.parse(user).id).then((res) => {
                 setProposals(res.data);
             })
         }

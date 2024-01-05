@@ -213,35 +213,15 @@ class AppliedProposalService(
         return ResponseEntity.ok().body("Successful operation")
     }
 
-    fun findByFilters (supervisorId : String) : HashMap<String, List<Any>> {
-        val resMap = HashMap<String, List<Any>>()
-
-        val interestingProposals = proposalRepository.findBySupervisor(supervisorId).map { it.toDTO( externalCoSupervisorRepository ) }
-        interestingProposals.filter { appliedProposalRepository.existsAppliedProposalByProposalId(it.supervisor) }
-
-        interestingProposals.forEach {
-            val proposalId = it.id
-            val applications = it.id?.let { it1 -> appliedProposalRepository.findByProposalId(it1).map { it.toDTO() } }
-            if (applications != null && proposalId != null) {
-                val mixedList = listOf(it) + applications
-                resMap.put( proposalId , mixedList)
-            }
-        }
-        return resMap
-    }
 
     fun findByProfessor(professorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
         val proposals = proposalRepository.findBySupervisor(professorId);
         return proposals
             .filter { archiviationTypes.contains(it.archived) }
             .map { proposal->
-//            println(proposal)
-//            println(proposal.id!!)
             val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
-//            println(appliedProposals)
             val listApplications = appliedProposals.map { appliedProposal->
                 val student = studentRepository.findById(appliedProposal.studentId).map { it.toDTO() }.get()
-//                println(student)
                 val listExams = careerRepository.findByStudentId(student.id!!).map { it.toDTO() }
                 return@map Applications(
                     appliedProposal.id,
