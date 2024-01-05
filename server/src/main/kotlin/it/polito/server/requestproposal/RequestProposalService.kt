@@ -1,5 +1,6 @@
 package it.polito.server.requestproposal
 
+import it.polito.server.email.EmailService
 import it.polito.server.student.StudentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -8,7 +9,11 @@ import java.time.LocalDate
 
 
 @Service
-class RequestProposalService (private val requestProposalRepository: RequestProposalRepository, private val studentService: StudentService) {
+class RequestProposalService (
+    private val requestProposalRepository: RequestProposalRepository,
+    private val studentService: StudentService,
+    private val emailService: EmailService
+) {
 
     fun createRequestProposal(requestProposal: RequestProposalDTO): RequestProposalDTO {
         val savedRequestProposal = requestProposalRepository.save(requestProposal.toDBObj())
@@ -104,6 +109,38 @@ class RequestProposalService (private val requestProposalRepository: RequestProp
         requestProposalRepository.save(requestProposal.copy(supervisorStatus = RequestProposalStatus.REJECTED))
 
         return ResponseEntity.ok("Request Proposal '$id' rejected successfully")
+    }
+
+    fun requestOfChangeByProfessor(professorId: String, proposalId: String, message: String): ResponseEntity<Any> {
+        val requestProposal = requestProposalRepository.findById(proposalId).orElse(null).toDTO() ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Proposal doesn't exist")
+
+        if (requestProposal.supervisorStatus != RequestProposalStatus.PENDING)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
+
+        requestProposal.secretaryStatus = RequestProposalStatus.PENDING
+
+        emailService.sendSimpleMessage(
+            "${requestProposal.studentId}$@studenti.polito.it",
+            "Request of change for \"${requestProposal.title}\"",
+            "Your request of proposal has been reviewed by the professor, " +
+                    "and there are some corrections/" +
+                    "modifications to make. Follows the professor's requests" +
+                    "\nBest regards" +
+                    "\nGestione Didattica" +
+                    "\n---------------------" +
+                    "\n$message",
+            "no-reply@studenti.polito.it"
+        )
+
+        requestProposalRepository.save(requestProposal.toDBObj())
+        return ResponseEntity.ok("Notification for Request Proposal '$proposalId' sent successfully")
+    }
+
+    fun findAllRequestProposalsByProfessor(id: String): ResponseEntity<Any> {
+        val allRequestProposal = requestProposalRepository.findBySupervisorIdOrCoSupervisorsContaining(id).map{(it.toDTO())}
+        if (allRequestProposal.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Professor '$id' has NO Request for Proposals.")
+        return ResponseEntity.ok(allRequestProposal)
     }
 
 }

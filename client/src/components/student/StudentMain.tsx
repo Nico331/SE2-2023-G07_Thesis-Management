@@ -11,7 +11,6 @@ const ZoomableContainer = (props) => {
         transition: 'transform 0.3s ease-in-out',
         transform: isHovered ? 'scale(1.05)' : 'scale(1)',
         backgroundColor: isHovered ? '#002B49' : '#ffffff', // Cambia il colore al passaggio del mouse
-        margin: '10px',
         padding: '5px',
         borderRadius: '5px',
         cursor: "pointer",
