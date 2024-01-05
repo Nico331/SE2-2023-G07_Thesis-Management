@@ -53,7 +53,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return requestProposalService.findAllRequestProposalsByProfessor(id)
     }
 
-    @PutMapping("/bySecretary/accept/{id}/")
+    @PutMapping("/bySecretary/accept/{id}")
     fun acceptRequestProposalBySecretary(@PathVariable id: String): ResponseEntity<Any> {
         return requestProposalService.acceptRequestProposalBySecretary(id)
     }
@@ -63,7 +63,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
         return requestProposalService.rejectRequestProposalBySecretary(id)
     }
 
-    @PutMapping("/bySupervisor/accept/{id}/")
+    @PutMapping("/bySupervisor/accept/{id}")
     fun acceptRequestProposalBySupervisor(@PathVariable id: String): ResponseEntity<Any> {
         return requestProposalService.acceptRequestProposalBySupervisor(id)
     }
