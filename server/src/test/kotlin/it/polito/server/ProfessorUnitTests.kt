@@ -1,9 +1,6 @@
 package it.polito.server
 
-import it.polito.server.professor.Professor
-import it.polito.server.professor.ProfessorController
-import it.polito.server.professor.ProfessorDTO
-import it.polito.server.professor.ProfessorService
+import it.polito.server.professor.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
@@ -15,10 +12,12 @@ class ProfessorUnitTests {
 
     private lateinit var professorService: ProfessorService
     private lateinit var professorController: ProfessorController
+    private lateinit var professorRepository: ProfessorRepository
 
     @BeforeEach
     fun setUp() {
         professorService = mock(ProfessorService::class.java)
+        professorRepository = mock(ProfessorRepository::class.java)
         professorController = ProfessorController(professorService)
     }
 
@@ -53,6 +52,7 @@ class ProfessorUnitTests {
         assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
     }
 
+
     @Test
     fun testAllProfessors() {
         val professorDTOList = listOf(
@@ -79,6 +79,15 @@ class ProfessorUnitTests {
         val responseEntityList = professorController.allProfessors()
         // Verifico che la risposta sia la LISTA di professorDTO
         assert(responseEntityList == professorDTOList)
+    }
+
+    @Test
+    fun testAllProfessorsEmptyList() {
+        `when`(professorService.allProfessors()).thenReturn(emptyList())
+
+        val responseEntityList = professorController.allProfessors()
+
+        assert(responseEntityList.isEmpty())
     }
 
     @Test
@@ -117,6 +126,26 @@ class ProfessorUnitTests {
         // Verifico che la risposta sia BAD_REQUEST
         assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
         assert(responseEntity.body == "existing professor")
+    }
+
+    @Test
+    fun testCreateProfessorMissingData() {
+        val professorWithMissingData = Professor(
+                name = "Existing",
+                surname = "Professor",
+                email = "existingprofessor@professor.it",
+                codGroup = "Group",
+                codDepartment = "Department"
+        )
+
+        `when`(professorService.createProfessor(professorWithMissingData)).thenReturn(
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required data")
+        )
+
+        val responseEntity = professorController.createProfessor(professorWithMissingData)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Missing required data")
     }
 
     @Test
@@ -165,6 +194,23 @@ class ProfessorUnitTests {
     }
 
     @Test
+    fun testUpdateProfessorNotFound() {
+        val invalidProfessorId = "99"
+        val updatedProfessorDTO = ProfessorDTO(
+                name = "Updated",
+                surname = "Professor",
+                email = "updatedprofessor@professor.it",
+                codGroup = "Group",
+                codDepartment = "Department"
+        )
+        `when`(professorService.updateProfessor(invalidProfessorId, updatedProfessorDTO)).thenReturn(null)
+
+        val responseEntity = professorController.updateProfessor(invalidProfessorId, updatedProfessorDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+    }
+
+    @Test
     fun testDeleteExistingProfessor() {
         val professorId = "1"
         // Configuro il mock del servizio per indicare che il professore esiste
@@ -204,5 +250,25 @@ class ProfessorUnitTests {
         // Verifico che la risposta sia INTERNAL_SERVER_ERROR
         assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         assert(responseEntity.body == "Error deleting professor")
+    }
+
+    @Test
+    fun testToDTO() {
+        val professor = Professor(
+                name = "John",
+                surname = "Doe",
+                email = "johndoe@professor.it",
+                codGroup = "Group",
+                codDepartment = "Department"
+        )
+
+        val professorDTO = professor.toDTO()
+
+        assert(professorDTO.id == professor.id)
+        assert(professorDTO.name == professor.name)
+        assert(professorDTO.surname == professor.surname)
+        assert(professorDTO.email == professor.email)
+        assert(professorDTO.codGroup == professor.codGroup)
+        assert(professorDTO.codDepartment == professor.codDepartment)
     }
 }

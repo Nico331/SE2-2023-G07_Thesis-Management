@@ -65,6 +65,18 @@ class StudentUnitTests {
         assert(responseEntityList == studentDTOList)
     }
 
+    @Test
+    fun testAllStudentsEmptyList() {
+        val emptyList: List<StudentDTO> = emptyList()
+
+        `when`(studentService.allStudents())
+                .thenReturn(emptyList)
+
+        val responseEntity = studentController.allStudents()
+
+        assert(responseEntity == emptyList)
+    }
+
 
     @Test
     fun testCreateStudent() {
@@ -150,6 +162,25 @@ class StudentUnitTests {
         assert(responseEntity.statusCode == HttpStatus.OK)
     }
 
+    @Test
+    fun testUpdateStudentNotFound() {
+        val invalidStudentId = "99"
+        val updateStudentDTO = StudentDTO(
+                surname = "Updated",
+                name = "Student",
+                gender = "Male",
+                nationality = "US",
+                email = "updatedstudent@student.it",
+                codDegree = "11111",
+                enrollmentYear = 2023
+        )
+        `when`(studentService.updateStudent(invalidStudentId, updateStudentDTO)).thenReturn(null)
+
+        val responseEntity = studentController.updateStudent(invalidStudentId, updateStudentDTO)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+    }
+
 
     @Test
     fun testDeleteExistingStudent() {
@@ -197,6 +228,30 @@ class StudentUnitTests {
         // Verifico che la risposta sia INTERNAL_SERVER_ERROR
         assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         assert(responseEntity.body == "Error deleting student")
+    }
+
+    @Test
+    fun testToDTO() {
+        val student = Student(
+                surname = "Updated",
+                name = "Student",
+                gender = "Male",
+                nationality = "US",
+                email = "updatedstudent@student.it",
+                codDegree = "11111",
+                enrollmentYear = 2023
+        )
+
+        val studentDTO = student.toDTO()
+
+        assert(studentDTO.id == student.id)
+        assert(studentDTO.name == student.name)
+        assert(studentDTO.surname == student.surname)
+        assert(studentDTO.gender == student.gender)
+        assert(studentDTO.nationality == student.nationality)
+        assert(studentDTO.email == student.email)
+        assert(studentDTO.codDegree == student.codDegree)
+        assert(studentDTO.enrollmentYear == student.enrollmentYear)
     }
 
 }
