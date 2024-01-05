@@ -25,3 +25,7 @@ data class RequestProposalDTO (
             supervisorStatus = this.supervisorStatus
     )
 }
+
+class MessageFromProfessorDTO (
+        val message : String
+)
