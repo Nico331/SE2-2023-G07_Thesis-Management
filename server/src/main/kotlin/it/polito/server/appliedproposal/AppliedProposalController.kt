@@ -88,7 +88,7 @@ class AppliedProposalController(
         return ResponseEntity.ok(proposalsWithApplications)
     }
 
-    @GetMapping("/active/{coSupervisorId}")
+    @GetMapping("/active/cosupervisor/{coSupervisorId}")
     fun getActiveByCoSupervisorId (@PathVariable coSupervisorId: String) : ResponseEntity<Any> {
         val proposalsWithApplications = appliedProposalService.findByCoSupervisor( coSupervisorId, archiviation_type.NOT_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)
