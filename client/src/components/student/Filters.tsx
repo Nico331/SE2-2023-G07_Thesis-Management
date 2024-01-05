@@ -2,7 +2,7 @@ import React, {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 //import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css';
-import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import {Form, Button, Col, Container, Row, Modal} from 'react-bootstrap';
 import Select from 'react-select';
 import ProposalService from "../../services/ProposalService";
 
@@ -40,10 +40,12 @@ type FiltersSidebarProps = {
     setResetFilters: Dispatch<SetStateAction<boolean>>;
     refresh: boolean;
     setRefresh: Dispatch<SetStateAction<boolean>>;
-    date: Date;
+    isScreenSmall: boolean;
+    showFilterModal: boolean;
+    setShowFilterModal: Dispatch<SetStateAction<boolean>>;
 };
 
-const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters, refresh, setRefresh, date}) => {
+const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, professors, resetFilters, setResetFilters, refresh, setRefresh, isScreenSmall, showFilterModal, setShowFilterModal}) => {
     const [flag, setFlag] = useState(true);
     const [search, setSearch] = useState("");
     const [makeSearch, setMakeSearch] = useState(true);
@@ -113,27 +115,31 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
         setRefresh(!refresh);
     }, [resetFilters])
 
-    return (
-        <Col className="ms-0 px-4" sm={5} style={{backgroundColor:"#e0e0e0"}}>
-            <Form className="text-start" style={{marginTop:"100px"}}>
-                <Container>
-                    <h3><i className="bi bi-funnel-fill me-2"></i>Filters</h3>
-                </Container>
-                <Container style={{height:"82vh", overflowY:"auto"}}>
-                    <Form.Group className="mt-2">
+    const FilterForm = () => {
+        return (<Col className={isScreenSmall ? "m-0 p-0 w-100" : "ms-0 px-4"} sm={5} style={isScreenSmall ? {} : {backgroundColor:"#e0e0e0"}}>
+            <Form className="text-start" style={isScreenSmall ? {} : {marginTop:"100px"}}>
+                {isScreenSmall ? <></> :
+                    <Container>
+                        <h3><i className="bi bi-funnel-fill me-2"></i>Filters</h3>
+                    </Container>
+                }
+                <Container className={isScreenSmall ? "p-3" : ""} style={isScreenSmall ? {} : {height:"82vh", overflowY:"auto"}}>
+                    <Form.Group className={isScreenSmall ? "" : "mt-2"}>
                         <Form.Label>Search</Form.Label>
                         <Row className="mt-2">
-                            <Col sm={9}>
-                                <Form.Control type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
+                            <Col className="pe-0" sm={isScreenSmall ? 0 : 7} style={isScreenSmall ? {width:"200px"} : {}}>
+                                <Form.Control style={isScreenSmall ? {width:"200px"} : {}} type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
                             </Col>
-                            <Col sm={1}>
-                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}><i className="bi bi-search"></i></Button>
-                            </Col>
-                            <Col sm={1}>
-                                <Button className="ms-1" variant="danger" onClick={ () => {
+                            <Col className="d-flex ms-2">
+                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}>
+                                    <i className="bi bi-search"></i>
+                                </Button>
+                                <Button className="ms-2" variant="danger" onClick={() => {
                                     setSearch("");
                                     setMakeSearch(!makeSearch);
-                                }}><i className="bi bi-x-lg"></i></Button>
+                                }}>
+                                    <i className="bi bi-x-lg"></i>
+                                </Button>
                             </Col>
                         </Row>
                         <Row className="mt-2">
@@ -185,16 +191,48 @@ const Sidebar: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
 
                     <Form.Group className="mt-2">
                         <Form.Label>Expiration Date</Form.Label>
-                        {/*<Form.Control type="date" min={date.toISOString().slice(0, 10)} value={expiration} onChange={d => setExpiration(d.target.value)}/>*/}
                         <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
                     </Form.Group>
 
-                    <Button className="mt-4" variant="danger" onClick={()  => setResetFilters(!resetFilters)}>Cancel Filters</Button>
+                    <Container className="d-flex p-0">
+                        {isScreenSmall ? <Button className="mt-4" onClick={() => setShowFilterModal(false)}>Accept</Button> : <></>}
+                        <Button className={isScreenSmall ? "ms-2 mt-4" : "mt-4"} variant="danger"
+                        onClick={()  => {
+                            setResetFilters(!resetFilters);
+                            if(isScreenSmall) setShowFilterModal(false);
+                        }}>
+                            Cancel Filters
+                        </Button>
+                    </Container>
+
                 </Container>
             </Form>
-        </Col>
+        </Col>)
+    }
+
+    return (
+        isScreenSmall ?
+            <Modal
+                show={showFilterModal}
+                onHide={() => setShowFilterModal(false)}
+                size={'xl'}
+                aria-labelledby='contained-modal-title-vcenter'
+                centered
+                scrollable={true}
+                className="p-2"
+            >
+                <Modal.Header>
+                    <Modal.Title>Filters</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="p-0">
+                    <FilterForm />
+                </Modal.Body>
+            </Modal>
+            :
+            <FilterForm />
     );
 }
-export default Sidebar;
+export default Filters;
 
 

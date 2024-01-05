@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 //import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
+import { FaFilter } from "react-icons/fa";
 import {
     Container,
     Button,
@@ -12,7 +13,7 @@ import {
     CardHeader, CardBody, Row, Col
 } from 'react-bootstrap';
 import StudentModalOfProposal from "./StudentModalOfProposal";
-import Sidebar from "./FiltersSidebar";
+import Filters from "./Filters";
 import ProposalService from "../../services/ProposalService";
 import ApplicationService from "../../services/ApplicationService";
 import ProfessorService from "../../services/ProfessorService";
@@ -30,7 +31,21 @@ const ProposalList = () => {
     const [proposalTitle, setProposalTitle] = useState('');
     const [resetFilters, setResetFilters] = useState(true);
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 910px)').matches);
+    const [showFilterModal, setShowFilterModal] = useState(false);
+
     const {refresh, setRefresh} = useContext(VirtualClockContext);
+
+    useEffect(() => {           //get the screen size
+        const handleResize = () => {
+            setIsScreenSmall(window.innerWidth <= 910);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const getProposals = async () => {
         const response = await ProposalService.fetchAllProposalsFiltered("");
@@ -69,22 +84,27 @@ const ProposalList = () => {
 
     return (
         <>
-            <Container fluid className="px-5">
+            <Container fluid className={isScreenSmall ? "px-0" : ""}>
                 <Row style={{height:"100vh"}}>
-                    <Sidebar proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh}/>
-                    <Col sm={7} style={{marginTop:"100px"}}>
-                        <Container className="mx-0 ms-1 d-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mt-1" viewBox="0 0 16 16">
-                                <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
-                                <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
-                            </svg>
+                    <Filters proposals={proposals} setPropsOnScreen={setPropsOnScreen} professors={professors} resetFilters={resetFilters} setResetFilters={setResetFilters} refresh={refresh} setRefresh={setRefresh} isScreenSmall={isScreenSmall} showFilterModal={showFilterModal} setShowFilterModal={setShowFilterModal}/>
+                    <Col sm={isScreenSmall ? 12 : 7} className={isScreenSmall ? "p-0" : ""} style={{marginTop:"100px"}}>
+                        {isScreenSmall ?
+                            <Button variant="danger" className="mt-2 fs-4" style={{width:"80%"}} onClick={() => setShowFilterModal(true)}>
+                                <FaFilter className="me-2 mb-1"/>
+                                Filters
+                            </Button>
+                            : <></>
+                        }
+                        <Container className={isScreenSmall ? "p-0 mt-4 mx-0 d-flex" : "px-3 mt-3 mx-0 ms-1 d-flex"}>
                             <Container>
                                 <Row>
-                                    <Col className="text-start">
-                                        <h2 className="ms-1">Thesis Proposals</h2>
-                                    </Col>
-                                    <Col className="text-end">
-                                        <Button className="me-5" style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
+                                    <Col className="d-flex text-start">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-mortarboard-fill mb-1" viewBox="0 0 16 16">
+                                            <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                                            <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                                        </svg>
+                                        <h2 className="ms-2">Thesis Proposals</h2>
+                                        <Button className={isScreenSmall ? "d-flex ms-3" : "ms-5 d-flex"} style={{backgroundColor:"transparent", borderColor:"transparent", borderRadius:"100px",  color:"black"}} onClick={() => setRefresh(!refresh)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                                 <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
                                                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
@@ -95,8 +115,8 @@ const ProposalList = () => {
                                 <Container style={{position:"relative", height:"2px", backgroundColor:"black"}}></Container>
                             </Container>
                         </Container>
-                        <Container className="mt-4 ms-3 border" style={{borderRadius:"20px"}}>
-                            <ListGroup className="ms-4 me-5 p-2" variant="flush" style={{minHeight:"20vh", maxHeight:"75vh", overflowY:"auto"}}>
+                        <Container className={isScreenSmall ? " mt-0 px-0 mx-0" : "mt-4 ms-3 border"} style={{borderRadius:"20px"}} fluid={isScreenSmall}>
+                            <ListGroup className={isScreenSmall ? "mx-0 p-0" : "ms-4 me-5 p-2"} variant="flush" style={isScreenSmall ? {} : {minHeight:"20vh", maxHeight:"75vh", overflowY:"auto"}}>
                                 {   propsOnScreen.length === 0 ?
                                     <Container className="d-flex align-items-center justify-content-center" style={{height:"18vh"}}>
                                         <h1>No results</h1>
@@ -105,7 +125,7 @@ const ProposalList = () => {
                                     propsOnScreen.map((p) =>
                                         <ListGroupItem className="mt-2 p-3" key={"proposal"+p.id}>
                                             <Card>
-                                                <CardHeader onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
+                                                <CardHeader className={isScreenSmall ? "p-1" : ""} onClick={() => handleClick(p.id)} style={{ cursor: "pointer" }}>
                                                     {p.title}
                                                     {collapseState[p.id] ?
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-caret-up-fill ms-2" viewBox="0 0 16 16">

@@ -80,7 +80,7 @@ db.proposal.insertMany([
         expiration: new Date("2023-12-31"),
         level: "PhD",
         cdS: ["Artificial Intelligence", "Automotive Engineering"],
-        archived: "NOT_ARCHIVED"
+        archived: "EXPIRED"
     },
     {
         _id: "6",

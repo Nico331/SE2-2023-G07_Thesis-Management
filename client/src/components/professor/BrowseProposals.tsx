@@ -13,7 +13,7 @@ import {
 import React, {useEffect, useState} from "react";
 import ProfessorModalOfProposal from "./ProfessorModalOfProposal";
 import axios from "axios";
-import Sidebar from "../student/FiltersSidebar";
+import Sidebar from "../student/Filters";
 import UpdateProposal from "./UpdateProposal";
 
 
