@@ -1,5 +1,6 @@
 package it.polito.serve
 
+import it.polito.server.requestproposal.RequestProposalDTO
 import it.polito.server.secretary.Secretary
 import it.polito.server.secretary.SecretaryController
 import it.polito.server.secretary.SecretaryDTO
@@ -149,6 +150,19 @@ class SecretaryUnitTests {
 
         assert(responseEntity.statusCode == HttpStatus.OK)
         assert(responseEntity.body == secretaryDTOList)
+    }
+
+    @Test
+    fun testGetAllSecretariesEmptyList() {
+        val emptyList: List<SecretaryDTO> = emptyList()
+
+        `when`(secretaryService.findAllSecretaries())
+                .thenReturn(emptyList)
+
+        val responseEntity = secretaryController.getAllSecretary()
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList)
     }
 
 }
