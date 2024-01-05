@@ -395,3 +395,23 @@ db.secretary.insertMany([{
     "surname" : "Smith",
     "email" : "secretary01@polito.it",
 }])
+
+const externalCoSupervisors = [
+    {
+        "name": "Piero",
+        "surname": "Angela",
+        "email": "pieroangela@mail.com"
+    },
+    {
+        "name": "Alberto",
+        "surname": "Rossi",
+        "email": "albertorossi@mail.com"
+    },
+    {
+        "name": "Giuseppe",
+        "surname": "Zurro",
+        "email": "giuseppezurro@mail.com"
+    }
+]
+
+db.externalCoSupervisor.insertMany(externalCoSupervisors)
