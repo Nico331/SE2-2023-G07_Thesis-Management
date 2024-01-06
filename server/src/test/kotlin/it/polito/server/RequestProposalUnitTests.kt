@@ -2,10 +2,7 @@ package it.polito.server
 
 import it.polito.server.professor.ProfessorDTO
 import it.polito.server.professor.ProfessorService
-import it.polito.server.requestproposal.RequestProposalDTO
-import it.polito.server.requestproposal.RequestProposalService
-import it.polito.server.requestproposal.RequestProposalController
-import it.polito.server.requestproposal.RequestProposalStatus
+import it.polito.server.requestproposal.*
 import it.polito.server.student.StudentService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -18,6 +15,7 @@ import java.util.Optional
 class RequestProposalUnitTests {
 
     private lateinit var requestProposalService: RequestProposalService
+    private lateinit var requestProposalRepository: RequestProposalRepository
     private lateinit var requestProposalController: RequestProposalController
     private lateinit var studentService : StudentService
     private lateinit var professorService : ProfessorService
@@ -25,6 +23,7 @@ class RequestProposalUnitTests {
     @BeforeEach
     fun setUp() {
         requestProposalService = mock(RequestProposalService::class.java)
+        requestProposalRepository= mock(RequestProposalRepository::class.java)
         professorService = mock(ProfessorService::class.java)
         requestProposalController = RequestProposalController(requestProposalService, professorService)
         studentService = mock(StudentService::class.java)
@@ -569,5 +568,148 @@ class RequestProposalUnitTests {
         assert(responseEntity.body == "Error: Request Proposal is not in a pending state")
     }
 
+    @Test
+    fun testRequestOfChangeByProfessorSuccess() {
+        val professorId = "123"
+        val proposalId = "456"
+        val message = MessageFromProfessorDTO("New message")
+
+        `when`(requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)).thenReturn(
+                ResponseEntity.ok("Notification for Request Proposal '$proposalId' sent successfully")
+        )
+
+        val responseEntity = requestProposalController.requestOfChangeByProfessor(professorId, proposalId, message)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == "Notification for Request Proposal '$proposalId' sent successfully")
+    }
+
+    @Test
+    fun testRequestOfChangeByProfessorNotFound() {
+        val professorId = "123"
+        val proposalId = "456"
+        val message = MessageFromProfessorDTO("New message")
+
+        `when`(requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)).thenReturn(
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal not found")
+        )
+
+        val responseEntity = requestProposalController.requestOfChangeByProfessor(professorId, proposalId, message)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Proposal not found")
+    }
+
+    @Test
+    fun testRequestOfChangeByProfessorProposalNotPending() {
+        val professorId = "123"
+        val proposalId = "456"
+        val message = MessageFromProfessorDTO("New message")
+
+        `when`(requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)).thenReturn(
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Request Proposal is not in a pending state")
+        )
+
+        val responseEntity = requestProposalController.requestOfChangeByProfessor(professorId, proposalId, message)
+
+        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+        assert(responseEntity.body == "Error: Request Proposal is not in a pending state")
+    }
+
+    @Test
+    fun testRequestOfChangeByProfessorServerError() {
+        val professorId = "123"
+        val proposalId = "456"
+        val message = MessageFromProfessorDTO("New message")
+
+        `when`(requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)).thenReturn(
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error")
+        )
+
+        val responseEntity = requestProposalController.requestOfChangeByProfessor(professorId, proposalId, message)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Internal Server Error")
+    }
+
+    @Test
+    fun testGetAllByProfessorIdSuccess() {
+        val professorId = "123"
+        val requestProposalList = listOf(
+                RequestProposalDTO(
+                        id = "1",
+                        title = "Request Proposal",
+                        studentId = "123",
+                        supervisorId = "John Doe",
+                        coSupervisors = listOf("Sup1", "Sup2"),
+                        description = "description",
+                        acceptanceDate = null,
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
+                ),
+                RequestProposalDTO(
+                        id = "2",
+                        title = "Request Proposal",
+                        studentId = "123",
+                        supervisorId = "Jane Smith",
+                        coSupervisors = listOf("Sup1", "Sup2"),
+                        description = "description",
+                        acceptanceDate = null,
+                        secretaryStatus = RequestProposalStatus.PENDING,
+                        supervisorStatus = RequestProposalStatus.PENDING
+                )
+        )
+
+        `when`(requestProposalService.findAllRequestProposalsByProfessor(professorId)).thenReturn(
+                ResponseEntity.ok(requestProposalList)
+        )
+
+        val responseEntity = requestProposalController.getAllByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == requestProposalList)
+    }
+
+    @Test
+    fun testGetAllByProfessorIdNotFound() {
+        val professorId = "456"
+
+        `when`(requestProposalService.findAllRequestProposalsByProfessor(professorId)).thenReturn(
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Professor '$professorId' has NO Request for Proposals.")
+        )
+
+        val responseEntity = requestProposalController.getAllByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.NOT_FOUND)
+        assert(responseEntity.body == "Error: Professor '$professorId' has NO Request for Proposals.")
+    }
+
+    @Test
+    fun testGetAllByProfessorIdEmptyList() {
+        val professorId = "789"
+
+        `when`(requestProposalService.findAllRequestProposalsByProfessor(professorId)).thenReturn(
+                ResponseEntity.ok(emptyList<RequestProposalDTO>())
+        )
+
+        val responseEntity = requestProposalController.getAllByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.OK)
+        assert(responseEntity.body == emptyList<RequestProposalDTO>())
+    }
+
+    @Test
+    fun testGetAllByProfessorIdInternalServerError() {
+        val professorId = "789"
+
+        `when`(requestProposalService.findAllRequestProposalsByProfessor(professorId)).thenReturn(
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error")
+        )
+
+        val responseEntity = requestProposalController.getAllByProfessorId(professorId)
+
+        assert(responseEntity.statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
+        assert(responseEntity.body == "Internal Server Error")
+    }
 
 }
