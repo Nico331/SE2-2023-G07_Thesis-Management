@@ -49,6 +49,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                 as="select"
                                 value={coSupervisor}
                                 onChange={(e) => setCoSupervisor(e.target.value)}
+                                id="cosupervisor"
                             >
                                 <option value="">Select the supervisor</option>
                                 {updatedprop
@@ -73,7 +74,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                             </Form.Control>
 
                     </Form.Group>
-                    <Button className="mt-3" variant="primary" onClick={addCoSupervisor}>
+                    <Button className="mt-3" variant="primary" onClick={addCoSupervisor} id="add-cosup-btn">
                         Add Co-Supervisor
                     </Button>
                     {coalert && coalert.show ? (

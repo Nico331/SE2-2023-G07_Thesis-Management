@@ -92,7 +92,7 @@ function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; p
                 <Modal.Footer>
                     <Button variant={'secondary'} onClick={() => props.setShowModal(false)}> Close </Button>
                     <LinkContainer to={`/apply/${props.proposalID}`}>
-                        <Button variant={'primary'}> Apply </Button>
+                        <Button variant={'primary'} id="apply-btn"> Apply </Button>
                     </LinkContainer>
                 </Modal.Footer>
             </Modal>

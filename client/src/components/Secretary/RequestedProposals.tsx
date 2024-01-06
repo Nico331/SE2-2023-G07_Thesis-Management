@@ -124,14 +124,14 @@ const RequestedProposals = () => {
                                                             e.stopPropagation();
                                                             setConfirmed({show: true, type: 'confirm', id:proposal.id})}
                                                         }
-                                                        variant='success'>Accept</Button>
+                                                        variant='success' id="accept-btn">Accept</Button>
 
                                                 <Button className="btn btn-danger"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             setConfirmed({show: true, type: 'reject', id:proposal.id})}
                                                         }
-                                                        variant='danger'>Reject</Button>
+                                                        variant='danger' id="reject-btn">Reject</Button>
                                             </> :
                                             <>
                                                 <div>
@@ -211,13 +211,13 @@ const RequestedProposals = () => {
                 <Modal.Footer>
                     {
                         confirmed.type==="confirm" ?
-                            <button className="btn btn-success" onClick={() => acceptRP(confirmed.id)}>Yes</button> :
-                            <button className="btn btn-success" onClick={() => rejectRP(confirmed.id)}>Yes</button>
+                            <button className="btn btn-success" onClick={() => acceptRP(confirmed.id)} id="accept-yes-btn">Yes</button> :
+                            <button className="btn btn-success" onClick={() => rejectRP(confirmed.id)} id="reject-yes-btn">Yes</button>
                     }
                     <button className="btn btn-danger" onClick={() => {
                         setConfirmed({show: false, type: ""});
                         setRefresh(!refresh);
-                    }}>No</button>
+                    }} id="acc-reject-no-btn">No</button>
                 </Modal.Footer>
             </Modal>
         </>

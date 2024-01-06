@@ -258,7 +258,7 @@ function StudentApplyForm(props) {
                     </Form.Group>
 
                     <Button variant="primary" type="button" onClick={() => setShowModalConfirmation(true)} disabled={isApplying}
-                            style={{marginTop: '60px', marginBottom: '100px', marginRight: '20px'}}>
+                            style={{marginTop: '60px', marginBottom: '100px', marginRight: '20px'}} id="apply-btn">
                         {isApplying ? 'Applying...' : 'Apply'}
                     </Button>
 
@@ -279,10 +279,10 @@ function StudentApplyForm(props) {
                         Are you sure you want to submit your application?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="success" onClick={handleApply}>
+                        <Button variant="success" onClick={handleApply} id="apply-yes-btn">
                             Yes
                         </Button>
-                        <Button variant="danger" onClick={() => setShowModalConfirmation(false)}>
+                        <Button variant="danger" onClick={() => setShowModalConfirmation(false)} id="apply-no-btn">
                             No
                         </Button>
                     </Modal.Footer>
@@ -297,7 +297,7 @@ function StudentApplyForm(props) {
                         You applied! Thank you for your submission.
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
+                        <Button variant="secondary" onClick={handleCloseModal} id="close-apply-btn">
                             Close
                         </Button>
                     </Modal.Footer>

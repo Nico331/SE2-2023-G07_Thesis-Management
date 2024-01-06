@@ -102,6 +102,7 @@ const StudentApplicationsListCollapse = () => {
                                                     setShowWithdrawPopup(true);
                                                     e.stopPropagation()
                                                 }}
+                                                id="withdraw-btn"
                                             >
                                                 Withdraw
                                             </Button>}
@@ -197,8 +198,8 @@ const StudentApplicationsListCollapse = () => {
                     Are you sure you want to withdraw the application? ?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleWithdraw(applicationToWithdraw)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowArchivePopup(false)} id="withdraw-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleWithdraw(applicationToWithdraw)} id="withdraw-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
         </>

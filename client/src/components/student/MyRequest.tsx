@@ -124,10 +124,10 @@ const MyRequest: React.FC = () => {
                     <h1 style={{marginTop: "110px"}}>My Thesis Request</h1>
                     <Button onClick={() => {
                         setModifyDisabled(a => !a);
-                    }} variant={modifyDisabled ? "primary" : "secondary"}>
+                    }} variant={modifyDisabled ? "primary" : "secondary"} id="edit-mode-btn">
                         <BsPencil/> {modifyDisabled ? "Enable" : "Disable"} edit mode
                     </Button> &nbsp;
-                    {!modifyDisabled && <Button onClick={() => setShowDeletePopup(true)} variant="danger">
+                    {!modifyDisabled && <Button onClick={() => setShowDeletePopup(true)} variant="danger" id="delete-btn">
                         <BsTrash/> Delete request
                     </Button>}
                     <Form noValidate validated={validated} className="mt-5" onSubmit={handleSubmit}>
@@ -143,6 +143,7 @@ const MyRequest: React.FC = () => {
                                         placeholder="Enter title"
                                         value={request.title}
                                         onChange={(e) => setRequest({...request, title: e.target.value})}
+                                        id="title"
                                     />
                                 </Form.Group>
                             </div>
@@ -187,6 +188,7 @@ const MyRequest: React.FC = () => {
                                                     size="sm"
                                                     className="float-right"
                                                     onClick={() => removeCoSupervisor(index)}
+                                                    id={"remove-" + cs + "-btn"}
                                                 >
                                                     Remove
                                                 </Button>
@@ -221,7 +223,7 @@ const MyRequest: React.FC = () => {
                         {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                         <br/>
                         <Button variant="primary" type="submit"
-                                disabled={modifyDisabled}>
+                                disabled={modifyDisabled} id="modify-req-btn">
                             Modify request
                         </Button>
                         <br/><br/>
@@ -250,8 +252,8 @@ const MyRequest: React.FC = () => {
                     Are you sure you want to delete the request?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={handleDelete}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)} id="delete-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={handleDelete} id="delete-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
         </>

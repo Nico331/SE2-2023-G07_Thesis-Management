@@ -131,13 +131,13 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                                 <Form.Control style={isScreenSmall ? {width:"200px"} : {}} type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
                             </Col>
                             <Col className="d-flex ms-2">
-                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)}>
+                                <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)} id="search-btn">
                                     <i className="bi bi-search"></i>
                                 </Button>
                                 <Button className="ms-2" variant="danger" onClick={() => {
                                     setSearch("");
                                     setMakeSearch(!makeSearch);
-                                }}>
+                                }} id="cancel-search-btn">
                                     <i className="bi bi-x-lg"></i>
                                 </Button>
                             </Col>
@@ -145,7 +145,7 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         <Row className="mt-2">
                             <Form.Group className="">
                                 <Form.Label>Keywords</Form.Label>
-                                <Select options={extractUniqueOptions(proposals.map((p: prop) => p.keywords))} isMulti value={keyWord} onChange={(selectedOptions) => setKeyWord(selectedOptions)}/>
+                                <Select id="keywords" options={extractUniqueOptions(proposals.map((p: prop) => p.keywords))} isMulti value={keyWord} onChange={(selectedOptions) => setKeyWord(selectedOptions)}/>
                             </Form.Group>
                         </Row>
                     </Form.Group>
@@ -156,6 +156,7 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                                 isMulti
                                 value={supervisors}
                                 onChange={(selectedOptions) => {setSupervisors(selectedOptions)}}
+                                id="supervisor"
                         />
                     </Form.Group>
 
@@ -163,13 +164,13 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         <Col sm={6}>
                             <Form.Group>
                                 <Form.Label>Type</Form.Label>
-                                <Select options={extractUniqueOptions(proposals.map((p: prop) => [p.type]))} isMulti value={types} onChange={(selectedOptions) => setTypes(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(proposals.map((p: prop) => [p.type]))} isMulti value={types} onChange={(selectedOptions) => setTypes(selectedOptions)} id="type"/>
                             </Form.Group>
                         </Col>
                         <Col sm={6}>
                             <Form.Group>
                                 <Form.Label>Group</Form.Label>
-                                <Select options={extractUniqueOptions(proposals.map((p: prop) => p.groups))} isMulti value={groups} onChange={(selectedOptions) => setGroups(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(proposals.map((p: prop) => p.groups))} isMulti value={groups} onChange={(selectedOptions) => setGroups(selectedOptions)} id="group"/>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -178,20 +179,20 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         <Col sm={6}>
                             <Form.Group>
                                 <Form.Label>Level</Form.Label>
-                                <Select options={[{value:"PhD", label:"PhD"},{value:"Masters", label:"Masters"},{value:"Bachelor", label:"Bachelor"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)}/>
+                                <Select options={[{value:"PhD", label:"PhD"},{value:"Masters", label:"Masters"},{value:"Bachelor", label:"Bachelor"}]} isMulti value={levels} onChange={(selectedOptions) => setLevels(selectedOptions)} id="level"/>
                             </Form.Group>
                         </Col>
                         <Col sm={6}>
                             <Form.Group>
                                 <Form.Label>Course Of Study</Form.Label>
-                                <Select options={extractUniqueOptions(proposals.map((p: prop) => p.cdS))} isMulti value={courses} onChange={(selectedOptions) => setCourses(selectedOptions)}/>
+                                <Select options={extractUniqueOptions(proposals.map((p: prop) => p.cdS))} isMulti value={courses} onChange={(selectedOptions) => setCourses(selectedOptions)} id="courseOfStudy"/>
                             </Form.Group>
                         </Col>
                     </Row>
 
                     <Form.Group className="mt-2">
                         <Form.Label>Expiration Date</Form.Label>
-                        <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)}/>
+                        <Form.Control type="date" value={expiration} onChange={d => setExpiration(d.target.value)} id="expiration-date"/>
                     </Form.Group>
 
                     <Container className="d-flex p-0">
@@ -200,7 +201,7 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         onClick={()  => {
                             setResetFilters(!resetFilters);
                             if(isScreenSmall) setShowFilterModal(false);
-                        }}>
+                        }} id="cancel-filters">
                             Cancel Filters
                         </Button>
                     </Container>

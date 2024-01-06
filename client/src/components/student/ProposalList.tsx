@@ -142,13 +142,13 @@ const ProposalList = () => {
                                                             <Container className="mt-1">CDS: {p.cdS.map((c) => {return c}).join(', ')}</Container>
                                                             <Container className="mt-1">Expiration Date: {new Date(p.expiration).toDateString()}</Container>
                                                             {myApps.find((a) => a.status === "PENDING") &&
-                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)} id="show-prop-details">Show Proposal Details</Button>
                                                                 <Container className="mt-2" style={{color: "red"}}>You already have a pending application</Container></>}
                                                             {myApps.find((a) => a.status === "ACCEPTED") &&
-                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                                <><Button disabled={true} className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)} id="show-prop-details">Show Proposal Details</Button>
                                                                 <Container className="mt-2" style={{color: "red"}}>You already have an accepted application</Container></>}
                                                             {!myApps.find((a) => (a.status === "PENDING" || a.status === "ACCEPTED")) &&
-                                                                <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)}>Show Proposal Details</Button>
+                                                                <Button className="ms-2 mt-2" onClick={() => handleShow(p.id, p.title)} id="show-prop-details">Show Proposal Details</Button>
                                                             }
                                                         </Container>
                                                     </CardBody>

@@ -104,7 +104,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 navigate("/");
                                                 setShow(false);
                                             }} id='menu-mainpage'>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center" id='professor-menu-mainpage'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
                                                          stroke-width="2" stroke-linecap="round"
@@ -205,7 +205,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 navigate("/");
                                                 setShow(false);
                                             }}>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center" id="student-menu-mainpage">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none" stroke="#ffffff"
                                                          stroke-width="2" stroke-linecap="round"
@@ -222,7 +222,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 navigate("/proposalList");
                                                 setShow(false);
                                             }}>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center" id="menu-search">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-search"
                                                          viewBox="0 0 16 16">
@@ -238,7 +238,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 navigate("/myApplicationList");
                                                 setShow(false);
                                             }}>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center" id="menu-myapplications">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-check-lg"
                                                          viewBox="0 0 16 16">
@@ -270,7 +270,7 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 navigate("/request");
                                                 setShow(false);
                                             }}>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center" id="menu-myThesisRequests">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                          fill="currentColor" className="bi bi-check-lg"
                                                          viewBox="0 0 16 16">

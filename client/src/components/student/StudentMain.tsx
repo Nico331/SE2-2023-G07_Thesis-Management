@@ -25,6 +25,7 @@ const ZoomableContainer = (props) => {
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={() => navigate(props.link)}
+                id={props.id}
             >
                 <Card style={{flex:1}}>
                     <Card.Body>
@@ -56,13 +57,13 @@ const StudentMain = () => {
                 </Container>
                 <Container className="p-0">
                     <Row className="justify-content-center">
-                        <ZoomableContainer title={"Proposals List"} link={"/proposalList"} description={"Browse the list of active thesis proposals and apply for the ones you are interested in."}></ZoomableContainer>
-                        <ZoomableContainer title={"My Applications"} link={"/myApplicationList"} description={"Explore your applications and check their status."}></ZoomableContainer>
-                        <ZoomableContainer title={"New Thesis Request"} link={"/requestForm"} description={"Insert a new thesis request"}></ZoomableContainer>
+                        <ZoomableContainer id={"proposalList"} title={"Proposals List"} link={"/proposalList"} description={"Browse the list of active thesis proposals and apply for the ones you are interested in."}></ZoomableContainer>
+                        <ZoomableContainer id={"myAaplications"} title={"My Applications"} link={"/myApplicationList"} description={"Explore your applications and check their status."}></ZoomableContainer>
+                        <ZoomableContainer id={"newThesisRequest"} title={"New Thesis Request"} link={"/requestForm"} description={"Insert a new thesis request"}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
-                        <ZoomableContainer title={"My thesis request"} link={"/request"} description={"See and modify your thesis request"}></ZoomableContainer>
-                        <ZoomableContainer title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
+                        <ZoomableContainer id={"myThesisRequest"} title={"My thesis request"} link={"/request"} description={"See and modify your thesis request"}></ZoomableContainer>
+                        <ZoomableContainer id={"forum"} title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">

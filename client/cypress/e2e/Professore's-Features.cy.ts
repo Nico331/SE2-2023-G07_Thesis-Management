@@ -163,4 +163,7 @@ describe("Professore's features", () => {
     cy.get("#menu-logout").click();
   });
 
+  it("Accpet or reject a requested proposal", () =>{
+    
+  });
 });

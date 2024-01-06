@@ -28,7 +28,7 @@ const ZoomableContainer = (props) => {
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={() => navigate(props.link)}
             >
-                <Card style={{flex:1}}>
+                <Card style={{flex:1}} id={props.id}>
                     <Card.Body>
                         <Card.Title>
                             {props.title}
@@ -58,7 +58,7 @@ const SecretaryMain = () => {
                 </Container>
                 <Container>
                     <Row>
-                        <ZoomableContainer title={"Requested Proposals"} link={"/requested-proposals"} description={"Check the requested proposals."}></ZoomableContainer>
+                        <ZoomableContainer id={"req-proposals"} title={"Requested Proposals"} link={"/requested-proposals"} description={"Check the requested proposals."}></ZoomableContainer>
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">
