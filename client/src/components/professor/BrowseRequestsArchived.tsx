@@ -30,7 +30,7 @@ import DegreeService from "../../services/DegreeService";
 import CareerService from "../../services/CareerService"; // Import icons as needed
 
 
-const BrowseRequests = () => {
+const BrowseRequestsArchived = () => {
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
     const {user, setUser} = useContext(UserContext);
@@ -52,8 +52,6 @@ const BrowseRequests = () => {
 
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
-    const [isSupervisor, setIsSupervisor] = useState(false);
-
     const [filter, setFilter] = useState('all'); // 'all', 'supervisor', 'cosupervisor'
 
 
@@ -66,8 +64,6 @@ const BrowseRequests = () => {
                 const myReq = res.data.filter((req) => {
                     // Verifica se il supervisorId corrisponde all'ID dell'utente
                     const isSupervisor = req.supervisorId === userId;
-                    if(isSupervisor)
-                        setIsSupervisor(true);
 
                     // Verifica se almeno uno dei cosupervisori ha l'ID dell'utente
                     const hasCoSupervisor = req.coSupervisors.some(cosupervisor => cosupervisor === userId);
@@ -106,56 +102,6 @@ const BrowseRequests = () => {
         }
     }, [showsuccessmodal.show]);
 
-
-
-    const handleAccept = async (applicationId) => {
-        setShowAcceptPopup(false);
-        setRequestToAccept("");
-        RequestProposalService.acceptRequestProposalProf(applicationId).then(() => {
-            setShowAlertModal({
-                show: true,
-                type: "success",
-                text: "Application accepted"
-            });
-
-            // Chiudi automaticamente il popup dopo 3 secondi
-            setTimeout(() => {
-                setShowAlertModal({
-                    show: false,
-                    type: "",
-                    text: ""
-                });
-                // Aggiorna la pagina dopo la chiusura del popup di successo
-                setRefresh((r) => !r);
-            }, 3000);
-        });
-
-    };
-
-    const handleReject = async (applicationId) => {
-
-        setShowRejectPopup(false);
-        setRequestToReject("");
-        RequestProposalService.rejectRequestProposalProf(applicationId).then(() => {
-            setShowAlertModal({
-                show: true,
-                type: "success",
-                text: "Application rejected"
-            });
-
-            // Chiudi automaticamente il popup dopo 3 secondi
-            setTimeout(() => {
-                setShowAlertModal({
-                    show: false,
-                    type: "",
-                    text: ""
-                });
-                // Aggiorna la pagina dopo la chiusura del popup di successo
-                setRefresh((r) => !r);
-            }, 3000);
-        });
-    };
-
     const filteredRequests = myRequests.filter((request) => {
         const userId = JSON.parse(user).id;
 
@@ -168,13 +114,10 @@ const BrowseRequests = () => {
         }
     });
 
-
-
-
     return (
         <>
             <Container className="d-flex flex-column">
-                <h2 style={{marginTop: "110px"}}>Pending Requests</h2>
+                <h2 style={{marginTop: "110px"}}>Archived Requests</h2>
 
                 {showsuccessmodal.show ?
                     <>
@@ -199,34 +142,34 @@ const BrowseRequests = () => {
                         </Modal>
                     </>
                     : null}
-                {/* Aggiungi un toggle button per il filtro */}
+
                 <div>
-                <ButtonGroup>
-                    <Button
-                        variant={filter === 'all' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('all')}
-                    >
-                        All
-                    </Button>
-                    <Button
-                        variant={filter === 'supervisor' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('supervisor')}
-                    >
-                        Supervisor
-                    </Button>
-                    <Button
-                        variant={filter === 'cosupervisor' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('cosupervisor')}
-                    >
-                        Cosupervisor
-                    </Button>
-                </ButtonGroup>
+                    <ButtonGroup>
+                        <Button
+                            variant={filter === 'all' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('all')}
+                        >
+                            All
+                        </Button>
+                        <Button
+                            variant={filter === 'supervisor' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('supervisor')}
+                        >
+                            Supervisor
+                        </Button>
+                        <Button
+                            variant={filter === 'cosupervisor' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('cosupervisor')}
+                        >
+                            Cosupervisor
+                        </Button>
+                    </ButtonGroup>
                 </div>
 
                 <Accordion className="mt-5">
                     {
                         filteredRequests.length === 0 ? (
-                            <p> You don't have any active requests yet </p>
+                            <p> You don't have any archived requests yet </p>
                         ) : (
 
                             filteredRequests.map((request) => {
@@ -235,7 +178,16 @@ const BrowseRequests = () => {
                                     const ex = exams.filter( (exam ) => exam.studentId === student.id);
                                     console.log(exams);
                                     console.log(ex);
-                                    return request.supervisorStatus === "PENDING" ? (
+                                    let isSupervisor;
+                                    let isCosupervisor;
+
+
+                                    isSupervisor = request.supervisorId === JSON.parse(user).id;
+
+                                    isCosupervisor = !!request.coSupervisors.some(prof => prof === JSON.parse(user).id);
+
+
+                                    return (request.supervisorStatus === "ACCEPTED" || request.supervisorStatus === "REJECTED") ? (
                                         <Accordion.Item eventKey={request.id} key={request.id}>
                                             <Accordion.Header>
                                                 <Row className={"w-100"}>
@@ -244,38 +196,10 @@ const BrowseRequests = () => {
                                                     </div>
                                                 </Row>
                                                 <div className="col-sm-4">
-                                                    {isSupervisor && request.secretaryStatus === 'ACCEPTED' && (
-                                                            <>
-                                                                <ButtonGroup>
-                                                                    <Button variant="success"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                setShowAcceptPopup(true);
-                                                                                setRequestToAccept(request.id);
-                                                                            }}>
-                                                                        Accept
-                                                                    </Button>{' '}
-                                                                    <Button variant="danger"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                setShowRejectPopup(true);
-                                                                                setRequestToReject(request.id);
-                                                                            }}>
-                                                                        Reject
-                                                                    </Button>
-                                                                </ButtonGroup>
-                                                            </>
 
-                                                        )
 
-                                                    }
                                                     {
-                                                        isSupervisor && request.secretaryStatus === 'PENDING' && (
-                                                            <span>Waiting for secretary's approval</span>
-                                                        )
-                                                    }
-                                                    {
-                                                        isSupervisor && request.secretaryStatus === 'REJECTED' && (
+                                                        request.secretaryStatus === 'REJECTED' && (
                                                             <span>Secretary rejected this request</span>
                                                         )
                                                     }
@@ -328,8 +252,12 @@ const BrowseRequests = () => {
                                                                     <strong>Status:</strong> {request.supervisorStatus}
                                                                 </div>
                                                                 <div className="col-sm-4">
-                                                                    {request.supervisorStatus === 'PENDING' && (
-                                                                        <span style={{color: 'orange'}}>PENDING</span>
+
+                                                                    {request.supervisorStatus === 'ACCEPTED' && (
+                                                                        <span style={{color: 'green'}}>ACCEPTED</span>
+                                                                    )}
+                                                                    {request.supervisorStatus === 'REJECTED' && (
+                                                                        <span style={{color: 'red'}}>REJECTED</span>
                                                                     )}
                                                                 </div>
                                                             </Row>
@@ -395,9 +323,7 @@ const BrowseRequests = () => {
 
                                             </Accordion.Body>
                                         </Accordion.Item>
-                                    ) :  (
-                                        <p> You don't have any active requests yet </p>
-                                    )
+                                    ) : null;
 
                                 }
                             )
@@ -406,45 +332,12 @@ const BrowseRequests = () => {
                 </Accordion>
             </Container>
 
-            <Modal
-                show={showAcceptPopup}
-                aria-labelledby='contained-modal-title-vcenter'
-            >
-                <Modal.Header>
-                    <Modal.Title>
-                        Accept
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to accept the application?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleAccept(requestToAccept)}>Yes</Button>
-                </Modal.Footer>
-            </Modal>
 
-            <Modal
-                show={showRejectPopup}
-                aria-labelledby='contained-modal-title-vcenter'
-            >
-                <Modal.Header>
-                    <Modal.Title>
-                        Reject
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to reject the application?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleReject(requestToReject)}>Yes</Button>
-                </Modal.Footer>
-            </Modal>
+
         </>
     );
 
 
 };
 
-export default BrowseRequests;
+export default BrowseRequestsArchived;
