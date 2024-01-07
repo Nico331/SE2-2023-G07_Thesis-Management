@@ -58,6 +58,7 @@ describe("Professore's features", () => {
     cy.get("#cds-input").type(cds);
     cy.get("#add-cds-btn").click();
     cy.get("#submit-btn").click();
+    cy.wait(4000);
   });
 
   const newTitle = "Test Proposal Modified";
@@ -91,8 +92,39 @@ describe("Professore's features", () => {
     cy.get("#close-modal-btn").click();
   });
 
-  const studentName = "Michael Johnson";
+  const studentID = "s300003@studenti.polito.it";
+  const studentPass = "s300003";
 
+  it("Copy a proposal", () => {
+    cy.get("#my-proposal").click();
+    cy.contains("Test Proposal Modified").find("#copy-btn").click();
+    cy.get("#title").clear().type("Test Proposal Copied");
+    cy.get("#create-copy-btn").click();
+    cy.get("#close-modal-btn").click();
+
+    cy.get("#menu").click();
+    cy.get("#menu-logout").click();
+
+    cy.get(".btn-primary").click();
+
+    cy.get("#formBasicEmail").type(studentID);
+    cy.get("#formBasicPassword").type(studentPass);
+    cy.get(".btn-primary").click();
+
+    cy.get("#proposalList").click();
+    cy.wait(2000);
+    cy.get("#search-box").type("Test Proposal Copied");
+    cy.get("#search-btn").click();
+    cy.contains("Test Proposal Copied").click();
+    cy.get(".Copied-btn").click({force: true});
+    cy.get("#apply-btn").click();
+    cy.get("#apply-btn").click();
+    cy.get("#apply-yes-btn").click();
+    cy.get("#close-apply-btn").click();  
+  });
+  
+  const studentName = "James Brown";
+  
   it("Accept or reject an application", () => {
     cy.get("#my-proposal").click();
     cy.contains("Test Proposal Copied").click();
@@ -103,29 +135,20 @@ describe("Professore's features", () => {
     cy.get("#close-modal-btn").click();
   });
 
-  it("Copy a proposal", () => {
-    cy.get("#my-proposal").click();
-    cy.contains("Test Proposal Modified").find("#copy-btn").click();
-    cy.get("#title").clear().type("Test Proposal Copied");
-    cy.get("#create-copy-btn").click();
-    cy.get("#close-modal-btn").click();
-  });
-
   it("Archive and restore a proposal", () => {
     cy.get("#my-proposal").click();
-    cy.contains("Test Proposal Copied").find("#archive-btn").click();
+    cy.contains("Test Proposal Modified").find("#archive-btn").click();
     cy.get("#arch-yes-btn").click();
     cy.get("#menu").click();
     cy.get("#menu-archive").click();
-    cy.get(".btn-close-white").click();
+    // cy.get(".btn-close-white").click();
     cy.contains("Test Proposal Copied").find("#restore-btn").click();
     cy.get("#update-btn").click();
     cy.get("#menu").click();
     cy.get("#menu-myproposals").click();
-    cy.get(".btn-close-white").click();
   });
 
-  const deletedTitle = "Test Proposal Copied";
+  const deletedTitle = "Test Proposal Modified";
 
   it("Delete a proposal", () => {
     cy.get("#my-proposal").click();

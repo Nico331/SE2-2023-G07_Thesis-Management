@@ -128,7 +128,7 @@ const Filters: React.FC<FiltersSidebarProps> = ({proposals, setPropsOnScreen, pr
                         <Form.Label>Search</Form.Label>
                         <Row className="mt-2">
                             <Col className="pe-0" sm={isScreenSmall ? 0 : 7} style={isScreenSmall ? {width:"200px"} : {}}>
-                                <Form.Control style={isScreenSmall ? {width:"200px"} : {}} type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)}/>
+                                <Form.Control style={isScreenSmall ? {width:"200px"} : {}} type="text" placeholder="Search" value={search} onChange={kw => setSearch(kw.target.value)} id="search-box"/>
                             </Col>
                             <Col className="d-flex ms-2">
                                 <Button variant="primary" onClick={() => setMakeSearch(!makeSearch)} id="search-btn">
