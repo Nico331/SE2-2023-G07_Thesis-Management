@@ -22,15 +22,14 @@ describe("Student features", () => {
 
     it("Student checks proposals list and apply for a proposal and check the My applications page", () => {
         cy.get("#proposalList").click();
-        // cy.get("#keywords").select(filterKeyword, {force: true});
-        cy.get("#keywords").type(filterKeyword + "{enter}");
+        cy.get('#keywords > .css-13cymwt-control > .css-1fdsijx-ValueContainer > .css-qbdosj-Input > input').type(filterKeyword + "{enter}", {force: true});
         cy.get("#cancel-filters").click();
-        cy.get("#level").type(filterLevel + "{enter}");
+        cy.get("#level > .css-13cymwt-control > .css-1fdsijx-ValueContainer > .css-qbdosj-Input > input").type(filterLevel + "{enter}", {force: true});
         cy.get("#cancel-filters").click();
-        cy.get("#search-box").type(filterSearch);
+        cy.get("#search-box").type(filterSearch, {force: true});
         cy.get("#search-btn").click();
         cy.contains("Test Proposal Modified").click();
-        cy.get("#show-prop-details").click();
+        cy.get(".Modified-btn").click({force: true});
         cy.get("#apply-btn").click();
         cy.get("#apply-btn").click();
         cy.get("#apply-yes-btn").click();
@@ -38,7 +37,6 @@ describe("Student features", () => {
 
         cy.get("#menu").click();
         cy.get("#menu-myapplications").click();
-        cy.get(".btn-close-white").click();
     });
 
     it("Student withdraws from a proposal", () => {
