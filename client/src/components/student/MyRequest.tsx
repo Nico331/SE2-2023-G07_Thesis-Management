@@ -122,15 +122,15 @@ const MyRequest: React.FC = () => {
         <>
             {request ? <Container>
                     <h1 style={{marginTop: "110px"}}>My Thesis Request</h1>
-                    <Button onClick={() => {
+                    <Button className="mt-3" onClick={() => {
                         setModifyDisabled(a => !a);
                     }} variant={modifyDisabled ? "primary" : "secondary"} id="edit-mode-btn">
                         <BsPencil/> {modifyDisabled ? "Enable" : "Disable"} edit mode
                     </Button> &nbsp;
-                    {!modifyDisabled && <Button onClick={() => setShowDeletePopup(true)} variant="danger" id="delete-btn">
+                    {!modifyDisabled && <Button className="mt-3" onClick={() => setShowDeletePopup(true)} variant="danger" id="delete-btn">
                         <BsTrash/> Delete request
                     </Button>}
-                    <Form noValidate validated={validated} className="mt-5" onSubmit={handleSubmit}>
+                    <Form noValidate validated={validated} className="mt-4" onSubmit={handleSubmit}>
                         <Row>
                             {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                             <div>

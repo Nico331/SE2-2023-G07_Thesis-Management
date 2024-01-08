@@ -28,6 +28,8 @@ function StudentApplyForm(props) {
     const [showModalError, setShowModalError] = useState(false);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 770px)').matches);
+
     const { proposalID } = useParams();
 
     const [file, setFile] = useState(null);
@@ -46,6 +48,20 @@ function StudentApplyForm(props) {
     //     getCareer(user.id);
     //     getDegree(user.codDegree);
     // }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsScreenSmall(window.matchMedia('(max-width: 770px)').matches);
+        };
+
+        const mediaQueryList = window.matchMedia('(max-width: 770px)');
+        mediaQueryList.addListener(handleResize);
+
+        // Pulizia dell'event listener
+        return () => {
+            mediaQueryList.removeListener(handleResize);
+        };
+    }, []);
 
     useEffect(() => {
 
@@ -175,61 +191,94 @@ function StudentApplyForm(props) {
 
     return (
         <>
-            <Container className="content-container">
+            <Container className="content-container p-0">
                 <div>
-                    <Table striped bordered hover>
-                        <caption>Student Data</caption>
-                        <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Surname</th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Nationality</th>
-                            <th>Email</th>
-                            <th>Degree code</th>
-                            <th>Year of enrollment</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{user.id}</td>
-                            <td>{user.surname}</td>
-                            <td>{user.name}</td>
-                            <td>{user.gender}</td>
-                            <td>{user.nationality}</td>
-                            <td>{user.email}</td>
-                            <td>{user.codDegree}</td>
-                            <td>{user.enrollmentYear}</td>
-                        </tr>
-                        </tbody>
-                    </Table>
+                    {isScreenSmall ?
+                        <Container className="text-start p-0">
+                            <Container className="p-0"><b>Student ID:</b> {user.id}</Container>
+                            <Container className="p-0"><b>Surname:</b> {user.surname}</Container>
+                            <Container className="p-0"><b>Name:</b> {user.name}</Container>
+                            <Container className="p-0"><b>Gender:</b> {user.gender}</Container>
+                            <Container className="p-0"><b>Nationality:</b> {user.nationality}</Container>
+                            <Container className="p-0"><b>Email:</b> {user.email}</Container>
+                            <Container className="p-0"><b>Degree code:</b> {user.codDegree}</Container>
+                            <Container className="p-0"><b>Year of enrollment:</b> {user.enrollmentYear}</Container>
+                        </Container>
+                        :
+                        <Table striped bordered hover>
+                            {/*<caption>Student Data</caption>*/}
 
-                    <Table striped bordered hover>
-                        <caption>Curriculum</caption>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Code</th>
-                            <th>Title</th>
-                            <th>CFU</th>
-                            <th>Vote</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {studentCareer.map((row, index) => (
-                            <tr key={index}>
-                                <td>{index}</td>
-                                <td>{row.codCorso}</td>
-                                <td>{row.titCorso}</td>
-                                <td>{row.CFU}</td>
-                                <td>{row.voto}</td>
-                                <td>{row.data}</td>
+                            <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Surname</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Nationality</th>
+                                <th>Email</th>
+                                <th>Degree code</th>
+                                <th>Year of enrollment</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{user.id}</td>
+                                <td>{user.surname}</td>
+                                <td>{user.name}</td>
+                                <td>{user.gender}</td>
+                                <td>{user.nationality}</td>
+                                <td>{user.email}</td>
+                                <td>{user.codDegree}</td>
+                                <td>{user.enrollmentYear}</td>
+                            </tr>
+                            </tbody>
+                        </Table>
+                    }
+
+                    <Container className="content-container mt-3 p-0">
+                        {isScreenSmall ? (
+                            <Table striped bordered hover responsive>
+                                <caption>Curriculum</caption>
+                                <tbody>
+                                {studentCareer.map((row, index) => (
+                                    <tr key={index}>
+                                        <td>{row.codCorso}</td>
+                                        <td>{row.titCorso}</td>
+                                        <td>{row.CFU}</td>
+                                        <td>{row.voto}</td>
+                                        <td>{row.data}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                        ) : (
+                            <Table striped bordered hover responsive>
+                                <caption>Curriculum</caption>
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Code</th>
+                                    <th>Title</th>
+                                    <th>CFU</th>
+                                    <th>Vote</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {studentCareer.map((row, index) => (
+                                    <tr key={index}>
+                                        <td>{index}</td>
+                                        <td>{row.codCorso}</td>
+                                        <td>{row.titCorso}</td>
+                                        <td>{row.CFU}</td>
+                                        <td>{row.voto}</td>
+                                        <td>{row.data}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                        )}
+                    </Container>
 
                     <Table striped bordered hover>
                         <caption>Degree info</caption>

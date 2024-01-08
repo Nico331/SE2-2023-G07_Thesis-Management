@@ -66,7 +66,7 @@ function Main() {
     return (
         <>
             <Container style={{height: "100vh"}} fluid >
-                <Container className="text-center" style={{width:"100%"}} fluid>
+                <Container className="text-center p-0" style={{width:"100%"}} fluid>
                         <TokenProvider>
                             <RoleProvider>
                                 <LogOutContext.Provider value={logOut}>

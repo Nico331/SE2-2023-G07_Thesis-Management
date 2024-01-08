@@ -61,6 +61,22 @@ const ProposalForm: React.FC = () => {
 
     const [professors, setProfessors] = useState<Professor[]>([]);
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 995px)').matches);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsScreenSmall(window.matchMedia('(max-width: 995px)').matches);
+        };
+
+        const mediaQueryList = window.matchMedia('(max-width: 995px)');
+        mediaQueryList.addListener(handleResize);
+
+        // Pulizia dell'event listener
+        return () => {
+            mediaQueryList.removeListener(handleResize);
+        };
+    }, []);
+
     useEffect(() => {
         ProfessorService.fetchAllProfessors().then((res) => {
             setProfessors(res.data);

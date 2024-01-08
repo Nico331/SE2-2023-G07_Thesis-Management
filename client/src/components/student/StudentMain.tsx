@@ -67,7 +67,7 @@ const StudentMain = () => {
                     </Row>
                 </Container>
                 <Container className="p-5 d-flex justify-content-center">
-                    <Image className="ratio ratio-16x9" style={{ width: 400, height: 167 }} src={"../logoPolito.png"}/>
+                    <Image className="ratio ratio-16x9" style={{ maxWidth: 400, maxHeight: 167 }} src={"../logoPolito.png"}/>
                 </Container>
             </Container>
         </Container>

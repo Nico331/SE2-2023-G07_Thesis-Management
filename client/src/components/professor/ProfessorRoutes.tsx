@@ -27,7 +27,7 @@ const ProfessorRoutes: React.FC<ProfessorRoutesProps> = ({ setRoleState }) =>{
             <MainNavBar setRole={setRoleState} role={"PROFESSOR"} user={undefined}/>
             <Routes>
                 <Route path="/" element={ <ProfessorMain/> } >
-                    <Route index element={<BrowseApplications/>} />
+                    <Route index element={<ProfessorMain/>} />
                     <Route path="/*" element={ <NotFound/> } />
                 </Route>
                 <Route path="/browse-proposals" element={<ProfessorBrowseProposals/>} />
