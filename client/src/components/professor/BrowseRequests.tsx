@@ -1,32 +1,20 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     Accordion,
-    Card,
     Button,
-    Badge,
-    ListGroup,
     Modal,
     Table,
     Row,
     Col,
     Container,
     Form,
-    Alert,
-    Nav, ButtonGroup, AccordionItem, AccordionHeader
+    ButtonGroup,
 } from 'react-bootstrap';
-import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
-import dayjs from "dayjs";
-import ProposalService from "../../services/ProposalService";
-import UpdateProposal from "./UpdateProposal";
-import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
-import {FaRegCopy} from "react-icons/fa";
-import {BsPencil, BsTrash, BsArchive} from 'react-icons/bs';
 import RequestProposalService from "../../services/RequestProposalService";
 import StudentService from "../../services/StudentService";
-import DegreeService from "../../services/DegreeService";
 import CareerService from "../../services/CareerService"; // Import icons as needed
 
 
