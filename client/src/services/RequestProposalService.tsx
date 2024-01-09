@@ -53,5 +53,18 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem("token")
             }
         });
+    },
+
+    changeRequestProposalProf(id, message, prof_id){
+        return axios.post(`${endpoint}/requestOfChangeByProfessor/${prof_id}/${id}`,
+            {
+                message: message
+            }
+            , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem("token")
+                }
+            });
     }
 };

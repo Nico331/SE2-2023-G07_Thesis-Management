@@ -50,12 +50,15 @@ const BrowseRequests = () => {
     const [showRejectPopup, setShowRejectPopup] = useState(false);
     const [requestToReject, setRequestToReject] = useState("");
 
+    const [showChangePopup, setShowChangePopup] = useState(false);
+    const [requestToChange, setRequestToChange] = useState("");
+    const [changeMessage, setChangeMessage] = useState("");
+
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
     const [isSupervisor, setIsSupervisor] = useState(false);
 
     const [filter, setFilter] = useState('all'); // 'all', 'supervisor', 'cosupervisor'
-
 
 
     useEffect(() => {
@@ -66,7 +69,7 @@ const BrowseRequests = () => {
                 const myReq = res.data.filter((req) => {
                     // Verifica se il supervisorId corrisponde all'ID dell'utente
                     const isSupervisor = req.supervisorId === userId;
-                    if(isSupervisor)
+                    if (isSupervisor)
                         setIsSupervisor(true);
 
                     // Verifica se almeno uno dei cosupervisori ha l'ID dell'utente
@@ -107,7 +110,6 @@ const BrowseRequests = () => {
     }, [showsuccessmodal.show]);
 
 
-
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);
         setRequestToAccept("");
@@ -115,7 +117,7 @@ const BrowseRequests = () => {
             setShowAlertModal({
                 show: true,
                 type: "success",
-                text: "Application accepted"
+                text: "Request accepted"
             });
 
             // Chiudi automaticamente il popup dopo 3 secondi
@@ -140,7 +142,31 @@ const BrowseRequests = () => {
             setShowAlertModal({
                 show: true,
                 type: "success",
-                text: "Application rejected"
+                text: "Request rejected"
+            });
+
+            // Chiudi automaticamente il popup dopo 3 secondi
+            setTimeout(() => {
+                setShowAlertModal({
+                    show: false,
+                    type: "",
+                    text: ""
+                });
+                // Aggiorna la pagina dopo la chiusura del popup di successo
+                setRefresh((r) => !r);
+            }, 3000);
+        });
+    };
+
+    const handleChange = async (applicationId) => {
+
+        setShowChangePopup(false);
+        setRequestToChange("");
+        RequestProposalService.changeRequestProposalProf(applicationId, changeMessage, JSON.parse(user).id).then(() => {
+            setShowAlertModal({
+                show: true,
+                type: "success",
+                text: "Change request sent"
             });
 
             // Chiudi automaticamente il popup dopo 3 secondi
@@ -167,8 +193,6 @@ const BrowseRequests = () => {
             return true; // Se il filtro è 'all', restituisci tutte le richieste
         }
     });
-
-
 
 
     return (
@@ -201,26 +225,26 @@ const BrowseRequests = () => {
                     : null}
                 {/* Aggiungi un toggle button per il filtro */}
                 <div>
-                <ButtonGroup>
-                    <Button
-                        variant={filter === 'all' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('all')}
-                    >
-                        All
-                    </Button>
-                    <Button
-                        variant={filter === 'supervisor' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('supervisor')}
-                    >
-                        Supervisor
-                    </Button>
-                    <Button
-                        variant={filter === 'cosupervisor' ? 'primary' : 'secondary'}
-                        onClick={() => setFilter('cosupervisor')}
-                    >
-                        Cosupervisor
-                    </Button>
-                </ButtonGroup>
+                    <ButtonGroup>
+                        <Button
+                            variant={filter === 'all' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('all')}
+                        >
+                            All
+                        </Button>
+                        <Button
+                            variant={filter === 'supervisor' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('supervisor')}
+                        >
+                            Supervisor
+                        </Button>
+                        <Button
+                            variant={filter === 'cosupervisor' ? 'primary' : 'secondary'}
+                            onClick={() => setFilter('cosupervisor')}
+                        >
+                            Cosupervisor
+                        </Button>
+                    </ButtonGroup>
                 </div>
 
                 <Accordion className="mt-5">
@@ -231,10 +255,7 @@ const BrowseRequests = () => {
 
                             filteredRequests.map((request) => {
                                     const student = students.find((student) => student.id === request.studentId);
-                                    console.log(student);
-                                    const ex = exams.filter( (exam ) => exam.studentId === student.id);
-                                    console.log(exams);
-                                    console.log(ex);
+                                    const ex = exams.filter((exam) => exam.studentId === student.id);
                                     return request.supervisorStatus === "PENDING" ? (
                                         <Accordion.Item eventKey={request.id} key={request.id}>
                                             <Accordion.Header>
@@ -245,28 +266,36 @@ const BrowseRequests = () => {
                                                 </Row>
                                                 <div className="col-sm-4">
                                                     {isSupervisor && request.secretaryStatus === 'ACCEPTED' && (
-                                                            <>
-                                                                <ButtonGroup>
-                                                                    <Button variant="success"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                setShowAcceptPopup(true);
-                                                                                setRequestToAccept(request.id);
-                                                                            }}>
-                                                                        Accept
-                                                                    </Button>{' '}
-                                                                    <Button variant="danger"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                setShowRejectPopup(true);
-                                                                                setRequestToReject(request.id);
-                                                                            }}>
-                                                                        Reject
-                                                                    </Button>
-                                                                </ButtonGroup>
-                                                            </>
+                                                        <>
+                                                            <ButtonGroup>
+                                                                <Button variant="success"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setShowAcceptPopup(true);
+                                                                            setRequestToAccept(request.id);
+                                                                        }}>
+                                                                    Accept
+                                                                </Button>{' '}
+                                                                <Button variant="secondary"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setShowChangePopup(true);
+                                                                            setRequestToChange(request.id);
+                                                                        }}>
+                                                                    Change request
+                                                                </Button>{' '}
+                                                                <Button variant="danger"
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            setShowRejectPopup(true);
+                                                                            setRequestToReject(request.id);
+                                                                        }}>
+                                                                    Reject
+                                                                </Button>
+                                                            </ButtonGroup>
+                                                        </>
 
-                                                        )
+                                                    )
 
                                                     }
                                                     {
@@ -319,7 +348,7 @@ const BrowseRequests = () => {
                                                 </Row>
 
                                                 <h3 className="mt-3">Student</h3>
-                                                <Accordion className="mt-3">
+                                                {student && <Accordion className="mt-3">
                                                     <Accordion.Item eventKey={request.id}>
                                                         <Accordion.Header className={"w-100"}>
                                                             <Row className={"w-100"}>
@@ -341,7 +370,7 @@ const BrowseRequests = () => {
                                                                     <b>Student id:</b> {student.id}
                                                                 </Col>
                                                                 <Col md={6}>
-                                                                    <b>Name:</b> {student.name + " "+student.surname}
+                                                                    <b>Name:</b> {student.name + " " + student.surname}
                                                                 </Col>
                                                             </Row>
                                                             <Row>
@@ -364,7 +393,8 @@ const BrowseRequests = () => {
                                                                     <strong>Degree:</strong> {student.codDegree}
                                                                 </p>
                                                                 <p>
-                                                                    <strong>Enrollment Year:</strong> {student.enrollmentYear}
+                                                                    <strong>Enrollment
+                                                                        Year:</strong> {student.enrollmentYear}
                                                                 </p>
                                                             </div>
                                                             <div>
@@ -391,11 +421,11 @@ const BrowseRequests = () => {
                                                         </Accordion.Body>
 
                                                     </Accordion.Item>
-                                                </Accordion>
+                                                </Accordion>}
 
                                             </Accordion.Body>
                                         </Accordion.Item>
-                                    ) :  (
+                                    ) : (
                                         <p> You don't have any active requests yet </p>
                                     )
 
@@ -439,6 +469,36 @@ const BrowseRequests = () => {
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
                     <Button variant={"danger"} onClick={() => handleReject(requestToReject)}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal
+                show={showChangePopup}
+                aria-labelledby='contained-modal-title-vcenter'
+            >
+                <Modal.Header>
+                    <Modal.Title>
+                        Change
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+
+                    <Form.Group>
+                        <Form.Label className={"h5"}>Write a message to send to the student</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={4}
+                            placeholder="Enter message"
+                            value={changeMessage}
+                            onChange={(e) => setChangeMessage(() => e.target.value)}
+                            id="description"
+                        />
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={"secondary"} onClick={() => setShowChangePopup(false)}>No</Button>
+                    <Button variant={"danger"} onClick={() => handleChange(requestToChange)}>Yes</Button>
                 </Modal.Footer>
             </Modal>
         </>

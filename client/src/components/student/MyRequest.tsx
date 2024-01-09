@@ -56,7 +56,7 @@ const MyRequest: React.FC = () => {
 
 
     const handleDelete = () => {
-        RequestProposalService.deleteRequestProposals(request.id).then(()=>{
+        RequestProposalService.deleteRequestProposals(request.id).then(() => {
             setShowDeletePopup(false);
             navigate("/");
         })
@@ -122,19 +122,25 @@ const MyRequest: React.FC = () => {
         <>
             {request ? <Container>
                     <h1 style={{marginTop: "110px"}}>My Thesis Request</h1>
-                    <Button className="mt-3" onClick={() => {
-                        setModifyDisabled(a => !a);
-                    }} variant={modifyDisabled ? "primary" : "secondary"} id="edit-mode-btn">
-                        <BsPencil/> {modifyDisabled ? "Enable" : "Disable"} edit mode
-                    </Button> &nbsp;
-                    {!modifyDisabled && <Button className="mt-3" onClick={() => setShowDeletePopup(true)} variant="danger" id="delete-btn">
-                        <BsTrash/> Delete request
-                    </Button>}
+                    <h4> Secretary: {request.secretaryStatus} </h4>
+                    <h4> Supervisor: {request.supervisorStatus} </h4>
+                    {(request.secretaryStatus === "PENDING" && request.supervisorStatus == "PENDING") && <>
+                        <Button className="mt-3" onClick={() => {
+                            setModifyDisabled(a => !a);
+                        }} variant={modifyDisabled ? "primary" : "secondary"} id="edit-mode-btn">
+                            <BsPencil/> {modifyDisabled ? "Enable" : "Disable"} edit mode
+                        </Button>
+                        &nbsp;
+                    </>}
+                    {!modifyDisabled &&
+                        <Button className="mt-3" onClick={() => setShowDeletePopup(true)} variant="danger" id="delete-btn">
+                            <BsTrash/> Delete request
+                        </Button>}
                     <Form noValidate validated={validated} className="mt-4" onSubmit={handleSubmit}>
                         <Row>
                             {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                             <div>
-                                <Form.Group controlId="title">
+                                <Form.Group id="title">
                                     <Form.Label className="h3">Title*</Form.Label>
                                     <Form.Control
                                         disabled={modifyDisabled}
@@ -152,7 +158,7 @@ const MyRequest: React.FC = () => {
 
                         <Row className={"mt-3"}>
                             <div>
-                                <Form.Group controlId="supervisor">
+                                <Form.Group id="supervisor">
                                     <Form.Label className="h3">Supervisor*</Form.Label>
                                     <Form.Control required as="select" value={request.supervisorId}
                                                   disabled={modifyDisabled}
@@ -204,7 +210,7 @@ const MyRequest: React.FC = () => {
                         <Row className={"mt-3"}>
 
                             <div>
-                                <Form.Group controlId="description">
+                                <Form.Group id="description">
                                     <Form.Label className="h3">Description</Form.Label>
                                     <Form.Control
                                         disabled={modifyDisabled}
@@ -228,7 +234,8 @@ const MyRequest: React.FC = () => {
                         </Button>
                         <br/><br/>
                     </Form>
-                </Container> :
+                </Container>
+                :
                 <Container className="text-center mt-5">
                     <Row>
                         <Col>
@@ -252,12 +259,14 @@ const MyRequest: React.FC = () => {
                     Are you sure you want to delete the request?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)} id="delete-no-btn">No</Button>
+                    <Button variant={"secondary"} onClick={() => setShowDeletePopup(false)}
+                            id="delete-no-btn">No</Button>
                     <Button variant={"danger"} onClick={handleDelete} id="delete-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
         </>
-    );
+    )
+        ;
 };
 
 export default MyRequest;
