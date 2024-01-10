@@ -87,7 +87,7 @@ class AppliedProposalController(
         val proposalsWithApplications = appliedProposalService.findByCoSupervisor( coSupervisorId, archiviation_type.NOT_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)
     }
-    @GetMapping("/archived/{coSupervisorId}")
+    @GetMapping("/archived/cosupervisor/{coSupervisorId}")
     fun getArchivedCoSupervisorId (@PathVariable coSupervisorId: String) : ResponseEntity<Any> {
         val proposalsWithApplications = appliedProposalService.findByCoSupervisor( coSupervisorId, archiviation_type.EXPIRED, archiviation_type.MANUALLY_ARCHIVED )
         return ResponseEntity.ok(proposalsWithApplications)

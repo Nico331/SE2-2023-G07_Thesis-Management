@@ -13110,3 +13110,15 @@ header HS_HEADER_2081		Subject:=~/=?UTF-8?B?V2ljaHRpZ2VzIFVwZGF0ZTogTmV1ZSBOdXR6
 describe HS_HEADER_2081		Heinlein Support Spamschutz Header-2081 Phishing
 score HS_HEADER_2081		15
 
+header HS_HEADER_2084		Subject:=~/SKODA ZENTRUM WOLFSBURG GMBH WOLFSBURG \(INNENSTADT\).*/
+describe HS_HEADER_2084		Heinlein Support Spamschutz Header-2084 Spam
+score HS_HEADER_2084		5
+
+header HS_HEADER_2086		Subject:=~/Updates ueber Ihrem gesendeten Paket/
+describe HS_HEADER_2086		Heinlein Support Spamschutz Header-2086 Phishing
+score HS_HEADER_2086		5
+
+header HS_HEADER_2087		Subject:=~/HOTZ AUTOMOBILE GARDELEGEN GMBH GARDELEGEN.*/
+describe HS_HEADER_2087		Heinlein Support Spamschutz Header-2087 Spam
+score HS_HEADER_2087		5
+

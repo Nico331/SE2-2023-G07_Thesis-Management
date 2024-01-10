@@ -5,6 +5,7 @@ import {Button, Container, Form, Row} from "react-bootstrap";
 import Select from "react-select";
 import {ForumVisibility, newTopic} from "../../types/Forum";
 import {Thesis} from "../../types/Thesis";
+import {useNavigate} from "react-router-dom";
 
 const ForumForm: React.FC = () => {
     const [topic, setTopic] = useState<newTopic>({
@@ -13,6 +14,7 @@ const ForumForm: React.FC = () => {
         thesis: '',
         visibility: ForumVisibility.PROTECTED // Imposta un valore predefinito
     });
+    const navigate = useNavigate();
     const [theses, setTheses] = useState<Array<Thesis>>([]);
     const [selectedThesis, setSelectedThesis] = useState(null);
     const [error, setError] = useState("");
@@ -28,7 +30,7 @@ const ForumForm: React.FC = () => {
         if (topic.description && topic.name && topic.visibility && selectedThesis?.value){
             // @ts-ignore
             createTopic({...topic, thesis: selectedThesis.value} )
-                .then(r => console.log(r))
+                .then(_ => navigate("/forum"))
                 .catch(e => console.log(e));
         } else {
             setError("All required fields should be compiled!");

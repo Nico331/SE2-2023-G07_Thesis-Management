@@ -99,6 +99,15 @@ export default {
                 'Authorization': 'Bearer ' + localStorage.getItem("token")
             }
         });
+    },
+
+    getByCosupervisorIdArchived(professorId){
+        return axios.get(`${endpoint}/archived/cosupervisor/${professorId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
     }
 
 };

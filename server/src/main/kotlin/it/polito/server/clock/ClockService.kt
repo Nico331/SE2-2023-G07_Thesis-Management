@@ -1,19 +1,25 @@
 package it.polito.server.clock
 
 import it.polito.server.appliedproposal.AppliedProposalService
+import it.polito.server.email.EmailService
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.archiviation_type
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.*
+import java.time.format.DateTimeFormatter
 
 
 @Service
 class ClockService (
     private val proposalRepository: ProposalRepository,
-    private val appliedProposalService: AppliedProposalService
+    private val appliedProposalService: AppliedProposalService,
+    private val emailService: EmailService
 ){
 
     final var realTimeClock: Clock = Clock.systemDefaultZone()
@@ -73,7 +79,27 @@ class ClockService (
                 proposalRepository.save( proposal )
             }
         }
+
+         val notifyExpirationProposals = proposalRepository.findByExpirationIsBefore(actualDate.plusWeeks(1))
+         for (proposal in notifyExpirationProposals) {
+             if (proposal.archived != archiviation_type.MANUALLY_ARCHIVED && proposal.archived != archiviation_type.EXPIRED) {
+                 CoroutineScope(Dispatchers.IO).launch {
+                     emailService.sendSimpleMessage(
+                         "${proposal.supervisor}@polito.it",
+                         "Proposal expiration",
+                         "The proposal \"${proposal.title}\" will expire ${
+                             proposal.expiration.format(
+                                 DateTimeFormatter.ofPattern(
+                                     "dd/MM/yyyy"
+                                 )
+                             )
+                         }." +
+                                 "\nBest regards" +
+                                 "\nGestione Didattica",
+                         "no-reply@studenti.polito.it"
+                     )
+                 }
+             }
+         }
     }
-
-
 }
