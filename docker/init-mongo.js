@@ -464,3 +464,103 @@ const requestForProposals = [
 ];
 
 db.requestProposal.insertMany(requestForProposals);
+
+const courses = [
+    {
+        "_id": 1,
+        "name": "Architettura",
+        "code": "L-17"
+    },
+    {
+        "_id": 2,
+        "name": "Ingegneria civile e ambientale",
+        "code": "L-7"
+    },
+    {
+        "_id": 3,
+        "name": "Design e comunicazione",
+        "code": "L-4"
+    },
+    {
+        "_id": 5,
+        "name": "Ingegneria elettronica e delle comunicazioni",
+        "code": "L-8"
+    },
+    {
+        "_id": 6,
+        "name": "Ingegneria aerospaziale",
+        "code": "L-9"
+    },
+    {
+        "_id": 7,
+        "name": "Ingegneria biomedica",
+        "code": "L-9"
+    },
+    {
+        "_id": 8,
+        "name": "Ingegneria chimica e alimentare",
+        "code": "L-9"
+    },
+    {
+        "_id": 9,
+        "name": "Ingegneria civile",
+        "code": "L-7"
+    },
+    {
+        "_id": 10,
+        "name": "Ingegneria dei materiali",
+        "code": "L-9"
+    },
+    {
+        "_id": 11,
+        "name": "Ingegneria del cinema e dei mezzi di comunicazione",
+        "code": "L-8"
+    },
+    {
+        "_id": 12,
+        "name": "Ingegneria dell'autoveicolo",
+        "code": "L-9"
+    },
+    {
+        "_id": 13,
+        "name": "Ingegneria elettronica",
+        "code": "L-8"
+    },
+    {
+        "_id": 14,
+        "name": "Ingegneria energetica",
+        "code": "L-9"
+    },
+    {
+        "_id": 15,
+        "name": "Ingegneria fisica",
+        "code": "L-8"
+    },
+    {
+        "_id": 16,
+        "name": "Ingegneria gestionale",
+        "code": "L-8"
+    },
+    {
+        "_id": 17,
+        "name": "Ingegneria informatica",
+        "code": "L-8"
+    },
+    {
+        "_id": 18,
+        "name": "Ingegneria meccanica",
+        "code": "L-9"
+    },
+    {
+        "_id": 19,
+        "name": "Ingegneria per l'ambiente e il territorio",
+        "code": "L-7"
+    },
+    {
+        "_id": 20,
+        "name": "Matematica per l'ingegneria",
+        "code": "L-35"
+    }
+];
+
+db.course.insertMany(courses);
