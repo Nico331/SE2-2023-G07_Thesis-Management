@@ -201,7 +201,7 @@ const ProposalForm: React.FC = () => {
                     description: 'Development of a predictive control model with innovative techniques of machine learning for the control of heating and cooling of buildings',
                     requiredKnowledge: 'C++, machine learning',
                     notes: 'The thesis project could be used by an external company',
-                    expiration: dayjs('2024-02-04'),
+                    expiration: dayjs('2024-02-04').add(1, 'hour'),
                     level: 'Masters',
                     cdS: ['Computer Engineering'],
                 });
