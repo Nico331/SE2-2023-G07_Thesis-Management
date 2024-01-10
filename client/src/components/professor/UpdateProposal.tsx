@@ -208,7 +208,7 @@ function UpdateProposal (props) {
                         <Row>
                             {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="title">
+                                <Form.Group id="title">
                                     <Form.Label className="h3">Title</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -220,7 +220,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="type">
+                                <Form.Group id="type">
                                     <Form.Label className="h3">Type</Form.Label>
                                     <Form.Control as="select"
                                         value={updatedprop.type}
@@ -239,7 +239,7 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className={"mt-3"}>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="level">
+                                <Form.Group id="level">
                                     <Form.Label className="h3">Level</Form.Label>
                                     <Form.Control as="select"  value={updatedprop.level}
                                                   onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}
@@ -252,7 +252,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="expiration">
+                                <Form.Group id="expiration">
                                     <Form.Label className="h3">Expiration</Form.Label>
                                     <Form.Control
                                         type="date"
@@ -267,7 +267,7 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className="mt-3">
                             <Col lg={6} md={12}>
-                                <Form.Group controlId="supervisor">
+                                <Form.Group id="supervisor">
                                     <Form.Label className="h3">Supervisor</Form.Label>
                                     <Form.Control type="text"
                                         placeholder={JSON.parse(user).name + ' ' + JSON.parse(user).surname}
@@ -373,7 +373,7 @@ function UpdateProposal (props) {
                                 </Card>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="description">
+                                <Form.Group id="description">
                                     <Form.Label className="h3">Description</Form.Label>
                                     <Form.Control
                                         as="textarea"
@@ -387,7 +387,7 @@ function UpdateProposal (props) {
                         </Row>
                         <Row className={"mt-3"}>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="requiredKnoledge">
+                                <Form.Group id="requiredKnoledge">
                                     <Form.Label className="h3">Required Knowledge</Form.Label>
                                     <Form.Control
                                         as="textarea"
@@ -399,7 +399,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                             <div className="col-lg-6 col-md-12">
-                                <Form.Group controlId="notes">
+                                <Form.Group id="notes">
                                     <Form.Label className="h3">Notes</Form.Label>
                                     <Form.Control
                                         as="textarea"

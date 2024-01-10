@@ -47,7 +47,6 @@ const StartRequest: React.FC = () => {
         });
     }, []);
 
-    console.log(professors);
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
 
@@ -127,7 +126,7 @@ const StartRequest: React.FC = () => {
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div >
-                        <Form.Group controlId="title">
+                        <Form.Group id="title">
                             <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
                                 required
@@ -144,7 +143,7 @@ const StartRequest: React.FC = () => {
 
                 <Row className={"mt-3"}>
                     <div >
-                        <Form.Group controlId="supervisor">
+                        <Form.Group id="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control required as="select" value={request.supervisorId}
                                           onChange={(e) => setRequest({...request, supervisorId: e.target.value})}
@@ -192,7 +191,7 @@ const StartRequest: React.FC = () => {
                 <Row className={"mt-3"}>
 
                     <div>
-                        <Form.Group controlId="description">
+                        <Form.Group id="description">
                             <Form.Label className="h3">Description</Form.Label>
                             <Form.Control
                                 as="textarea"

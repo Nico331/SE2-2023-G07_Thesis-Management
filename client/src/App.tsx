@@ -52,8 +52,6 @@ function Main() {
         setUser(localStorage.getItem('user'));
         // @ts-ignore
         setRole(localStorage.getItem("role"));
-        console.log(role);
-        console.log(user);
     },[])
     const logOut=()=>{
 
@@ -73,7 +71,6 @@ function Main() {
                                     <UserContext.Provider value={userContextValue}>
                                         <VirtualClockContext.Provider value={virtualClockValue}>
                                             <AuthCheck key={role}>
-                                                {console.log(role)}
                                                 {role==="STUDENT" ? <StudentRoutes setRoleState={setRole}/> :
                                                     role==="PROFESSOR" ? <ProfessorRoutes setRoleState={setRole}/> :
                                                         role==="ADMIN" ? <AdminRoutes setRoleState={setRole}/> :

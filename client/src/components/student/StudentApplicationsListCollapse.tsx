@@ -94,8 +94,6 @@ const StudentApplicationsListCollapse = () => {
                         const supervisor = supervisors.find(s => s.id === proposal.supervisor);
                         const expiration = new Date(proposal.expiration).toDateString();
 
-                        console.log(application)
-
                         const handleDownload = () => {
                             const { content, name, contentType } = application.file;
 

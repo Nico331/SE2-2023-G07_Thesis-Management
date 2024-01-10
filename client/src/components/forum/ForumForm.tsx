@@ -36,7 +36,6 @@ const ForumForm: React.FC = () => {
             setError("All required fields should be compiled!");
         }
     };
-        useEffect(()=>{console.log(selectedThesis)},[selectedThesis])
 
     return (
         <>
@@ -46,7 +45,7 @@ const ForumForm: React.FC = () => {
                 <Form noValidate className="mt-5" onSubmit={handleSubmit}>
                     <Row>
                         <div className="col-lg-6 col-md-12">
-                            <Form.Group controlId="name">
+                            <Form.Group id="name">
                                 <Form.Label className="h3">Name*</Form.Label>
                                 <Form.Control
                                     required
@@ -59,7 +58,7 @@ const ForumForm: React.FC = () => {
                             </Form.Group>
                         </div>
                         <div className="col-lg-6 col-md-12">
-                            <Form.Group controlId="thesis">
+                            <Form.Group id="thesis">
                                 <Form.Label className="h3">Thesis*</Form.Label>
                                 <Select
                                     options={ theses.map((thesis) => {return { value: thesis.id, label: thesis.title }})}
@@ -72,7 +71,7 @@ const ForumForm: React.FC = () => {
                     </Row>
                     <Row className={"mt-3"}>
                         <div className="col-lg-12 col-md-12">
-                            <Form.Group controlId="description">
+                            <Form.Group id="description">
                                 <Form.Label className="h3">Description*</Form.Label>
                                 <Form.Control
                                     required
@@ -88,7 +87,7 @@ const ForumForm: React.FC = () => {
                     </Row>
                     <Row>
                         <div className="col-lg-6 col-md-12">
-                            <Form.Group controlId="visibility">
+                            <Form.Group id="visibility">
                                 <Form.Label className="h3">Visibility*</Form.Label>
                                 <Form.Control as="select" value={topic.visibility}
                                               onChange={(e) => setTopic({ ...topic, visibility: e.target.value})}

@@ -42,13 +42,10 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
             sessionStorage.setItem("token", jwt)
             setToken(jwt)
             const decodedJwt = jwtDecode(jwt);
-            console.log(decodedJwt);
             // @ts-ignore
             const userRole: string = decodedJwt["realm_access"]["roles"].find((value)=> value==="PROFESSOR" || value==="STUDENT" || value==="SECRETARY");
             localStorage.setItem("role", userRole);
             sessionStorage.setItem("role", userRole);
-
-            console.log("Navigo")
             const userInfo = await axios.get(
                 // @ts-ignore
                 `http://localhost:8081/API/${userRole==="PROFESSOR" ? 
@@ -62,14 +59,11 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                     }
                 }
             )
-            console.log(userInfo.data)
             localStorage.setItem('user', JSON.stringify(userInfo.data));
             sessionStorage.setItem("user", JSON.stringify(userInfo.data));
             setUser(JSON.stringify(userInfo.data));
             setRole(userRole.toString())
-            console.log("Prima di settare userRole")
             setRoleState(userRole.toString());
-            console.log("Faccio la navigate")
             navigate('/');
         } catch (error) {
             // @ts-ignore
@@ -90,7 +84,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                     </Container>
                     <Container style={{height: 'inherit'}}>
                         <Form noValidate className="mt-4" validated={validated} onSubmit={handleLogin}>
-                            <Form.Group controlId="formBasicEmail">
+                            <Form.Group id="formBasicEmail">
                                 <Form.Label>Email o Username</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -101,7 +95,7 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="mt-4" controlId="formBasicPassword">
+                            <Form.Group className="mt-4" id="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     type="password"

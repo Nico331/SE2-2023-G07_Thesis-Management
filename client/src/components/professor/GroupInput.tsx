@@ -20,7 +20,7 @@ const GroupInput: React.FC<GroupInputProps> = ({ onAddGroup }) => {
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Select Group</Accordion.Header>
                 <Accordion.Body>
-                    <Form.Group controlId="groupName">
+                    <Form.Group id="groupName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
                             type="text"

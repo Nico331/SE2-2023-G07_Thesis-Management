@@ -138,7 +138,6 @@ function StudentApplyForm(props) {
         setShowModalConfirmation(false);
 
         try {
-            console.log(file);
             // Aggiungi il file alla richiesta solo se è presente
 
             if (file === null) {
@@ -296,7 +295,7 @@ function StudentApplyForm(props) {
                         </tbody>
                     </Table>
 
-                    <Form.Group controlId="formFile">
+                    <Form.Group id="formFile">
                         <Form.Label>Attach a pdf file (optional)</Form.Label>
                         <Form.Control
                             type="file"

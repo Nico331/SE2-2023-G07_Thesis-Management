@@ -5,9 +5,7 @@ import React from "react";
 import ProfessorService from "../../services/ProfessorService";
 
 function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; propsalData: { [x: string]: any; }; proposalID: string | number; proposalTitle: string | number; showModal: boolean; setShowModal: (arg0: boolean) => void; }) {
-    //console.log("propsalData: "+props.propsalData);
     const proposals = props.propsalData;
-    //console.log("porposals "+proposals);
     const propTitle = props.proposalTitle;
     const proposal = proposals[propTitle];
     const [supervisor, setSupervisor] = useState({});
@@ -16,7 +14,6 @@ function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; p
 
         const getSupervisor = async () => {
             const supervisorID = proposal.supervisor;
-            console.log("supervisor ID: "+supervisorID);
             const response = await ProfessorService.fetchProfessor(supervisorID);
             setSupervisor(response.data)
 
