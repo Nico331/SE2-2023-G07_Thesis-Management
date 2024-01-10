@@ -215,7 +215,7 @@ function UpdateProposal (props) {
                                         placeholder= {props.modifyproposal.title}
                                         value={updatedprop.title}
                                         onChange={(e) => setUpdatedprop({...updatedprop, title: e.target.value})}
-                                        id="title"
+                                        id="title-input"
                                     />
                                 </Form.Group>
                             </div>
@@ -225,7 +225,7 @@ function UpdateProposal (props) {
                                     <Form.Control as="select"
                                         value={updatedprop.type}
                                         onChange={(e) => setUpdatedprop({...updatedprop, type: e.target.value})}
-                                        id="type"
+                                        id="type-input"
                                     >
                                         <option value="">Select the type</option>
                                         <option value="In company">In company</option>
@@ -243,7 +243,7 @@ function UpdateProposal (props) {
                                     <Form.Label className="h3">Level</Form.Label>
                                     <Form.Control as="select"  value={updatedprop.level}
                                                   onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}
-                                                  id="level"
+                                                  id="level-input"
                                     >
                                         <option value="">Select the type</option>
                                         <option value="Bachelor">Bachelor</option>
@@ -260,7 +260,7 @@ function UpdateProposal (props) {
                                         value={updatedprop.expiration.format("YYYY-MM-DD")}
                                         onChange={(e) => setUpdatedprop({...updatedprop, expiration: dayjs(e.target.value)})}
                                         min={new Date().toISOString().split("T")[0]}
-                                        id="exp"
+                                        id="exp-input"
                                     />
                                 </Form.Group>
                             </div>

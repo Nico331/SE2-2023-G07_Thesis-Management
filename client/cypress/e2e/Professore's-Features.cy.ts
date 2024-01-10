@@ -32,12 +32,12 @@ describe("Professore's features", () => {
 
   it("new proposal", () => {
     cy.get("#new-proposal").click();
-    cy.get("#title").type(title);
-    cy.get("#type").select(type);
-    cy.get("#level").select(level);
-    cy.get("#exp").clear().type(exp);
+    cy.get("#title-input").type(title);
+    cy.get("#type-input").select(type);
+    cy.get("#level-input").select(level);
+    cy.get("#exp-input").clear().type(exp);
     cy.contains("Internal").click();
-    cy.get("#cosupervisor").select(cosupervisor);
+    cy.get("#cosupervisor-input").select(cosupervisor);
     cy.get("#add-cosup-button").click();
     cy.contains("External").click();
     cy.get("#name-input").type(eCosupervisorName);
@@ -75,12 +75,12 @@ describe("Professore's features", () => {
   it("Edit a proposal", () => {
     cy.get("#my-proposal").click();
     cy.contains("Test Proposal").find("#modify-btn").click();
-    cy.get("#title").clear().type(newTitle);
-    cy.get("#type").select(newType);
-    cy.get("#level").select(newLevel);
-    cy.get("#exp").clear().type(newExp);
+    cy.get("#title-input").clear().type(newTitle);
+    cy.get("#type-input").select(newType);
+    cy.get("#level-input").select(newLevel);
+    cy.get("#exp-input").clear().type(newExp);
     cy.get("#remove-" + cosupervisorID).click();
-    cy.get("#cosupervisor").select(newCosupervisorID);
+    cy.get("#cosupervisor-input").select(newCosupervisorID);
     cy.get("#add-cosup-button").click();
     cy.get("#remove-" + keywords.indexOf(removeKeyword)).click();
     cy.get("#keyword-input").type(newKeyword);
@@ -98,7 +98,7 @@ describe("Professore's features", () => {
   it("Copy a proposal", () => {
     cy.get("#my-proposal").click();
     cy.contains("Test Proposal Modified").find("#copy-btn").click();
-    cy.get("#title").clear().type("Test Proposal Copied");
+    cy.get("#title-input").clear().type("Test Proposal Copied");
     cy.get("#create-copy-btn").click();
     cy.get("#close-modal-btn").click();
 
@@ -164,10 +164,10 @@ describe("Professore's features", () => {
   it("Create a new topic in the forum", () => {
     cy.get("#forum").click();
     cy.get("#new-topic-btn").click();
-    cy.get("#name").type(newTopic);
-    cy.get("#thesis").select(topicThesis);
-    cy.get("#description").type(topicDescription);
-    cy.get("#visibility").select(topicVisibility);
+    cy.get("#name-input").type(newTopic);
+    cy.get("#thesis-input").select(topicThesis);
+    cy.get("#description-input").type(topicDescription);
+    cy.get("#visibility-input").select(topicVisibility);
     cy.get("#create-btn").click();
   });
 

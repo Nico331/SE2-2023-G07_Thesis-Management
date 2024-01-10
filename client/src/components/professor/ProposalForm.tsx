@@ -220,7 +220,7 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter title"
                                 value={proposal.title}
                                 onChange={(e) => setProposal({...proposal, title: e.target.value})}
-                                id="title"
+                                id="title-input"
                             />
                         </Form.Group>
                     </div>
@@ -229,7 +229,7 @@ const ProposalForm: React.FC = () => {
                             <Form.Label className="h3">Type*</Form.Label>
                             <Form.Control required as="select" value={proposal.type}
                                           onChange={(e) => setProposal({...proposal, type: e.target.value})}
-                                          id="type">
+                                          id="type-input">
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
                                 <option value="Experimental">Experimental</option>
@@ -246,7 +246,7 @@ const ProposalForm: React.FC = () => {
                             <Form.Label className="h3">Level*</Form.Label>
                             <Form.Control required as="select" value={proposal.level}
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}
-                                          id="level">
+                                          id="level-input">
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Masters">Masters</option>
@@ -268,7 +268,7 @@ const ProposalForm: React.FC = () => {
                                         setProposal({...proposal, expiration: dayjs(e.target.value)});
                                 }}
                                 min={new Date().toISOString().split("T")[0]}
-                                id="exp"
+                                id="exp-input"
                             />
                         </Form.Group>
                     </div>

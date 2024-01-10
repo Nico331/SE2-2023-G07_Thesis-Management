@@ -134,7 +134,7 @@ const StartRequest: React.FC = () => {
                                 placeholder="Enter title"
                                 value={request.title}
                                 onChange={(e) => setRequest({...request, title: e.target.value})}
-                                id="title"
+                                id="title-input"
                             />
                         </Form.Group>
                     </div>
@@ -147,7 +147,7 @@ const StartRequest: React.FC = () => {
                             <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control required as="select" value={request.supervisorId}
                                           onChange={(e) => setRequest({...request, supervisorId: e.target.value})}
-                                          id="supervisor">
+                                          id="supervisor-input">
                                 <option value="">Select the supervisor</option>
                                 {
                                     professors.map((professor) =>
@@ -199,7 +199,7 @@ const StartRequest: React.FC = () => {
                                 placeholder="Enter description"
                                 value={request.description}
                                 onChange={(e) => setRequest({...request, description: e.target.value})}
-                                id="description"
+                                id="description-input"
                             />
                         </Form.Group>
                     </div>

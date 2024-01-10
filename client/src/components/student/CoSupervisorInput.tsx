@@ -49,7 +49,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                 as="select"
                                 value={coSupervisor}
                                 onChange={(e) => setCoSupervisor(e.target.value)}
-                                id="cosupervisor"
+                                id="cosupervisor-input"
                             >
                                 <option value="">Select the supervisor</option>
                                 {updatedprop
