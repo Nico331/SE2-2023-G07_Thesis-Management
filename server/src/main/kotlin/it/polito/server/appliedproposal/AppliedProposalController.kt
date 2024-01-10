@@ -21,12 +21,6 @@ class AppliedProposalController(
     private val studentRepository: StudentRepository,
 ) {
 
-    /*@GetMapping("/{id}")
-    fun getAppliedProposal(@PathVariable id: String): ResponseEntity<AppliedProposalDTO>{
-        val appliedProposal = appliedProposalService.findAppliedProposalById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        return ResponseEntity.ok(appliedProposal)
-    }*/
-
     @GetMapping("")
     fun getAll(): ResponseEntity<List<AppliedProposalDTO>>{
         val application = appliedProposalService.findAll()
@@ -55,15 +49,12 @@ class AppliedProposalController(
 
     @PutMapping("/accept/{id}")
     fun acceptProposal(@PathVariable id: String): ResponseEntity<Any>{
-        //appliedProposalService.acceptProposal(id)
-
         return appliedProposalService.acceptProposal(id)
     }
 
     @PutMapping("/reject/{id}")
     fun rejectProposal(@PathVariable id: String): ResponseEntity<Any>{
         return appliedProposalService.rejectProposal(id)
-        //return ResponseEntity.ok().build()
     }
 
     @PutMapping("/withdraw/{proposalId}")
