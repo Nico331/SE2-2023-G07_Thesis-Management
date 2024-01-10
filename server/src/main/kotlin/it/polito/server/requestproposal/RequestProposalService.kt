@@ -210,4 +210,8 @@ class RequestProposalService (
         return ResponseEntity.ok(allRequestProposal)
     }
 
+    fun findByStudentId(studentId: String): List<RequestProposalDTO> {
+        return requestProposalRepository.findByStudentId(studentId).map{(it.toDTO())}
+    }
+
 }
