@@ -2,9 +2,13 @@ package it.polito.server.proposal
 
 import it.polito.server.appliedproposal.ApplicationStatus
 import it.polito.server.appliedproposal.AppliedProposalRepository
+import it.polito.server.email.EmailService
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
 import it.polito.server.professor.ProfessorService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -16,19 +20,67 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Date
 import java.util.regex.Pattern
 
 @Service
-class ProposalService (private val proposalRepository : ProposalRepository,
-                       private val professorService: ProfessorService,
-                       private val appliedProposalRepository: AppliedProposalRepository,
-                       private val externalCoSupervisorRepository: ExternalCoSupervisorRepository,
-                       private val externalCoSupervisorService: ExternalCoSupervisorService
+class ProposalService (
+    private val proposalRepository : ProposalRepository,
+    private val professorService: ProfessorService,
+    private val appliedProposalRepository: AppliedProposalRepository,
+    private val externalCoSupervisorRepository: ExternalCoSupervisorRepository,
+    private val externalCoSupervisorService: ExternalCoSupervisorService,
+    private val emailService: EmailService
     ) {
 
     fun updateProposal(id: String, update: ProposalDTO): ProposalDTO? {
-        proposalRepository.findById(id).orElse(null) ?: return null
+        val existingProposal = proposalRepository.findById(id).orElse(null)?.toDTO(externalCoSupervisorRepository)
+            ?: return null
+        // notify
+        val existingCoSupervisors = existingProposal.coSupervisors.toSet()
+        val updatedCoSupervisors = update.coSupervisors.toSet()
+        val removedCoSupervisors = existingCoSupervisors.subtract(updatedCoSupervisors)
+        val addedCoSupervisors = updatedCoSupervisors.subtract(existingCoSupervisors)
+
+        removedCoSupervisors.forEach { coSupervisor ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyRemovedCoSupervisor(
+                    update.title,
+                    professorService.findProfessorById(coSupervisor)!!.email
+                )
+            }
+        }
+
+        addedCoSupervisors.forEach { coSupervisor ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyAddedCoSupervisor(update.title, professorService.findProfessorById(coSupervisor)!!.email)
+            }
+        }
+
+        var existingExternalCoSupervisors = existingProposal.externalCoSupervisors?.toSet()
+        var updatedExternalCoSupervisors = update.externalCoSupervisors?.toSet()
+        if(existingExternalCoSupervisors!=null || updatedExternalCoSupervisors!=null){
+
+            if(updatedExternalCoSupervisors==null ){
+                updatedExternalCoSupervisors = setOf()
+            } else if(existingExternalCoSupervisors == null){
+                existingExternalCoSupervisors = setOf()
+            }
+            val addedExternalCoSupervisors = updatedExternalCoSupervisors.subtract(existingExternalCoSupervisors!!)
+            val removedExternalCoSupervisors = existingExternalCoSupervisors.subtract(updatedExternalCoSupervisors)
+
+            removedExternalCoSupervisors.forEach { externalCoSupervisor ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    emailService.notifyRemovedCoSupervisor(update.title, externalCoSupervisor.email)
+                }
+            }
+
+            addedExternalCoSupervisors.forEach { externalCoSupervisor ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    emailService.notifyAddedCoSupervisor(update.title, externalCoSupervisor.email)
+                }
+            }
+        }
+        // end notify
         val external = update.externalCoSupervisors
         if (external != null)
             externalCoSupervisorService.saveNewExternals(external)
@@ -44,7 +96,21 @@ class ProposalService (private val proposalRepository : ProposalRepository,
         val external = proposal.externalCoSupervisors
         if (external != null)
             externalCoSupervisorService.saveNewExternals(external)
-
+        // notify
+        proposal.coSupervisors.forEach { coSupervisor ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyAddedCoSupervisor(
+                    proposal.title,
+                    professorService.findProfessorById(coSupervisor)!!.email
+                )
+            }
+        }
+        proposal.externalCoSupervisors?.forEach { externalCoSup ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyAddedCoSupervisor(proposal.title, externalCoSup.email)
+            }
+        }
+        // end notify
         val savedProposal = proposalRepository.save(proposal.toDBObj())
         return savedProposal.toDTO(externalCoSupervisorRepository)
     }
@@ -70,6 +136,21 @@ class ProposalService (private val proposalRepository : ProposalRepository,
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Proposal doesn't exists")
 
         val proposal = proposalRepository.findById(id).get()
+        // notify
+        proposal.coSupervisors.forEach { coSupervisor ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyRemovedCoSupervisor(
+                    proposal.title,
+                    professorService.findProfessorById(coSupervisor)!!.email
+                )
+            }
+        }
+        proposal.toDTO(externalCoSupervisorRepository).externalCoSupervisors?.forEach { external ->
+            CoroutineScope(Dispatchers.IO).launch {
+                emailService.notifyRemovedCoSupervisor(proposal.title, external.email)
+            }
+        }
+        // end notify
         if(proposal.archived == archiviation_type.MANUALLY_ARCHIVED || proposal.archived == archiviation_type.EXPIRED)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already archived")
 
@@ -80,7 +161,7 @@ class ProposalService (private val proposalRepository : ProposalRepository,
     fun findActiveProposalsBySupervisor(supervisor:String): ResponseEntity<Any> {
 
         //Check if the supervisor exists
-        val supervisorExists = professorService.findProfessorById(supervisor)
+        professorService.findProfessorById(supervisor)
             ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Supervisor '$supervisor' does NOT exist.")
 
         //Check if the supervisor has any proposals

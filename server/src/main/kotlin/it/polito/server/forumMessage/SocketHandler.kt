@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import it.polito.server.InvalidInputException
+import it.polito.server.email.EmailService
 import it.polito.server.forum.ForumUser
 import jakarta.security.auth.message.AuthException
 import net.minidev.json.JSONObject
@@ -15,11 +16,15 @@ import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.lang.Long.parseLong
 import java.time.Instant
 import java.time.LocalDate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Component
 class WebSocketHandler(
     private val messageService: MessageService,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val emailService: EmailService
 ) : TextWebSocketHandler() {
 
     private var sessions: MutableMap<String, MutableList<WebSocketSession>> = mutableMapOf()
@@ -80,10 +85,14 @@ class WebSocketHandler(
         println(payload)
         try {
             val messageDto = objectMapper.readValue(payload, MessageDTO::class.java)
-            val sentMessage = messageService.newMessage(messageDto)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                messageService.newMessage(messageDto)
+            }
+//            messageService.newMessage(messageDto)
             val combinedObject = mapOf(
                 "type" to "newMessage",
-                "message" to sentMessage
+                "message" to messageDto
             )
             val messageJson = gson.toJson(combinedObject)
             println("Sessioni: ${sessions[forumId]}")

@@ -6,7 +6,7 @@ db.proposal.insertMany([
         _id: "1",
         title: "Advanced Robotics Control Systems",
         supervisor: "p300001",
-        coSupervisors: ["p300002"],
+        coSupervisors: ["p300002", "659d82efc2d764402d9b666f"],
         keywords: ["robotics", "control systems", "automation"],
         type: "Development",
         groups: ["RoboTech Group"],
@@ -22,7 +22,7 @@ db.proposal.insertMany([
         _id: "2",
         title: "Blockchain-based Supply Chain Management",
         supervisor: "p300001",
-        coSupervisors: ["p300002","p300003"],
+        coSupervisors: ["p300002","p300003", "659d82efc2d764402d9b666f"],
         keywords: ["blockchain", "supply chain", "distributed ledger"],
         type: "Research",
         groups: ["BlockChain Group"],
@@ -54,7 +54,7 @@ db.proposal.insertMany([
         _id: "4",
         title: "Artificial Intelligence in Healthcare Diagnostics",
         supervisor: "p300002",
-        coSupervisors: ["p300005"],
+        coSupervisors: ["p300005", "659d82efc2d764402d9b666f"],
         keywords: ["AI", "healthcare", "diagnostics"],
         type: "Application Development",
         groups: ["AIHealth Group"],
@@ -86,7 +86,7 @@ db.proposal.insertMany([
         _id: "6",
         title: "Renewable Energy Systems and Gr_id Integration",
         supervisor: "p300003",
-        coSupervisors: ["p300001"],
+        coSupervisors: ["p300001", "659d82efc2d764402d9b666f"],
         keywords: ["renewable energy", "gr_id integration", "sustainability"],
         type: "Research",
         groups: ["EcoEnergy Group"],
@@ -464,3 +464,103 @@ const requestForProposals = [
 ];
 
 db.requestProposal.insertMany(requestForProposals);
+
+const courses = [
+    {
+        "_id": 1,
+        "name": "Architettura",
+        "code": "L-17"
+    },
+    {
+        "_id": 2,
+        "name": "Ingegneria civile e ambientale",
+        "code": "L-7"
+    },
+    {
+        "_id": 3,
+        "name": "Design e comunicazione",
+        "code": "L-4"
+    },
+    {
+        "_id": 5,
+        "name": "Ingegneria elettronica e delle comunicazioni",
+        "code": "L-8"
+    },
+    {
+        "_id": 6,
+        "name": "Ingegneria aerospaziale",
+        "code": "L-9"
+    },
+    {
+        "_id": 7,
+        "name": "Ingegneria biomedica",
+        "code": "L-9"
+    },
+    {
+        "_id": 8,
+        "name": "Ingegneria chimica e alimentare",
+        "code": "L-9"
+    },
+    {
+        "_id": 9,
+        "name": "Ingegneria civile",
+        "code": "L-7"
+    },
+    {
+        "_id": 10,
+        "name": "Ingegneria dei materiali",
+        "code": "L-9"
+    },
+    {
+        "_id": 11,
+        "name": "Ingegneria del cinema e dei mezzi di comunicazione",
+        "code": "L-8"
+    },
+    {
+        "_id": 12,
+        "name": "Ingegneria dell'autoveicolo",
+        "code": "L-9"
+    },
+    {
+        "_id": 13,
+        "name": "Ingegneria elettronica",
+        "code": "L-8"
+    },
+    {
+        "_id": 14,
+        "name": "Ingegneria energetica",
+        "code": "L-9"
+    },
+    {
+        "_id": 15,
+        "name": "Ingegneria fisica",
+        "code": "L-8"
+    },
+    {
+        "_id": 16,
+        "name": "Ingegneria gestionale",
+        "code": "L-8"
+    },
+    {
+        "_id": 17,
+        "name": "Ingegneria informatica",
+        "code": "L-8"
+    },
+    {
+        "_id": 18,
+        "name": "Ingegneria meccanica",
+        "code": "L-9"
+    },
+    {
+        "_id": 19,
+        "name": "Ingegneria per l'ambiente e il territorio",
+        "code": "L-7"
+    },
+    {
+        "_id": 20,
+        "name": "Matematica per l'ingegneria",
+        "code": "L-35"
+    }
+];
+
+db.course.insertMany(courses);

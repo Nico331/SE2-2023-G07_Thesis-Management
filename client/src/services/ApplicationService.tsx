@@ -24,7 +24,6 @@ export default {
 
     createApplicationWithFile(application, fileDTO){
 
-        console.log(fileDTO)
         return axios.post(`${endpoint}/apply/${application.proposalId}/${application.studentId}`, fileDTO,{
             headers: {
                 'Content-Type': 'application/json',
@@ -94,6 +93,15 @@ export default {
 
     getByProfessorIdArchived(professorId){
         return axios.get(`${endpoint}/archived/${professorId}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
+
+    getByCosupervisorIdArchived(professorId){
+        return axios.get(`${endpoint}/archived/cosupervisor/${professorId}`,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("token")

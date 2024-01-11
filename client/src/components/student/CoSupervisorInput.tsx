@@ -41,7 +41,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Select Co-Supervisors</Accordion.Header>
                 <Accordion.Body>
-                    <Form.Group controlId="cosupervisor">
+                    <Form.Group id="cosupervisor">
 
                         <br/>
 
@@ -49,7 +49,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                 as="select"
                                 value={coSupervisor}
                                 onChange={(e) => setCoSupervisor(e.target.value)}
-                                id="cosupervisor"
+                                id="cosupervisor-input"
                             >
                                 <option value="">Select the supervisor</option>
                                 {updatedprop

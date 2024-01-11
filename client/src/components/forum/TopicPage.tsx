@@ -54,9 +54,6 @@ const TopicPage: React.FC = (  ) => {
         localStorage.setItem("sound", newSoundEnabled ? "true" : "false");
         setSoundEnabled(newSoundEnabled);
     };
-    useEffect(()=>{
-        console.log(`enabled: ${soundEnabled}`)
-    },[soundEnabled])
     useEffect(() => {
         if(topic){
             if(!webSocket.current){
@@ -72,7 +69,6 @@ const TopicPage: React.FC = (  ) => {
                     setMessages((prevMessages) => [...prevMessages, receivedMessage.message]);
                     setTopic({...topic, responseCount: topic.responseCount+1})
                     if(soundEnabled && receivedMessage.message.author.id!==JSON.parse(user).id){
-                        console.log(soundEnabled)
                         audio.play()
                             .then(p=>{
                                 console.log(p)
@@ -186,7 +182,7 @@ const TopicPage: React.FC = (  ) => {
                     ))}
                     </div>
                     <div className="message-input">
-                        <Form.Group controlId="description" style={{paddingBottom:10}}>
+                        <Form.Group id="description" style={{paddingBottom:10}}>
                             <Form.Label className="h5">New forum message</Form.Label>
                             <Form.Control
                                 as="textarea"

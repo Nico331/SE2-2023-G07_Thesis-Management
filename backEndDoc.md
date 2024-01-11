@@ -62,6 +62,8 @@ ExternalCoSupervisorDTO
 - Get all the archived (both expired and manually archived) Proposals created by a supervisor
 	- GET ___`/API/proposals/bysupervisor/archived/{supervisorID}`___
 	- Returns an array of ProposalDTO objects. The proposals are the only ones created by the supervisor specified and archived (manually archived or expired).
+- Get all the proposals by a coSuperVisor
+	- GET ___`/API/proposals/byCoSupervisor/{coSupervisorID}`___
 - Get all the active Proposals matching the filters
 	- GET ___`/API/proposals/filters?filter1=value1&filter2=value2&...`___
 	- Returns the Proposals that match with searching filters.
@@ -283,6 +285,16 @@ Student
 	  professor as supervisor.
 	- Every proposal contains an array of Application.
 		- Every Application object has the student info who has created it.
+- Get all active applications related to a coSupervisor.
+	- GET ___`/API/appliedProposal/active/cosupervisor/{cosupervisorId}`___
+	- Return an array of LongObjProposal objects.
+	- Every proposal is still active (no expired, no manually archived) and has the specified
+	  coSupervisor as coSupervisor.
+- Get all archived applications related to a coSupervisor.
+	- GET ___`/API/appliedProposal/archived/cosupervisor/{cosupervisorId}`___
+    - Return an array of LongObjProposal objects.
+    - Every proposal is no more active (=> expired or manually archived) and has the specified
+	  coSupervisor as coSupervisor.
 - Accept an Application
 	- PUT ___`/API/appliedProposal/accept/{applicationId}`___
 	- Return OK status if success.
@@ -290,6 +302,10 @@ Student
     - It cancels automatically all the other applications for the same proposal. 
 -  Reject an Application
 	- PUT ___`/API/appliedProposal/reject/{applicationId}`___
+	- Return OK status if success.
+	- Return NOT_FOUND if the Applications doesn't exist.
+- Withdraw an existing Application
+	- PUT ___`/API/appliedProposal/withdraw/{applicationId}`___
 	- Return OK status if success.
 	- Return NOT_FOUND if the Applications doesn't exist.
 - Delete an existing Application
@@ -454,24 +470,13 @@ Secretary {
 
 ## Secretary APIs
 
-- Create a new Secretary
-	- POST ___`/API/secretaries`___
-	- Request body must contain a Secretary (__not SecretaryDTO__) object with the `"id" = null`.
-	- Return the just saved SecretaryDTO with the new _id_ field.
-- Update an existing Secretary
-    - PUT ___`/API/secretaries/{secretaryID}`___
-    - Request body must contain the updated SecretaryDTO object.
-    - Return OK status if success and the just updated and saved SecretaryDTO object.
-    - Return NOT_FOUND if the Secretary doesn't exist.
 - Get an existing Secretary
     - GET ___`/API/secretaries/{secretaryID}`___
     - Return the requested SecretaryDTO if exists, otherwise response code 404.
 - Get all existing Secretaries
     - GET ___`/API/secretaries`___
     - Return an array of SecretaryDTO objects. It contains all the secretaries in the database.
-- Delete an existing Secretary
-    - DELETE ___`/API/secretaries/{secretaryID}`___
-    - Return the status OK when success, NOT_FOUND otherwise.
+
 
 ----
 
@@ -481,7 +486,7 @@ This entity represents a request of thesis proposal by a student.
 It must be accepted by the secretary first, then by the professor.
 
 ```json
-RequestProposal(
+RequestProposal{
         "id": nullable String,
         "title": String,
         "studentId": String,
@@ -495,7 +500,7 @@ RequestProposal(
 ```
 
 ```json
-RequestProposalDTO (
+RequestProposalDTO {
         "id": nullable String,
         "title": String,
         "studentId": String,
@@ -513,6 +518,12 @@ RequestProposalStatus {
     PENDING,
     ACCEPTED,
     REJECTED
+}
+```
+
+```json
+MessageFromProfessorDTO {
+    "message" : String
 }
 ```
 
@@ -543,6 +554,95 @@ RequestProposalStatus {
 	- PUT ___`/API/requestProposal/bySecretary/[accept||reject]/{requestProposalID}`___
 - Acceptance / rejection of a Request of Proposal by the supervisor
 	- PUT ___`/API/requestProposal/bySupervisor/[accept||reject]/{requestProposalID}`___
+- Send a request of change by the supervisor to the student about a request of proposal
+	- POST ___`/API/requestProposal/requestOfChangeByProfessor/{professorId}/{proposalId}`___
+ 	- It receives a Message object in the body of the request.
+   	- The message is sent to the student via email notification.
+	- The request of Proposal must be in PENDING state.
 - Delete an existing Request of Proposal
 	- DELETE ___`/API/requestProposal/{requestProposalID}`___
 	- Return the status OK when success, NOT_FOUND otherwise.
+
+# Forum
+
+## Forum Object
+
+```json
+ForumDTO{
+	"id": nullable String,
+	"name": String,
+	"thesis": String,
+	"creationDate": nullable Instant,
+	"closeDate": nullable Instant,
+	"lastMessage": nullable Instant,
+	"description": String,
+	"author": nullable Professor,
+	"responseCount": nullable Int,
+	"status": nullable ForumStatus,
+	"visibility": nullable ForumVisibility,
+	"viewedBy": nullable ForumUser[]
+}
+
+```
+
+```
+enum class ForumStatus {
+	OPENED,
+	CLOSED
+}
+```
+
+```
+enum class ForumVisibility {
+	PUBLIC,
+	PROTECTED,
+	PRIVATE
+}
+```
+
+## Forum APIs
+
+- Create a new Forum
+	- POST ___`/API/forums/new`___
+    - Request body must contain a ForumDTO object with the `"id" = null`.
+    - Create a Forum only if a professor is logged in.
+- Get an existing Forum
+	- GET ___`/API/forums/{forumID}`___
+	- Return the requested ForumDTO if exists.
+- Get all accessible forums.
+	- GET ___`/API/forums`___
+	- Accessibility depends on the logged user:
+      - Student: public forums.
+      - Professor: public and protected forums.
+- Close a forum.
+	- PUT ___`/API/forums/{forumID}/close`___
+	- Set the forum status to CLOSED.
+    - If the logged user is not the author of the forum, return FORBIDDEN.
+- Change the visibility of a forum.
+	- PUT ___`/API/forums/{forumID}/visibility`___
+	- Set the visibility of the forum to the specified one in the request parameter.
+	- If the logged user is not the author of the forum, return FORBIDDEN.
+
+-----
+
+# Forum Message
+
+## Message Object
+
+```json
+MessageDTO{
+	"id": nullable String,
+	"forumId": String,
+	"date": nullable Instant,
+	"text": String,
+	"author": ForumUser,
+	"viewedBy": nullable ForumUser[],
+	"attachments": nullable String[],
+}
+
+```
+
+## Message APIs
+
+
+-----

@@ -23,7 +23,6 @@ const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>
         if (timeoutId) clearTimeout(timeoutId);
 
         const newTimeoutId = setTimeout(() => {
-            console.log("Leaved")
             setShowDropdown(false);
         }, 300);
 

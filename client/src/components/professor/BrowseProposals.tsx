@@ -30,15 +30,11 @@ export const ProfessorBrowseProposals = (props) => {
         axios.get("http://localhost:8081/API/proposals")
             .then(response=>{
                 setPropsOnScreen(response.data);
-                console.log(propsOnScreen)
             })
             .catch(e=>{
                 console.log("Errore nella get: "+e);
             })
     },[propsOnScreen.length])
-    useEffect(() => {
-        console.log(propsOnScreen);
-    }, [propsOnScreen]);
 
     const [collapseState, setCollapseState] = useState(propsOnScreen.reduce((a, v) => ({ ...a, [v.id]: false }), {}));
     const [showModal, setShowModal] = useState(false);
@@ -46,19 +42,6 @@ export const ProfessorBrowseProposals = (props) => {
     const [showAlertModal, setShowAlertModal] = useState(false);
     const [proposalID, setProposalID] = useState('');
 
-    /*useEffect (() => {
-        axios.get("http://localhost:27017/API/proposals")
-            .then((resp) => {
-                console.log("Response: " + resp);
-                setProposals(resp.data);
-                setPropsOnScreen(resp.data);
-                setCollapseState(resp.data.reduce((a, v) => ({ ...a, [v.title]: false }), {}));
-                console.log(proposals);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])*/
 
 
     setTimeout(() => {

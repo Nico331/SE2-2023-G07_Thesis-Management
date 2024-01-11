@@ -201,7 +201,7 @@ const ProposalForm: React.FC = () => {
                     description: 'Development of a predictive control model with innovative techniques of machine learning for the control of heating and cooling of buildings',
                     requiredKnowledge: 'C++, machine learning',
                     notes: 'The thesis project could be used by an external company',
-                    expiration: dayjs('2024-02-04'),
+                    expiration: dayjs('2024-02-04').add(1, 'hour'),
                     level: 'Masters',
                     cdS: ['Computer Engineering'],
                 });
@@ -212,7 +212,7 @@ const ProposalForm: React.FC = () => {
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="title">
+                        <Form.Group id="title">
                             <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
                                 required
@@ -220,16 +220,16 @@ const ProposalForm: React.FC = () => {
                                 placeholder="Enter title"
                                 value={proposal.title}
                                 onChange={(e) => setProposal({...proposal, title: e.target.value})}
-                                id="title"
+                                id="title-input"
                             />
                         </Form.Group>
                     </div>
-                    <div className="col-lg-6 col-md-12v mt-4">
-                        <Form.Group controlId="type">
+                    <div className="col-lg-6 col-md-12 mt-4">
+                        <Form.Group id="type">
                             <Form.Label className="h3">Type*</Form.Label>
                             <Form.Control required as="select" value={proposal.type}
                                           onChange={(e) => setProposal({...proposal, type: e.target.value})}
-                                          id="type">
+                                          id="type-input">
                                 <option value="">Select the type</option>
                                 <option value="In company">In company</option>
                                 <option value="Experimental">Experimental</option>
@@ -243,11 +243,11 @@ const ProposalForm: React.FC = () => {
 
                 <Row>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="level">
+                        <Form.Group id="level">
                             <Form.Label className="h3">Level*</Form.Label>
                             <Form.Control required as="select" value={proposal.level}
                                           onChange={(e) => setProposal({...proposal, level: e.target.value})}
-                                          id="level">
+                                          id="level-input">
                                 <option value="">Select the type</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Masters">Masters</option>
@@ -255,7 +255,7 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="expiration">
+                        <Form.Group id="expiration">
                             <Form.Label className="h3">Expiration*</Form.Label>
                             <Form.Control
                                 required
@@ -269,7 +269,7 @@ const ProposalForm: React.FC = () => {
                                         setProposal({...proposal, expiration: dayjs(e.target.value)});
                                 }}
                                 min={new Date().toISOString().split("T")[0]}
-                                id="exp"
+                                id="exp-input"
                             />
                         </Form.Group>
                     </div>
@@ -277,7 +277,7 @@ const ProposalForm: React.FC = () => {
 
                 <Row>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="supervisor">
+                        <Form.Group id="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control as="select" value={proposal.supervisor} disabled
                                           onChange={(e) => setProposal({...proposal, supervisor: e.target.value})}
@@ -391,7 +391,7 @@ const ProposalForm: React.FC = () => {
                         </Card>
                     </div>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="description">
+                        <Form.Group id="description">
                             <Form.Label className="h3">Description</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -406,7 +406,7 @@ const ProposalForm: React.FC = () => {
                 </Row>
                 <Row>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="requiredKnoledge">
+                        <Form.Group id="requiredKnoledge">
                             <Form.Label className="h3">Required Knowledge</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -419,7 +419,7 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                     <div className="col-lg-6 col-md-12 mt-4">
-                        <Form.Group controlId="notes">
+                        <Form.Group id="notes">
                             <Form.Label className="h3">Notes</Form.Label>
                             <Form.Control
                                 as="textarea"

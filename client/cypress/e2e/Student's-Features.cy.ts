@@ -81,13 +81,13 @@ describe("Student features", () => {
 
     it("Student inserts a new thesis request and check the requests", () => {
         cy.get("#newThesisRequest").click();
-        cy.get("#title").type("Test Thesis Request Modified");
-        cy.get("#supervisor").select(supervisor);
-        cy.get("#cosupervisor").select(cosupervisor[0]);
+        cy.get("#title-input").type("Test Thesis Request Modified");
+        cy.get("#supervisor-input").select(supervisor);
+        cy.get("#cosupervisor-input").select(cosupervisor[0]);
         cy.get("#add-cosup-btn").click();
-        cy.get("#cosupervisor").select(cosupervisor[1]);
+        cy.get("#cosupervisor-input").select(cosupervisor[1]);
         cy.get("#add-cosup-btn").click();
-        cy.get("#description").type(description);
+        cy.get("#description-input").type(description);
         cy.get("#submit-btn").click();
         cy.get("#menu").click();
         cy.get("#menu-myThesisRequests").click();
@@ -101,10 +101,10 @@ describe("Student features", () => {
     it("Create a new topic in the forum", () => {
     cy.get("#forum").click();
     cy.get("#new-topic-btn").click();
-    cy.get("#name").type(newTopic);
-    cy.get("#thesis").select(topicThesis);
-    cy.get("#description").type(topicDescription);
-    cy.get("#visibility").select(topicVisibility);
+    cy.get("#name-input").type(newTopic);
+    cy.get("#thesis-input").select(topicThesis);
+    cy.get("#description-input").type(topicDescription);
+    cy.get("#visibility-input").select(topicVisibility);
     cy.get("#create-btn").click();
     });
 

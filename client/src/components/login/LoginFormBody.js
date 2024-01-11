@@ -98,11 +98,11 @@ function LoginFormBody(){
     return(
         <>
             <Form className="login" onKeyPress={event=> {if (event.key==="Enter"){ return handleSubmit()}}}>
-                <Form.Group controlid='Username' className="loginField" >
+                <Form.Group id='Username' className="loginField" >
                     <Form.Label>Username</Form.Label>
                     <Form.Control placeholder="username" type='email' value={username} onChange={ev => { setUsername(ev.target.value); setMessage("") }} />
                 </Form.Group>
-                <Form.Group controlid='Password' className="loginField">
+                <Form.Group id='Password' className="loginField">
                     <Form.Label>Password</Form.Label>
                     <Form.Control placeholder="password" type='password' value={password} onChange={ev => { setPassword(ev.target.value); setMessage("")}} />
                 </Form.Group>

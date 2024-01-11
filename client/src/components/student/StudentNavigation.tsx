@@ -22,7 +22,6 @@ const StudentNavigation: React.FC<StudentNavigationProps> = ({ setRole }) =>{
         if (timeoutId) clearTimeout(timeoutId);
 
         const newTimeoutId = setTimeout(() => {
-            console.log("Leaved")
             setShowDropdown(false);
         }, 300);
 

@@ -29,7 +29,7 @@ function StudentForm({ studentId, refreshStudents }) {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formSurname">
+            <Form.Group id="formSurname">
                 <Form.Control
                     type="text"
                     name="surname"
@@ -40,7 +40,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 />
             </Form.Group>
 
-            <Form.Group controlId="formName">
+            <Form.Group id="formName">
                 <Form.Control
                     type="text"
                     name="name"
@@ -51,7 +51,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 />
             </Form.Group>
 
-            <Form.Group controlId="formGender">
+            <Form.Group id="formGender">
                 <Form.Control
                     as="select"
                     name="gender"
@@ -66,7 +66,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="formNationality">
+            <Form.Group id="formNationality">
                 <Form.Control
                     type="text"
                     name="nationality"
@@ -77,7 +77,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 />
             </Form.Group>
 
-            <Form.Group controlId="formEmail">
+            <Form.Group id="formEmail">
                 <Form.Control
                     type="email"
                     name="email"
@@ -88,7 +88,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 />
             </Form.Group>
 
-            <Form.Group controlId="formCodDegree">
+            <Form.Group id="formCodDegree">
                 <Form.Control
                     type="text"
                     name="codDegree"
@@ -99,7 +99,7 @@ function StudentForm({ studentId, refreshStudents }) {
                 />
             </Form.Group>
 
-            <Form.Group controlId="formEnrollmentYear">
+            <Form.Group id="formEnrollmentYear">
                 <Form.Control
                     type="number"
                     name="enrollmentYear"

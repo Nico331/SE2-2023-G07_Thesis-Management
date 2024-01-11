@@ -71,7 +71,7 @@ export default function VC() {
         <Popover id="vc-popover">
             <Popover.Body>
                 <Container className="d-flex flex-column align-items-center">
-                    <Form.Group className="mb-3" controlId="expiration">
+                    <Form.Group className="mb-3" id="expiration">
                         <Form.Control
                             type="datetime-local"
                             placeholder="Enter date"
@@ -110,7 +110,7 @@ export default function VC() {
             )
             :
             <Container className="d-flex justify-content-center align-items-center">
-                <Form.Group className="d-flex flex-row" controlId="expiration">
+                <Form.Group className="d-flex flex-row" id="expiration">
                     <Form.Control
                         type="datetime-local"
                         placeholder="Enter date"

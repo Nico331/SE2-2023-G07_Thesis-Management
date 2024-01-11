@@ -19,7 +19,6 @@ type StudentRoutesProps = {
 };
 
 const StudentRoutes: React.FC<StudentRoutesProps> = ({ setRoleState }) =>{
-    console.log("In admin")
     return(
         <>
             {/* <StudentNavigation /> */}

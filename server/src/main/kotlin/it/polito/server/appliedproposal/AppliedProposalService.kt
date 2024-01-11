@@ -6,6 +6,9 @@ import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.proposal.*
 import it.polito.server.student.StudentRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.springframework.data.domain.Example
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -75,14 +78,16 @@ class AppliedProposalService(
         val application = AppliedProposal(proposalId = proposalId, studentId = studentId, file = file?.content)
         val appliedProposal = appliedProposalRepository.save(application)
         val professor = professorRepository.findById(proposal.get().supervisor).get()
-        emailService.sendSimpleMessage(
-            professor.email,
-            "New application",
-            "There is a new application for \"${proposal.get().title}\" proposal by the student ${student.get().name} ${student.get().surname}" +
-                    "\nBest regards" +
-                    "\nGestione Didattica",
-            "no-reply@polito.it"
-        )
+        CoroutineScope(Dispatchers.IO).launch {
+            emailService.sendSimpleMessage(
+                professor.email,
+                "New application",
+                "There is a new application for \"${proposal.get().title}\" proposal by the student ${student.get().name} ${student.get().surname}" +
+                        "\nBest regards" +
+                        "\nGestione Didattica",
+                "no-reply@polito.it"
+            )
+        }
         return  ResponseEntity.ok(appliedProposal.toDTO())
 
     }
@@ -131,14 +136,47 @@ class AppliedProposalService(
                 appliedProposalRepository.save(applicationToReject.copy(status = ApplicationStatus.CANCELLED))
                 val proposal = proposalService.findProposalById(applicationToReject.proposalId)
                 if(proposal!=null){
-                    emailService.sendSimpleMessage(
-                        "${applicationToReject.studentId}@studenti.polito.it",
-                        "Application cancelled",
-                        "The thesis application for \"${proposal.title}\" was automatically cancelled. " +
-                                "\nBest regards" +
-                                "\nGestione Didattica",
-                        "no-reply@studenti.polito.it"
-                    )
+                    CoroutineScope(Dispatchers.IO).launch {
+                        emailService.sendSimpleMessage(
+                            "${applicationToReject.studentId}@studenti.polito.it",
+                            "Application cancelled",
+                            "The thesis application for \"${proposal.title}\" was automatically cancelled. " +
+                                    "\nBest regards" +
+                                    "\nGestione Didattica",
+                            "no-reply@studenti.polito.it"
+                        )
+                    }
+                    if(proposal.coSupervisors.isNotEmpty()){
+                        proposal.coSupervisors.forEach{coSupervisorId-> run{
+                            val coSupervisor = professorRepository.findById(coSupervisorId)
+                            if (coSupervisor.isEmpty){
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    emailService.sendSimpleMessage(
+                                        coSupervisorId,
+                                        "Application cancelled",
+                                        "The thesis application for \"${proposal.title}\" was automatically cancelled}" +
+                                                "\nBest regards" +
+                                                "\nGestione Didattica",
+                                        "no-reply@polito.it"
+                                    )
+                                }
+                            }
+                        }}
+                    }
+                    if(proposal.externalCoSupervisors?.isNotEmpty() == true){
+                        proposal.externalCoSupervisors!!.forEach{ externalCoSupervisor-> run{
+                            CoroutineScope(Dispatchers.IO).launch {
+                                emailService.sendSimpleMessage(
+                                    externalCoSupervisor.email,
+                                    "Application cancelled",
+                                    "The thesis application for \"${proposal.title}\" was automatically cancelled" +
+                                            "\nBest regards" +
+                                            "\nGestione Didattica",
+                                    "no-reply@polito.it"
+                                )
+                            }
+                        }}
+                    }
                 }
             }
         }
@@ -148,16 +186,50 @@ class AppliedProposalService(
         if(proposal!=null){
             if(professorRepository.findById(proposal.supervisor).isPresent){
                 val professor = professorRepository.findById(proposal.supervisor).get()
-                emailService.sendSimpleMessage(
-                    "${appliedProposal.studentId}@studenti.polito.it",
-                    "Application accepted",
-                    "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
-                            "\nBest regards" +
-                            "\nGestione Didattica",
-                    "no-reply@studenti.polito.it"
-                )
+                CoroutineScope(Dispatchers.IO).launch {
+                    emailService.sendSimpleMessage(
+                        "${appliedProposal.studentId}@studenti.polito.it",
+                        "Application accepted",
+                        "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
+                                "\nBest regards" +
+                                "\nGestione Didattica",
+                        "no-reply@studenti.polito.it"
+                    )
+                }
+                if(proposal.coSupervisors.isNotEmpty()){
+                    proposal.coSupervisors.forEach{coSupervisorId-> run{
+                        val coSupervisor = professorRepository.findById(coSupervisorId)
+                        if (coSupervisor.isEmpty){
+                            CoroutineScope(Dispatchers.IO).launch {
+                                emailService.sendSimpleMessage(
+                                    coSupervisorId,
+                                    "Application accepted",
+                                    "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
+                                            "\nBest regards" +
+                                            "\nGestione Didattica",
+                                    "no-reply@polito.it"
+                                )
+                            }
+                        }
+                    }}
+                }
+                if(proposal.externalCoSupervisors?.isNotEmpty() == true){
+                    proposal.externalCoSupervisors!!.forEach{ externalCoSupervisor-> run{
+                        CoroutineScope(Dispatchers.IO).launch {
+                            emailService.sendSimpleMessage(
+                                externalCoSupervisor.email,
+                                "Application accepted",
+                                "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
+                                        "\nBest regards" +
+                                        "\nGestione Didattica",
+                                "no-reply@polito.it"
+                            )
+                        }
+                    }}
+                }
             }
         }
+
 
         //SETS the PROPOSAL as MANUALLY_ARCHIVED
         proposalService.manuallyArchivedProposal(appliedProposal.proposalId)
@@ -194,19 +266,49 @@ class AppliedProposalService(
         appliedProposalRepository.save(appliedProposal.copy(status = ApplicationStatus.REJECTED))
         val proposal = proposalService.findProposalById(appliedProposal.proposalId)
         if(proposal!=null){
-            println("proposal ook")
             if(professorRepository.findById(proposal.supervisor).isPresent){
-                println("professor ook")
                 val professor = professorRepository.findById(proposal.supervisor).get()
-                println("sending email to ${appliedProposal.studentId}")
-                emailService.sendSimpleMessage(
-                    "${appliedProposal.studentId}@studenti.polito.it",
-                    "Application rejected",
-                    "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
-                            "\nBest regards" +
-                            "\nGestione Didattica",
-                    "no-reply@studenti.polito.it"
-                )
+                CoroutineScope(Dispatchers.IO).launch {
+                    emailService.sendSimpleMessage(
+                        "${appliedProposal.studentId}@studenti.polito.it",
+                        "Application rejected",
+                        "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
+                                "\nBest regards" +
+                                "\nGestione Didattica",
+                        "no-reply@studenti.polito.it"
+                    )
+                }
+                if(proposal.coSupervisors.isNotEmpty()){
+                    proposal.coSupervisors.forEach{coSupervisorId-> run{
+                        val coSupervisor = professorRepository.findById(coSupervisorId)
+                        if (coSupervisor.isEmpty){
+                            CoroutineScope(Dispatchers.IO).launch {
+                                emailService.sendSimpleMessage(
+                                    coSupervisorId,
+                                    "Application rejected",
+                                    "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
+                                            "\nBest regards" +
+                                            "\nGestione Didattica",
+                                    "no-reply@polito.it"
+                                )
+                            }
+                        }
+                    }}
+                }
+                if(proposal.externalCoSupervisors?.isNotEmpty() == true){
+                    proposal.externalCoSupervisors!!.forEach{ externalCoSupervisor-> run{
+                        CoroutineScope(Dispatchers.IO).launch {
+                            emailService.sendSimpleMessage(
+                                externalCoSupervisor.email,
+                                "Application rejected",
+                                "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
+                                        "\nBest regards" +
+                                        "\nGestione Didattica",
+                                "no-reply@polito.it"
+                            )
+                        }
+                    }}
+                }
             }
         }
 

@@ -20,7 +20,7 @@ const CdsInput: React.FC<CdsInputProps> = ({ onAddCds }) => {
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Select Cds</Accordion.Header>
                 <Accordion.Body>
-                    <Form.Group controlId="cdsName">
+                    <Form.Group id="cdsName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
                             type="text"
