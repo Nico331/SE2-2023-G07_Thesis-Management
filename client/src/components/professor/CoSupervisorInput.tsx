@@ -69,12 +69,13 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     External
                                 </ToggleButton>
                             </ToggleButtonGroup>
-                            &nbsp; Co-supervisor
+                            {/*&nbsp; Co-supervisor*/}
                         </Form.Label>
                         <br/>
                         {isExternal ? (
                             <Row>
-                                <div className={"col-4"}>
+                                <div className={"col-4 text-start"}>
+                                    <Form.Label>Name:</Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter name"
@@ -86,28 +87,31 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                     />
                                 </div>
 
-                                <div className={"col-4"}>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter surname"
-                                    value={externalCoSupervisor.surname}
-                                    onChange={(e) =>
-                                        setExternalCoSupervisor({ ...externalCoSupervisor, surname: e.target.value })
-                                    }
-                                    id='surname-input'
-                                />
+                                <div className={"col-4 text-start"}>
+                                    <Form.Label>Surname:</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter surname"
+                                        value={externalCoSupervisor.surname}
+                                        onChange={(e) =>
+                                            setExternalCoSupervisor({ ...externalCoSupervisor, surname: e.target.value })
+                                        }
+                                        id='surname-input'
+                                    />
                                 </div>
-                                    <div className={"col-4"}>
-                                <Form.Control
-                                    type="email"
-                                    placeholder="Enter email"
-                                    value={externalCoSupervisor.email}
-                                    onChange={(e) =>
-                                        setExternalCoSupervisor({ ...externalCoSupervisor, email: e.target.value })
-                                    }
-                                    id='email-input'
-                                />
-                                    </div>
+
+                                <div className={"col-4 text-start"}>
+                                    <Form.Label>Email:</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter email"
+                                        value={externalCoSupervisor.email}
+                                        onChange={(e) =>
+                                            setExternalCoSupervisor({ ...externalCoSupervisor, email: e.target.value })
+                                        }
+                                        id='email-input'
+                                    />
+                                </div>
                             </Row>
                         ) : (
                             <Form.Control

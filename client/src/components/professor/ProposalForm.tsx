@@ -185,7 +185,7 @@ const ProposalForm: React.FC = () => {
 
     // @ts-ignore
     return (
-        <Container>
+        <Container className={isScreenSmall ? "p-0" : ""}>
             <h1 style={{marginTop: "110px"}}>New Thesis Proposal</h1>
             <Button variant="info" onClick={()=>{
                 setProposal({
@@ -208,10 +208,10 @@ const ProposalForm: React.FC = () => {
             }}>
                 <i className="bi bi-database"></i> Populate with Test Data
             </Button>
-            <Form noValidate validated={validated} className="mt-5" onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} className="mt-4" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="title">
                             <Form.Label className="h3">Title*</Form.Label>
                             <Form.Control
@@ -224,7 +224,7 @@ const ProposalForm: React.FC = () => {
                             />
                         </Form.Group>
                     </div>
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="type">
                             <Form.Label className="h3">Type*</Form.Label>
                             <Form.Control required as="select" value={proposal.type}
@@ -240,8 +240,9 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                 </Row>
-                <Row className={"mt-3"}>
-                    <div className="col-lg-6 col-md-12">
+
+                <Row>
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="level">
                             <Form.Label className="h3">Level*</Form.Label>
                             <Form.Control required as="select" value={proposal.level}
@@ -253,7 +254,7 @@ const ProposalForm: React.FC = () => {
                             </Form.Control>
                         </Form.Group>
                     </div>
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="expiration">
                             <Form.Label className="h3">Expiration*</Form.Label>
                             <Form.Control
@@ -273,8 +274,9 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                 </Row>
-                <Row className={"mt-3"}>
-                    <div className="col-lg-6 col-md-12">
+
+                <Row>
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="supervisor">
                             <Form.Label className="h3">Supervisor*</Form.Label>
                             <Form.Control as="select" value={proposal.supervisor} disabled
@@ -287,13 +289,12 @@ const ProposalForm: React.FC = () => {
                                 }
                             </Form.Control>
                         </Form.Group>
-                        <Form.Label className="h3">Co-Supervisors</Form.Label>
-                        <Card className={"mt-3 mb-3"}>
+                        <Form.Label className="h3 mt-3">Co-Supervisors</Form.Label>
+                        <Card className={"mb-3"}>
                             <Card.Body>
                                 <CoSupervisorInput onAddCoSupervisor={addCoSupervisor}
                                                    professors={professors.filter((professor) =>
                                                        !(proposal?.coSupervisors.includes(professor.id)))}/>
-
                                 <br/>
                                 <h5>
                                     Internal Co-Supervisors
@@ -330,16 +331,13 @@ const ProposalForm: React.FC = () => {
                                     </ListGroup.Item>))}
                                 </ListGroup>
                             </Card.Body>
-
                         </Card>
                     </div>
-                    <div className="col-lg-6 col-md-12">
-
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Label className="h3">Research Groups</Form.Label>
-                        <Card className={"mt-3 mb-3"}>
+                        <Card className={"mb-3"}>
                             <Card.Body>
                                 <GroupInput onAddGroup={addGroup}/>
-
                                 <ListGroup className={"mt-3"}>
                                     {proposal.groups.map((g, index) => (<ListGroup.Item key={index}>
                                         {g} &nbsp;
@@ -354,17 +352,15 @@ const ProposalForm: React.FC = () => {
                                     </ListGroup.Item>))}
                                 </ListGroup>
                             </Card.Body>
-
                         </Card>
-
                     </div>
                 </Row>
-                <Row className={"mt-3"}>
-                    <div className="col-lg-6 col-md-12">
+
+                <Row>
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Label className="h3">Keywords</Form.Label>
                         <Card className={"mb-3"}>
                             <Card.Body>
-
                                 <ListGroup>
                                     <div className="d-flex align-items-center">
                                         <div className="col-lg-8">
@@ -392,10 +388,9 @@ const ProposalForm: React.FC = () => {
                                     </div>
                                 </ListGroup>
                             </Card.Body>
-
                         </Card>
                     </div>
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="description">
                             <Form.Label className="h3">Description</Form.Label>
                             <Form.Control
@@ -409,8 +404,8 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                 </Row>
-                <Row className={"mt-3"}>
-                    <div className="col-lg-6 col-md-12">
+                <Row>
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="requiredKnoledge">
                             <Form.Label className="h3">Required Knowledge</Form.Label>
                             <Form.Control
@@ -423,7 +418,7 @@ const ProposalForm: React.FC = () => {
                             />
                         </Form.Group>
                     </div>
-                    <div className="col-lg-6 col-md-12">
+                    <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="notes">
                             <Form.Label className="h3">Notes</Form.Label>
                             <Form.Control
@@ -438,26 +433,28 @@ const ProposalForm: React.FC = () => {
                     </div>
                 </Row>
                 <br/>
-                <Form.Label className="h3">CdS</Form.Label>
-                <Card className={"mt-3 mb-3"}>
-                    <Card.Body>
-                        <CdsInput onAddCds={addCds}/>
+                <div className="mt-4 4">
+                    <Form.Label className="h3">CdS</Form.Label>
+                    <Card className={"mb-3"}>
+                        <Card.Body>
+                            <CdsInput onAddCds={addCds}/>
+                            <ListGroup className={"mt-3"}>
+                                {proposal.cdS.map((cds, index) => (<ListGroup.Item key={index}>
+                                    {cds} &nbsp;
+                                    <Button
+                                        variant="danger"
+                                        size="sm"
+                                        className="float-right"
+                                        onClick={() => removeCds(index)}
+                                    >
+                                        Remove
+                                    </Button>
+                                </ListGroup.Item>))}
+                            </ListGroup>
+                        </Card.Body>
+                    </Card>
+                </div>
 
-                        <ListGroup className={"mt-3"}>
-                            {proposal.cdS.map((cds, index) => (<ListGroup.Item key={index}>
-                                {cds} &nbsp;
-                                <Button
-                                    variant="danger"
-                                    size="sm"
-                                    className="float-right"
-                                    onClick={() => removeCds(index)}
-                                >
-                                    Remove
-                                </Button>
-                            </ListGroup.Item>))}
-                        </ListGroup>
-                    </Card.Body>
-                </Card>
                 {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
                 <br/>
                 <Button id='submit-btn' variant="primary" type="submit">
