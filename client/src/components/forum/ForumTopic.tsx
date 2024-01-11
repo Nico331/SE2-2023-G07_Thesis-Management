@@ -19,8 +19,25 @@ const ForumTopic: React.FC<ForumTopicProps> = ({ topic }) => {
                     <p>Answers</p>
                 </Col>
                 <Col xs={7}>
-                    <h4 onClick={()=>navigate(`${topic.id}`)}>{topic.name}</h4>
-                    <p style={descriptionStyle}>{topic.description}</p>
+                    <div className="card mb-3">
+                        <div className="card-body">
+                            <h4 className="card-title">{topic.name}</h4>
+                            <p className="card-text">{topic.description}</p>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate(`${topic.id}`)}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                        navigate(`${topic.id}`);
+                                    }
+                                }}
+                                tabIndex="0"
+                            >
+                                Open Discussion
+                            </button>
+                        </div>
+                    </div>
+                    {/*<p style={descriptionStyle}>{topic.description}</p>*/}
                 </Col>
                 <Col xs={3} className="text-end">
                     <div>{`${topic.author?.name} ${topic.author?.surname}`}</div>

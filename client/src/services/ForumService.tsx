@@ -33,7 +33,7 @@ export const createTopic = async (topic: any): Promise<any> =>{
 }
 
 export const getTheses = async () => {
-    const res = await axios.get("http://localhost:8081/API/requestProposals",
+    const res = await axios.get("http://localhost:8081/API/requestProposals/ongoingRequestProposals",
         {
             headers: {
                 'Content-Type': 'application/json',

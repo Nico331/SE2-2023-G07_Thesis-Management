@@ -9,5 +9,9 @@ interface RequestProposalRepository : MongoRepository<RequestProposal,String> {
     fun existsRequestProposalByStudentId(requestProposalStudentId: String) : Boolean
     fun findByStudentId (studentId: String) : List<RequestProposal>
     fun findBySupervisorIdOrCoSupervisorsContaining(supervisorId: String): List<RequestProposal>
-
+    fun findAllBySupervisorIdAndSupervisorStatusAndSecretaryStatus(
+        supervisorId: String,
+        supervisorStatus: RequestProposalStatus,
+        secretaryStatus: RequestProposalStatus
+    ): List<RequestProposal>
 }

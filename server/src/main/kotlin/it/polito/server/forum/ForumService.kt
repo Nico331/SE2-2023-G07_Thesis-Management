@@ -2,6 +2,8 @@ package it.polito.server.forum
 
 import it.polito.server.ForumNotFoundException
 import it.polito.server.professor.ProfessorRepository
+import it.polito.server.requestproposal.RequestProposalRepository
+import it.polito.server.requestproposal.RequestProposalService
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,6 +15,7 @@ import java.time.Instant
 class ForumService(
     private val forumRepository: ForumRepository,
     private val professorRepository: ProfessorRepository,
+    private val requestProposalRepository: RequestProposalRepository
     ) {
     fun getOneForum(userId: String, userRole: UserRole, forumId: String): ForumDTO {
         return forumRepository.findById(forumId).get().toDTO()
@@ -24,13 +27,27 @@ class ForumService(
 
         val accessibleForums = mutableListOf<Forum>()
         accessibleForums.addAll(publicForums)
+        val protectedForums = forumRepository.findByVisibility(ForumVisibility.PROTECTED)
         if (userRole == UserRole.PROFESSOR) {
-            val protectedForums = forumRepository.findByVisibility(ForumVisibility.PROTECTED)
             accessibleForums.addAll(protectedForums)
+        } else{
+            accessibleForums.addAll(protectedForums.filter { forum ->
+                requestProposalRepository.findById(forum.thesis).get().let { thesis ->
+                    userId == thesis.supervisorId ||
+                            userId == thesis.studentId ||
+                            thesis.coSupervisors.contains(userId)
+                }
+            })
         }
 
-        val personalForums = forumRepository.findForumsByUserAccess(userId)
-        accessibleForums.addAll(personalForums)
+        val personalForums = forumRepository.findByVisibility(ForumVisibility.PRIVATE)
+        accessibleForums.addAll(protectedForums.filter { forum ->
+            requestProposalRepository.findById(forum.thesis).get().let { thesis ->
+                userId == thesis.supervisorId ||
+                        userId == thesis.studentId ||
+                        thesis.coSupervisors.contains(userId)
+            }
+        })
 
         return accessibleForums.distinctBy { it.id }
             .sortedByDescending { it.lastMessage }
