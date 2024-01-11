@@ -22,8 +22,14 @@ const MessageText = ({ text }) => {
 
     return (
         <div
+            tabIndex="0"
             style={isExpanded ? { whiteSpace: 'pre-wrap' } : collapsedStyle}
             onClick={handleTextClick}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                    handleTextClick();
+                }
+            }}
         >
             {text}
         </div>

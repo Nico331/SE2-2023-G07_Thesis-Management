@@ -63,7 +63,7 @@ jib {
     from {
         auth {
             username = "nico331"//System.getenv("REGISTRY_USERNAME")
-            password = "Roberta6ilmioamore!"//System.getenv("REGISTRY_PASSWORD")
+            password = System.getenv("REGISTRY_PASSWORD")
         }
     }
 }
@@ -76,7 +76,7 @@ tasks.withType<JacocoReport> {
     reports {
         xml.required.set(true)
         csv.required.set(false)
-        html.required.set(false)
+        html.required.set(true)
     }
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.map {
