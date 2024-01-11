@@ -89,7 +89,7 @@ class ProposalService (
             archiviation_type.NOT_ARCHIVED
         else
             archiviation_type.EXPIRED
-        ).toDBObj()).toDTO(externalCoSupervisorRepository)
+        ).toDBObj())?.toDTO(externalCoSupervisorRepository)
     }
 
     fun createProposal(proposal: ProposalDTO): ProposalDTO {
@@ -119,9 +119,6 @@ class ProposalService (
         return proposalRepository.findById(id).map { it.toDTO(externalCoSupervisorRepository) }.orElse(null)
     }
     fun findAll() : List<ProposalDTO> {
-        //println(proposalRepository.findByArchived(archiviation_type.NOT_ARCHIVED).map{(it.toDTO())})
-        //println(proposalRepository.findAll().map{(it.toDTO())})
-        //return proposalRepository.findByArchived(archiviation_type.NOT_ARCHIVED).map{(it.toDTO())}
         return proposalRepository.findAll().map{(it.toDTO(externalCoSupervisorRepository))}
     }
 

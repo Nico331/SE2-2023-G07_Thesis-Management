@@ -47,6 +47,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("net.minidev:json-smart:2.4.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
+    testImplementation("io.mockk:mockk:1.12.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0-RC2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.31")
+
+
 }
 
 tasks.withType<KotlinCompile> {

@@ -12,8 +12,10 @@ data class AppliedProposalDTO (
     val studentId: String,
     var status: ApplicationStatus,
     val file: FileDTO?
-) {
+)
 
+fun AppliedProposalDTO.toDocument(): AppliedProposal{
+        return AppliedProposal(id, proposalId, studentId, status, file?.content )
 }
 
 data class FileDTO(
