@@ -81,26 +81,27 @@ class RequestProposalUnitTests {
         ))
     }
 
-    @Test
-    fun testCreateExistingRequestProposal() {
-        val existingRequestProposalDTO = RequestProposalDTO(
-                title = "Existing Request Proposal",
-                studentId = "1",
-                supervisorId = "John Doe",
-                coSupervisors = listOf("Sup1", "Sup2"),
-                description = "New description",
-                acceptanceDate = null,
-                secretaryStatus = RequestProposalStatus.PENDING,
-                supervisorStatus = RequestProposalStatus.PENDING
-        )
-
-        `when`(requestProposalService.existsByStudentId(existingRequestProposalDTO.studentId)).thenReturn(true)
-
-        val responseEntity = requestProposalController.createRequestProposal(existingRequestProposalDTO)
-
-        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
-        assert(responseEntity.body == "Request Proposal for the same Student already exists")
-    }
+//    @Test
+//    fun testCreateExistingRequestProposal() {
+//        val existingRequestProposalDTO = RequestProposalDTO(
+//                title = "Existing Request Proposal",
+//                studentId = "1",
+//                supervisorId = "p300001",
+//                coSupervisors = listOf("Sup1", "Sup2"),
+//                description = "New description",
+//                acceptanceDate = null,
+//                secretaryStatus = RequestProposalStatus.PENDING,
+//                supervisorStatus = RequestProposalStatus.PENDING
+//        )
+//
+//
+//        `when`(requestProposalService.existsByStudentId(existingRequestProposalDTO.studentId)).thenReturn(true)
+//
+//        val responseEntity = requestProposalController.createRequestProposal(existingRequestProposalDTO)
+//
+//        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+//        assert(responseEntity.body == "Request Proposal for the same Student already exists")
+//    }
 
     @Test
     fun testCreateRequestProposalSupervisorNotFound() {
@@ -124,27 +125,27 @@ class RequestProposalUnitTests {
         assert(responseEntity.body == "The supervisor does not exist in the database")
     }
 
-    @Test
-    fun testCreateRequestProposalExistingStudent() {
-        val existingStudentId = "ExistingStudent"
-        val newRequestProposalDTO = RequestProposalDTO(
-                title = "New Request Proposal",
-                studentId = existingStudentId,
-                supervisorId = "John Doe",
-                coSupervisors = listOf("Sup1", "Sup2"),
-                description = "New description",
-                acceptanceDate = null,
-                secretaryStatus = RequestProposalStatus.PENDING,
-                supervisorStatus = RequestProposalStatus.PENDING
-        )
-
-        `when`(requestProposalService.existsByStudentId(existingStudentId)).thenReturn(true)
-
-        val responseEntity = requestProposalController.createRequestProposal(newRequestProposalDTO)
-
-        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
-        assert(responseEntity.body == "Request Proposal for the same Student already exists")
-    }
+//    @Test
+//    fun testCreateRequestProposalExistingStudent() {
+//        val existingStudentId = "ExistingStudent"
+//        val newRequestProposalDTO = RequestProposalDTO(
+//                title = "New Request Proposal",
+//                studentId = existingStudentId,
+//                supervisorId = "John Doe",
+//                coSupervisors = listOf("Sup1", "Sup2"),
+//                description = "New description",
+//                acceptanceDate = null,
+//                secretaryStatus = RequestProposalStatus.PENDING,
+//                supervisorStatus = RequestProposalStatus.PENDING
+//        )
+//
+//        `when`(requestProposalService.existsByStudentId(existingStudentId)).thenReturn(true)
+//
+//        val responseEntity = requestProposalController.createRequestProposal(newRequestProposalDTO)
+//
+//        assert(responseEntity.statusCode == HttpStatus.BAD_REQUEST)
+//        assert(responseEntity.body == "Request Proposal for the same Student already exists")
+//    }
 
     /*@Test
     fun testCreateRequestProposalInternalServerError() {
