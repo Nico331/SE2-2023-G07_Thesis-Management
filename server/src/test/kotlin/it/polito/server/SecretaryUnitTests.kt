@@ -1,5 +1,6 @@
 package it.polito.serve
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.requestproposal.RequestProposalDTO
 import it.polito.server.secretary.Secretary
 import it.polito.server.secretary.SecretaryController
@@ -13,7 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
 import java.util.Optional
-
+@CoderseeGenerated
 class SecretaryUnitTests {
 
     private lateinit var secretaryService: SecretaryService

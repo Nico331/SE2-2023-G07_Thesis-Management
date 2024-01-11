@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.career.Career
 import it.polito.server.career.CareerController
 import it.polito.server.career.CareerDTO
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-
+@CoderseeGenerated
 class CareerControllerTest {
 
     private lateinit var careerService: CareerService

@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorDTO
@@ -18,6 +19,7 @@ import java.util.Optional
 
 //@Testcontainers
 //@SpringBootTest
+@CoderseeGenerated
 class ProposalUnitTests {
 
 //    @Autowired

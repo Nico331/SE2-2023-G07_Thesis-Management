@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.student.Student
 import it.polito.server.student.StudentController
 import it.polito.server.student.StudentDTO
@@ -10,7 +11,7 @@ import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.*
-
+@CoderseeGenerated
 class StudentUnitTests {
 
     private lateinit var studentService: StudentService

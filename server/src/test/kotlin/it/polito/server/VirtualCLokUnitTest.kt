@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.clock.ClockController
 import it.polito.server.clock.ClockService
 import it.polito.server.student.StudentController
@@ -11,7 +12,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
 import java.time.LocalDateTime
-
+@CoderseeGenerated
 class VirtualCLokUnitTest {
 
         private lateinit var clockService: ClockService

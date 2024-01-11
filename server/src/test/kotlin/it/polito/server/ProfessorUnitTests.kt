@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.professor.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -7,7 +8,7 @@ import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.*
-
+@CoderseeGenerated
 class ProfessorUnitTests {
 
     private lateinit var professorService: ProfessorService

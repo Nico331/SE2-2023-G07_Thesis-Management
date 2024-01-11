@@ -1,5 +1,6 @@
 package it.polito.server
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.degree.Degree
 import it.polito.server.degree.DegreeController
 import it.polito.server.degree.DegreeDTO
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-
+@CoderseeGenerated
 class DegreeControllerTest {
 
     private lateinit var degreeService: DegreeService

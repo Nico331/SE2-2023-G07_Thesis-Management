@@ -1,5 +1,6 @@
 package it.polito.server
 import io.mockk.*
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.appliedproposal.*
 import it.polito.server.email.EmailService
 import it.polito.server.externalcosupervisor.ExternalCoSupervisor
@@ -21,7 +22,7 @@ import java.time.LocalDate
 import java.util.*
 import kotlin.test.assertFailsWith
 
-
+@CoderseeGenerated
 class ProposalServiceTest {
     private lateinit var proposalRepository: ProposalRepository
 

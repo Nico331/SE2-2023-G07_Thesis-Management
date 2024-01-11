@@ -1,5 +1,6 @@
 package it.polito.server.proposal
 
+import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.appliedproposal.ApplicationStatus
 import it.polito.server.appliedproposal.AppliedProposalRepository
 import it.polito.server.email.EmailService
@@ -211,7 +212,7 @@ class ProposalService (
 
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
-
+    @CoderseeGenerated
     fun getProposalsWithFilters(filters: Map<String, String>, searchKeyword: String?): List<ProposalDTO> {
         val query = Query()
         filters.forEach { (key, value) ->
