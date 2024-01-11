@@ -213,5 +213,11 @@ class RequestProposalService (
     fun findByStudentId(studentId: String): List<RequestProposalDTO> {
         return requestProposalRepository.findByStudentId(studentId).map{(it.toDTO())}
     }
-
+    fun getAllOngoingRequestsByProfessorId(id: String): List<RequestProposalDTO> {
+        return requestProposalRepository.findAllBySupervisorIdAndSupervisorStatusAndSecretaryStatus(
+            id,
+            RequestProposalStatus.ACCEPTED,
+            RequestProposalStatus.ACCEPTED
+        ).map { it.toDTO() }
+    }
 }

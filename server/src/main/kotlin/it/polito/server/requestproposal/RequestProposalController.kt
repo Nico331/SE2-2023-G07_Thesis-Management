@@ -1,9 +1,12 @@
 package it.polito.server.requestproposal
 
+import it.polito.server.forum.UserRole
 import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.oauth2.jwt.Jwt
 
 @RestController
 @RequestMapping("/API/requestProposals")
@@ -77,5 +80,18 @@ class RequestProposalController (private val requestProposalService: RequestProp
     @PostMapping("/requestOfChangeByProfessor/{professorId}/{proposalId}")
     fun requestOfChangeByProfessor(@PathVariable professorId: String, @PathVariable proposalId: String, @RequestBody message : MessageFromProfessorDTO): ResponseEntity<Any> {
         return requestProposalService.requestOfChangeByProfessor(professorId, proposalId, message)
+    }
+
+    @GetMapping("/ongoingRequestProposals")
+    fun getAllOngoingRequests(@AuthenticationPrincipal jwt: Jwt): ResponseEntity<Any>{
+        return try {
+            val userId: String = jwt.getClaimAsString("preferred_username").split("@")[0] ?: "Unknown"
+            val realmAccess = jwt.claims["realm_access"] as? Map<String, Any>
+            val roles = realmAccess?.get("roles") as? List<String> ?: emptyList()
+            val requestProposals = requestProposalService.getAllOngoingRequestsByProfessorId(userId)
+            ResponseEntity.ok(requestProposals)
+        } catch (ex: Exception){
+            ResponseEntity.badRequest().build();
+        }
     }
 }
