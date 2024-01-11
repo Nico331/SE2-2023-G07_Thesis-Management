@@ -66,6 +66,29 @@ const BrowseApplications = () => {
     const [showRejectPopup, setShowRejectPopup] = useState(false);
     const [applicationToReject, setApplicationToReject] = useState("");
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 780px)').matches);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsScreenSmall(window.matchMedia('(max-width: 780px)').matches);
+        };
+
+        const mediaQueryList = window.matchMedia('(max-width: 780px)');
+        mediaQueryList.addListener(handleResize);
+
+        // Pulizia dell'event listener
+        return () => {
+            mediaQueryList.removeListener(handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!showsuccessmodal.show) {
+            // Aggiorna la pagina dopo la chiusura del popup di successo
+            setRefresh((r) => !r);
+        }
+    }, [showsuccessmodal.show]);
+
     const handleDownload = (application) => {
         const {content, name, contentType} = application.file;
 
@@ -89,13 +112,6 @@ const BrowseApplications = () => {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
     };
-
-    useEffect(() => {
-        if (!showsuccessmodal.show) {
-            // Aggiorna la pagina dopo la chiusura del popup di successo
-            setRefresh((r) => !r);
-        }
-    }, [showsuccessmodal.show]);
 
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);
@@ -122,7 +138,6 @@ const BrowseApplications = () => {
     };
 
     const handleReject = async (applicationId) => {
-
         setShowRejectPopup(false);
         setApplicationToReject("");
         ApplicationService.rejectApplication(applicationId).then(() => {
@@ -144,6 +159,7 @@ const BrowseApplications = () => {
             }, 3000);
         });
     };
+
     const handleDelete = (proposalId) => {
         setShowDeletePopup(false);
         setProposalToDelete("");
@@ -174,10 +190,59 @@ const BrowseApplications = () => {
         ProposalService.archiveProposal(proposalID).then(() => {
             setRefresh((r) => !r)
         });
-
-
     }
 
+    const ProposalButtonGroup = ({proposal}) => {
+        return (
+                <div className="col-sm-4">
+                    <ButtonGroup>
+                        <Button
+                            variant="primary"
+                            onClick={(e) => handlecopy(e, proposal.id)}
+                            id="copy-btn"
+                        >
+                            <FaRegCopy /> {/* Copy Icon */}
+                        </Button>
+
+                        <Button
+                            variant="primary"
+                            onClick={(e) => handlemodify(e, proposal.id)}
+                            id="modify-btn"
+                        >
+                            <BsPencil /> {/* Pencil/Modify Icon */}
+                        </Button>
+                        <Button
+                            variant="primary"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowArchivePopup(() => true);
+                                setProposalToArchive(proposal.id);
+                            }}
+                            id="archive-btn"
+                        >
+                            <BsArchive /> {/* Archive Icon */}
+                        </Button>
+
+                        {/*{proposal.applications.every(*/}
+                        {/*    (application) => application.status !== 'ACCEPTED'*/}
+                        {/*) && (*/}
+                            <Button
+                                variant="danger"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowDeletePopup(() => true);
+                                    setProposalToDelete(proposal.id);
+                                }}
+                                id="delete-btn"
+                            >
+                                <BsTrash /> {/* Trash/Delete Icon */}
+                            </Button>
+                        {/*// )}*/}
+
+                    </ButtonGroup>
+                </div>
+        )
+    }
 
     return (
         <>
@@ -216,72 +281,111 @@ const BrowseApplications = () => {
                             proposals.map((proposal) => (
                                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                                         <Accordion.Header>
-                                            <Row className={"w-100"}>
-                                                <div className="col-sm-8">
-                                                    {proposal.title}&nbsp;
-                                                    {proposal.level === "Bachelor" && <Badge>
-                                                        {proposal.level}
-                                                    </Badge>}
-                                                    {proposal.level === "Masters" && <Badge bg={"danger"}>
-                                                        {proposal.level}
-                                                    </Badge>}
-                                                    {proposal.level === "PhD" && <Badge bg={"secondary"}>
-                                                        {proposal.level}
-                                                    </Badge>}
-                                                </div>
-                                                <div className="col-sm-8">
-                                                    {proposal.archived === "EXPIRED" && <Badge bg={"info"}>
-                                                        {proposal.archived}
-                                                    </Badge>}
-                                                </div>
-                                                <div className="col-sm-4">
-                                                    <ButtonGroup>
-                                                        <Button
-                                                            variant="primary"
-                                                            onClick={(e) => handlecopy(e, proposal.id)}
-                                                            id="copy-btn"
-                                                        >
-                                                            <FaRegCopy /> {/* Copy Icon */}
-                                                        </Button>
+                                                {isScreenSmall ?
+                                                    <Container className="d-flex p-0 flex-column">
+                                                        <Row>
+                                                            <div className="col-sm-8">
+                                                                {proposal.title}&nbsp;
+                                                                {proposal.level === "Bachelor" && <Badge>
+                                                                    {proposal.level}
+                                                                </Badge>}
+                                                                {proposal.level === "Masters" && <Badge bg={"danger"}>
+                                                                    {proposal.level}
+                                                                </Badge>}
+                                                                {proposal.level === "PhD" && <Badge bg={"secondary"}>
+                                                                    {proposal.level}
+                                                                </Badge>}
+                                                            </div>
+                                                        </Row>
+                                                        <Row className="mt-4">
+                                                            <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>
+                                                        </Row>
+                                                    </Container>
+                                                        :
+                                                    <><Row className={"w-100"}>
+                                                        <div className="col-sm-8">
+                                                            {proposal.title}&nbsp;
+                                                            {proposal.level === "Bachelor" && <Badge>
+                                                                {proposal.level}
+                                                            </Badge>}
+                                                            {proposal.level === "Masters" && <Badge bg={"danger"}>
+                                                                {proposal.level}
+                                                            </Badge>}
+                                                            {proposal.level === "PhD" && <Badge bg={"secondary"}>
+                                                                {proposal.level}
+                                                            </Badge>}
+                                                        </div>
+                                                        <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>
+                                                    </Row></>
+                                                }
 
-                                                        <Button
-                                                            variant="primary"
-                                                            onClick={(e) => handlemodify(e, proposal.id)}
-                                                            id="modify-btn"
-                                                        >
-                                                            <BsPencil /> {/* Pencil/Modify Icon */}
-                                                        </Button>
-                                                        <Button
-                                                            variant="primary"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setShowArchivePopup(() => true);
-                                                                setProposalToArchive(proposal.id);
-                                                            }}
-                                                            id="archive-btn"
-                                                        >
-                                                            <BsArchive /> {/* Archive Icon */}
-                                                        </Button>
+                                            {/*<Row className={"w-100"}>*/}
+                                            {/*    <div className="col-sm-8">*/}
+                                            {/*        {proposal.title}&nbsp;*/}
+                                            {/*        {proposal.level === "Bachelor" && <Badge>*/}
+                                            {/*            {proposal.level}*/}
+                                            {/*        </Badge>}*/}
+                                            {/*        {proposal.level === "Masters" && <Badge bg={"danger"}>*/}
+                                            {/*            {proposal.level}*/}
+                                            {/*        </Badge>}*/}
+                                            {/*        {proposal.level === "PhD" && <Badge bg={"secondary"}>*/}
+                                            {/*            {proposal.level}*/}
+                                            {/*        </Badge>}*/}
+                                            {/*    </div>*/}
+                                            {/*    <div className="col-sm-8">*/}
+                                            {/*        {proposal.archived === "EXPIRED" && <Badge bg={"info"}>*/}
+                                            {/*            {proposal.archived}*/}
+                                            {/*        </Badge>}*/}
+                                            {/*    </div>*/}
+                                            {/*    <div className="col-sm-4">*/}
+                                            {/*        <ButtonGroup>*/}
+                                            {/*            <Button*/}
+                                            {/*                variant="primary"*/}
+                                            {/*                onClick={(e) => handlecopy(e, proposal.id)}*/}
+                                            {/*                id="copy-btn"*/}
+                                            {/*            >*/}
+                                            {/*                <FaRegCopy /> /!* Copy Icon *!/*/}
+                                            {/*            </Button>*/}
 
-                                                        {proposal.applications.every(
-                                                            (application) => application.status !== 'ACCEPTED'
-                                                        ) && (
-                                                            <Button
-                                                                variant="danger"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setShowDeletePopup(() => true);
-                                                                    setProposalToDelete(proposal.id);
-                                                                }}
-                                                                id="delete-btn"
-                                                            >
-                                                                <BsTrash /> {/* Trash/Delete Icon */}
-                                                            </Button>
-                                                        )}
+                                            {/*            <Button*/}
+                                            {/*                variant="primary"*/}
+                                            {/*                onClick={(e) => handlemodify(e, proposal.id)}*/}
+                                            {/*                id="modify-btn"*/}
+                                            {/*            >*/}
+                                            {/*                <BsPencil /> /!* Pencil/Modify Icon *!/*/}
+                                            {/*            </Button>*/}
+                                            {/*            <Button*/}
+                                            {/*                variant="primary"*/}
+                                            {/*                onClick={(e) => {*/}
+                                            {/*                    e.stopPropagation();*/}
+                                            {/*                    setShowArchivePopup(() => true);*/}
+                                            {/*                    setProposalToArchive(proposal.id);*/}
+                                            {/*                }}*/}
+                                            {/*                id="archive-btn"*/}
+                                            {/*            >*/}
+                                            {/*                <BsArchive /> /!* Archive Icon *!/*/}
+                                            {/*            </Button>*/}
 
-                                                    </ButtonGroup>
-                                                </div>
-                                            </Row>
+                                            {/*            {proposal.applications.every(*/}
+                                            {/*                (application) => application.status !== 'ACCEPTED'*/}
+                                            {/*            ) && (*/}
+                                            {/*                <Button*/}
+                                            {/*                    variant="danger"*/}
+                                            {/*                    onClick={(e) => {*/}
+                                            {/*                        e.stopPropagation();*/}
+                                            {/*                        setShowDeletePopup(() => true);*/}
+                                            {/*                        setProposalToDelete(proposal.id);*/}
+                                            {/*                    }}*/}
+                                            {/*                    id="delete-btn"*/}
+                                            {/*                >*/}
+                                            {/*                    <BsTrash /> /!* Trash/Delete Icon *!/*/}
+                                            {/*                </Button>*/}
+                                            {/*            )}*/}
+
+                                            {/*        </ButtonGroup>*/}
+                                            {/*    </div>*/}
+                                            {/*</Row>*/}
+
 
                                         </Accordion.Header>
                                         <Accordion.Body style={{textAlign: 'left'}}>

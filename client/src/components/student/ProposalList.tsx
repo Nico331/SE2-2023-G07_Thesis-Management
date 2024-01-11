@@ -36,14 +36,17 @@ const ProposalList = () => {
 
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    useEffect(() => {           //get the screen size
-        const handleResize = () => {
-            setIsScreenSmall(window.innerWidth <= 910);
+    useEffect(() => {
+        const mediaQueryList = window.matchMedia('(max-width: 910px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
         };
 
-        window.addEventListener('resize', handleResize);
+        mediaQueryList.addEventListener('change', handleResize);
+
         return () => {
-            window.removeEventListener('resize', handleResize);
+            mediaQueryList.removeEventListener('change', handleResize);
         };
     }, []);
 

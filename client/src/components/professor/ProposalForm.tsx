@@ -64,16 +64,16 @@ const ProposalForm: React.FC = () => {
     const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 995px)').matches);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsScreenSmall(window.matchMedia('(max-width: 995px)').matches);
+        const mediaQueryList = window.matchMedia('(max-width: 995px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
         };
 
-        const mediaQueryList = window.matchMedia('(max-width: 995px)');
-        mediaQueryList.addListener(handleResize);
+        mediaQueryList.addEventListener('change', handleResize);
 
-        // Pulizia dell'event listener
         return () => {
-            mediaQueryList.removeListener(handleResize);
+            mediaQueryList.removeEventListener('change', handleResize);
         };
     }, []);
 
@@ -404,6 +404,7 @@ const ProposalForm: React.FC = () => {
                         </Form.Group>
                     </div>
                 </Row>
+
                 <Row>
                     <div className="col-lg-6 col-md-12 mt-4">
                         <Form.Group id="requiredKnoledge">
@@ -433,6 +434,7 @@ const ProposalForm: React.FC = () => {
                     </div>
                 </Row>
                 <br/>
+
                 <div className="mt-4 4">
                     <Form.Label className="h3">CdS</Form.Label>
                     <Card className={"mb-3"}>
