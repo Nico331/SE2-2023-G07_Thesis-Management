@@ -91,6 +91,7 @@ tasks.withType<JacocoReport> {
             fileTree(it).apply {
                 exclude("**/CoderseeGenerated.class")
                 exclude("**/CoderseeGenerated\$*.class")
+                exclude("**/AppliedProposalUnitTests\$*.class")
             }
         }))
     }
