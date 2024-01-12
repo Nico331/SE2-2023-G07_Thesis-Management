@@ -105,12 +105,18 @@ const BrowseRequestsArchived = () => {
     const filteredRequests = myRequests.filter((request) => {
         const userId = JSON.parse(user).id;
 
+        const isStatusAcceptedOrRejected = (
+            request.supervisorStatus === 'ACCEPTED' ||
+            request.supervisorStatus === 'REJECTED' ||
+            request.secretaryStatus === 'REJECTED'
+        );
+
         if (filter === 'supervisor') {
-            return request.supervisorId === userId;
+            return isStatusAcceptedOrRejected && request.supervisorId === userId;
         } else if (filter === 'cosupervisor') {
-            return request.coSupervisors.includes(userId);
+            return isStatusAcceptedOrRejected && request.coSupervisors.includes(userId);
         } else {
-            return true; // Se il filtro è 'all', restituisci tutte le richieste
+            return isStatusAcceptedOrRejected; // Se il filtro è 'all', restituisci tutte le richieste
         }
     });
 

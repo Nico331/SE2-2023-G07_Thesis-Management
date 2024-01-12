@@ -179,6 +179,30 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                         </Row>
                                         <Row>
                                             <Nav.Link onClick={()=> {
+                                                navigate("/browse-requests");
+                                                setShow(false);
+                                            }}>
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    {/* Icona per Pending Requests */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-clock" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm-.5 11a.5.5 0 0 1 1 0v2.5a.5.5 0 0 1-1 0V11zM8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1z"/></svg>
+                                                    <p className="ms-3 my-0 fs-3">Pending Requests</p>
+                                                </Container>
+                                            </Nav.Link>
+                                        </Row>
+                                        <Row>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/browse-requests-archived");
+                                                setShow(false);
+                                            }}>
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    {/* Nuova icona per Archived Requests */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-file-earmark-text" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5V3h9a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V1a.5.5 0 0 1 1 0V14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a.5.5 0 0 1 1 0v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V1.5a.5.5 0 0 1 .5-.5z"/><path d="M11 7H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1z"/></svg>
+                                                    <p className="ms-3 my-0 fs-3">Archived Requests</p>
+                                                </Container>
+                                            </Nav.Link>
+                                        </Row>
+                                        <Row>
+                                            <Nav.Link onClick={()=> {
                                                 navigate("/logout");
                                                 setShow(false);
                                             }} id="menu-logout">
