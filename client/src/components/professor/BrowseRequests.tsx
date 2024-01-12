@@ -173,12 +173,21 @@ const BrowseRequests = () => {
     const filteredRequests = myRequests.filter((request) => {
         const userId = JSON.parse(user).id;
 
+        // Nuova condizione aggiunta qui
+        const isPending = (
+            (request.secretaryStatus === 'ACCEPTED' &&
+            request.supervisorStatus === 'PENDING')
+            ||
+            (request.secretaryStatus === 'PENDING' &&
+            request.supervisorStatus === 'PENDING')
+        );
+
         if (filter === 'supervisor') {
-            return request.supervisorId === userId;
+            return isPending && request.supervisorId === userId;
         } else if (filter === 'cosupervisor') {
-            return request.coSupervisors.includes(userId);
+            return isPending && request.coSupervisors.includes(userId);
         } else {
-            return true; // Se il filtro è 'all', restituisci tutte le richieste
+            return isPending; // Restituisci solo le richieste con stato 'PENDING'
         }
     });
 
