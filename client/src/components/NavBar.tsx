@@ -118,6 +118,22 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                         </Row>
                                         <Row>
                                             <Nav.Link onClick={()=> {
+                                                navigate("/add-proposal");
+                                                setShow(false);
+                                            }}>
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                         fill="currentColor" className="bi bi-plus-lg"
+                                                         viewBox="0 0 16 16">
+                                                        <path fillRule="evenodd"
+                                                              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                                    </svg>
+                                                    <p className="ms-3 my-0 fs-3">Add Proposals</p>
+                                                </Container>
+                                            </Nav.Link>
+                                        </Row>
+                                        <Row>
+                                            <Nav.Link onClick={()=> {
                                                 navigate("/browse-applications");
                                                 setShow(false);
                                             }} id='menu-myproposals'>
@@ -163,22 +179,6 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                         </Row>
                                         <Row>
                                             <Nav.Link onClick={()=> {
-                                                navigate("/add-proposal");
-                                                setShow(false);
-                                            }}>
-                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                                         fill="currentColor" className="bi bi-plus-lg"
-                                                         viewBox="0 0 16 16">
-                                                        <path fillRule="evenodd"
-                                                              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                                    </svg>
-                                                    <p className="ms-3 my-0 fs-3">Add Proposals</p>
-                                                </Container>
-                                            </Nav.Link>
-                                        </Row>
-                                        <Row>
-                                            <Nav.Link onClick={()=> {
                                                 navigate("/browse-requests");
                                                 setShow(false);
                                             }}>
@@ -195,9 +195,24 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 setShow(false);
                                             }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center">
-                                                    {/* Nuova icona per Archived Requests */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-file-earmark-text" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5V3h9a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H1a2 2 0 0 1-2-2V1a.5.5 0 0 1 1 0V14a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a.5.5 0 0 1 1 0v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V1.5a.5.5 0 0 1 .5-.5z"/><path d="M11 7H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2H5a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1z"/></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-folder2-open" viewBox="0 0 16 16">
+                                                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
+                                                    </svg>
                                                     <p className="ms-3 my-0 fs-3">Archived Requests</p>
+                                                </Container>
+                                            </Nav.Link>
+                                        </Row>
+                                        <Row>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/forum");
+                                                setShow(false);
+                                            }}>
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-chat-right-text" viewBox="0 0 16 16">
+                                                        <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                                                        <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                                                    </svg>
+                                                    <p className="ms-3 my-0 fs-3">Forum</p>
                                                 </Container>
                                             </Nav.Link>
                                         </Row>
@@ -295,13 +310,24 @@ export default function MainNavBar({role, undef_user, setRole}) {
                                                 setShow(false);
                                             }}>
                                                 <Container className="p-0 m-0 d-inline-flex align-items-center" id="menu-myThesisRequests">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                                         fill="currentColor" className="bi bi-check-lg"
-                                                         viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-question-lg" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14"/>
                                                     </svg>
                                                     <p className="ms-3 my-0 fs-3">My thesis request</p>
+                                                </Container>
+                                            </Nav.Link>
+                                        </Row>
+                                        <Row>
+                                            <Nav.Link onClick={()=> {
+                                                navigate("/forum");
+                                                setShow(false);
+                                            }}>
+                                                <Container className="p-0 m-0 d-inline-flex align-items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-chat-right-text" viewBox="0 0 16 16">
+                                                        <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                                                        <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                                                    </svg>
+                                                    <p className="ms-3 my-0 fs-3">Forum</p>
                                                 </Container>
                                             </Nav.Link>
                                         </Row>

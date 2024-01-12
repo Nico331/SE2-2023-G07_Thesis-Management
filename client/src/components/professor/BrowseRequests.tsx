@@ -221,7 +221,7 @@ const BrowseRequests = () => {
                     </>
                     : null}
                 {/* Aggiungi un toggle button per il filtro */}
-                <div>
+                <div className="mt-5">
                     <ButtonGroup>
                         <Button
                             variant={filter === 'all' ? 'primary' : 'secondary'}

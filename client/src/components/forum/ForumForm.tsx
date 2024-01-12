@@ -18,6 +18,7 @@ const ForumForm: React.FC = () => {
     const [theses, setTheses] = useState<Array<Thesis>>([]);
     const [selectedThesis, setSelectedThesis] = useState(null);
     const [error, setError] = useState("");
+
     useEffect(()=>{
        const res = getTheses();
        res.then(r=>{
@@ -25,6 +26,7 @@ const ForumForm: React.FC = () => {
        })
            .catch(e=>{console.log(e)});
     },[])
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (topic.description && topic.name && topic.visibility && selectedThesis?.value){
@@ -42,9 +44,9 @@ const ForumForm: React.FC = () => {
             <Container>
                 <h1 style={{ marginTop: "110px" }}>New Topic</h1>
                 {error!=="" && <h4 style={{color: "red"}}>{error}</h4>}
-                <Form noValidate className="mt-5" onSubmit={handleSubmit}>
+                <Form noValidate onSubmit={handleSubmit}>
                     <Row>
-                        <div className="col-lg-6 col-md-12">
+                        <div className="col-lg-6 col-md-12 mt-4">
                             <Form.Group id="name">
                                 <Form.Label className="h3">Name*</Form.Label>
                                 <Form.Control
@@ -57,7 +59,7 @@ const ForumForm: React.FC = () => {
                                 />
                             </Form.Group>
                         </div>
-                        <div className="col-lg-6 col-md-12">
+                        <div className="col-lg-6 col-md-12 mt-4">
                             <Form.Group id="thesis">
                                 <Form.Label className="h3">Thesis*</Form.Label>
                                 <Select
@@ -69,8 +71,8 @@ const ForumForm: React.FC = () => {
                             </Form.Group>
                         </div>
                     </Row>
-                    <Row className={"mt-3"}>
-                        <div className="col-lg-12 col-md-12">
+                    <Row>
+                        <div className="col-lg-12 col-md-12 mt-4">
                             <Form.Group id="description">
                                 <Form.Label className="h3">Description*</Form.Label>
                                 <Form.Control
@@ -85,8 +87,8 @@ const ForumForm: React.FC = () => {
                             </Form.Group>
                         </div>
                     </Row>
-                    <Row>
-                        <div className="col-lg-6 col-md-12">
+                    <Row className="d-flex justify-content-center">
+                        <div className="col-lg-6 col-md-12 mt-4">
                             <Form.Group id="visibility">
                                 <Form.Label className="h3">Visibility*</Form.Label>
                                 <Form.Control as="select" value={topic.visibility}
@@ -100,7 +102,7 @@ const ForumForm: React.FC = () => {
                         </div>
                     </Row>
                     <br />
-                    <Button variant="primary" type="submit" id='create-btn'>
+                    <Button className="mt-4" variant="primary" type="submit" id='create-btn'>
                         Create Topic
                     </Button>
                     <br /><br />
