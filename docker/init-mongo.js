@@ -560,7 +560,53 @@ const courses = [
         "_id": 20,
         "name": "Matematica per l'ingegneria",
         "code": "L-35"
-    }
+    },
+    { "name": "Agritech Engineering", "code": "LM-25", "_id": 21 },
+    { "name": "Architecture Construction City", "code": "LM-4", "_id": 22 },
+    { "name": "Architecture for Heritage", "code": "LM-4", "_id": 23 },
+    { "name": "Architecture for Sustainability", "code": "LM-4", "_id": 24 },
+    { "name": "Automotive Engineering (Ingegneria dell'Autoveicolo)", "code": "LM-33", "_id": 25 },
+    { "name": "Civil Engineering", "code": "LM-23", "_id": 26 },
+    { "name": "Communications Engineering", "code": "LM-27", "_id": 27 },
+    { "name": "Cybersecurity", "code": "LM-32", "_id": 28 },
+    { "name": "Data Science and Engineering", "code": "LM-32", "_id": 29 },
+    { "name": "Design Sistemico", "code": "LM-12", "_id": 30 },
+    { "name": "Digital Skills for Sustainable Societal Transitions", "code": "LM-91", "_id": 31 },
+    { "name": "Geografia e Scienze Territoriali", "code": "LM-80", "_id": 33 },
+    { "name": "Georesources and Geoenergy Engineering", "code": "LM-35", "_id": 34 },
+    {
+        "name": "ICT for Smart Societies (ICT per la Societa' del Futuro)",
+        "code": "LM-27",
+        "_id": 35
+    },
+    { "name": "Ingegneria Aerospaziale", "code": "LM-20", "_id": 37 },
+    { "name": "Ingegneria Biomedica", "code": "LM-21", "_id": 38 },
+    { "name": "Ingegneria Chimica e dei Processi Sostenibili", "code": "LM-22", "_id": 39 },
+    { "name": "Ingegneria dei Materiali per l'Industria 4.0", "code": "LM-53", "_id": 40 },
+    { "name": "Ingegneria del Cinema e dei Mezzi di Comunicazione", "code": "LM-32", "_id": 41 },
+    {
+        "name": "Ingegneria della Produzione Industriale e dell'Innovazione Tecnologica",
+        "code": "LM-33",
+        "_id": 42
+    },
+    { "name": "Ingegneria Edile", "code": "LM-24", "_id": 43 },
+    { "name": "Ingegneria Elettrica", "code": "LM-28", "_id": 44 },
+    { "name": "Ingegneria Elettronica (Electronic Engineering)", "code": "LM-29", "_id": 45 },
+    { "name": "Ingegneria Energetica e Nucleare", "code": "LM-30", "_id": 46 },
+    { "name": "Ingegneria Gestionale", "code": "LM-31", "_id": 47 },
+    { "name": "Ingegneria Informatica (Computer Engineering)", "code": "LM-32", "_id": 48 },
+    { "name": "Ingegneria Matematica", "code": "LM-44", "_id": 49 },
+    { "name": "Ingegneria Meccanica", "code": "LM-33", "_id": 50 },
+    { "name": "Ingegneria per l'Ambiente e il Territorio", "code": "LM-35", "_id": 51 },
+    { "name": "Mechatronic Engineering (Ingegneria Meccatronica)", "code": "LM-25", "_id": 52 },
+    { "name": "Nanotechnologies for ICTs (Nanotecnologie per le ICT)", "code": "LM-29", "_id": 53 },
+    {
+        "name": "Physics of Complex Systems (Fisica dei Sistemi Complessi)",
+        "code": "LM-44",
+        "_id": 54
+    },
+    { "name": "Pianificazione Urbanistica e Territoriale", "code": "LM-48", "_id": 55 },
+    { "name": "Quantum Engineering", "code": "LM-29", "_id": 56 }
 ];
 
 db.course.insertMany(courses);
