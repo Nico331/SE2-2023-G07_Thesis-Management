@@ -28,10 +28,10 @@ class AppliedProposalService(
     private val externalCoSupervisorRepository: ExternalCoSupervisorRepository
 ) {
 
-    fun findAppliedProposalById(id: String): AppliedProposalDTO? {
-        //return application if exists or null
-        return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
-    }
+//    fun findAppliedProposalById(id: String): AppliedProposalDTO? {
+//        //return application if exists or null
+//        return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
+//    }
     fun findAll() : List<AppliedProposalDTO> {
         //return list of application (in case nothing exists yet empty list)
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
