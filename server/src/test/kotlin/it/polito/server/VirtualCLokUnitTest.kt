@@ -63,8 +63,6 @@ class VirtualCLokUnitTest {
     @Test
     fun testGetVirtualCLock() {
 
-        `when`(clockService.getServerClock()).thenReturn(LocalDateTime.now())
-
         // Eseguo la chiamata all'API GetVirtualClock
         val responseEntity = clockController.getServerClock()
         // Verifico che la risposta sia OK e anche il BODY
