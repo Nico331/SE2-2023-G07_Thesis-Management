@@ -44,6 +44,22 @@ const RequestedProposals = () => {
         supervisorStatus: 'PENDING'
     });
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 650px)').matches);
+
+    useEffect(() => {
+        const mediaQueryList = window.matchMedia('(max-width: 650px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
+        };
+
+        mediaQueryList.addEventListener('change', handleResize);
+
+        return () => {
+            mediaQueryList.removeEventListener('change', handleResize);
+        };
+    }, []);
+
     const [professors, setProfessors] = useState([]);
     useEffect(() => {
         ProfessorService.fetchAllProfessors().then((res) => {
@@ -114,35 +130,68 @@ const RequestedProposals = () => {
                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                         <Accordion.Header>
                             <Row className='w-100'>
-                                <Col sm={8}>{proposal.title}</Col>
-                                <Col sm={4}>
-                                    {
-                                        proposal.secretaryStatus==="PENDING" ?
-                                            <>
-                                                <Button style={{marginRight: '10px'}}
+                            {isScreenSmall ?
+                                <><Row>{proposal.title}</Row>
+                                    <Row className="mt-3">
+                                        {
+                                            proposal.secretaryStatus === "PENDING" ? <>
+                                                <Container className="d-flex flex-row">
+                                                    <Button style={{marginRight: '10px'}}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setConfirmed({show: true, type: 'confirm', id: proposal.id})
+                                                                }
+                                                            }
+                                                    variant='success' id="accept-btn">Accept</Button>
+                                                    <Button className="btn btn-danger"
                                                         onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setConfirmed({show: true, type: 'confirm', id:proposal.id})}
+                                                                e.stopPropagation();
+                                                                setConfirmed({show: true, type: 'reject', id: proposal.id})
+                                                            }
                                                         }
-                                                        variant='success' id="accept-btn">Accept</Button>
+                                                    variant='danger' id="reject-btn">Reject</Button>
+                                                </Container></>
+                                            :
 
-                                                <Button className="btn btn-danger"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setConfirmed({show: true, type: 'reject', id:proposal.id})}
-                                                        }
-                                                        variant='danger' id="reject-btn">Reject</Button>
-                                            </> :
-                                            <>
                                                 <div>
-                                                    {proposal.secretaryStatus==="REJECTED" ?
-                                                        <div> "REJECTED" </div> :
-                                                        <div> "ACCEPTED" </div>
+                                                    {proposal.secretaryStatus === "REJECTED" ?
+                                                        <div style={{color:"red"}}> REJECTED </div> :
+                                                        <div style={{color:"green"}}> ACCEPTED </div>
                                                     }
                                                 </div>
-                                            </>
-                                    }
-                                </Col>
+
+                                        }
+                                    </Row></>
+                                :
+                                <><Col sm={8}>{proposal.title}</Col>
+                                    <Col sm={4}>
+                                        {
+                                            proposal.secretaryStatus === "PENDING" ? <>
+                                                    <Button style={{marginRight: '10px'}}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setConfirmed({show: true, type: 'confirm', id: proposal.id})
+                                                            }
+                                                            }
+                                                            variant='success' id="accept-btn">Accept</Button>
+
+                                                    <Button className="btn btn-danger"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setConfirmed({show: true, type: 'reject', id: proposal.id})
+                                                            }
+                                                            }
+                                                            variant='danger' id="reject-btn">Reject</Button></>
+                                                :
+                                                    <div>
+                                                        {proposal.secretaryStatus === "REJECTED" ?
+                                                            <div style={{color:"red"}}> REJECTED </div> :
+                                                            <div style={{color:"green"}}> ACCEPTED </div>
+                                                        }
+                                                    </div>
+                                        }
+                                    </Col></>
+                            }
                             </Row>
                         </Accordion.Header>
 

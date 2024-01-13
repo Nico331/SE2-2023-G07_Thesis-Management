@@ -50,7 +50,7 @@ const MyRequest: React.FC = () => {
             setProfessors(res.data);
         });
         RequestProposalService.fetchAllRequestProposals().then((res) => {
-            setRequest(() => res.data ? res.data[0] : null)
+            setRequest(() => res.data ? res.data[res.data.length-1] : null)
         })
     }, []);
 

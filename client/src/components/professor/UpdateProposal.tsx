@@ -65,6 +65,22 @@ function UpdateProposal (props) {
 
     const [newKeyword, setNewKeyword] = useState('');
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 995px)').matches);
+
+    useEffect(() => {
+        const mediaQueryList = window.matchMedia('(max-width: 995px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
+        };
+
+        mediaQueryList.addEventListener('change', handleResize);
+
+        return () => {
+            mediaQueryList.removeEventListener('change', handleResize);
+        };
+    }, []);
+
     const updateSupervisor = (newsupervisor) => {
         if (!updatedprop.coSupervisors.find((cs) => cs === newsupervisor ? true : false)) {
             setSupAlert({type: "", message: "", show: false});
@@ -100,6 +116,11 @@ function UpdateProposal (props) {
         const updatedCoSupervisors = [...updatedprop.coSupervisors];
         updatedCoSupervisors.splice(index, 1);
         setUpdatedprop({...updatedprop, coSupervisors: updatedCoSupervisors});
+    };
+    const removeCoSupervisorExt = (index: number) => {
+        const updatedCoSupervisors = [...updatedprop.externalCoSupervisors];
+        updatedCoSupervisors.splice(index, 1);
+        setUpdatedprop({...updatedprop, externalCoSupervisors: updatedCoSupervisors});
     };
 
     const addKeyword = () => {
@@ -203,11 +224,11 @@ function UpdateProposal (props) {
 
                 </Container>
 
-                <Container>
+                <Container className={isScreenSmall ? "p-0" : ""}>
                     <Form onSubmit={handleSubmit}>
                         <Row>
                             {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
-                            <div className="col-lg-6 col-md-12">
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="title">
                                     <Form.Label className="h3">Title</Form.Label>
                                     <Form.Control
@@ -219,7 +240,7 @@ function UpdateProposal (props) {
                                     />
                                 </Form.Group>
                             </div>
-                            <div className="col-lg-6 col-md-12">
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="type">
                                     <Form.Label className="h3">Type</Form.Label>
                                     <Form.Control as="select"
@@ -237,8 +258,9 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                         </Row>
-                        <Row className={"mt-3"}>
-                            <div className="col-lg-6 col-md-12">
+
+                        <Row>
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="level">
                                     <Form.Label className="h3">Level</Form.Label>
                                     <Form.Control as="select"  value={updatedprop.level}
@@ -251,7 +273,7 @@ function UpdateProposal (props) {
                                     </Form.Control>
                                 </Form.Group>
                             </div>
-                            <div className="col-lg-6 col-md-12">
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="expiration">
                                     <Form.Label className="h3">Expiration</Form.Label>
                                     <Form.Control
@@ -265,7 +287,8 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                         </Row>
-                        <Row className="mt-3">
+
+                        <Row className="mt-4">
                             <Col lg={6} md={12}>
                                 <Form.Group id="supervisor">
                                     <Form.Label className="h3">Supervisor</Form.Label>
@@ -282,39 +305,71 @@ function UpdateProposal (props) {
                             </Col>
                             <Col lg={6} md={12}> </Col>
                         </Row>
-                        <Row className={"mt-3"}>
-                            <div className="col-lg-6 col-md-12">
+
+                        <Row>
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Label className="h3">Co-Supervisors</Form.Label>
-                                <Card className={"mt-3 mb-3"}>
+                                <Card className={"mb-3"}>
                                     <Card.Body>
                                         <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coalert={coalert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
                                         <br/>
+                                        {/*<ListGroup className={"mt-3"}>*/}
+                                        {/*    {updatedprop.coSupervisors.concat(updatedprop.externalCoSupervisors && updatedprop.externalCoSupervisors.map((it: ExternalCoSupervisor)=>it.email)).map((cs, index) => (<ListGroup.Item key={index}>*/}
+                                        {/*        {professors.filter((p) => p.id == cs).length ? (professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)) : cs} &nbsp;*/}
+                                        {/*        <Button*/}
+                                        {/*            variant="danger"*/}
+                                        {/*            size="sm"*/}
+                                        {/*            className="float-right"*/}
+                                        {/*            onClick={() => removeCoSupervisor(index)}*/}
+                                        {/*            id={"remove-" + cs}*/}
+                                        {/*        >*/}
+                                        {/*            Remove*/}
+                                        {/*        </Button>*/}
+                                        {/*    </ListGroup.Item>))}*/}
+                                        {/*</ListGroup>*/}
+                                        <h5>
+                                            Internal Co-Supervisors
+                                        </h5>
                                         <ListGroup className={"mt-3"}>
-                                            {updatedprop.coSupervisors.concat(updatedprop.externalCoSupervisors && updatedprop.externalCoSupervisors.map((it: ExternalCoSupervisor)=>it.email)).map((cs, index) => (<ListGroup.Item key={index}>
-
-                                                {professors.filter((p) => p.id == cs).length ? (professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)) : cs} &nbsp;
+                                            {updatedprop.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
+                                                {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
                                                 <Button
                                                     variant="danger"
                                                     size="sm"
                                                     className="float-right"
                                                     onClick={() => removeCoSupervisor(index)}
-                                                    id={"remove-" + cs}
                                                 >
                                                     Remove
                                                 </Button>
                                             </ListGroup.Item>))}
                                         </ListGroup>
+                                        <br/>
+                                        <h5>
+                                            External Co-Supervisors
+                                        </h5>
+                                        <ListGroup className={"mt-3"}>
+                                            {updatedprop.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
+                                                <ListGroup.Item key={index}>
+                                                    { cs.email} &nbsp;
+                                                    <Button
+                                                        variant="danger"
+                                                        size="sm"
+                                                        className="float-right"
+                                                        onClick={() => removeCoSupervisorExt(index)}
+                                                    >
+                                                        Remove
+                                                    </Button>
+                                                </ListGroup.Item>))
+                                            }
+                                        </ListGroup>
                                     </Card.Body>
-
                                 </Card>
                             </div>
-                            <div className="col-lg-6 col-md-12">
-
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Label className="h3">Research Groups</Form.Label>
-                                <Card className={"mt-3 mb-3"}>
+                                <Card className={"mb-3"}>
                                     <Card.Body>
                                         <GroupInput onAddGroup={addGroup}/>
-
                                         <ListGroup className={"mt-3"}>
                                             {updatedprop.groups.map((g, index) => (<ListGroup.Item key={index}>
                                                 {g} &nbsp;
@@ -329,17 +384,15 @@ function UpdateProposal (props) {
                                             </ListGroup.Item>))}
                                         </ListGroup>
                                     </Card.Body>
-
                                 </Card>
-
                             </div>
                         </Row>
-                        <Row className={"mt-3"}>
-                            <div className="col-lg-6 col-md-12">
+
+                        <Row>
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Label className="h3">Keywords</Form.Label>
                                 <Card className={"mb-3"}>
                                     <Card.Body>
-
                                         <ListGroup>
                                             <div className="d-flex align-items-center">
                                                 <div className="col-lg-8">
@@ -369,10 +422,9 @@ function UpdateProposal (props) {
                                             </div>
                                         </ListGroup>
                                     </Card.Body>
-
                                 </Card>
                             </div>
-                            <div className="col-lg-6 col-md-12">
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="description">
                                     <Form.Label className="h3">Description</Form.Label>
                                     <Form.Control
@@ -385,6 +437,7 @@ function UpdateProposal (props) {
                                 </Form.Group>
                             </div>
                         </Row>
+
                         <Row className={"mt-3"}>
                             <div className="col-lg-6 col-md-12">
                                 <Form.Group id="requiredKnoledge">
@@ -398,7 +451,7 @@ function UpdateProposal (props) {
                                     />
                                 </Form.Group>
                             </div>
-                            <div className="col-lg-6 col-md-12">
+                            <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="notes">
                                     <Form.Label className="h3">Notes</Form.Label>
                                     <Form.Control
@@ -412,35 +465,34 @@ function UpdateProposal (props) {
                             </div>
                         </Row>
                         <br/>
-                        <Row>
-                            <Col lg={6} md={12}>
-                                <Form.Label className="h3">CdS</Form.Label>
-                                <Card className={"mt-3 mb-3"}>
-                                    <Card.Body>
-                                        <CdsInput onAddCds={addCds}/>
 
-                                        <ListGroup className={"mt-3"}>
-                                            {updatedprop.cdS.map((cds, index) => (<ListGroup.Item key={index}>
-                                                {cds} &nbsp;
-                                                <Button
-                                                    variant="danger"
-                                                    size="sm"
-                                                    className="float-right"
-                                                    onClick={() => removeCds(index)}
-                                                >
-                                                    Remove
-                                                </Button>
-                                            </ListGroup.Item>))}
-                                        </ListGroup>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
+                        <div className="mt-4 4">
+                            <Form.Label className="h3">CdS</Form.Label>
+                            <Card className={"mb-3"}>
+                                <Card.Body>
+                                    <CdsInput onAddCds={addCds}/>
+
+                                    <ListGroup className={"mt-3"}>
+                                        {updatedprop.cdS.map((cds, index) => (<ListGroup.Item key={index}>
+                                            {cds} &nbsp;
+                                            <Button
+                                                variant="danger"
+                                                size="sm"
+                                                className="float-right"
+                                                onClick={() => removeCds(index)}
+                                            >
+                                                Remove
+                                            </Button>
+                                        </ListGroup.Item>))}
+                                    </ListGroup>
+                                </Card.Body>
+                            </Card>
+                        </div>
                     </Form>
                 </Container>
                 </Modal.Body>
                 {/*-----------------------*/}
-                <Modal.Footer>
+                <Modal.Footer className="mt-3">
                     <Button variant="danger" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
                     {props.pagetype === "modify" ? <Button onClick={(e) => handleSubmit(e)} id="update-btn">Update</Button> : <Button variant="success" onClick={(e) => handleSubmit(e)} id="create-copy-btn">Create a Copy</Button>}
                 </Modal.Footer>

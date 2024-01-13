@@ -69,16 +69,16 @@ const BrowseApplications = () => {
     const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 780px)').matches);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsScreenSmall(window.matchMedia('(max-width: 780px)').matches);
+        const mediaQueryList = window.matchMedia('(max-width: 780px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
         };
 
-        const mediaQueryList = window.matchMedia('(max-width: 780px)');
-        mediaQueryList.addListener(handleResize);
+        mediaQueryList.addEventListener('change', handleResize);
 
-        // Pulizia dell'event listener
         return () => {
-            mediaQueryList.removeListener(handleResize);
+            mediaQueryList.removeEventListener('change', handleResize);
         };
     }, []);
 
