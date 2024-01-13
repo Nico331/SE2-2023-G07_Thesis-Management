@@ -1,27 +1,30 @@
 package it.polito.server
 
-import it.polito.server.appliedproposal.AppliedProposal
-import it.polito.server.appliedproposal.AppliedProposalRepository
-import it.polito.server.appliedproposal.AppliedProposalService
+import it.polito.server.appliedproposal.*
+import it.polito.server.career.Career
 import it.polito.server.career.CareerRepository
 import it.polito.server.email.EmailService
+import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
+import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.professor.ProfessorService
-import it.polito.server.proposal.ProposalRepository
-import it.polito.server.proposal.ProposalService
+import it.polito.server.proposal.*
+import it.polito.server.student.Student
+import it.polito.server.student.StudentDTO
 import it.polito.server.student.StudentRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.Mock
 import org.mockito.InjectMocks
-import org.mockito.Mockito.`when`
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
-import org.mockito.Mockito.any
+import org.mockito.Mockito.*
+import org.springframework.http.HttpStatus
+import java.time.LocalDate
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -70,7 +73,7 @@ class AppliedProposalServiceTest {
     private val appliedProposal1 = AppliedProposal(
 
         proposalId = "1111",
-        studentId = "67891",
+        studentId = "studentId",
         file = null
     )
     private val appliedProposal2 = AppliedProposal(
@@ -82,7 +85,22 @@ class AppliedProposalServiceTest {
     private val appliedProposals = listOf(
         appliedProposal1, appliedProposal2
     )
-
+    val myProposal1 = Proposal(
+        id = "proposalId",
+        title = "Algoritmi di Machine Learning per l'analisi del testo",
+        supervisor = "0001",
+        coSupervisors = listOf("Prof. Giulia Bianchi", "Prof. Luca Verdi"),
+        keywords = listOf("machine learning", "NLP", "text analytics"),
+        type = "Ricerca",
+        groups = listOf("ML Group"),
+        description = "Un progetto di ricerca volto a sviluppare nuovi algoritmi per l'analisi del testo.",
+        requiredKnowledge = "Python, PyTorch, NLP basics",
+        notes = "Richiesta familiarità con le reti neurali.",
+        expiration = LocalDate.of(2023, 12, 31) ,
+        level = "Master",
+        cdS = listOf("Informatica", "Data Science"),
+        archived = archiviation_type.NOT_ARCHIVED
+    )
     @Test
     fun `findAll returns all applied proposals as DTOs`() {
         // Given
@@ -97,4 +115,312 @@ class AppliedProposalServiceTest {
         assertEquals(appliedProposalDTOs.size, result.size)
         assertEquals(appliedProposalDTOs, result)
     }
+
+    @Test
+    fun `deleteAppliedProposal return NOT_FOUND if not exists`() {
+        // Given
+        val proposalId = "nonExistingId"
+        `when`(appliedProposalRepository.existsById(proposalId)).thenReturn(false)
+
+        // When
+        val response = appliedProposalService.deleteAppliedProposal(proposalId)
+
+        // Then
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals("this Application does NOT EXIST", response.body)
+    }
+    @Test
+    fun `deleteAppliedProposal deleted successfully`() {
+        // Given
+        val proposalId = "existingId"
+        `when`(appliedProposalRepository.existsById(proposalId)).thenReturn(true)
+
+        // When
+        val response = appliedProposalService.deleteAppliedProposal(proposalId)
+
+        // Then
+        verify(appliedProposalRepository).deleteById(proposalId)
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals("Application with ID $proposalId successfully deleted.", response.body)
+    }
+
+    @Test
+    fun `applyForProposal ritorna BAD_REQUEST se la proposta non esiste`() {
+        // Given
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.empty())
+
+        // When
+        val response = appliedProposalService.applyForProposal(proposalId, studentId, null)
+
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals("ERROR in creating the application (PROPOSAL NOT PRESENT in the database).", response.body)
+    }
+    @Test
+    fun `applyForProposal ritorna BAD_REQUEST se lo studente non esiste`() {
+        // Given
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+        `when`(proposalRepository.findById
+            (proposalId)).thenReturn(Optional.of(mock(Proposal::class.java)))
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.empty())
+
+        // When
+        val response = appliedProposalService.applyForProposal(proposalId, studentId, null)
+
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals("ERROR in creating the application (STUDENT NOT PRESENT in the database).", response.body)
+    }
+    @Test
+    fun `applyForProposal ritorna BAD_REQUEST se l'applicazione esiste già`() {
+        // Given
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(mock(Proposal::class.java)))
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.of(mock(Student::class.java)))
+        `when`(appliedProposalRepository.findByProposalIdAndStudentId(proposalId, studentId))
+            .thenReturn(mock(AppliedProposal::class.java))
+
+        // When
+        val response = appliedProposalService.applyForProposal(proposalId, studentId, null)
+
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals("ERROR in creating the application (APPLICATION ALREADY EXISTS).", response.body)
+    }
+    @Test
+    fun `applyForProposal ritorna BAD_REQUEST se lo studente ha già un'altra applicazione in stato PENDING o ACCEPTED`() {
+        // Given
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+        val appliedProposal = mock(AppliedProposal::class.java)
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(mock(Proposal::class.java)))
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.of(mock(Student::class.java)))
+        `when`(appliedProposalRepository.findByProposalIdAndStudentId(proposalId, studentId)).thenReturn(null)
+        `when`(appliedProposalRepository.existsAppliedProposalByStudentId(studentId)).thenReturn(false)
+        `when`(appliedProposalRepository.findByStudentId(studentId)).thenReturn(listOf(appliedProposal))
+        `when`(appliedProposal.status).thenReturn(ApplicationStatus.PENDING)
+
+        // When
+        val response = appliedProposalService.applyForProposal(proposalId, studentId, null)
+
+        // Then
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals("ERROR in creating the application (STUDENT ALREADY HAS AN APPLICATION).", response.body)
+    }
+
+    @Test
+    fun `appliesByStudentId should return NOT_FOUND when student does not exist`() {
+        // Given
+        val studentId = "nonExistingStudentId"
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.empty())
+
+        // When
+        val response = appliedProposalService.appliesByStudentId(studentId)
+
+        // Then
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals("ERROR: this student NOT EXISTS", response.body)
+    }
+    @Test
+    fun `appliesByStudentId should return the list of applications for a student`() {
+        // Given
+        val studentId = "existingStudentId"
+        val student = mock(Student::class.java)
+        val appliedProposalsDTOs = appliedProposals.map { it.toDTO() }
+
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.of(student))
+        `when`(appliedProposalRepository.findByStudentId(studentId)).thenReturn(appliedProposals)
+
+        // When
+        val response = appliedProposalService.appliesByStudentId(studentId)
+
+        // Then
+        verify(studentRepository).findById(studentId)
+        verify(appliedProposalRepository).findByStudentId(studentId)
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(appliedProposalsDTOs, response.body)
+    }
+
+    @Test
+    fun `appliesByProposalId should return NOT_FOUND when proposal does not exist`() {
+        // Given
+        val proposalId = "nonExistingProposalId"
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.empty())
+
+        // When
+        val response = appliedProposalService.appliesByProposalId(proposalId)
+
+        // Then
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals("ERROR: this Proposal NOT EXISTS", response.body)
+    }
+    @Test
+    fun `appliesByProposalId should return the list of applications for a proposal`() {
+        // Given
+        val proposalId = "existingProposalId"
+        val appliedProposalsDTOs = appliedProposals.map { it.toDTO() }
+
+        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(mock(Proposal::class.java)))
+        `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(appliedProposals)
+
+        // When
+        val response = appliedProposalService.appliesByProposalId(proposalId)
+
+        // Then
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(appliedProposalsDTOs, response.body)
+    }
+
+    @Test
+    fun `findByProfessor returns filtered proposals and maps to StrangeObjectRequestedByDarione`() {
+        // Given
+        val professorId = "professorId"
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+        val proposal = mock(Proposal::class.java)
+
+        val student = Student(id = studentId, surname = "Doe", name = "John", gender = "Male",
+            nationality = "US", email = "john.doe@student.it", codDegree = "22222", enrollmentYear = 2022)
+
+        val exam = mock(Career::class.java)
+        val professor = mock(Professor::class.java)
+        val appliedProposal = appliedProposal1
+
+        `when`(proposal.id).thenReturn(proposalId)
+        `when`(proposal.supervisor).thenReturn(professorId)
+        `when`(proposalRepository.findBySupervisor(professorId)).thenReturn(listOf(proposal))
+        `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(listOf(appliedProposal))
+        `when`(studentRepository.findById(anyString())).thenReturn(Optional.of(student))
+        `when`(careerRepository.findByStudentId(anyString())).thenReturn(listOf(exam))
+        `when`(professorRepository.findById(anyString())).thenReturn(Optional.of(professor))
+        `when`(proposal.archived).thenReturn(archiviation_type.NOT_ARCHIVED)
+        `when`(proposal.id).thenReturn(proposalId)
+        `when`(proposal.title).thenReturn("proposalTitle")
+        `when`(proposal.supervisor).thenReturn(professorId)
+        `when`(professorRepository.findById(professorId)).thenReturn(Optional.of(professor))
+        `when`(professor.name).thenReturn("name")
+        `when`(professor.surname).thenReturn("surname")
+        `when`(proposal.coSupervisors).thenReturn(listOf("coSupervisorId"))
+        `when`(proposal.keywords).thenReturn(listOf("keyword1", "keyword2"))
+        `when`(proposal.type).thenReturn("Research")
+        `when`(proposal.groups).thenReturn(listOf("group1", "group2"))
+        `when`(proposal.description).thenReturn("Description of the proposal")
+        `when`(proposal.requiredKnowledge).thenReturn("Required knowledge for the proposal")
+        `when`(proposal.notes).thenReturn("Notes on the proposal")
+        `when`(proposal.expiration).thenReturn(LocalDate.now())
+        `when`(proposal.level).thenReturn("PhD")
+        `when`(proposal.cdS).thenReturn(listOf("cds1", "cds2"))
+        `when`(proposal.archived).thenReturn(archiviation_type.NOT_ARCHIVED)
+
+        // When
+        val result = appliedProposalService.findByProfessor(professorId, archiviation_type.NOT_ARCHIVED)
+
+        // Then
+        assertEquals(1, result.size) // Assuming that the archivation_type matches
+        // Other assertions to verify the correct mapping to StrangeObjectRequestedByDarione
+    }
+
+    @Test
+    fun `updateApplicationsStatus sets applications to CANCELLED for expired or manually archived proposals`() {
+        // Given
+        val proposalId = "proposalId"
+        val proposal = mock(Proposal::class.java)
+        `when`(proposal.id).thenReturn(proposalId)
+        `when`(proposal.archived).thenReturn(archiviation_type.EXPIRED)
+        val applications = listOf(mock(AppliedProposal::class.java))
+
+        `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(applications)
+
+        // When
+        appliedProposalService.updateApplicationsStatus(proposal)
+
+        // Then
+        for (application in applications) {
+            verify(application).status = ApplicationStatus.CANCELLED
+            verify(appliedProposalRepository).save(application)
+        }
+    }
+    @Test
+    fun `updateApplicationsStatus sets applications to PENDING for other archived types`() {
+        // Given
+        val proposalId = "proposalId"
+        val proposal = mock(Proposal::class.java)
+        `when`(proposal.id).thenReturn(proposalId)
+        `when`(proposal.archived).thenReturn(archiviation_type.NOT_ARCHIVED) // O qualsiasi altro tipo
+        val applications = listOf(mock(AppliedProposal::class.java))
+
+        `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(applications)
+
+        // When
+        appliedProposalService.updateApplicationsStatus(proposal)
+
+        // Then
+        for (application in applications) {
+            verify(application).status = ApplicationStatus.PENDING
+            verify(appliedProposalRepository).save(application)
+        }
+    }
+
+    @Test
+    fun `withdrawProposal sets status to CANCELLED and saves when application exists`() {
+        // Given
+        val appliedProposalId = "existingId"
+        val appliedProposal = mock(AppliedProposal::class.java)
+        `when`(appliedProposalRepository.findById(appliedProposalId)).thenReturn(Optional.of(appliedProposal))
+        `when`(appliedProposalRepository.save(Optional.of(appliedProposal).get().copy(status = ApplicationStatus.CANCELLED))).thenReturn(appliedProposal1.copy(status = ApplicationStatus.CANCELLED))
+        // When
+        val response = appliedProposalService.withdrawProposal(appliedProposalId)
+
+        // Then
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(ApplicationStatus.CANCELLED, (response.body as AppliedProposal).status)
+    }
+    @Test
+    fun `withdrawProposal returns NOT_FOUND when application does not exist`() {
+        // Given
+        val appliedProposalId = "nonExistingId"
+        `when`(appliedProposalRepository.findById(appliedProposalId)).thenReturn(Optional.empty())
+
+        // When
+        val response = appliedProposalService.withdrawProposal(appliedProposalId)
+
+        // Then
+        assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        assertEquals("Application not found", response.body)
+    }
+
+    @Test
+    fun `findByCoSupervisor returns filtered proposals and maps to StrangeObjectRequestedByDarione`() {
+        // Given
+        val coSupervisorId = "coSupervisorId"
+        val proposalId = "proposalId"
+        val studentId = "studentId"
+//        val proposal = mock(Proposal::class.java)
+        val proposal = myProposal1
+        val student = Student(id = studentId, surname = "Doe", name = "John", gender = "Male",
+            nationality = "US", email = "john.doe@student.it", codDegree = "22222",
+            enrollmentYear = 2022)
+        val exam = mock(Career::class.java)
+        val appliedProposal = mock(AppliedProposal::class.java)
+        val appliedProposalDTO = appliedProposal1.toDTO()
+        `when`(proposalRepository.findByCoSupervisors(coSupervisorId)).thenReturn(listOf(proposal))
+//        `when`(proposal.archived).thenReturn(archiviation_type.NOT_ARCHIVED)
+        `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(listOf(appliedProposal1))
+//        `when`(proposal.id).thenReturn(proposalId)
+        `when`(studentRepository.findById(studentId)).thenReturn(Optional.of(student))
+        `when`(careerRepository.findByStudentId(studentId)).thenReturn(listOf(exam))
+
+        // When
+        val result = appliedProposalService.findByCoSupervisor(coSupervisorId, archiviation_type.NOT_ARCHIVED)
+
+        // Then
+        assertEquals(1, result.size)
+        // Here you can add more detailed assertions to verify the properties of each StrangeObjectRequestedByDarione
+    }
+
 }
+

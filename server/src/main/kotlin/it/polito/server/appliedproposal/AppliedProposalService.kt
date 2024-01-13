@@ -389,7 +389,7 @@ class AppliedProposalService(
         return if(proposal.isPresent){
             ResponseEntity(appliedProposalRepository.save(proposal.get().copy(status = ApplicationStatus.CANCELLED)),HttpStatus.OK)
         } else {
-            ResponseEntity("Application not fount", HttpStatus.NOT_FOUND)
+            ResponseEntity("Application not found", HttpStatus.NOT_FOUND)
         }
     }
 
@@ -401,13 +401,13 @@ class AppliedProposalService(
                 .map { proposal->
                     val appliedProposals = appliedProposalRepository.findByProposalId(proposal.id!!).map { it.toDTO() }
 
-                    val listApplications = appliedProposals.map { appliedProposal->
-                        val student = studentRepository.findById(appliedProposal.studentId).map { it.toDTO() }.get()
+                    val listApplications = appliedProposals.map { appliedProposalDTO->
+                        val student = studentRepository.findById(appliedProposalDTO.studentId).map { it.toDTO() }.get()
 
                         val listExams = careerRepository.findByStudentId(student.id!!).map { it.toDTO() }
                         return@map Applications(
-                                appliedProposal.id,
-                                appliedProposal.proposalId,
+                            appliedProposalDTO.id,
+                            appliedProposalDTO.proposalId,
                                 Student(
                                         student.id,
                                         student.surname,
@@ -419,8 +419,8 @@ class AppliedProposalService(
                                         student.enrollmentYear,
                                         listExams
                                 ),
-                                appliedProposal.status,
-                                appliedProposal.file
+                            appliedProposalDTO.status,
+                            appliedProposalDTO.file
                         )
                     }
                     //val nameSupervisor = professorRepository.findById(proposal.supervisor)
