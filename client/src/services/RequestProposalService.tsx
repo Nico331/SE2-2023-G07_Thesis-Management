@@ -27,6 +27,14 @@ export default {
             }
         });
     },
+    getRequestProposalByStudent(student_id) {
+        return axios.get(endpoint + "/byStudent/" + student_id,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+    },
 
     deleteRequestProposals(id) {
         return axios.delete(`${endpoint}/${id}`,{
