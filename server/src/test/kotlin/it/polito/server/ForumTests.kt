@@ -158,7 +158,7 @@ class ForumTests {
     fun getAllAccessibleForumsByStudent() {
         val getUrl = "http://localhost:$port/API/forums"
         val jwtToken = restTemplate
-            .postForEntity("http://localhost:$port/API/login", professorCredentials, JwtResponse::class.java)
+            .postForEntity("http://localhost:$port/API/login", studentCredentials, JwtResponse::class.java)
             .body?.jwt ?: ""
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken)
