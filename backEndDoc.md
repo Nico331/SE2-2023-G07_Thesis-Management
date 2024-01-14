@@ -646,3 +646,32 @@ MessageDTO{
 
 
 -----
+# Degree Course
+
+## Course Object
+
+```json
+CourseDTO {
+	"id": nullable String,
+	"name": String,
+	"code": String,
+}
+
+```
+
+## Course APIs
+
+- Create a new Course
+	- POST ___`/API/courses`___
+	- Request body must contain a CourseDTO object with the `"id" = null`.
+- Get all existing Courses
+	- GET ___`/API/courses`___
+	- Return an array of CourseDTO objects. It contains all the courses in the database.
+- Get an existing Course
+	- GET ___`/API/courses/{courseID}`___
+	- Return the requested CourseDTO if exists, otherwise response code 404.
+- Delete an existing Course
+	- DELETE ___`/API/courses/{courseID}`___
+	- Return the status OK when success, NOT_FOUND otherwise.
+
+-----
