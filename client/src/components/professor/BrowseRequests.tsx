@@ -98,76 +98,44 @@ const BrowseRequests = () => {
     }, [showsuccessmodal.show]);
 
 
+    const handleSuccess = () => {
+        setShowAlertModal({
+            show: true,
+            type: "success",
+            text: "Request accepted"
+        });
+
+        // Chiudi automaticamente il popup dopo 3 secondi
+        setTimeout(() => {
+            setShowAlertModal({
+                show: false,
+                type: "",
+                text: ""
+            });
+            // Aggiorna la pagina dopo la chiusura del popup di successo
+            setRefresh((r) => !r);
+        }, 3000);
+    };
+
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);
         setRequestToAccept("");
-        RequestProposalService.acceptRequestProposalProf(applicationId).then(() => {
-            setShowAlertModal({
-                show: true,
-                type: "success",
-                text: "Request accepted"
-            });
-
-            // Chiudi automaticamente il popup dopo 3 secondi
-            setTimeout(() => {
-                setShowAlertModal({
-                    show: false,
-                    type: "",
-                    text: ""
-                });
-                // Aggiorna la pagina dopo la chiusura del popup di successo
-                setRefresh((r) => !r);
-            }, 3000);
-        });
-
+        await RequestProposalService.acceptRequestProposalProf(applicationId);
+        handleSuccess();
     };
 
     const handleReject = async (applicationId) => {
-
         setShowRejectPopup(false);
         setRequestToReject("");
-        RequestProposalService.rejectRequestProposalProf(applicationId).then(() => {
-            setShowAlertModal({
-                show: true,
-                type: "success",
-                text: "Request rejected"
-            });
-
-            // Chiudi automaticamente il popup dopo 3 secondi
-            setTimeout(() => {
-                setShowAlertModal({
-                    show: false,
-                    type: "",
-                    text: ""
-                });
-                // Aggiorna la pagina dopo la chiusura del popup di successo
-                setRefresh((r) => !r);
-            }, 3000);
-        });
+        await RequestProposalService.rejectRequestProposalProf(applicationId);
+        handleSuccess();
     };
 
     const handleChange = async (applicationId) => {
-
         setShowChangePopup(false);
         setRequestToChange("");
-        RequestProposalService.changeRequestProposalProf(applicationId, changeMessage, JSON.parse(user).id).then(() => {
-            setShowAlertModal({
-                show: true,
-                type: "success",
-                text: "Change request sent"
-            });
-
-            // Chiudi automaticamente il popup dopo 3 secondi
-            setTimeout(() => {
-                setShowAlertModal({
-                    show: false,
-                    type: "",
-                    text: ""
-                });
-                // Aggiorna la pagina dopo la chiusura del popup di successo
-                setRefresh((r) => !r);
-            }, 3000);
-        });
+        await RequestProposalService.changeRequestProposalProf(applicationId, changeMessage, JSON.parse(user).id);
+        handleSuccess();
     };
 
     const filteredRequests = myRequests.filter((request) => {

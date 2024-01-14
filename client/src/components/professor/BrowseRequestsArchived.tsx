@@ -1,32 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
     Accordion,
-    Card,
     Button,
-    Badge,
-    ListGroup,
     Modal,
     Table,
     Row,
     Col,
     Container,
-    Form,
-    Alert,
-    Nav, ButtonGroup, AccordionItem, AccordionHeader
+    ButtonGroup
 } from 'react-bootstrap';
-import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
-import dayjs from "dayjs";
-import ProposalService from "../../services/ProposalService";
-import UpdateProposal from "./UpdateProposal";
-import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
-import {FaRegCopy} from "react-icons/fa";
-import {BsPencil, BsTrash, BsArchive} from 'react-icons/bs';
 import RequestProposalService from "../../services/RequestProposalService";
 import StudentService from "../../services/StudentService";
-import DegreeService from "../../services/DegreeService";
 import CareerService from "../../services/CareerService"; // Import icons as needed
 
 
@@ -37,18 +24,11 @@ const BrowseRequestsArchived = () => {
 
     const [professors, setProfessors] = useState([]);
 
-    const [allRequests, setAllRequests] = useState([]);
     const [myRequests, setMyRequests] = useState([])
 
     const [students, setStudents] = useState([]);
     const [exams, setExams] = useState([]);
 
-
-    const [showAcceptPopup, setShowAcceptPopup] = useState(false);
-    const [requestToAccept, setRequestToAccept] = useState("");
-
-    const [showRejectPopup, setShowRejectPopup] = useState(false);
-    const [requestToReject, setRequestToReject] = useState("");
 
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
 
@@ -111,13 +91,11 @@ const BrowseRequestsArchived = () => {
             request.secretaryStatus === 'REJECTED'
         );
 
-        if (filter === 'supervisor') {
-            return isStatusAcceptedOrRejected && request.supervisorId === userId;
-        } else if (filter === 'cosupervisor') {
-            return isStatusAcceptedOrRejected && request.coSupervisors.includes(userId);
-        } else {
-            return isStatusAcceptedOrRejected; // Se il filtro è 'all', restituisci tutte le richieste
-        }
+        return (
+            (filter === 'supervisor' && isStatusAcceptedOrRejected && request.supervisorId === userId) ||
+            (filter === 'cosupervisor' && isStatusAcceptedOrRejected && request.coSupervisors.includes(userId)) ||
+            (filter === 'all' && isStatusAcceptedOrRejected)
+        );
     });
 
     return (
