@@ -1,6 +1,5 @@
 package it.polito.server.proposal
 
-import it.polito.server.externalcosupervisor.ExternalCoSupervisor
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import java.time.LocalDate
 

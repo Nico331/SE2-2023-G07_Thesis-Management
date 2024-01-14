@@ -74,9 +74,6 @@ class RequestProposalService (
     fun existsByTitleAndStudentId (requestProposalTitle : String, requestProposalStudentId : String): Boolean {
         return requestProposalRepository.existsRequestProposalByTitleAndStudentId (requestProposalTitle, requestProposalStudentId)
     }
-    fun existsByStudentId (requestProposalStudentId : String): Boolean {
-        return requestProposalRepository.existsRequestProposalByStudentId (requestProposalStudentId)
-    }
 
     fun findAllRequestProposalsByStudent(studentId : String) : ResponseEntity <Any> {
 

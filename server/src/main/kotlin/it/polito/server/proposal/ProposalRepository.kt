@@ -2,7 +2,6 @@ package it.polito.server.proposal
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import java.time.LocalDate
-import java.util.*
 
 interface ProposalRepository : MongoRepository<Proposal, String> {
 

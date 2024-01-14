@@ -1,12 +1,8 @@
 package it.polito.server.proposal
 
-import it.polito.server.externalcosupervisor.ExternalCoSupervisor
-import it.polito.server.professor.ProfessorRepository
-import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import java.util.Date
 
 @RestController
 @RequestMapping("/API/proposals")
@@ -14,8 +10,6 @@ class ProposalController (private val proposalService: ProposalService){
 
     @PostMapping("")
     fun createProposal(@RequestBody proposal: ProposalDTO): ResponseEntity<Any> {
-        /*if (proposalService.existsByTitleAndSupervisor(proposal.title, proposal.supervisor))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Proposal with same title and supervisor already in the database")*/
         val newProposal = proposalService.createProposal(proposal)
         return ResponseEntity(newProposal, HttpStatus.CREATED)
     }

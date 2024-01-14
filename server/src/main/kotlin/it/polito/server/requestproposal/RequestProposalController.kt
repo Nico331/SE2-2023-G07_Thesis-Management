@@ -1,6 +1,5 @@
 package it.polito.server.requestproposal
 
-import it.polito.server.forum.UserRole
 import it.polito.server.professor.ProfessorService
 import org.springframework.web.bind.annotation.*
 import org.springframework.http.HttpStatus
@@ -91,7 +90,7 @@ class RequestProposalController (private val requestProposalService: RequestProp
             val requestProposals = requestProposalService.getAllOngoingRequestsByProfessorId(userId)
             ResponseEntity.ok(requestProposals)
         } catch (ex: Exception){
-            ResponseEntity.badRequest().build();
+            ResponseEntity.badRequest().build()
         }
     }
 }

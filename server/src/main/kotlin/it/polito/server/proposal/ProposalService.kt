@@ -90,7 +90,7 @@ class ProposalService (
             archiviation_type.NOT_ARCHIVED
         else
             archiviation_type.EXPIRED
-        ).toDBObj())?.toDTO(externalCoSupervisorRepository)
+        ).toDBObj()).toDTO(externalCoSupervisorRepository)
     }
 
     fun createProposal(proposal: ProposalDTO): ProposalDTO {
