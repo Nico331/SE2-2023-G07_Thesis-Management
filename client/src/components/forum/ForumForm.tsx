@@ -20,11 +20,13 @@ const ForumForm: React.FC = () => {
     const [error, setError] = useState("");
 
     useEffect(()=>{
-       const res = getTheses();
-       res.then(r=>{
-           setTheses(r);
-       })
-           .catch(e=>{console.log(e)});
+       setTimeout(()=>{
+           const res = getTheses();
+           res.then(r=>{
+               setTheses(r);
+           })
+               .catch(e=>{console.log(e)});
+       },30)
     },[])
 
     const handleSubmit = (e: React.FormEvent) => {

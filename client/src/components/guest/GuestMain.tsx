@@ -1,6 +1,6 @@
 import React from 'react';
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const GuestMain: React.FC = () => {
 
@@ -36,7 +36,7 @@ const GuestMain: React.FC = () => {
                 // {/*        </p>*/}
                 // {/*    </Col>*/}
                 // {/*</Row>*/}
-            
+
     );
 };
 

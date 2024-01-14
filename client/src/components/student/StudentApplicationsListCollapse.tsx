@@ -7,6 +7,7 @@ import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import RequestProposalService from "../../services/RequestProposalService";
+import {handleDownload} from "../professor/ArchivedProposals";
 
 interface Request {
     id: string | null;
@@ -94,27 +95,6 @@ const StudentApplicationsListCollapse = () => {
                         const supervisor = supervisors.find(s => s.id === proposal.supervisor);
                         const expiration = new Date(proposal.expiration).toDateString();
 
-                        const handleDownload = () => {
-                            const { content, name, contentType } = application.file;
-
-                            const binaryString = atob(content);
-                            const byteArr = new Uint8Array(binaryString.length);
-                            for (let i = 0; i < binaryString.length; i++) {
-                                byteArr[i] = binaryString.charCodeAt(i);
-                            }
-
-                            const byteArray = new Int8Array(content);
-                            const blob = new Blob([byteArr], { type: contentType });
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = name;
-                            a.className = "button";
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            window.URL.revokeObjectURL(url);
-                        };
 
 
                         return (
@@ -231,7 +211,7 @@ const StudentApplicationsListCollapse = () => {
                                     {application.file && <Row>
                                         <Col>
                                             <b>Attachment: &nbsp;
-                                                <Button onClick={handleDownload}>
+                                                <Button onClick={()=>handleDownload(application)}>
                                                     Download File
                                                 </Button>
                                             </b>

@@ -13,6 +13,7 @@ import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
+import {handleDownload} from "./ArchivedProposals";
 
 
 const BrowseApplicationsAsCosupervisor = () => {
@@ -37,29 +38,6 @@ const BrowseApplicationsAsCosupervisor = () => {
     }, []);
 
     const [proposals, setProposals] = useState([]);
-    const handleDownload = (application) => {
-        const {content, name, contentType} = application.file;
-
-        const binaryString = atob(content);
-        const byteArr = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            byteArr[i] = binaryString.charCodeAt(i);
-        }
-
-        //const blob = new Blob([byteArray]);
-
-        const byteArray = new Int8Array(content);
-        const blob = new Blob([byteArr], {type: contentType});
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        a.className = "button";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-    };
     return (
         <>
             <Container className="d-flex flex-column">

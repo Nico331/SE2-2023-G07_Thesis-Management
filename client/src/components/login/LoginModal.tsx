@@ -1,11 +1,10 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import LoginBody from './LoginBody';
 
 interface LoginModalProps {
     show: boolean;
     close: () => void;
-    errorLogin?: string; // Rendi questa prop opzionale se non è sempre passata
+    errorLogin?: string;
 }
 
 const LoginModal: React.FC<LoginModalProps> = (props) => {
@@ -14,7 +13,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
             <Modal.Header closeButton>
                 <Modal.Title></Modal.Title>
             </Modal.Header>
-            <LoginBody errorLogin={props.errorLogin} close={props.close} />
+            {/*<LoginBody errorLogin={props.errorLogin} close={props.close} />*/}
         </Modal>
     );
 };

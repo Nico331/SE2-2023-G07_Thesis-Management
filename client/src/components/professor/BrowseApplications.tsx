@@ -23,7 +23,8 @@ import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import { FaRegCopy } from "react-icons/fa";
-import { BsPencil, BsTrash, BsArchive } from 'react-icons/bs'; // Import icons as needed
+import { BsPencil, BsTrash, BsArchive } from 'react-icons/bs';
+import {handleDownload} from "./ArchivedProposals"; // Import icons as needed
 
 
 const BrowseApplications = () => {
@@ -89,29 +90,6 @@ const BrowseApplications = () => {
         }
     }, [showsuccessmodal.show]);
 
-    const handleDownload = (application) => {
-        const {content, name, contentType} = application.file;
-
-        const binaryString = atob(content);
-        const byteArr = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            byteArr[i] = binaryString.charCodeAt(i);
-        }
-
-        //const blob = new Blob([byteArray]);
-
-        const byteArray = new Int8Array(content);
-        const blob = new Blob([byteArr], {type: contentType});
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        a.className = "button";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-    };
 
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);

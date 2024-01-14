@@ -15,7 +15,7 @@ jobs:
         ports:
           - 27017:27017
         options: >-
-          --name mongodb
+          --name mongo_db_se
           -v ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       postgres:
         image: postgres
