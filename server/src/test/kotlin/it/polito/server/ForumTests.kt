@@ -9,7 +9,6 @@ import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.security.JwtResponse
 import it.polito.server.security.LoginCredentials
-import it.polito.server.student.StudentService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,10 +53,6 @@ class ForumTests {
     lateinit var restTemplate: TestRestTemplate
 
     @Autowired
-    lateinit var forumService: ForumService
-    @Autowired
-    lateinit var studentService: StudentService
-    @Autowired
     lateinit var professorRepository: ProfessorRepository
     @Autowired
     lateinit var forumRepository: ForumRepository
@@ -71,7 +66,7 @@ class ForumTests {
         .create()
 
 
-    final val myProfessor1 = Professor (
+    private final val myProfessor1 = Professor (
             id = "p300001",
             name = "Mario",
             surname = "Rossi",
@@ -79,7 +74,7 @@ class ForumTests {
             codGroup = "24680",
             codDepartment = "55555"
     )
-    final val forumId = "ForumId"
+    private final val forumId = "ForumId"
 //    val myThesis =  RequestProposal(
 //        id = "1",
 //        title = "Title",

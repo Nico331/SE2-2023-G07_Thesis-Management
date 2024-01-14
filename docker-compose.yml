@@ -3,7 +3,7 @@ services:
   mongoDB:
     image: 'mongo'
     restart: 'always'
-    container_name: mongo_db_se
+    container_name: mongodb
     ports:
       - '27017:27017'
       #environment:
