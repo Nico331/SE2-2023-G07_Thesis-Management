@@ -6,19 +6,14 @@ import it.polito.server.clock.ClockController
 import it.polito.server.clock.ClockService
 import it.polito.server.email.EmailService
 import it.polito.server.proposal.ProposalRepository
-import it.polito.server.student.StudentController
-import it.polito.server.student.StudentDTO
-import it.polito.server.student.StudentService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalUnit
 
 @CoderseeGenerated
 class VirtualCLokUnitTest {

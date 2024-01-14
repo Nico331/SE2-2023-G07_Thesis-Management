@@ -2,8 +2,6 @@ package it.polito.server
 
 import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
-import it.polito.server.professor.Professor
-import it.polito.server.professor.ProfessorDTO
 import it.polito.server.proposal.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -12,9 +10,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
 import it.polito.server.professor.ProfessorService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.Optional
 
 //@Testcontainers
@@ -468,40 +463,40 @@ class ProposalUnitTests {
     @Test
     fun testFindActiveProposalsBySupervisorNoActiveProposals() {
         val supervisor = "TestSupervisor"
-        val activeProposalDTOList = listOf(
-                ProposalDTO(
-                        id = "1",
-                        title = "Active Proposal 1",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "Description 1",
-                        requiredKnowledge = "Knowledge 1",
-                        notes = "Notes 1",
-                        expiration = LocalDate.now().plusMonths(2),
-                        level = "Master",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.EXPIRED
-                ),
-                ProposalDTO(
-                        id = "2",
-                        title = "Active Proposal 2",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Kotlin", "Spring"),
-                        type = "Thesis",
-                        groups = listOf("Group2", "Group3"),
-                        description = "Description 2",
-                        requiredKnowledge = "Knowledge 2",
-                        notes = "Notes 2",
-                        expiration = LocalDate.now().plusMonths(3),
-                        level = "PhD",
-                        cdS = listOf("CD2", "CD3"),
-                        archived = archiviation_type.MANUALLY_ARCHIVED
-                )
-        )
+//        val activeProposalDTOList = listOf(
+//                ProposalDTO(
+//                        id = "1",
+//                        title = "Active Proposal 1",
+//                        supervisor = supervisor,
+//                        coSupervisors = listOf("Jane Smith"),
+//                        keywords = listOf("Java", "Spring"),
+//                        type = "Research",
+//                        groups = listOf("Group1", "Group2"),
+//                        description = "Description 1",
+//                        requiredKnowledge = "Knowledge 1",
+//                        notes = "Notes 1",
+//                        expiration = LocalDate.now().plusMonths(2),
+//                        level = "Master",
+//                        cdS = listOf("CD1", "CD2"),
+//                        archived = archiviation_type.EXPIRED
+//                ),
+//                ProposalDTO(
+//                        id = "2",
+//                        title = "Active Proposal 2",
+//                        supervisor = supervisor,
+//                        coSupervisors = listOf("Jane Smith"),
+//                        keywords = listOf("Kotlin", "Spring"),
+//                        type = "Thesis",
+//                        groups = listOf("Group2", "Group3"),
+//                        description = "Description 2",
+//                        requiredKnowledge = "Knowledge 2",
+//                        notes = "Notes 2",
+//                        expiration = LocalDate.now().plusMonths(3),
+//                        level = "PhD",
+//                        cdS = listOf("CD2", "CD3"),
+//                        archived = archiviation_type.MANUALLY_ARCHIVED
+//                )
+//        )
 
         `when`(proposalService.findActiveProposalsBySupervisor(supervisor)).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Supervisor '$supervisor' has NO ACTIVE proposals."))
 

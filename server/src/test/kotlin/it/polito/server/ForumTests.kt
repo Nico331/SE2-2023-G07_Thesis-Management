@@ -7,16 +7,12 @@ import com.google.gson.JsonSerializer
 import it.polito.server.forum.*
 import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorRepository
-import it.polito.server.professor.ProfessorService
-import it.polito.server.requestproposal.RequestProposal
-import it.polito.server.requestproposal.RequestProposalStatus
 import it.polito.server.security.JwtResponse
 import it.polito.server.security.LoginCredentials
 import it.polito.server.student.StudentService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Retry.Topic
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -32,7 +28,6 @@ import org.testcontainers.shaded.com.google.common.reflect.TypeToken
 import org.testcontainers.utility.DockerImageName
 import java.net.URI
 import java.time.Instant
-import java.time.LocalDate
 
 @Testcontainers
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +37,7 @@ class ForumTests {
     companion object {
         @Container
         val mongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo")).apply {
-            withExposedPorts(27017) // Default port for MongoDB
+            withExposedPorts(27017)
         }
 
         @JvmStatic
@@ -76,7 +71,7 @@ class ForumTests {
         .create()
 
 
-    val myProfessor1 = Professor (
+    final val myProfessor1 = Professor (
             id = "p300001",
             name = "Mario",
             surname = "Rossi",
@@ -84,18 +79,18 @@ class ForumTests {
             codGroup = "24680",
             codDepartment = "55555"
     )
-    val forumId = "ForumId"
-    val myThesis =  RequestProposal(
-        id = "1",
-        title = "Title",
-        studentId = "StudentId",
-        supervisorId = "supervisorId",
-        description = "description",
-        coSupervisors = listOf("1","2"),
-        acceptanceDate = LocalDate.now(),
-        secretaryStatus = RequestProposalStatus.ACCEPTED,
-        supervisorStatus = RequestProposalStatus.ACCEPTED
-    )
+    final val forumId = "ForumId"
+//    val myThesis =  RequestProposal(
+//        id = "1",
+//        title = "Title",
+//        studentId = "StudentId",
+//        supervisorId = "supervisorId",
+//        description = "description",
+//        coSupervisors = listOf("1","2"),
+//        acceptanceDate = LocalDate.now(),
+//        secretaryStatus = RequestProposalStatus.ACCEPTED,
+//        supervisorStatus = RequestProposalStatus.ACCEPTED
+//    )
     val myTopic = Forum(
         id = forumId,
         name = "Name",
@@ -118,7 +113,7 @@ class ForumTests {
     fun getOneForum() {
         val getUrl = "http://localhost:$port/API/forums/$forumId"
         val jwtToken = restTemplate
-            .postForEntity("http://localhost:$port/API/login", professorCredentials, JwtResponse::class.java)
+            .postForEntity("http://localhost:$port/API/login", studentCredentials, JwtResponse::class.java)
             .body?.jwt ?: ""
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken)

@@ -1,19 +1,13 @@
-package it.polito.serve
+package it.polito.server
 
 import it.polito.server.annotations.CoderseeGenerated
-import it.polito.server.requestproposal.RequestProposalDTO
-import it.polito.server.secretary.Secretary
 import it.polito.server.secretary.SecretaryController
 import it.polito.server.secretary.SecretaryDTO
 import it.polito.server.secretary.SecretaryService
-import it.polito.server.student.StudentService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import java.time.LocalDate
-import java.util.Optional
 @CoderseeGenerated
 class SecretaryUnitTests {
 

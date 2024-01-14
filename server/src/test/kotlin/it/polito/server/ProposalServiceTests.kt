@@ -3,7 +3,6 @@ import io.mockk.*
 import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.appliedproposal.*
 import it.polito.server.email.EmailService
-import it.polito.server.externalcosupervisor.ExternalCoSupervisor
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
