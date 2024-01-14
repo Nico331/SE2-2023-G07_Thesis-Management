@@ -10,102 +10,48 @@
 3. [Virtual Clock](#VC)
 4. [Are you a student?](#student)
 
-   4.1. [Proposal List](#search)
+   4.1 [Proposal List](#search)
    
-   4.2. [Apply for a thesis proposal](#apply)
+   4.2 [Apply For A Thesis Proposal](#apply)
 
-   4.3. [My Applications](#apps)
+   4.3 [My Applications](#apps)
 
-   4.4  [New Thesis Request](#newthesisrequest)
+   4.4 [New Thesis Request](#newthesisrequest)
+
+   4.5 [My Thesis Request](#mythesisrequest)
+
+   4.6  [Forum](#forumstud)
 5. [Are you a professor?](#professor)
 
-   5.1. [Add a new proposal](#add)
+   5.1 [Add a new proposal](#add)
 
-   5.2. [My thesis proposal](#props)
+   5.2 [My thesis proposal](#props)
 
-   5.3 [Archive](#archive)
+   5.3 [Co-supervised Proposals](#cosupervised)
+
+   5.4 [Archive](#archive)
+
+   5.5 [Pending Requests](#pendingrequests)
+
+   5.6 [Archived Requests](#archivedrequests)
+
+   5.7 [Forum](#forumprof)
 6. [Are you a secretary?](#secretary)
 
-   6.1 [Requested proposals](#requestedproposals)
+   6.1 [Requested Proposals](#requestedproposals)
 
 ## 1 Introduction <a name="introduction"></a>
 
-Welcome to Polito Thesis Management System Prototype, the perfect solution to facilitate the thesis management for
+Welcome to Polito Thesis Management System, the perfect solution to facilitate the thesis management for
 student and professor of Politecnico of Turin.
+
+The software is completely compatible with smartphones and medium size devices.
 
 Let's take a look at the system's features and how to use them.
 
-[//]: # (## 2 Prerequisites <a name="prerequisites"></a>)
-
-[//]: # ()
-[//]: # (Before you begin, make sure you have installed:)
-
-[//]: # ()
-[//]: # (- Docker)
-
-[//]: # (- Docker Compose)
-
-[//]: # (- Node.js and npm)
-
-[//]: # (- JDK &#40;Java Development Kit&#41; version 17 or newer)
-
-[//]: # (- Gradle)
-
-[//]: # ()
-[//]: # (Is recommended to use Intellij Idea)
-
-[//]: # ()
-[//]: # (## 3 Installation and Execution <a name="installation"></a>)
-
-[//]: # ()
-[//]: # (Follow these steps to install and start the system.)
-
-[//]: # ()
-[//]: # (Note: Every step should be performed from the project directory using a terminal.)
-
-[//]: # ()
-[//]: # (1. To start the containers, run the commands:)
-
-[//]: # (```)
-
-[//]: # (   docker-compose up -d mongoDB)
-
-[//]: # (   docker-compose up -d postgres)
-
-[//]: # (   docker-compose up -d keycloak)
-
-[//]: # (```)
-
-[//]: # (2. To start the server, run the commands:)
-
-[//]: # (``` )
-
-[//]: # (    cd server)
-
-[//]: # (    ./gradlew build)
-
-[//]: # (    ./gradlew bootRun)
-
-[//]: # (```)
-
-[//]: # (3. To start the client, run the commands:)
-
-[//]: # (```)
-
-[//]: # (    cd client)
-
-[//]: # (    npm install)
-
-[//]: # (    npm start)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (Now you are ready to start! let's take a look at the system's features and how to use them.)
-
 ## 2 Login <a name="login"/>
 
-First of all from the initial page you can log in with one of the following default username.
+From the initial page you can log in with one of the following default usernames.
 
 The **password** is the email part before the '@' for all users. For example, if the user email is
 **'s100001@studenti.polito.it'** the password will be **'s100001'**
@@ -142,12 +88,14 @@ pages will change their data depending on the Virtual Clock value.
 
 ## 4 Are you a student? <a name="student"/>
 
-From the main page you can choose between three options each with its own button which will redirect you to the
+From the main page you can choose between some options each with its own button which will redirect you to the
 appropriate page:
 
 - proposal List
 - My Applications
 - New Thesis Request
+- My Thesis Request
+- Forum
 
 In every moment you can change page or logout browsing the **menu** in the top right part of the pages.
 
@@ -155,7 +103,7 @@ In every moment you can change page or logout browsing the **menu** in the top r
 
 ### 4.1 Proposal List <a name="search"/>
 
-This page presents on the right side the **list of available proposals** and on the left side the **filters board**.
+This page presents on the **list of available proposals** and the **filters board**.
 
 Clicking the **rounded arrow** the list will be updated, maybe the proposal you are searching for has been just added. 
 
@@ -165,17 +113,17 @@ more than one options for each field).
 You can scroll down the list searching for an interesting proposal. Clicking on a proposal you will open a collapsable
 window (click another time on the proposal to close it). This window shows the proposal's course of study, the
 expiration date and a button that will open a modal containing all the proposal information. From this modal you can
-go to the **application page** using the "Apply" button.
+go to the **application page** using the **"Apply"** button.
 
 The button to show the proposal details is disabled in case you already have an 
 "<span style="color:green">ACCEPTED</span>" or a "<span style="color:yellow">PENDING</span>" application.
 
 <img src="guideImages/propsList.png" alt="drawing" width="500"/>
 
-### 4.2 Apply for a thesis proposal <a name="apply"/>
+### 4.2 Apply For A Thesis Proposal <a name="apply"/>
 
 The application page shows information about you and your university career. The page offers you the possibility to
-attach a PDF **document** (your CV for example).
+attach a **PDF document** (your CV for example).
 You can send your application with the "Apply" button at the end of the page, then you'll get a message based on the
 application outcome.
 
@@ -183,13 +131,13 @@ application outcome.
 
 ### 4.3 My Applications <a name="apps"/>
 
-In this page your applications are listed and by clicking them you can see their information, especially the **"status"**
+In this page you can see your applications with the respective information, especially the **"status"**
 that could be:
-- "<span style="color:yellow">PENDING</span>", the proposal supervisor hasn't managed your application yet.
-- "<span style="color:red">REJECTED</span>", your application has been rejected by the supervisor.
-- "<span style="color:red">CANCELLED</span>", the professor has chosen another applicant, the proposal is expired, or
+- PENDING, the proposal supervisor hasn't managed your application yet.
+- REJECTED, your application has been rejected by the supervisor.
+- CANCELLED, the professor has chosen another applicant, the proposal is expired, or 
 it has been archived by the professor so your application has been indirectly rejected.
-- "<span style="color:green">ACCEPTED</span>", your application has been accepted by the supervisor.
+- ACCEPTED, your application has been accepted by the supervisor.
 
 <img src="guideImages/studentApplications.png" alt="drawing" width="500"/>
 
@@ -201,6 +149,16 @@ form click the submit button to send the request. If you miss one of the mandato
 alert.
 
 <img src="guideImages/newThesisRequest.png" alt="drawing" width="500"/>
+
+### 4.5 My Thesis Request <a name="mythesisrequest"/>
+
+This page shows your thesis request (if you have one) and gives oyu the possibility to edit it clicking the button:
+**"enable edit mode"**, by this way you can modify the request's data or delete the request. Remember to submit the
+changes clicking the button **"Modify request"**.
+
+<img src="guideImages/myThesisRequest.png" alt="drawing" width="500"/>
+
+### 4.6 Forum <a name="forumstud"/>
 
 ## 5 Are you a professor? <a name="professor"/>
 
@@ -215,7 +173,7 @@ In every moment you can change page or logout browsing the **menu** in the top r
 
 <img src="guideImages/professorMain.png" alt="drawing" width="500"/>
 
-### 5.1 Add a new thesis proposal <a name="add"/>
+### 5.1 Add A New Thesis Proposal <a name="add"/>
 
 This page contains the form to add a **new proposal**. You can add your new thesis proposal filling the form and
 submitting it. Pay attention, before you submit the form make sure that the **mandatory fields** (marked with an "*")
@@ -225,7 +183,7 @@ Note that for some fields like Co-supervisors (internal and external), Research 
 
 <img src="guideImages/addForm.png" alt="drawing" width="500"/>
 
-### 5.2 My thesis proposals <a name="props"/>
+### 5.2 My Thesis Proposals <a name="props"/>
 
 This page displays your thesis proposals and the respective application. From this page you are able to operate on your
 personal proposals, in particular you can:
@@ -240,12 +198,24 @@ applications cancelled.
 
 <img src="guideImages/professorProposal.png" alt="drawing" width="500"/>
 
-### 5.3 Archive <a name ="archive"/>
+### 5.3 Co-supervised Proposals <a name ="cosupervised"/>
+
+Here you will find all the proposals where you are assigned as a co-supervisors. This is a read-only page.
+
+<img src="guideImages/cosupervisedProposals.png" alt="drawing" width="500"/>
+
+### 5.4 Archive <a name ="archive"/>
 
 All the expired, manually archived and assigned proposals goes here. Each proposal has a modify button which permits
 you to edit and then restore an archived proposal.
 
 <img src="guideImages/archive.png" alt="drawing" width="500"/>
+
+### 5.5 Pending Requests <a name ="pendingrequests"/>
+
+### 5.6 Archived Requests <a name ="archivedrequests"/>
+
+### 5.7 Forum <a name ="forumprof"/>
 
 ## 6 Are you a secretary? <a name ="secretary"/>
 
@@ -259,7 +229,7 @@ In every moment you can change page or logout browsing the **menu** in the top r
 
 ### 6.1 Requested proposals <a name ="requestedproposals"/>
 
-You can see all the accepted applications each with the information about the proposal and the applicant. From this
-page you can accept or reject an applications.
+You can see all the requested thesis proposals made by the students each with the information about the proposal and the
+applicant. From this page you can accept or reject a proposal request.
 
 <img src="guideImages/requestedProposals.png" alt="drawing" width="500"/>

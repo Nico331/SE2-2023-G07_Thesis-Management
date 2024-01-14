@@ -62,7 +62,7 @@ const StudentMain = () => {
                         <ZoomableContainer id={"newThesisRequest"} title={"New Thesis Request"} link={"/requestForm"} description={"Insert a new thesis request"}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
-                        <ZoomableContainer id={"myThesisRequest"} title={"My thesis request"} link={"/request"} description={"See and modify your thesis request"}></ZoomableContainer>
+                        <ZoomableContainer id={"myThesisRequest"} title={"My Thesis Request"} link={"/request"} description={"See and modify your thesis request"}></ZoomableContainer>
                         <ZoomableContainer id={"forum"} title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>
                     </Row>
                 </Container>

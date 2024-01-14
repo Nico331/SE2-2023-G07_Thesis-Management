@@ -57,13 +57,13 @@ const ProfessorMain= () => {
                 <Container className="p-0">
                     <Row>
                         <ZoomableContainer id={"new-proposal"} title={"Add New Proposal"} link={"/add-proposal"} description={"Create a new thesis proposals compiling the respective form and add it to the proposal list."}></ZoomableContainer>
-                        <ZoomableContainer id={"my-proposal"} title={"My proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
-                        <ZoomableContainer id={"cosup-proposal"} title={"Cosupervised proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
+                        <ZoomableContainer id={"my-proposal"} title={"My Proposals"} link={"/browse-applications"} description={"Browse, archive, delete and edit your proposals."}></ZoomableContainer>
+                        <ZoomableContainer id={"cosup-proposal"} title={"Co-supervised Proposals"} link={"/browse-applications-cosupervisor"} description={"Browse, archive, delete and edit the proposals that you co-supervise."}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
                         <ZoomableContainer id={"archive-proposal"} title={"Archive"} link={"/archived-proposals"} description={"Explore your archive looking for old thesis proposals."}></ZoomableContainer>
-                        <ZoomableContainer id={"students-requests"} title={"Pending requests"} link={"/browse-requests"} description={"Browse, accept/reject  students' pending thesis requests."}></ZoomableContainer>
-                        <ZoomableContainer id={"students-requests-archived"} title={"Archived requests"} link={"/browse-requests-archived"} description={"Browse and ask to modify students' thesis requests."}></ZoomableContainer>
+                        <ZoomableContainer id={"students-requests"} title={"Pending Requests"} link={"/browse-requests"} description={"Browse, accept/reject  students' pending thesis requests."}></ZoomableContainer>
+                        <ZoomableContainer id={"students-requests-archived"} title={"Archived Requests"} link={"/browse-requests-archived"} description={"Browse and ask to modify students' thesis requests."}></ZoomableContainer>
                     </Row>
                     <Row className="justify-content-center">
                         <ZoomableContainer id={"forum"} title={"Forum"} link={"/forum"} description={"Check and comment your discussions on ongoing theses."}></ZoomableContainer>

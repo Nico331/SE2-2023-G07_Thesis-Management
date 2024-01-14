@@ -197,7 +197,7 @@ const RequestedProposals = () => {
 
                         <Accordion.Body style={{textAlign:'left'}}>
                             <Row className='w-100'>
-                                <Col md={6}><b>Tittle:</b> {proposal.title}</Col>
+                                <Col md={6}><b>Title:</b> {proposal.title}</Col>
                                 <Col md={6}><b>Student ID:</b> {proposal.studentId}</Col>
                             </Row>
                             <Row className='w-100' style={{marginTop: '10px'}}>
