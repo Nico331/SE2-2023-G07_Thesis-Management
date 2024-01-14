@@ -1,8 +1,5 @@
 package it.polito.server.professor
 
-import it.polito.server.professor.Professor
-import it.polito.server.professor.ProfessorDTO
-import it.polito.server.professor.ProfessorRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service

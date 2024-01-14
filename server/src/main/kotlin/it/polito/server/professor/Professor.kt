@@ -1,6 +1,5 @@
 package it.polito.server.professor;
 
-import it.polito.server.forum.ForumUser
 import it.polito.server.forum.ForumUserInterface
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
