@@ -1,4 +1,4 @@
-package it.polito.server
+//package it.polito.server
 //
 //import com.google.gson.Gson
 //import com.google.gson.GsonBuilder

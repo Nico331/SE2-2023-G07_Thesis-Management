@@ -71,42 +71,42 @@ class ForumService(
         }
     }
 
-    fun deleteForum(forumId: String, userId: String): ResponseEntity<Any> {
-        val forum = forumRepository.findById(forumId)
-        return if(forum.isPresent) {
-            if(forum.get().author!!.id==userId){
-                forumRepository.deleteById(forumId)
-                ResponseEntity.ok().build()
-            } else{
-                ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to delete this forum.")
-            }
-        } else {
-            throw ForumNotFoundException(forumId)
-        }
-    }
-
-    fun closeForum(forumId: String, userId: String): ResponseEntity<Any> {
-        val optionalForum = forumRepository.findById(forumId)
-        if (!optionalForum.isPresent) {
-            throw ForumNotFoundException(forumId)
-        }
-        val forum = optionalForum.get()
-        if (forum.author!!.id != userId) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to close this forum.")
-        }
-        forum.status = ForumStatus.CLOSED
-        val updatedForum = forumRepository.save(forum)
-        return ResponseEntity.ok(updatedForum.toDTO())
-    }
-
-
-    fun updateForumVisibility(forumId: String, visibility: ForumVisibility, userId: String): ResponseEntity<Any> {
-        val forum = forumRepository.findById(forumId).orElseThrow { ForumNotFoundException(forumId) }
-        if (forum.author!!.id != userId) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to modify this forum.")
-        }
-        forum.visibility = visibility
-        val updatedForum = forumRepository.save(forum)
-        return ResponseEntity.ok(updatedForum.toDTO())
-    }
+//    fun deleteForum(forumId: String, userId: String): ResponseEntity<Any> {
+//        val forum = forumRepository.findById(forumId)
+//        return if(forum.isPresent) {
+//            if(forum.get().author!!.id==userId){
+//                forumRepository.deleteById(forumId)
+//                ResponseEntity.ok().build()
+//            } else{
+//                ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to delete this forum.")
+//            }
+//        } else {
+//            throw ForumNotFoundException(forumId)
+//        }
+//    }
+//
+//    fun closeForum(forumId: String, userId: String): ResponseEntity<Any> {
+//        val optionalForum = forumRepository.findById(forumId)
+//        if (!optionalForum.isPresent) {
+//            throw ForumNotFoundException(forumId)
+//        }
+//        val forum = optionalForum.get()
+//        if (forum.author!!.id != userId) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to close this forum.")
+//        }
+//        forum.status = ForumStatus.CLOSED
+//        val updatedForum = forumRepository.save(forum)
+//        return ResponseEntity.ok(updatedForum.toDTO())
+//    }
+//
+//
+//    fun updateForumVisibility(forumId: String, visibility: ForumVisibility, userId: String): ResponseEntity<Any> {
+//        val forum = forumRepository.findById(forumId).orElseThrow { ForumNotFoundException(forumId) }
+//        if (forum.author!!.id != userId) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to modify this forum.")
+//        }
+//        forum.visibility = visibility
+//        val updatedForum = forumRepository.save(forum)
+//        return ResponseEntity.ok(updatedForum.toDTO())
+//    }
 }
