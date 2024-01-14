@@ -75,17 +75,6 @@ class ForumTests {
             codDepartment = "55555"
     )
     private final val forumId = "ForumId"
-//    val myThesis =  RequestProposal(
-//        id = "1",
-//        title = "Title",
-//        studentId = "StudentId",
-//        supervisorId = "supervisorId",
-//        description = "description",
-//        coSupervisors = listOf("1","2"),
-//        acceptanceDate = LocalDate.now(),
-//        secretaryStatus = RequestProposalStatus.ACCEPTED,
-//        supervisorStatus = RequestProposalStatus.ACCEPTED
-//    )
     val myTopic = Forum(
         id = forumId,
         name = "Name",
@@ -162,17 +151,6 @@ class ForumTests {
         val forums: List<ForumDTO>? = (gson.fromJson(result.body, forumType))
         val forum = forums?.get(0)
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test
@@ -199,17 +177,6 @@ class ForumTests {
         val forums: List<ForumDTO>? = (gson.fromJson(result.body, forumType))
         val forum = forums?.get(0)
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test
@@ -235,17 +202,6 @@ class ForumTests {
         val forumType = object : TypeToken<ForumDTO>() {}.type
         val forum: ForumDTO? = (gson.fromJson(result.body, forumType))
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test

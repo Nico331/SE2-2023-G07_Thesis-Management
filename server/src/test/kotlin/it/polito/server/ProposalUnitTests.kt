@@ -33,30 +33,29 @@ class ProposalUnitTests {
         professorService = mock(ProfessorService::class.java)
         proposalRepository = mock(ProposalRepository::class.java)
     }
-
+    val proposalDTO = ProposalDTO(
+        title = "Updated Proposal",
+        supervisor = "John Doe",
+        coSupervisors = listOf("Jane Smith"),
+        externalCoSupervisors = listOf(
+            ExternalCoSupervisorDTO("name1", "surname1", "email1"),
+            ExternalCoSupervisorDTO("name2", "surname2", "email2")
+        ),
+        keywords = listOf("Java", "Spring"),
+        type = "Research",
+        groups = listOf("Group1", "Group2"),
+        description = "Updated description",
+        requiredKnowledge = "Updated knowledge",
+        notes = "Updated notes",
+        expiration = LocalDate.now().plusMonths(1),
+        level = "Master",
+        cdS = listOf("CD1", "CD2"),
+        archived = archiviation_type.NOT_ARCHIVED
+    )
     @Test
     fun testUpdateProposal() {
         val proposalId = "1"
-        val updatedProposalDTO = ProposalDTO(
-                title = "Updated Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                externalCoSupervisors = listOf(
-                    ExternalCoSupervisorDTO("name1", "surname1", "email1"),
-                    ExternalCoSupervisorDTO("name2", "surname2", "email2")
-                ),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Updated description",
-                requiredKnowledge = "Updated knowledge",
-                notes = "Updated notes",
-                expiration = LocalDate.now().plusMonths(1),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
-
+        val updatedProposalDTO = proposalDTO
         `when`(proposalService.updateProposal(proposalId, updatedProposalDTO)).thenReturn(
                 ProposalDTO(
                         id = proposalId,
@@ -108,25 +107,7 @@ class ProposalUnitTests {
     @Test
     fun testUpdateNonExistingProposal() {
         val proposalId = "999"
-        val updatedProposalDTO = ProposalDTO(
-                title = "Updated Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                externalCoSupervisors = listOf(
-                        ExternalCoSupervisorDTO("name1", "surname1", "email1"),
-                        ExternalCoSupervisorDTO("name2", "surname2", "email2")
-                ),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Updated description",
-                requiredKnowledge = "Updated knowledge",
-                notes = "Updated notes",
-                expiration = LocalDate.now().plusMonths(1),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
+        val updatedProposalDTO = proposalDTO
 
         `when`(proposalService.updateProposal(proposalId, updatedProposalDTO)).thenReturn(null)
 
@@ -138,61 +119,17 @@ class ProposalUnitTests {
 
     @Test
     fun testCreateProposal() {
-        val newProposalDTO = ProposalDTO(
-                title = "New Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "New description",
-                requiredKnowledge = "New knowledge",
-                notes = "New notes",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "PhD",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
+        val newProposalDTO = proposalDTO
 
         `when`(proposalService.existsByTitleAndSupervisor(newProposalDTO.title, newProposalDTO.supervisor)).thenReturn(false)
         `when`(proposalService.createProposal(newProposalDTO)).thenReturn(
-                ProposalDTO(
-                        id = "2",
-                        title = "New Proposal",
-                        supervisor = "John Doe",
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "New description",
-                        requiredKnowledge = "New knowledge",
-                        notes = "New notes",
-                        expiration = LocalDate.now().plusMonths(2),
-                        level = "PhD",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                )
+                newProposalDTO
         )
 
         val responseEntity = proposalController.createProposal(newProposalDTO)
 
         assert(responseEntity.statusCode == HttpStatus.CREATED)
-        assert(responseEntity.body == ProposalDTO(
-                id = "2",
-                title = "New Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "New description",
-                requiredKnowledge = "New knowledge",
-                notes = "New notes",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "PhD",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        ))
+        assert(responseEntity.body == newProposalDTO)
     }
 
 //    @Test
@@ -224,22 +161,6 @@ class ProposalUnitTests {
     @Test
     fun testGetProposal() {
         val proposalId = "1"
-        val proposalDTO = ProposalDTO(
-                id = proposalId,
-                title = "Sample Proposal",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Sample description",
-                requiredKnowledge = "Sample knowledge",
-                notes = "Sample notes",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
 
         `when`(proposalService.findProposalById(proposalId)).thenReturn(proposalDTO)
 
@@ -263,22 +184,7 @@ class ProposalUnitTests {
     @Test
     fun testGetAllProposals() {
         val proposalDTOList = listOf(
-                ProposalDTO(
-                        id = "1",
-                        title = "Proposal 1",
-                        supervisor = "John Doe",
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "Description 1",
-                        requiredKnowledge = "Knowledge 1",
-                        notes = "Notes 1",
-                        expiration = LocalDate.now().plusMonths(2),
-                        level = "Master",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                ),
+                proposalDTO,
                 ProposalDTO(
                         id = "2",
                         title = "Proposal 2",
@@ -307,38 +213,9 @@ class ProposalUnitTests {
     @Test
     fun testGetActiveProposalsForStudent() {
         val studentId = "student123"
-        val activeProposals = listOf(ProposalDTO(
-                id = "1",
-                title = "Proposal 1",
-                supervisor = "John Doe",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Description 1",
-                requiredKnowledge = "Knowledge 1",
-                notes = "Notes 1",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        ),
-                ProposalDTO(
-                        id = "2",
-                        title = "Proposal 2",
-                        supervisor = "Jane Smith",
-                        coSupervisors = listOf("John Doe"),
-                        keywords = listOf("Kotlin", "Spring"),
-                        type = "Thesis",
-                        groups = listOf("Group2", "Group3"),
-                        description = "Description 2",
-                        requiredKnowledge = "Knowledge 2",
-                        notes = "Notes 2",
-                        expiration = LocalDate.now().plusMonths(3),
-                        level = "PhD",
-                        cdS = listOf("CD2", "CD3"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                ))
+        val activeProposals = listOf(
+                proposalDTO,
+                proposalDTO.copy(id = "2"))
 
         `when`(proposalService.findActiveByStudent(studentId)).thenReturn(activeProposals)
 
@@ -392,38 +269,7 @@ class ProposalUnitTests {
     fun testGetActiveProposalsBySupervisor() {
         val supervisor = "John Doe"
         val activeProposalDTOList = listOf(
-                ProposalDTO(
-                        id = "1",
-                        title = "Active Proposal 1",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "Description 1",
-                        requiredKnowledge = "Knowledge 1",
-                        notes = "Notes 1",
-                        expiration = LocalDate.now().plusMonths(2),
-                        level = "Master",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                ),
-                ProposalDTO(
-                        id = "2",
-                        title = "Active Proposal 2",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Kotlin", "Spring"),
-                        type = "Thesis",
-                        groups = listOf("Group2", "Group3"),
-                        description = "Description 2",
-                        requiredKnowledge = "Knowledge 2",
-                        notes = "Notes 2",
-                        expiration = LocalDate.now().plusMonths(3),
-                        level = "PhD",
-                        cdS = listOf("CD2", "CD3"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                )
+                proposalDTO, proposalDTO.copy(id = "2")
         )
 
         `when`(proposalService.findActiveProposalsBySupervisor(supervisor)).thenReturn(
@@ -540,22 +386,7 @@ class ProposalUnitTests {
     @Test
     fun testManuallyArchivedAlreadyArchivedProposal() {
         val proposalId = "1"
-        val proposalEntity = Proposal(
-                id = "1",
-                title = "Active Proposal 1",
-                supervisor = "supervisor",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Description 1",
-                requiredKnowledge = "Knowledge 1",
-                notes = "Notes 1",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.MANUALLY_ARCHIVED
-        )
+        val proposalEntity = proposalDTO.toDBObj()
 
         `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(proposalEntity))
         `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Proposal is already archived"))
@@ -569,22 +400,7 @@ class ProposalUnitTests {
     @Test
     fun testManuallyArchivedProposalError() {
         val proposalId = "1"
-        val proposalEntity = Proposal(
-                id = "1",
-                title = "Active Proposal 1",
-                supervisor = "supervisor",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Description 1",
-                requiredKnowledge = "Knowledge 1",
-                notes = "Notes 1",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.MANUALLY_ARCHIVED
-        )
+        val proposalEntity = proposalDTO.toDBObj()
 
         `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(proposalEntity))
         `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(
@@ -617,22 +433,7 @@ class ProposalUnitTests {
     fun testManuallyArchivedProposalNegativeExpiration() {
         val proposalId = "1"
 
-        val proposalEntity = Proposal(
-                id = proposalId,
-                title = "Active Proposal 1",
-                supervisor = "supervisor",
-                coSupervisors = listOf("Jane Smith"),
-                keywords = listOf("Java", "Spring"),
-                type = "Research",
-                groups = listOf("Group1", "Group2"),
-                description = "Description 1",
-                requiredKnowledge = "Knowledge 1",
-                notes = "Notes 1",
-                expiration = LocalDate.now().plusMonths(2),
-                level = "Master",
-                cdS = listOf("CD1", "CD2"),
-                archived = archiviation_type.NOT_ARCHIVED
-        )
+        val proposalEntity = proposalDTO.toDBObj()
 
         `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(proposalEntity))
         `when`(proposalService.manuallyArchivedProposal(proposalId)).thenReturn(
@@ -649,39 +450,7 @@ class ProposalUnitTests {
     @Test
     fun testGetArchivedProposalsBySupervisor() {
         val supervisor = "John Doe"
-        val archivedProposalDTOList = listOf(
-                ProposalDTO(
-                        id = "1",
-                        title = "Archived Proposal 1",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "Description 1",
-                        requiredKnowledge = "Knowledge 1",
-                        notes = "Notes 1",
-                        expiration = LocalDate.now().minusMonths(2),
-                        level = "Master",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.MANUALLY_ARCHIVED
-                ),
-                ProposalDTO(
-                        id = "2",
-                        title = "Archived Proposal 2",
-                        supervisor = supervisor,
-                        coSupervisors = listOf("Jane Smith"),
-                        keywords = listOf("Kotlin", "Spring"),
-                        type = "Thesis",
-                        groups = listOf("Group2", "Group3"),
-                        description = "Description 2",
-                        requiredKnowledge = "Knowledge 2",
-                        notes = "Notes 2",
-                        expiration = LocalDate.now().minusMonths(3),
-                        level = "PhD",
-                        cdS = listOf("CD2", "CD3"),
-                        archived = archiviation_type.EXPIRED
-                )
+        val archivedProposalDTOList = listOf(proposalDTO.copy(supervisor = supervisor),proposalDTO.copy(id = "2", supervisor = supervisor)
         )
 
         `when`(proposalService.findArchivedProposalsBySupervisor(supervisor))
@@ -738,39 +507,8 @@ class ProposalUnitTests {
     fun testGetProposalsByCoSupervisor() {
         val coSupervisorId = "coSupervisorId"
         val proposalDTOList = listOf(
-                ProposalDTO(
-                        id = "1",
-                        title = "Proposal 1",
-                        supervisor = "John Doe",
-                        coSupervisors = listOf(coSupervisorId),
-                        keywords = listOf("Java", "Spring"),
-                        type = "Research",
-                        groups = listOf("Group1", "Group2"),
-                        description = "Description 1",
-                        requiredKnowledge = "Knowledge 1",
-                        notes = "Notes 1",
-                        expiration = LocalDate.now().plusMonths(2),
-                        level = "Master",
-                        cdS = listOf("CD1", "CD2"),
-                        archived = archiviation_type.NOT_ARCHIVED
-                ),
-                ProposalDTO(
-                        id = "2",
-                        title = "Proposal 2",
-                        supervisor = "Jane Smith",
-                        coSupervisors = listOf(coSupervisorId),
-                        keywords = listOf("Kotlin", "Spring"),
-                        type = "Thesis",
-                        groups = listOf("Group2", "Group3"),
-                        description = "Description 2",
-                        requiredKnowledge = "Knowledge 2",
-                        notes = "Notes 2",
-                        expiration = LocalDate.now().plusMonths(3),
-                        level = "PhD",
-                        cdS = listOf("CD2", "CD3"),
-                        archived = archiviation_type.MANUALLY_ARCHIVED
-                )
-        )
+                proposalDTO.copy(coSupervisors = listOf(coSupervisorId)),
+                proposalDTO.copy(id = "2", coSupervisors = listOf(coSupervisorId)))
 
         `when`(proposalService.findProposalsByCoSupervisor(coSupervisorId)).thenReturn(
                 ResponseEntity.ok(proposalDTOList)
