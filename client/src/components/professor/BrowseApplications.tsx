@@ -24,7 +24,8 @@ import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import { FaRegCopy } from "react-icons/fa";
 import { BsPencil, BsTrash, BsArchive } from 'react-icons/bs';
-import {handleDownload} from "./ArchivedProposals"; // Import icons as needed
+import {handleDownload} from "./ArchivedProposals";
+import Browse from "../Browse"; // Import icons as needed
 
 
 const BrowseApplications = () => {
@@ -251,281 +252,283 @@ const BrowseApplications = () => {
                     </>
                     : null}
 
-                <Accordion className="mt-5">
-                    {
-                        proposals.length === 0 ? (
-                            <p> You don't have active proposals yet </p>
-                        ) : (
-                            proposals.map((proposal) => (
-                                    <Accordion.Item eventKey={proposal.id} key={proposal.id}>
-                                        <Accordion.Header>
-                                                {isScreenSmall ?
-                                                    <Container className="d-flex p-0 flex-column">
-                                                        <Row>
-                                                            <div className="col-sm-8">
-                                                                {proposal.title}&nbsp;
-                                                                {proposal.level === "Bachelor" && <Badge>
-                                                                    {proposal.level}
-                                                                </Badge>}
-                                                                {proposal.level === "Masters" && <Badge bg={"danger"}>
-                                                                    {proposal.level}
-                                                                </Badge>}
-                                                                {proposal.level === "PhD" && <Badge bg={"secondary"}>
-                                                                    {proposal.level}
-                                                                </Badge>}
-                                                            </div>
-                                                        </Row>
-                                                        <Row className="mt-4">
-                                                            <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>
-                                                        </Row>
-                                                    </Container>
-                                                        :
-                                                    <><Row className={"w-100"}>
-                                                        <div className="col-sm-8">
-                                                            {proposal.title}&nbsp;
-                                                            {proposal.level === "Bachelor" && <Badge>
-                                                                {proposal.level}
-                                                            </Badge>}
-                                                            {proposal.level === "Masters" && <Badge bg={"danger"}>
-                                                                {proposal.level}
-                                                            </Badge>}
-                                                            {proposal.level === "PhD" && <Badge bg={"secondary"}>
-                                                                {proposal.level}
-                                                            </Badge>}
-                                                        </div>
-                                                        <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>
-                                                    </Row></>
-                                                }
+                {/*<Accordion className="mt-5">*/}
+                {/*    {*/}
+                {/*        proposals.length === 0 ? (*/}
+                {/*            <p> You don't have active proposals yet </p>*/}
+                {/*        ) : (*/}
+                {/*            proposals.map((proposal) => (*/}
+                {/*                    <Accordion.Item eventKey={proposal.id} key={proposal.id}>*/}
+                {/*                        <Accordion.Header>*/}
+                {/*                                {isScreenSmall ?*/}
+                {/*                                    <Container className="d-flex p-0 flex-column">*/}
+                {/*                                        <Row>*/}
+                {/*                                            <div className="col-sm-8">*/}
+                {/*                                                {proposal.title}&nbsp;*/}
+                {/*                                                {proposal.level === "Bachelor" && <Badge>*/}
+                {/*                                                    {proposal.level}*/}
+                {/*                                                </Badge>}*/}
+                {/*                                                {proposal.level === "Masters" && <Badge bg={"danger"}>*/}
+                {/*                                                    {proposal.level}*/}
+                {/*                                                </Badge>}*/}
+                {/*                                                {proposal.level === "PhD" && <Badge bg={"secondary"}>*/}
+                {/*                                                    {proposal.level}*/}
+                {/*                                                </Badge>}*/}
+                {/*                                            </div>*/}
+                {/*                                        </Row>*/}
+                {/*                                        <Row className="mt-4">*/}
+                {/*                                            <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>*/}
+                {/*                                        </Row>*/}
+                {/*                                    </Container>*/}
+                {/*                                        :*/}
+                {/*                                    <><Row className={"w-100"}>*/}
+                {/*                                        <div className="col-sm-8">*/}
+                {/*                                            {proposal.title}&nbsp;*/}
+                {/*                                            {proposal.level === "Bachelor" && <Badge>*/}
+                {/*                                                {proposal.level}*/}
+                {/*                                            </Badge>}*/}
+                {/*                                            {proposal.level === "Masters" && <Badge bg={"danger"}>*/}
+                {/*                                                {proposal.level}*/}
+                {/*                                            </Badge>}*/}
+                {/*                                            {proposal.level === "PhD" && <Badge bg={"secondary"}>*/}
+                {/*                                                {proposal.level}*/}
+                {/*                                            </Badge>}*/}
+                {/*                                        </div>*/}
+                {/*                                        <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>*/}
+                {/*                                    </Row></>*/}
+                {/*                                }*/}
 
-                                            {/*<Row className={"w-100"}>*/}
-                                            {/*    <div className="col-sm-8">*/}
-                                            {/*        {proposal.title}&nbsp;*/}
-                                            {/*        {proposal.level === "Bachelor" && <Badge>*/}
-                                            {/*            {proposal.level}*/}
-                                            {/*        </Badge>}*/}
-                                            {/*        {proposal.level === "Masters" && <Badge bg={"danger"}>*/}
-                                            {/*            {proposal.level}*/}
-                                            {/*        </Badge>}*/}
-                                            {/*        {proposal.level === "PhD" && <Badge bg={"secondary"}>*/}
-                                            {/*            {proposal.level}*/}
-                                            {/*        </Badge>}*/}
-                                            {/*    </div>*/}
-                                            {/*    <div className="col-sm-8">*/}
-                                            {/*        {proposal.archived === "EXPIRED" && <Badge bg={"info"}>*/}
-                                            {/*            {proposal.archived}*/}
-                                            {/*        </Badge>}*/}
-                                            {/*    </div>*/}
-                                            {/*    <div className="col-sm-4">*/}
-                                            {/*        <ButtonGroup>*/}
-                                            {/*            <Button*/}
-                                            {/*                variant="primary"*/}
-                                            {/*                onClick={(e) => handlecopy(e, proposal.id)}*/}
-                                            {/*                id="copy-btn"*/}
-                                            {/*            >*/}
-                                            {/*                <FaRegCopy /> /!* Copy Icon *!/*/}
-                                            {/*            </Button>*/}
+                {/*                            /!*<Row className={"w-100"}>*!/*/}
+                {/*                            /!*    <div className="col-sm-8">*!/*/}
+                {/*                            /!*        {proposal.title}&nbsp;*!/*/}
+                {/*                            /!*        {proposal.level === "Bachelor" && <Badge>*!/*/}
+                {/*                            /!*            {proposal.level}*!/*/}
+                {/*                            /!*        </Badge>}*!/*/}
+                {/*                            /!*        {proposal.level === "Masters" && <Badge bg={"danger"}>*!/*/}
+                {/*                            /!*            {proposal.level}*!/*/}
+                {/*                            /!*        </Badge>}*!/*/}
+                {/*                            /!*        {proposal.level === "PhD" && <Badge bg={"secondary"}>*!/*/}
+                {/*                            /!*            {proposal.level}*!/*/}
+                {/*                            /!*        </Badge>}*!/*/}
+                {/*                            /!*    </div>*!/*/}
+                {/*                            /!*    <div className="col-sm-8">*!/*/}
+                {/*                            /!*        {proposal.archived === "EXPIRED" && <Badge bg={"info"}>*!/*/}
+                {/*                            /!*            {proposal.archived}*!/*/}
+                {/*                            /!*        </Badge>}*!/*/}
+                {/*                            /!*    </div>*!/*/}
+                {/*                            /!*    <div className="col-sm-4">*!/*/}
+                {/*                            /!*        <ButtonGroup>*!/*/}
+                {/*                            /!*            <Button*!/*/}
+                {/*                            /!*                variant="primary"*!/*/}
+                {/*                            /!*                onClick={(e) => handlecopy(e, proposal.id)}*!/*/}
+                {/*                            /!*                id="copy-btn"*!/*/}
+                {/*                            /!*            >*!/*/}
+                {/*                            /!*                <FaRegCopy /> /!* Copy Icon *!/*!/*/}
+                {/*                            /!*            </Button>*!/*/}
 
-                                            {/*            <Button*/}
-                                            {/*                variant="primary"*/}
-                                            {/*                onClick={(e) => handlemodify(e, proposal.id)}*/}
-                                            {/*                id="modify-btn"*/}
-                                            {/*            >*/}
-                                            {/*                <BsPencil /> /!* Pencil/Modify Icon *!/*/}
-                                            {/*            </Button>*/}
-                                            {/*            <Button*/}
-                                            {/*                variant="primary"*/}
-                                            {/*                onClick={(e) => {*/}
-                                            {/*                    e.stopPropagation();*/}
-                                            {/*                    setShowArchivePopup(() => true);*/}
-                                            {/*                    setProposalToArchive(proposal.id);*/}
-                                            {/*                }}*/}
-                                            {/*                id="archive-btn"*/}
-                                            {/*            >*/}
-                                            {/*                <BsArchive /> /!* Archive Icon *!/*/}
-                                            {/*            </Button>*/}
+                {/*                            /!*            <Button*!/*/}
+                {/*                            /!*                variant="primary"*!/*/}
+                {/*                            /!*                onClick={(e) => handlemodify(e, proposal.id)}*!/*/}
+                {/*                            /!*                id="modify-btn"*!/*/}
+                {/*                            /!*            >*!/*/}
+                {/*                            /!*                <BsPencil /> /!* Pencil/Modify Icon *!/*!/*/}
+                {/*                            /!*            </Button>*!/*/}
+                {/*                            /!*            <Button*!/*/}
+                {/*                            /!*                variant="primary"*!/*/}
+                {/*                            /!*                onClick={(e) => {*!/*/}
+                {/*                            /!*                    e.stopPropagation();*!/*/}
+                {/*                            /!*                    setShowArchivePopup(() => true);*!/*/}
+                {/*                            /!*                    setProposalToArchive(proposal.id);*!/*/}
+                {/*                            /!*                }}*!/*/}
+                {/*                            /!*                id="archive-btn"*!/*/}
+                {/*                            /!*            >*!/*/}
+                {/*                            /!*                <BsArchive /> /!* Archive Icon *!/*!/*/}
+                {/*                            /!*            </Button>*!/*/}
 
-                                            {/*            {proposal.applications.every(*/}
-                                            {/*                (application) => application.status !== 'ACCEPTED'*/}
-                                            {/*            ) && (*/}
-                                            {/*                <Button*/}
-                                            {/*                    variant="danger"*/}
-                                            {/*                    onClick={(e) => {*/}
-                                            {/*                        e.stopPropagation();*/}
-                                            {/*                        setShowDeletePopup(() => true);*/}
-                                            {/*                        setProposalToDelete(proposal.id);*/}
-                                            {/*                    }}*/}
-                                            {/*                    id="delete-btn"*/}
-                                            {/*                >*/}
-                                            {/*                    <BsTrash /> /!* Trash/Delete Icon *!/*/}
-                                            {/*                </Button>*/}
-                                            {/*            )}*/}
+                {/*                            /!*            {proposal.applications.every(*!/*/}
+                {/*                            /!*                (application) => application.status !== 'ACCEPTED'*!/*/}
+                {/*                            /!*            ) && (*!/*/}
+                {/*                            /!*                <Button*!/*/}
+                {/*                            /!*                    variant="danger"*!/*/}
+                {/*                            /!*                    onClick={(e) => {*!/*/}
+                {/*                            /!*                        e.stopPropagation();*!/*/}
+                {/*                            /!*                        setShowDeletePopup(() => true);*!/*/}
+                {/*                            /!*                        setProposalToDelete(proposal.id);*!/*/}
+                {/*                            /!*                    }}*!/*/}
+                {/*                            /!*                    id="delete-btn"*!/*/}
+                {/*                            /!*                >*!/*/}
+                {/*                            /!*                    <BsTrash /> /!* Trash/Delete Icon *!/*!/*/}
+                {/*                            /!*                </Button>*!/*/}
+                {/*                            /!*            )}*!/*/}
 
-                                            {/*        </ButtonGroup>*/}
-                                            {/*    </div>*/}
-                                            {/*</Row>*/}
+                {/*                            /!*        </ButtonGroup>*!/*/}
+                {/*                            /!*    </div>*!/*/}
+                {/*                            /!*</Row>*!/*/}
 
 
-                                        </Accordion.Header>
-                                        <Accordion.Body style={{textAlign: 'left'}}>
-                                            <Row>
-                                                <Col md={6}>
-                                                    <b>Thesis Title:</b> {proposal.title}
-                                                </Col>
-                                                <Col md={6}>
-                                                    <b>Supervisor:</b> {proposal.supervisor}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md={6}>
-                                                    <b>Co-Supervisor: </b>
-                                                    {proposal.coSupervisors.map((coSupervisor) => {
-                                                        const matchingProfessor = professors.find((professor) => professor.id === coSupervisor);
-                                                        return matchingProfessor ? (
-                                                            <span key={coSupervisor}>
-                                                        {matchingProfessor.name} {matchingProfessor.surname}, &nbsp;
-                                                    </span>
-                                                        ) : coSupervisor + ", ";
-                                                    })}
-                                                </Col>
-                                                <Col md={6}>
-                                                    <b>Type:</b> {proposal.type}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md={6}>
-                                                    <b>Required Knowledge:</b> {proposal.requiredKnowledge}
-                                                </Col>
-                                                <Col md={6}>
-                                                    <b>Level:</b> {proposal.level}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col md={6}>
-                                                    <b>CdS:</b> {proposal.cdS.map((cdS) => {
-                                                    return <>{cdS},</>
-                                                })}
-                                                </Col>
-                                                <Col md={6}>
-                                                    <b>Expiration
-                                                        Date:</b> {dayjs(proposal.expiration).toDate().toDateString()}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <b>Description:</b> {proposal.description}
-                                                </Col>
-                                                <Col>
-                                                    <b>Groups:</b> {proposal.groups.map((group) => {
-                                                    return <>{group},</>
-                                                })}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <b>Notes:</b> {proposal.notes}
-                                                </Col>
-                                            </Row>
+                {/*                        </Accordion.Header>*/}
+                {/*                        <Accordion.Body style={{textAlign: 'left'}}>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Thesis Title:</b> {proposal.title}*/}
+                {/*                                </Col>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Supervisor:</b> {proposal.supervisor}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Co-Supervisor: </b>*/}
+                {/*                                    {proposal.coSupervisors.map((coSupervisor) => {*/}
+                {/*                                        const matchingProfessor = professors.find((professor) => professor.id === coSupervisor);*/}
+                {/*                                        return matchingProfessor ? (*/}
+                {/*                                            <span key={coSupervisor}>*/}
+                {/*                                        {matchingProfessor.name} {matchingProfessor.surname}, &nbsp;*/}
+                {/*                                    </span>*/}
+                {/*                                        ) : coSupervisor + ", ";*/}
+                {/*                                    })}*/}
+                {/*                                </Col>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Type:</b> {proposal.type}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Required Knowledge:</b> {proposal.requiredKnowledge}*/}
+                {/*                                </Col>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Level:</b> {proposal.level}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>CdS:</b> {proposal.cdS.map((cdS) => {*/}
+                {/*                                    return <>{cdS},</>*/}
+                {/*                                })}*/}
+                {/*                                </Col>*/}
+                {/*                                <Col md={6}>*/}
+                {/*                                    <b>Expiration*/}
+                {/*                                        Date:</b> {dayjs(proposal.expiration).toDate().toDateString()}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col>*/}
+                {/*                                    <b>Description:</b> {proposal.description}*/}
+                {/*                                </Col>*/}
+                {/*                                <Col>*/}
+                {/*                                    <b>Groups:</b> {proposal.groups.map((group) => {*/}
+                {/*                                    return <>{group},</>*/}
+                {/*                                })}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
+                {/*                            <Row>*/}
+                {/*                                <Col>*/}
+                {/*                                    <b>Notes:</b> {proposal.notes}*/}
+                {/*                                </Col>*/}
+                {/*                            </Row>*/}
 
-                                            <h3 className="mt-3">Applications</h3>
-                                            <Accordion className="mt-3">
-                                                {proposal.applications.map((application, index) => (
-                                                    <Accordion.Item eventKey={application.id} id="applicaitons-btn">
-                                                        <Accordion.Header className={"w-100"}>
-                                                            <Row className={"w-100"}>
-                                                                <div className="col-sm-8">
-                                                                    <strong>Student:</strong> {application.student.name} {application.student.surname} &nbsp;&nbsp;
-                                                                    <strong>Status:</strong> {application.status}
-                                                                </div>
-                                                                <div className="col-sm-4">
-                                                                    {application.status === 'PENDING' && (
-                                                                        <>
-                                                                            <Button variant="success"
-                                                                                    onClick={(e) => {
-                                                                                        e.stopPropagation();
-                                                                                        setShowAcceptPopup(true);
-                                                                                        setApplicationToAccept(application.id);
-                                                                                    }}
-                                                                                    id="accept-btn">
-                                                                                Accept
-                                                                            </Button>{' '}
-                                                                            <Button variant="danger"
-                                                                                    onClick={(e) => {
-                                                                                        e.stopPropagation();
-                                                                                        setShowRejectPopup(true);
-                                                                                        setApplicationToReject(application.id);
-                                                                                    }}
-                                                                                    id="reject-btn">
-                                                                                Reject
-                                                                            </Button>
-                                                                        </>
-                                                                    )}
-                                                                    {application.status === 'CANCELLED' && (
-                                                                        <span style={{color: 'red'}}>CANCELLED</span>
-                                                                    )}
-                                                                    {application.status === 'ACCEPTED' && (
-                                                                        <span style={{color: 'green'}}>ACCEPTED</span>
-                                                                    )}
-                                                                    {application.status === 'REJECTED' && (
-                                                                        <span style={{color: 'red'}}>REJECTED</span>
-                                                                    )}
+                {/*                            <h3 className="mt-3">Applications</h3>*/}
+                {/*                            <Accordion className="mt-3">*/}
+                {/*                                {proposal.applications.map((application, index) => (*/}
+                {/*                                    <Accordion.Item eventKey={application.id} id="applicaitons-btn">*/}
+                {/*                                        <Accordion.Header className={"w-100"}>*/}
+                {/*                                            <Row className={"w-100"}>*/}
+                {/*                                                <div className="col-sm-8">*/}
+                {/*                                                    <strong>Student:</strong> {application.student.name} {application.student.surname} &nbsp;&nbsp;*/}
+                {/*                                                    <strong>Status:</strong> {application.status}*/}
+                {/*                                                </div>*/}
+                {/*                                                <div className="col-sm-4">*/}
+                {/*                                                    {application.status === 'PENDING' && (*/}
+                {/*                                                        <>*/}
+                {/*                                                            <Button variant="success"*/}
+                {/*                                                                    onClick={(e) => {*/}
+                {/*                                                                        e.stopPropagation();*/}
+                {/*                                                                        setShowAcceptPopup(true);*/}
+                {/*                                                                        setApplicationToAccept(application.id);*/}
+                {/*                                                                    }}*/}
+                {/*                                                                    id="accept-btn">*/}
+                {/*                                                                Accept*/}
+                {/*                                                            </Button>{' '}*/}
+                {/*                                                            <Button variant="danger"*/}
+                {/*                                                                    onClick={(e) => {*/}
+                {/*                                                                        e.stopPropagation();*/}
+                {/*                                                                        setShowRejectPopup(true);*/}
+                {/*                                                                        setApplicationToReject(application.id);*/}
+                {/*                                                                    }}*/}
+                {/*                                                                    id="reject-btn">*/}
+                {/*                                                                Reject*/}
+                {/*                                                            </Button>*/}
+                {/*                                                        </>*/}
+                {/*                                                    )}*/}
+                {/*                                                    {application.status === 'CANCELLED' && (*/}
+                {/*                                                        <span style={{color: 'red'}}>CANCELLED</span>*/}
+                {/*                                                    )}*/}
+                {/*                                                    {application.status === 'ACCEPTED' && (*/}
+                {/*                                                        <span style={{color: 'green'}}>ACCEPTED</span>*/}
+                {/*                                                    )}*/}
+                {/*                                                    {application.status === 'REJECTED' && (*/}
+                {/*                                                        <span style={{color: 'red'}}>REJECTED</span>*/}
+                {/*                                                    )}*/}
 
-                                                                </div>
-                                                            </Row>
-                                                        </Accordion.Header>
-                                                        <Accordion.Body>
-                                                            <div>
-                                                                <h4>Degree Details</h4>
-                                                                <p>
-                                                                    <strong>Degree:</strong> {application.student.codDegree}
-                                                                </p>
-                                                                <p>
-                                                                    <strong>Enrollment
-                                                                        Year:</strong> {application.student.enrollmentYear}
-                                                                </p>
-                                                            </div>
+                {/*                                                </div>*/}
+                {/*                                            </Row>*/}
+                {/*                                        </Accordion.Header>*/}
+                {/*                                        <Accordion.Body>*/}
+                {/*                                            <div>*/}
+                {/*                                                <h4>Degree Details</h4>*/}
+                {/*                                                <p>*/}
+                {/*                                                    <strong>Degree:</strong> {application.student.codDegree}*/}
+                {/*                                                </p>*/}
+                {/*                                                <p>*/}
+                {/*                                                    <strong>Enrollment*/}
+                {/*                                                        Year:</strong> {application.student.enrollmentYear}*/}
+                {/*                                                </p>*/}
+                {/*                                            </div>*/}
 
-                                                            <div>
-                                                                <h4>Career Details</h4>
-                                                                <Table striped bordered hover>
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>Course</th>
-                                                                        <th>CFU</th>
-                                                                        <th>Grade</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {application.student.listExams.map((exam) => (
-                                                                        <tr key={exam.id}>
-                                                                            <td>{exam.titleCourse}</td>
-                                                                            <td>{exam.cfu}</td>
-                                                                            <td>{exam.grade}</td>
-                                                                        </tr>
-                                                                    ))}
-                                                                    </tbody>
-                                                                </Table>
-                                                            </div>
-                                                            {application.file && <Row>
-                                                                <Col>
-                                                                    <b>Attachment: &nbsp;
-                                                                        <Button onClick={() => {
-                                                                            handleDownload(application)
-                                                                        }}>
-                                                                            Download File
-                                                                        </Button>
-                                                                    </b>
-                                                                </Col>
-                                                            </Row>}
-                                                        </Accordion.Body>
-                                                    </Accordion.Item>))}
-                                            </Accordion>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
+                {/*                                            <div>*/}
+                {/*                                                <h4>Career Details</h4>*/}
+                {/*                                                <Table striped bordered hover>*/}
+                {/*                                                    <thead>*/}
+                {/*                                                    <tr>*/}
+                {/*                                                        <th>Course</th>*/}
+                {/*                                                        <th>CFU</th>*/}
+                {/*                                                        <th>Grade</th>*/}
+                {/*                                                    </tr>*/}
+                {/*                                                    </thead>*/}
+                {/*                                                    <tbody>*/}
+                {/*                                                    {application.student.listExams.map((exam) => (*/}
+                {/*                                                        <tr key={exam.id}>*/}
+                {/*                                                            <td>{exam.titleCourse}</td>*/}
+                {/*                                                            <td>{exam.cfu}</td>*/}
+                {/*                                                            <td>{exam.grade}</td>*/}
+                {/*                                                        </tr>*/}
+                {/*                                                    ))}*/}
+                {/*                                                    </tbody>*/}
+                {/*                                                </Table>*/}
+                {/*                                            </div>*/}
+                {/*                                            {application.file && <Row>*/}
+                {/*                                                <Col>*/}
+                {/*                                                    <b>Attachment: &nbsp;*/}
+                {/*                                                        <Button onClick={() => {*/}
+                {/*                                                            handleDownload(application)*/}
+                {/*                                                        }}>*/}
+                {/*                                                            Download File*/}
+                {/*                                                        </Button>*/}
+                {/*                                                    </b>*/}
+                {/*                                                </Col>*/}
+                {/*                                            </Row>}*/}
+                {/*                                        </Accordion.Body>*/}
+                {/*                                    </Accordion.Item>))}*/}
+                {/*                            </Accordion>*/}
+                {/*                        </Accordion.Body>*/}
+                {/*                    </Accordion.Item>*/}
 
-                            ))
-                        )
-                    }
-                </Accordion>
+                {/*            ))*/}
+                {/*        )*/}
+                {/*    }*/}
+                {/*</Accordion>*/}
+                <Browse proposals={proposals} professors={professors}/>
+
             </Container>
 
             {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal}
