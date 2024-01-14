@@ -2,19 +2,15 @@ package it.polito.server.appliedproposal
 
 import it.polito.server.career.CareerRepository
 import it.polito.server.email.EmailService
-import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.proposal.*
 import it.polito.server.student.StudentRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.springframework.data.domain.Example
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
-import kotlin.reflect.jvm.internal.impl.util.ReturnsCheck.ReturnsUnit
 
 @Service
 class AppliedProposalService(
@@ -25,13 +21,9 @@ class AppliedProposalService(
     private val professorRepository: ProfessorRepository,
     private val proposalService: ProposalService,
     private val emailService: EmailService,
-    private val externalCoSupervisorRepository: ExternalCoSupervisorRepository
 ) {
 
-//    fun findAppliedProposalById(id: String): AppliedProposalDTO? {
-//        //return application if exists or null
-//        return appliedProposalRepository.findById(id).map(AppliedProposal::toDTO).orElse(null)
-//    }
+
     fun findAll() : List<AppliedProposalDTO> {
         //return list of application (in case nothing exists yet empty list)
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
@@ -317,7 +309,7 @@ class AppliedProposalService(
 
 
     fun findByProfessor(professorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
-        val proposals = proposalRepository.findBySupervisor(professorId);
+        val proposals = proposalRepository.findBySupervisor(professorId)
         return proposals
             .filter { archiviationTypes.contains(it.archived) }
             .map { proposal->
@@ -395,7 +387,7 @@ class AppliedProposalService(
 
 
     fun findByCoSupervisor(coSupervisorId: String, vararg archiviationTypes : archiviation_type) : List<StrangeObjectRequestedByDarione>{
-        val proposals = proposalRepository.findByCoSupervisors(coSupervisorId);
+        val proposals = proposalRepository.findByCoSupervisors(coSupervisorId)
         return proposals
                 .filter { archiviationTypes.contains(it.archived) }
                 .map { proposal->

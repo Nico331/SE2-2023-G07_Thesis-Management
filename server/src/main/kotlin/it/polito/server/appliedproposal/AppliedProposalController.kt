@@ -1,24 +1,14 @@
 package it.polito.server.appliedproposal
 
-import it.polito.server.email.EmailService
-import it.polito.server.professor.Professor
-import it.polito.server.proposal.Proposal
-import it.polito.server.proposal.ProposalDTO
-import it.polito.server.proposal.ProposalRepository
+
 import it.polito.server.proposal.archiviation_type
-import it.polito.server.student.StudentRepository
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
-import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper.EMPTY
 
 @RestController
 @RequestMapping("/API/appliedProposal")
 class AppliedProposalController(
-    private val appliedProposalService: AppliedProposalService,
-    private val proposalRepository : ProposalRepository,
-    private val studentRepository: StudentRepository,
+    private val appliedProposalService: AppliedProposalService
 ) {
 
     @GetMapping("")
