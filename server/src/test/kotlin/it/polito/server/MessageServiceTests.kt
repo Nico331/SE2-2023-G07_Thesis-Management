@@ -3,7 +3,6 @@ package it.polito.server
 import it.polito.server.email.EmailService
 import it.polito.server.forum.*
 import it.polito.server.forumMessage.Message
-import it.polito.server.forumMessage.MessageDTO
 import it.polito.server.forumMessage.MessageRepository
 import it.polito.server.forumMessage.MessageService
 import it.polito.server.professor.Professor
@@ -141,7 +140,7 @@ class MessageServiceTests {
         `when`(professorService.findProfessorById("p300001")).thenReturn(professor.toDTO())
         `when`(messageRepository.save(messageDTO.toEntity())).thenReturn(messageDTO.toEntity())
         val result = messageService.newMessage(messageDTO)
-
+        assertEquals(result, messageDTO)
         verify(emailService).sendSimpleMessage(anyString(), anyString(), anyString(), anyString())
         verify(emailService).sendSimpleMessage(anyString(), anyString(), anyString(), anyString())
         verify(emailService, times(thesis.coSupervisors.size)).sendSimpleMessage(anyString(), anyString(), anyString(), anyString())

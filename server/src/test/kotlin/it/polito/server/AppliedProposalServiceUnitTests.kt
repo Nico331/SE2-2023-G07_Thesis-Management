@@ -4,7 +4,6 @@ import it.polito.server.appliedproposal.*
 import it.polito.server.career.Career
 import it.polito.server.career.CareerRepository
 import it.polito.server.email.EmailService
-import it.polito.server.externalcosupervisor.ExternalCoSupervisorDTO
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorRepository
 import it.polito.server.externalcosupervisor.ExternalCoSupervisorService
 import it.polito.server.professor.Professor
@@ -12,16 +11,12 @@ import it.polito.server.professor.ProfessorRepository
 import it.polito.server.professor.ProfessorService
 import it.polito.server.proposal.*
 import it.polito.server.student.Student
-import it.polito.server.student.StudentDTO
 import it.polito.server.student.StudentRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.Mock
-import org.mockito.InjectMocks
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import java.time.LocalDate
@@ -46,18 +41,18 @@ class AppliedProposalServiceTest {
     @BeforeEach
     fun setUp() {
 
-        professorService = Mockito.mock(ProfessorService::class.java)
-        proposalRepository = Mockito.mock(ProposalRepository::class.java)
-        proposalRepository = Mockito.mock(ProposalRepository::class.java)
-        professorService = Mockito.mock(ProfessorService::class.java)
-        appliedProposalRepository = Mockito.mock(AppliedProposalRepository::class.java)
-        externalCoSupervisorRepository = Mockito.mock(ExternalCoSupervisorRepository::class.java)
-        externalCoSupervisorService = Mockito.mock(ExternalCoSupervisorService::class.java)
-        emailService = Mockito.mock(EmailService::class.java)
-        studentRepository = Mockito.mock(StudentRepository::class.java)
-        careerRepository = Mockito.mock(CareerRepository::class.java)
-        professorRepository = Mockito.mock(ProfessorRepository::class.java)
-        proposalService = Mockito.mock(ProposalService::class.java)
+        professorService = mock(ProfessorService::class.java)
+        proposalRepository = mock(ProposalRepository::class.java)
+        proposalRepository = mock(ProposalRepository::class.java)
+        professorService = mock(ProfessorService::class.java)
+        appliedProposalRepository = mock(AppliedProposalRepository::class.java)
+        externalCoSupervisorRepository = mock(ExternalCoSupervisorRepository::class.java)
+        externalCoSupervisorService = mock(ExternalCoSupervisorService::class.java)
+        emailService = mock(EmailService::class.java)
+        studentRepository = mock(StudentRepository::class.java)
+        careerRepository = mock(CareerRepository::class.java)
+        professorRepository = mock(ProfessorRepository::class.java)
+        proposalService = mock(ProposalService::class.java)
         appliedProposalService = AppliedProposalService(
             appliedProposalRepository,
             proposalRepository,
@@ -85,7 +80,7 @@ class AppliedProposalServiceTest {
     private val appliedProposals = listOf(
         appliedProposal1, appliedProposal2
     )
-    val myProposal1 = Proposal(
+    private val myProposal1 = Proposal(
         id = "proposalId",
         title = "Algoritmi di Machine Learning per l'analisi del testo",
         supervisor = "0001",
@@ -175,7 +170,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR in creating the application (STUDENT NOT PRESENT in the database).", response.body)
     }
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se l'applicazione esiste già`() {
+    fun `applyForProposal ritorna BAD_REQUEST se l'applicazione esiste gia`() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -192,7 +187,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR in creating the application (APPLICATION ALREADY EXISTS).", response.body)
     }
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se lo studente ha già un'altra applicazione in stato PENDING o ACCEPTED`() {
+    fun `applyForProposal ritorna BAD_REQUEST se lo studente ha gia un'altra applicazione in stato PENDING o ACCEPTED`() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -405,8 +400,6 @@ class AppliedProposalServiceTest {
             nationality = "US", email = "john.doe@student.it", codDegree = "22222",
             enrollmentYear = 2022)
         val exam = mock(Career::class.java)
-        val appliedProposal = mock(AppliedProposal::class.java)
-        val appliedProposalDTO = appliedProposal1.toDTO()
         `when`(proposalRepository.findByCoSupervisors(coSupervisorId)).thenReturn(listOf(proposal))
 //        `when`(proposal.archived).thenReturn(archiviation_type.NOT_ARCHIVED)
         `when`(appliedProposalRepository.findByProposalId(proposalId)).thenReturn(listOf(appliedProposal1))

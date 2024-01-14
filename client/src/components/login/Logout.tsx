@@ -16,6 +16,7 @@ const Logout: React.FC<LogoutProps> = ({setRole}) => {
         localStorage.setItem('role', "");
         setRole("");
         setUser("");
+        // @ts-ignore
         logOut();
         navigate('/');
     },[])

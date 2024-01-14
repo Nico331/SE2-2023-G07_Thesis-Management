@@ -1,40 +1,40 @@
 package it.polito.server
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonObject
-import it.polito.server.professor.Professor
-import it.polito.server.professor.ProfessorDTO
-import it.polito.server.professor.ProfessorRepository
-import it.polito.server.proposal.Proposal
-import it.polito.server.proposal.ProposalDTO
-import it.polito.server.proposal.ProposalRepository
-import junit.framework.TestCase.assertEquals
-
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertIterableEquals
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.data.annotation.Id
-import org.springframework.http.*
-import org.springframework.test.annotation.DirtiesContext
-import org.springframework.test.context.DynamicPropertyRegistry
-import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.MongoDBContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.shaded.com.google.common.reflect.TypeToken
-import org.testcontainers.utility.DockerImageName
-import org.junit.jupiter.api.Assertions.assertNotNull
-
-import java.time.LocalDate
-import java.net.URI
-import java.util.*
+//import com.google.gson.Gson
+//import com.google.gson.GsonBuilder
+//import com.google.gson.JsonDeserializer
+//import com.google.gson.JsonObject
+//import it.polito.server.professor.Professor
+//import it.polito.server.professor.ProfessorDTO
+//import it.polito.server.professor.ProfessorRepository
+//import it.polito.server.proposal.Proposal
+//import it.polito.server.proposal.ProposalDTO
+//import it.polito.server.proposal.ProposalRepository
+//import junit.framework.TestCase.assertEquals
+//
+//import org.junit.jupiter.api.Assertions
+//import org.junit.jupiter.api.Assertions.assertIterableEquals
+//import org.junit.jupiter.api.Test
+//import org.springframework.beans.factory.annotation.Autowired
+//import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+//import org.springframework.boot.test.context.SpringBootTest
+//import org.springframework.boot.test.web.client.TestRestTemplate
+//import org.springframework.boot.test.web.server.LocalServerPort
+//import org.springframework.data.annotation.Id
+//import org.springframework.http.*
+//import org.springframework.test.annotation.DirtiesContext
+//import org.springframework.test.context.DynamicPropertyRegistry
+//import org.springframework.test.context.DynamicPropertySource
+//import org.testcontainers.containers.MongoDBContainer
+//import org.testcontainers.junit.jupiter.Container
+//import org.testcontainers.junit.jupiter.Testcontainers
+//import org.testcontainers.shaded.com.google.common.reflect.TypeToken
+//import org.testcontainers.utility.DockerImageName
+//import org.junit.jupiter.api.Assertions.assertNotNull
+//
+//import java.time.LocalDate
+//import java.net.URI
+//import java.util.*
 //
 //@Testcontainers
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

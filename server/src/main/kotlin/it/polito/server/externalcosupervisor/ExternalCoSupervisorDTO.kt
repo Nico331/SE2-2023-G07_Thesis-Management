@@ -18,4 +18,11 @@ class ExternalCoSupervisorDTO (
         if (name == other.name && surname == other.surname && email == other.email) return true
         return false
     }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + surname.hashCode()
+        result = 31 * result + email.hashCode()
+        return result
+    }
 }

@@ -10,8 +10,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import java.time.LocalDate
-import java.util.Optional
 @CoderseeGenerated
 class RequestProposalUnitTests {
 

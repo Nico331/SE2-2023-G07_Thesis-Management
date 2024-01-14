@@ -1,12 +1,8 @@
 import {Route, Routes} from "react-router-dom";
-import  GuestNavigation  from "./GuestNavigation";
 import GuestMain from "./GuestMain";
-import  NotFound  from "../Layouts";
 import Login from "../login/Login";
 import React, {Dispatch, SetStateAction} from "react";
 import MainNavBar from "../NavBar";
-import RequestedProposals from "../Secretary/RequestedProposals";
-import SecretaryMain from "../Secretary/SecretaryMain";
 
 type GuestRoutesProps = {
     setRoleState: Dispatch<SetStateAction<string | null>>;

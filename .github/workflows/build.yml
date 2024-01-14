@@ -27,7 +27,7 @@ jobs:
           POSTGRES_PASSWORD: password
         options: --name keycloak_db
       keycloak:
-        image: nico331/keycloak
+        image: nico331/custom_keycloak
         ports:
           - 8082:8080
           - 8443:8443

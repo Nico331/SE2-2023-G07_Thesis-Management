@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 
 
+// @ts-ignore
 const MessageText = ({ text }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 

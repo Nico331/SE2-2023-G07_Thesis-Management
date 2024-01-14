@@ -7,13 +7,12 @@ interface AuthCheckProps {
 }
 
 const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
+    // @ts-ignore
     const { role, setRole } = useContext(TokenContext);
     const [isLoginModalOpen, setLoginModalOpen] = useState<boolean>(false);
 
     const handleLogin = (): void => {
-        // Qui dovresti implementare la logica di login.
-        // Per esempio, dopo un login di successo:
-        setRole('student'); // o 'professor', 'admin', etc.
+        setRole('student');
     };
 
     useEffect(() => {

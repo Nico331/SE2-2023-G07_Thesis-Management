@@ -1,30 +1,36 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-    Accordion,
-    Card,
-    Button,
-    Badge,
-    ListGroup,
-    Modal,
-    Table,
-    Row,
-    Col,
-    Container,
-    Form,
-    Alert,
-    Nav
-} from 'react-bootstrap';
+import {Accordion, Button, Badge, Table, Row, Col, Container,} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
-import ProposalService from "../../services/ProposalService";
 import UpdateProposal from "./UpdateProposal";
-import {Navigate, useNavigate} from 'react-router-dom';
 import ProfessorService from '../../services/ProfessorService';
+import AccordionBody from "../AccordionBody";
+export const handleDownload = (application) => {
+    const {content, name, contentType} = application.file;
+
+    const binaryString = atob(content);
+    const byteArr = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        byteArr[i] = binaryString.charCodeAt(i);
+    }
+
+    const blob = new Blob([byteArr], {type: contentType});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.className = "button";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+};
 
 const ArchivedProposals = () => {
 
     const [refresh, setRefresh] = useState(false);
+    // @ts-ignore
     const {user, setUser} = useContext(UserContext);
     useEffect(() => {
         if (user) {
@@ -38,7 +44,7 @@ const ArchivedProposals = () => {
     const [professors, setProfessors] = useState([]);
 
     useEffect(() => {
-        ProfessorService.fetchAllProfessors().then((res) => {
+        ProfessorService.fetchAllProfessors().then((res: { data: React.SetStateAction<never[]>; }) => {
             setProfessors(res.data);
         });
     }, []);
@@ -48,40 +54,20 @@ const ArchivedProposals = () => {
     const [showModifyPage, setShowModifyPage] = useState(false);
     const [modifyproposal, setModifyProposal] = useState([]);
     const [pageType, setPageType] = useState("");
+    // @ts-ignore
     const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
+    // @ts-ignore
     const [successcopy, setSuccessCopy] = useState(false);
 
 
 
-    const handlemodify = (e, proposalsID) => {
+    const handlemodify = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, proposalsID: any) => {
         e.stopPropagation();
         setPageType("modify");
         setShowModifyPage(true);
+        // @ts-ignore
         setModifyProposal(proposals.find(a => a.id === proposalsID));
     }
-    const handleDownload = (application) => {
-        const {content, name, contentType} = application.file;
-
-        const binaryString = atob(content);
-        const byteArr = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            byteArr[i] = binaryString.charCodeAt(i);
-        }
-
-        //const blob = new Blob([byteArray]);
-
-        const byteArray = new Int8Array(content);
-        const blob = new Blob([byteArr], {type: contentType});
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        a.className = "button";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-    };
 
 
     return (
@@ -208,51 +194,7 @@ const ArchivedProposals = () => {
                                                                             </div>
                                                                         </Row>
                                                                     </Accordion.Header>
-                                                                    <Accordion.Body>
-                                                                        <div>
-                                                                            <h4>Degree Details</h4>
-                                                                            <p>
-                                                                                <strong>Degree:</strong> {application.student.codDegree}
-                                                                            </p>
-                                                                            <p>
-                                                                                <strong>Enrollment
-                                                                                    Year:</strong> {application.student.enrollmentYear}
-                                                                            </p>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <h4>Career Details</h4>
-                                                                            <Table striped bordered hover>
-                                                                                <thead>
-                                                                                <tr>
-                                                                                    <th>Course</th>
-                                                                                    <th>CFU</th>
-                                                                                    <th>Grade</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {application.student.listExams.map((exam) => (
-                                                                                    <tr key={exam.id}>
-                                                                                        <td>{exam.titleCourse}</td>
-                                                                                        <td>{exam.cfu}</td>
-                                                                                        <td>{exam.grade}</td>
-                                                                                    </tr>
-                                                                                ))}
-                                                                                </tbody>
-                                                                            </Table>
-                                                                        </div>
-                                                                        {application.file && <Row>
-                                                                            <Col>
-                                                                                <b>Attachment: &nbsp;
-                                                                                    <Button onClick={() => {
-                                                                                        handleDownload(application)
-                                                                                    }}>
-                                                                                        Download File
-                                                                                    </Button>
-                                                                                </b>
-                                                                            </Col>
-                                                                        </Row>}
-                                                                    </Accordion.Body>
+                                                                    <AccordionBody application = {application}/>
                                                                 </Accordion.Item>
                                                             </>
                                                         )
@@ -271,8 +213,6 @@ const ArchivedProposals = () => {
             {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal}
                                               setShowAlertModal={setShowAlertModal} setRefresh={setRefresh}
                                               pagetype={pageType} setsuccesscopy={setSuccessCopy}/> : null}
-
-
         </>
     );
 };

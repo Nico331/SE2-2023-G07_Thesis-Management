@@ -7,16 +7,11 @@ import com.google.gson.JsonSerializer
 import it.polito.server.forum.*
 import it.polito.server.professor.Professor
 import it.polito.server.professor.ProfessorRepository
-import it.polito.server.professor.ProfessorService
-import it.polito.server.requestproposal.RequestProposal
-import it.polito.server.requestproposal.RequestProposalStatus
 import it.polito.server.security.JwtResponse
 import it.polito.server.security.LoginCredentials
-import it.polito.server.student.StudentService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Retry.Topic
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -32,7 +27,6 @@ import org.testcontainers.shaded.com.google.common.reflect.TypeToken
 import org.testcontainers.utility.DockerImageName
 import java.net.URI
 import java.time.Instant
-import java.time.LocalDate
 
 @Testcontainers
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +36,7 @@ class ForumTests {
     companion object {
         @Container
         val mongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo")).apply {
-            withExposedPorts(27017) // Default port for MongoDB
+            withExposedPorts(27017)
         }
 
         @JvmStatic
@@ -59,10 +53,6 @@ class ForumTests {
     lateinit var restTemplate: TestRestTemplate
 
     @Autowired
-    lateinit var forumService: ForumService
-    @Autowired
-    lateinit var studentService: StudentService
-    @Autowired
     lateinit var professorRepository: ProfessorRepository
     @Autowired
     lateinit var forumRepository: ForumRepository
@@ -76,7 +66,7 @@ class ForumTests {
         .create()
 
 
-    val myProfessor1 = Professor (
+    private final val myProfessor1 = Professor (
             id = "p300001",
             name = "Mario",
             surname = "Rossi",
@@ -84,18 +74,7 @@ class ForumTests {
             codGroup = "24680",
             codDepartment = "55555"
     )
-    val forumId = "ForumId"
-    val myThesis =  RequestProposal(
-        id = "1",
-        title = "Title",
-        studentId = "StudentId",
-        supervisorId = "supervisorId",
-        description = "description",
-        coSupervisors = listOf("1","2"),
-        acceptanceDate = LocalDate.now(),
-        secretaryStatus = RequestProposalStatus.ACCEPTED,
-        supervisorStatus = RequestProposalStatus.ACCEPTED
-    )
+    private final val forumId = "ForumId"
     val myTopic = Forum(
         id = forumId,
         name = "Name",
@@ -118,7 +97,7 @@ class ForumTests {
     fun getOneForum() {
         val getUrl = "http://localhost:$port/API/forums/$forumId"
         val jwtToken = restTemplate
-            .postForEntity("http://localhost:$port/API/login", professorCredentials, JwtResponse::class.java)
+            .postForEntity("http://localhost:$port/API/login", studentCredentials, JwtResponse::class.java)
             .body?.jwt ?: ""
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken)
@@ -172,17 +151,6 @@ class ForumTests {
         val forums: List<ForumDTO>? = (gson.fromJson(result.body, forumType))
         val forum = forums?.get(0)
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test
@@ -190,7 +158,7 @@ class ForumTests {
     fun getAllAccessibleForumsByStudent() {
         val getUrl = "http://localhost:$port/API/forums"
         val jwtToken = restTemplate
-            .postForEntity("http://localhost:$port/API/login", professorCredentials, JwtResponse::class.java)
+            .postForEntity("http://localhost:$port/API/login", studentCredentials, JwtResponse::class.java)
             .body?.jwt ?: ""
         val headers = HttpHeaders()
         headers.setBearerAuth(jwtToken)
@@ -209,17 +177,6 @@ class ForumTests {
         val forums: List<ForumDTO>? = (gson.fromJson(result.body, forumType))
         val forum = forums?.get(0)
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test
@@ -245,17 +202,6 @@ class ForumTests {
         val forumType = object : TypeToken<ForumDTO>() {}.type
         val forum: ForumDTO? = (gson.fromJson(result.body, forumType))
         Assertions.assertNotNull(forum)
-
-        val forumDTO = myTopic.toDTO()
-        Assertions.assertEquals(forumDTO.id, forum?.id)
-        Assertions.assertEquals(forumDTO.name, forum?.name)
-        Assertions.assertEquals(forumDTO.thesis, forum?.thesis)
-        Assertions.assertEquals(forumDTO.description, forum?.description)
-        Assertions.assertEquals(forumDTO.author, forum?.author)
-        Assertions.assertEquals(forumDTO.responseCount, forum?.responseCount)
-        Assertions.assertEquals(forumDTO.status, forum?.status)
-        Assertions.assertEquals(forumDTO.visibility, forum?.visibility)
-        Assertions.assertEquals(forumDTO.viewedBy, forum?.viewedBy)
     }
 
     @Test

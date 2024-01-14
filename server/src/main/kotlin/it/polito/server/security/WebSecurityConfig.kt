@@ -46,7 +46,7 @@ class WebSecurityConfig {
             it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySupervisor/accept/*").hasAnyRole(PROFESSOR)
             it.requestMatchers(HttpMethod.PUT, "/API/requestProposals/bySupervisor/reject/*").hasAnyRole(PROFESSOR)
 
-            it.requestMatchers(HttpMethod.GET, "/API/professors/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
+            it.requestMatchers(HttpMethod.GET, "/API/professors").permitAll()
             it.requestMatchers(HttpMethod.GET, "/API/professors/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.PUT,"/API/appliedProposal/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)

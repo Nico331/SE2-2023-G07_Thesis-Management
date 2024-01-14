@@ -4,7 +4,6 @@ import {Container, Row, Col, Form, Button, Image, Alert} from 'react-bootstrap';
 import {RoleContext, TokenContext, UserContext} from "../../contexts/UserContexts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import MainNavBar from '../NavBar';
 import { jwtDecode } from "jwt-decode";
 
 export type LoginProps = {
@@ -15,10 +14,13 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
     const [validated, setValidated] = useState(false);
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
+    // @ts-ignore
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
+    // @ts-ignore
     const { token, setToken } = useContext(TokenContext)
+    // @ts-ignore
     const { role, setRole } = useContext(RoleContext)
 
     const credentialsWrong = () => {

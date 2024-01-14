@@ -2,8 +2,6 @@ package it.polito.server
 
 import it.polito.server.annotations.CoderseeGenerated
 import it.polito.server.appliedproposal.*
-import it.polito.server.proposal.Proposal
-import it.polito.server.proposal.ProposalDTO
 import it.polito.server.proposal.ProposalRepository
 import it.polito.server.proposal.archiviation_type
 import it.polito.server.student.StudentRepository
@@ -14,7 +12,6 @@ import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
-import java.util.Optional
 @CoderseeGenerated
 class AppliedProposalUnitTests {
 
