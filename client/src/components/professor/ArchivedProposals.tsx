@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Accordion, Button, Badge, Table, Row, Col, Container,} from 'react-bootstrap';
+import {Accordion, Button, Badge, Table, Row, Col, Container, Form,} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
@@ -69,17 +69,35 @@ const ArchivedProposals = () => {
         setModifyProposal(proposals.find(a => a.id === proposalsID));
     }
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const filteredProposals = proposals.filter((proposal) => {
+        // Perform your filtering logic here based on the searchQuery
+        return proposal.title.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
 
     return (
         <>
             <Container className="d-flex flex-column">
                 <h2 style={{marginTop: "110px"}}>My Archived Thesis Proposals</h2>
+                <Form.Control
+                    type="text"
+                    placeholder="Search by title"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    className="mt-3"
+                />
+
 
                 <Accordion className="mt-5">
-                    {proposals.length === 0 ? (
+                    {filteredProposals.length === 0 ? (
                         <p>You don't have archived proposals yet</p>
                     ) : (
-                        proposals.map((proposal) => (
+                        filteredProposals.map((proposal) => (
 
                                     <Accordion.Item eventKey={proposal.id} key={proposal.id}>
                                         <Accordion.Header>
