@@ -149,7 +149,7 @@ const MyRequest: React.FC = () => {
                                         placeholder="Enter title"
                                         value={request.title}
                                         onChange={(e) => setRequest({...request, title: e.target.value})}
-                                        id="title"
+                                        id="title-input"
                                     />
                                 </Form.Group>
                             </div>

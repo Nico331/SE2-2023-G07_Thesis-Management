@@ -74,6 +74,7 @@ describe("Professore's features", () => {
 
   it("Edit a proposal", () => {
     cy.get("#my-proposal").click();
+    cy.get("#search-bar-input").type(title);
     cy.contains("Test Proposal").find("#modify-btn").click();
     cy.get("#title-input").clear().type(newTitle);
     cy.get("#type-input").select(newType);
@@ -141,8 +142,7 @@ describe("Professore's features", () => {
     cy.get("#arch-yes-btn").click();
     cy.get("#menu").click();
     cy.get("#menu-archive").click();
-    // cy.get(".btn-close-white").click();
-    cy.contains("Test Proposal Copied").find("#restore-btn").click();
+    cy.contains("Test Proposal Modified").find("#restore-btn").click();
     cy.get("#update-btn").click();
     cy.get("#menu").click();
     cy.get("#menu-myproposals").click();

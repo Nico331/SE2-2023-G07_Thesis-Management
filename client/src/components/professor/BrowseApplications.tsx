@@ -232,6 +232,7 @@ const BrowseApplications = () => {
                     value={searchQuery}
                     onChange={handleSearch}
                     className="mt-3"
+                    id="search-bar-input"
                 />
 
                 {showsuccessmodal.show ?

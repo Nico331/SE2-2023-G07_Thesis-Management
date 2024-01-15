@@ -338,6 +338,7 @@ function UpdateProposal (props) {
                                                     size="sm"
                                                     className="float-right"
                                                     onClick={() => removeCoSupervisor(index)}
+                                                    id={"remove-" + cs}
                                                 >
                                                     Remove
                                                 </Button>

@@ -2,8 +2,8 @@ import { filter } from "cypress/types/bluebird";
 
 describe("Student features", () => {
 
-    const studentID = "s300003@studenti.polito.it";
-    const studentPass = "s300003";
+    const studentID = "s300001@studenti.polito.it";
+    const studentPass = "s300001";
 
     beforeEach("login", () => {
         cy.viewport(1920, 1080);
@@ -17,7 +17,7 @@ describe("Student features", () => {
     });
 
     const filterKeyword = "Machine Learning";
-    const filterSearch = "Test Proposal Modified";
+    const filterSearch = "Cybersecurity Measures in Financial Technology";
     const filterLevel = "Bachelor";
 
     it("Student checks proposals list and apply for a proposal and check the My applications page", () => {
@@ -28,8 +28,8 @@ describe("Student features", () => {
         cy.get("#cancel-filters").click();
         cy.get("#search-box").type(filterSearch, {force: true});
         cy.get("#search-btn").click();
-        cy.contains("Test Proposal Modified").click();
-        cy.get(".Modified-btn").click({force: true});
+        cy.contains("Cybersecurity Measures in Financial Technology").click();
+        cy.get("#details-btn").click();
         cy.get("#apply-btn").click();
         cy.get("#apply-btn").click();
         cy.get("#apply-yes-btn").click();
@@ -41,7 +41,7 @@ describe("Student features", () => {
 
     it("Student withdraws from a proposal", () => {
         cy.get("#myAaplications").click();
-        cy.contains("Test Proposal Modified").get("#withdraw-btn").click();
+        cy.contains("Cybersecurity Measures in Financial Technology").get("#withdraw-btn").click();
         cy.get("#withdraw-yes-btn").click();
     });
 
@@ -52,13 +52,13 @@ describe("Student features", () => {
 
     it("Student inserts a new thesis request and check the requests", () => {
         cy.get("#newThesisRequest").click();
-        cy.get("#title").type(title);
-        cy.get("#supervisor").select(supervisor);
-        cy.get("#cosupervisor").select(cosupervisor[0]);
+        cy.get("#title-input").type(title);
+        cy.get("#supervisor-input").select(supervisor);
+        cy.get("#cosupervisor-input").select(cosupervisor[0]);
         cy.get("#add-cosup-btn").click();
-        cy.get("#cosupervisor").select(cosupervisor[1]);
+        cy.get("#cosupervisor-input").select(cosupervisor[1]);
         cy.get("#add-cosup-btn").click();
-        cy.get("#description").type(description);
+        cy.get("#description-input").type(description);
         cy.get("#submit-btn").click();
         cy.get("#menu").click();
         cy.get("#menu-myThesisRequests").click();
@@ -70,7 +70,7 @@ describe("Student features", () => {
     it("Student modifies and deletes a thesis request", () => {
         cy.get("#myThesisRequest").click();
         cy.get("#edit-mode-btn").click();
-        cy.get("#title").clear().type(newTitle);
+        cy.get("#title-input").clear().type(newTitle);
         cy.get(`#remove-${delcosup}-btn`).click();
         cy.get("#modify-req-btn").click();
         cy.get("#myThesisRequest").click();
