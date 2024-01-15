@@ -207,7 +207,7 @@ Here you will find all the proposals where you are assigned as a co-supervisors.
 ### 5.4 Archive <a name ="archive"/>
 
 All the expired, manually archived and assigned proposals goes here. Each proposal has a modify button which permits
-you to edit and then restore an archived proposal.
+you to edit and then restore an archived proposal. Use the search bar to find immediately what you are searching for.
 
 <img src="guideImages/archive.png" alt="drawing" width="500"/>
 

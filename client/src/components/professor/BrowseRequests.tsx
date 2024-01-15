@@ -48,6 +48,21 @@ const BrowseRequests = () => {
 
     const [filter, setFilter] = useState('all'); // 'all', 'supervisor', 'cosupervisor'
 
+    const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 780px)').matches);
+
+    useEffect(() => {
+        const mediaQueryList = window.matchMedia('(max-width: 780px)');
+
+        const handleResize = (event) => {
+            setIsScreenSmall(event.matches);
+        };
+
+        mediaQueryList.addEventListener('change', handleResize);
+
+        return () => {
+            mediaQueryList.removeEventListener('change', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -159,7 +174,6 @@ const BrowseRequests = () => {
         }
     });
 
-
     return (
         <>
             <Container className="d-flex flex-column">
@@ -224,59 +238,62 @@ const BrowseRequests = () => {
                                     return request.supervisorStatus === "PENDING" ? (
                                         <Accordion.Item eventKey={request.id} key={request.id}>
                                             <Accordion.Header>
-                                                <Row className={"w-100"}>
-                                                    <div className="col-sm-8">
-                                                        {request.title}&nbsp;
-                                                    </div>
-                                                </Row>
-                                                <div className="col-sm-4">
-                                                    {isSupervisor && request.secretaryStatus === 'ACCEPTED' && (
-                                                        <>
-                                                            <ButtonGroup>
-                                                                <Button variant="success"
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            setShowAcceptPopup(true);
-                                                                            setRequestToAccept(request.id);
-                                                                        }}>
-                                                                    Accept
-                                                                </Button>{' '}
-                                                                <Button variant="secondary"
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            setShowChangePopup(true);
-                                                                            setRequestToChange(request.id);
-                                                                        }}>
-                                                                    Change request
-                                                                </Button>{' '}
-                                                                <Button variant="danger"
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            setShowRejectPopup(true);
-                                                                            setRequestToReject(request.id);
-                                                                        }}>
-                                                                    Reject
-                                                                </Button>
-                                                            </ButtonGroup>
-                                                        </>
+                                                <Container className={isScreenSmall ? "d-flex flex-column" : "d-flex flex-row"}>
+                                                    <Row className={"w-100"}>
+                                                        <div className="col-sm-7">
+                                                            {request.title}&nbsp;
+                                                        </div>
+                                                    </Row>
+                                                    <Row className={isScreenSmall ? "mt-3 me-5" : "col-sm-4 me-5"}>
+                                                        {isSupervisor && request.secretaryStatus === 'ACCEPTED' && (
+                                                            <>
+                                                                <ButtonGroup>
+                                                                    <Button variant="success"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setShowAcceptPopup(true);
+                                                                                setRequestToAccept(request.id);
+                                                                            }}>
+                                                                        Accept
+                                                                    </Button>{' '}
+                                                                    <Button variant="secondary"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setShowChangePopup(true);
+                                                                                setRequestToChange(request.id);
+                                                                            }}>
+                                                                        Change request
+                                                                    </Button>{' '}
+                                                                    <Button variant="danger"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                setShowRejectPopup(true);
+                                                                                setRequestToReject(request.id);
+                                                                            }}>
+                                                                        Reject
+                                                                    </Button>
+                                                                </ButtonGroup>
+                                                            </>
 
-                                                    )
+                                                        )
 
-                                                    }
-                                                    {
-                                                        isSupervisor && request.secretaryStatus === 'PENDING' && (
-                                                            <span>Waiting for secretary's approval</span>
-                                                        )
-                                                    }
-                                                    {
-                                                        isSupervisor && request.secretaryStatus === 'REJECTED' && (
-                                                            <span>Secretary rejected this request</span>
-                                                        )
-                                                    }
-                                                    {!isSupervisor && ( // se non è un supervisor
-                                                        <span>You're cosupervisor</span>
-                                                    )}
-                                                </div>
+                                                        }
+                                                        {
+                                                            isSupervisor && request.secretaryStatus === 'PENDING' && (
+                                                                <span>Waiting for secretary's approval</span>
+                                                            )
+                                                        }
+                                                        {
+                                                            isSupervisor && request.secretaryStatus === 'REJECTED' && (
+                                                                <span>Secretary rejected this request</span>
+                                                            )
+                                                        }
+                                                        {!isSupervisor && ( // se non è un supervisor
+                                                            <span>You're cosupervisor</span>
+                                                        )}
+                                                    </Row>
+                                                </Container>
+
                                             </Accordion.Header>
                                             <Accordion.Body style={{textAlign: 'left'}}>
                                                 <Row>
