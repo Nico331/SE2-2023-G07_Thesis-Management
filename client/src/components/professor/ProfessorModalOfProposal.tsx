@@ -1,11 +1,9 @@
 import {Button, Modal, Row, Col} from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import {useState} from "react";
+
 
 function ProfessorModalOfProposal(props) {
 
     return (
-        <>
             <Modal
                 show={props.showModal}
                 onHide={() => props.setShowModal(false)}
@@ -67,7 +65,6 @@ function ProfessorModalOfProposal(props) {
                     <Button variant={'secondary'} onClick={() => props.setShowModal(false)}> Close </Button>
                 </Modal.Footer>
             </Modal>
-        </>
     )
 };
 
