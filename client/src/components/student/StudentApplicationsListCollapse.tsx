@@ -236,7 +236,7 @@ const StudentApplicationsListCollapse = () => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to withdraw the application? ?
+                    Are you sure you want to withdraw the application?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowWithdrawPopup(false)} id="withdraw-no-btn">No</Button>

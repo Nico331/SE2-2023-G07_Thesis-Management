@@ -235,7 +235,7 @@ const BrowseRequests = () => {
 
                             filteredRequests.map((request) => {
                                     const student = students.find((student) => student.id === request.studentId);
-                                    const ex = exams.filter((exam) => exam.studentId === student.id);
+                                    const ex = exams.filter((exam) => student && (exam.studentId === student.id));
                                     return request.supervisorStatus === "PENDING" ? (
                                         <Accordion.Item eventKey={request.id} key={request.id}>
                                             <Accordion.Header>
