@@ -156,19 +156,29 @@ describe("Professore's features", () => {
     cy.get("#delete-yes-btn").click();
   });
 
-  const newTopic = "Test Topic";
-  const topicThesis = "Test Proposal Modified";
+  it("Accpet or reject a requested proposal", () =>{
+    cy.get("#students-requests").click();
+    cy.contains("Thesis Reqeusst of Student 1").get("#accept-btn").click();
+    cy.get("#accept-yes-btn").click();
+    cy.get("#close-btn").click();
+  });
+
+  const newTopic = "Details of Thesis Request of Student 1";
+  const topicThesis = "Thesis Reqeusst of Student 1";
   const topicDescription = "Test Description";
   const topicVisibility = "Public";
 
-  it("Create a new topic in the forum", () => {
+  it("Create a new topic in the forum and send a meesage", () => {
     cy.get("#forum").click();
     cy.get("#new-topic-btn").click();
     cy.get("#name-input").type(newTopic);
-    cy.get("#thesis-input").select(topicThesis);
+    cy.get("#thesis-input").type(topicThesis + "{enter}");
     cy.get("#description-input").type(topicDescription);
     cy.get("#visibility-input").select(topicVisibility);
     cy.get("#create-btn").click();
+    cy.contains(newTopic).then(() => {cy.get("#open-discussion-btn").click()});
+    cy.get("#message-input").type("Please, give me more details about your thesis request");
+    cy.get("#send-btn").click();
   });
 
   const date = "2024-06-24T00:00:00";
@@ -186,7 +196,4 @@ describe("Professore's features", () => {
     cy.get("#menu-logout").click();
   });
 
-  it("Accpet or reject a requested proposal", () =>{
-    
-  });
 });

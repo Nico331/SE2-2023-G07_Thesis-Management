@@ -190,9 +190,10 @@ const TopicPage: React.FC = (  ) => {
                                 placeholder="enter forum message"
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
+                                id="message-input"
                             />
                         </Form.Group>
-                        <Button onClick={handleSendMessage}>Send Message</Button>
+                        <Button onClick={handleSendMessage} id="send-btn">Send Message</Button>
                     </div>
                 </> :
                 <div>Loading</div>

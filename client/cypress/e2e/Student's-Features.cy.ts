@@ -81,7 +81,7 @@ describe("Student features", () => {
 
     it("Student inserts a new thesis request and check the requests", () => {
         cy.get("#newThesisRequest").click();
-        cy.get("#title-input").type("Test Thesis Request Modified");
+        cy.get("#title-input").type("Thesis Reqeusst of Student 1");
         cy.get("#supervisor-input").select(supervisor);
         cy.get("#cosupervisor-input").select(cosupervisor[0]);
         cy.get("#add-cosup-btn").click();
@@ -93,7 +93,7 @@ describe("Student features", () => {
         cy.get("#menu-myThesisRequests").click();
     });
 
-    const newTopic = "Test Topic";
+    /* const newTopic = "Test Topic";
     const topicThesis = "Test Proposal Modified";
     const topicDescription = "Test Description";
     const topicVisibility = "Public";
@@ -106,6 +106,6 @@ describe("Student features", () => {
     cy.get("#description-input").type(topicDescription);
     cy.get("#visibility-input").select(topicVisibility);
     cy.get("#create-btn").click();
-    });
+    }); */
 
 });

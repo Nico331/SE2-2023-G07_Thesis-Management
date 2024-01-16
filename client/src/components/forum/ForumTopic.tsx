@@ -32,6 +32,7 @@ const ForumTopic: React.FC<ForumTopicProps> = ({ topic }) => {
                                     }
                                 }}
                                 tabIndex="0"
+                                id="open-discussion-btn"
                             >
                                 Open Discussion
                             </button>

@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.12.18",
     "cypress": "^13.6.1"
   }
 }

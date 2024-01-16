@@ -197,7 +197,8 @@ const BrowseRequests = () => {
                                     show: false,
                                     type: "",
                                     text: ""
-                                })}>Close</Button>
+                                })}
+                                id="close-btn">Close</Button>
                             </Modal.Footer>
                         </Modal>
                     </>
@@ -253,7 +254,8 @@ const BrowseRequests = () => {
                                                                                 e.stopPropagation();
                                                                                 setShowAcceptPopup(true);
                                                                                 setRequestToAccept(request.id);
-                                                                            }}>
+                                                                            }}
+                                                                            id="accept-btn">
                                                                         Accept
                                                                     </Button>{' '}
                                                                     <Button variant="secondary"
@@ -261,7 +263,8 @@ const BrowseRequests = () => {
                                                                                 e.stopPropagation();
                                                                                 setShowChangePopup(true);
                                                                                 setRequestToChange(request.id);
-                                                                            }}>
+                                                                            }}
+                                                                            id="change-btn">
                                                                         Change request
                                                                     </Button>{' '}
                                                                     <Button variant="danger"
@@ -269,7 +272,8 @@ const BrowseRequests = () => {
                                                                                 e.stopPropagation();
                                                                                 setShowRejectPopup(true);
                                                                                 setRequestToReject(request.id);
-                                                                            }}>
+                                                                            }}
+                                                                            id="reject-btn">
                                                                         Reject
                                                                     </Button>
                                                                 </ButtonGroup>
@@ -431,8 +435,8 @@ const BrowseRequests = () => {
                     Are you sure you want to accept the application?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleAccept(requestToAccept)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowAcceptPopup(false)} id="accept-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleAccept(requestToAccept)} id="accept-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -449,8 +453,8 @@ const BrowseRequests = () => {
                     Are you sure you want to reject the application?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)}>No</Button>
-                    <Button variant={"danger"} onClick={() => handleReject(requestToReject)}>Yes</Button>
+                    <Button variant={"secondary"} onClick={() => setShowRejectPopup(false)} id="reject-no-btn">No</Button>
+                    <Button variant={"danger"} onClick={() => handleReject(requestToReject)} id="reject-yes-btn">Yes</Button>
                 </Modal.Footer>
             </Modal>
 

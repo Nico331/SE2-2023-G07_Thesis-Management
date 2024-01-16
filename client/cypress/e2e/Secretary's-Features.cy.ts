@@ -15,7 +15,7 @@ describe("Secretary's features", () => {
         cy.get(".btn-primary").click();
     });
 
-    const title = "Test Thesis Request Modified";
+    const title = "Thesis Reqeusst of Student 1";
 
     it("Secretary checkes the details of a request proposal and accepts it", () => {
         cy.get("#req-proposals").click();
