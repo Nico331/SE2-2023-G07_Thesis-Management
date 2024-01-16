@@ -51,7 +51,7 @@ const MyRequest: React.FC = () => {
         });
         RequestProposalService.getRequestProposalByStudent(JSON.parse(user).id).then((res) => {
             setRequest(() => res.data ? res.data[res.data.length-1] : null)
-        })
+        }).catch((e)=>{setRequest(null)})
     }, []);
 
 
