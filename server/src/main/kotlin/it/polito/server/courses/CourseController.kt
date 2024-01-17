@@ -15,8 +15,10 @@ class CourseController (private val courseService: CourseService) {
     }
 
     @GetMapping("")
-    fun getAllCourses(): List<CourseDTO> {
-        return courseService.getAllCourses()
+    fun getAllCourses(): ResponseEntity<List<CourseDTO>> {
+        val body = courseService.getAllCourses()
+        val code = if (body.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
+        return ResponseEntity(body, code)
     }
 
     @GetMapping("/{id}")
