@@ -3,26 +3,21 @@ import { Accordion, Button, Col, Container, Modal, Row, } from 'react-bootstrap'
 import { VirtualClockContext } from '../../contexts/VirtualClockContext';
 import ProfessorService from '../../services/ProfessorService';
 import { UserContext } from '../../contexts/UserContexts';
-import axios from 'axios';
 import SecretaryService from '../../services/SecretaryService';
+import Request from '../../types/Request';
+import Professor from "../../types/Professor";
 
-interface Professor {
-    id: string;
-    name: string;
-    surname: string;
-}
-
-interface Request {
-    id: string | null;
-    title: string;
-    studentId: string;
-    supervisorId: string;
-    coSupervisors: string[];
-    description: string;
-    acceptanceDate: dayjs.Dayjs;
-    secretaryStatus: string;
-    supervisorStatus: string;
-}
+// interface Request {
+//     id: string | null;
+//     title: string;
+//     studentId: string;
+//     supervisorId: string;
+//     coSupervisors: string[];
+//     description: string;
+//     acceptanceDate: dayjs.Dayjs;
+//     secretaryStatus: string;
+//     supervisorStatus: string;
+// }
 
 const RequestedProposals = () => {
 
@@ -31,25 +26,26 @@ const RequestedProposals = () => {
     const {user, setUser} = useContext(UserContext);
     const [confirmed, setConfirmed] = useState({show: false, type: "", id: ""});
     const [result, setResult] = useState({show: false, type: "", text: ""});
+    const [rps, setRps] = useState<Array<Request>>([]);
 
-    const [rp, setRp] = useState<Request>({
-        id: null,
-        title: '',
-        studentId: JSON.parse(user).id,
-        supervisorId: '',
-        coSupervisors: [],
-        description: '',
-        acceptanceDate: null,
-        secretaryStatus: 'PENDING',
-        supervisorStatus: 'PENDING'
-    });
+    // const [rp, setRp] = useState<Request>({
+    //     id: null,
+    //     title: '',
+    //     studentId: JSON.parse(user).id,
+    //     supervisorId: '',
+    //     coSupervisors: [],
+    //     description: '',
+    //     acceptanceDate: null,
+    //     secretaryStatus: 'PENDING',
+    //     supervisorStatus: 'PENDING'
+    // });
 
     const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 650px)').matches);
 
     useEffect(() => {
         const mediaQueryList = window.matchMedia('(max-width: 650px)');
 
-        const handleResize = (event) => {
+        const handleResize = (event: { matches: boolean | ((prevState: boolean) => boolean); }) => {
             setIsScreenSmall(event.matches);
         };
 
@@ -60,25 +56,25 @@ const RequestedProposals = () => {
         };
     }, []);
 
-    const [professors, setProfessors] = useState([]);
+    const [professors, setProfessors] = useState<Array<Professor>>([]);
     useEffect(() => {
-        ProfessorService.fetchAllProfessors().then((res) => {
+        ProfessorService.fetchAllProfessors().then((res: { data: React.SetStateAction<never[]>; }) => {
             setProfessors(res.data);
         });
     }, []);
 
-    const [rps, setRps] = useState([]);
     useEffect(() => {
         if (user){
-            SecretaryService.fetchAllRequestProposals().then((res) => {
+            SecretaryService.fetchAllRequestProposals().then((res: { data: React.SetStateAction<never[]>; }) => {
+                // @ts-ignore
                 setRps(res.data);
             });
         }
     }, [refresh]);
 
-    const acceptRP = async (id) => {
+    const acceptRP = async (id: string) => {
             setConfirmed({show: false, type: "", id: ""});
-            SecretaryService.acceptRquestedProposalbySecretary(id).then((res) => {
+            SecretaryService.acceptRquestedProposalbySecretary(id).then((res: { status: number; }) => {
                 if(res.status === 200){
                     setResult({show: true, type: 'success', text: 'Proposal accepted'});
                     setTimeout(() => {
@@ -95,9 +91,9 @@ const RequestedProposals = () => {
             });
     }
 
-    const rejectRP = (id) => {
+    const rejectRP = (id: string) => {
         setConfirmed({show: false, type: "", id: ""});
-        SecretaryService.rejectRquestedProposalbySecretary(id).then((res) => {
+        SecretaryService.rejectRquestedProposalbySecretary(id).then((res: { status: number; }) => {
             if(res.status === 200){
                 setResult({show: true, type: 'success', text: 'Proposal Rejected'});
                 setTimeout(() => {
@@ -206,7 +202,7 @@ const RequestedProposals = () => {
                                         return professors.map((professor) => {
                                             if (professor.id === cosupervisor) {
                                                 return <>{professor.name} {professor.surname}, </>
-                                            }
+                                            } else return <></>
                                         })
                                     })}
                                 </Col>
