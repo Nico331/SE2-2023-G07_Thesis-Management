@@ -107,18 +107,10 @@ class AppliedProposalService(
     }
 
     fun acceptProposal(applicationId: String) : ResponseEntity <Any> {
-        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
-            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
-
-        //check if it already ACCEPTED
-        if(appliedProposal.status==ApplicationStatus.ACCEPTED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been ACCEPTED")
-        //check if it already REJECTED
-        if(appliedProposal.status==ApplicationStatus.REJECTED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been REJECTED")
-        //check if it already CANCELLED
-        if(appliedProposal.status==ApplicationStatus.CANCELLED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
+        val appliedProposal = acceptRejectChecks(applicationId)
+        if(appliedProposal is ResponseEntity<*>)
+            return appliedProposal as ResponseEntity<Any>
+        else appliedProposal as AppliedProposal
 
 
         //FIND and REJECT all applications given the proposalId
@@ -229,29 +221,12 @@ class AppliedProposalService(
         return ResponseEntity.ok().body("Successful operation")
     }
 
-    fun rejectProposal(applicationId: String) : ResponseEntity <Any> {
-        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+    fun rejectProposal(applicationId: String) : ResponseEntity<Any> {
 
-        //check if it exists
-        if(appliedProposal == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
-
-        /*
-        //check if proposal already ARCHIVED
-        val proposal: Proposal? = proposalRepository.findById(appliedProposal.proposalId).orElse(null)
-        if(proposal?.archived == archiviation_type.MANUALLY_ARCHIVED || proposal?.archived == archiviation_type.EXPIRED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Proposal has already been ARCHIVED ")
-        */
-
-        //check if it already ACCEPTED
-        if(appliedProposal.status==ApplicationStatus.ACCEPTED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been ACCEPTED")
-        //check if it already REJECTED
-        if(appliedProposal.status==ApplicationStatus.REJECTED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been REJECTED")
-        //check if it already CANCELLED
-        if(appliedProposal.status==ApplicationStatus.CANCELLED)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
+        val appliedProposal = acceptRejectChecks(applicationId)
+        if(appliedProposal is ResponseEntity<*>)
+            return appliedProposal as ResponseEntity<Any>
+        else appliedProposal as AppliedProposal
 
         //ONLY REJECTED this application
         println("In reject application")
@@ -305,6 +280,23 @@ class AppliedProposalService(
         }
 
         return ResponseEntity.ok().body("Successful operation")
+    }
+
+    fun acceptRejectChecks(applicationId: String) : Any {
+        val appliedProposal = appliedProposalRepository.findById(applicationId).orElse(null)
+            ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR: this Application NOT EXIST")
+
+        //check if it already ACCEPTED
+        if(appliedProposal.status==ApplicationStatus.ACCEPTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been ACCEPTED")
+        //check if it already REJECTED
+        if(appliedProposal.status==ApplicationStatus.REJECTED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been REJECTED")
+        //check if it already CANCELLED
+        if(appliedProposal.status==ApplicationStatus.CANCELLED)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR: this Application has already been CANCELLED")
+
+        return appliedProposal
     }
 
 
