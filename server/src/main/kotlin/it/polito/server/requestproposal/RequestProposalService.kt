@@ -182,7 +182,7 @@ class RequestProposalService (
         requestProposal.secretaryStatus = RequestProposalStatus.PENDING
         CoroutineScope(Dispatchers.IO).launch {
             emailService.sendSimpleMessage(
-                "${requestProposal.studentId}$@studenti.polito.it",
+                "${requestProposal.studentId}@studenti.polito.it",
                 "Request of change for thesis request \"${requestProposal.title}\"",
                 "Your request of proposal has been reviewed by the professor, " +
                         "and there are some corrections/" +

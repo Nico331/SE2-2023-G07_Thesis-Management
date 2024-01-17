@@ -113,11 +113,11 @@ const BrowseRequests = () => {
     }, [showsuccessmodal.show]);
 
 
-    const handleSuccess = () => {
+    const handleSuccess = (text, type = "success") => {
         setShowAlertModal({
             show: true,
-            type: "success",
-            text: "Request accepted"
+            type: type,
+            text: text
         });
 
         // Chiudi automaticamente il popup dopo 3 secondi
@@ -136,21 +136,21 @@ const BrowseRequests = () => {
         setShowAcceptPopup(false);
         setRequestToAccept("");
         await RequestProposalService.acceptRequestProposalProf(applicationId);
-        handleSuccess();
+        handleSuccess("Request accepted");
     };
 
     const handleReject = async (applicationId) => {
         setShowRejectPopup(false);
         setRequestToReject("");
         await RequestProposalService.rejectRequestProposalProf(applicationId);
-        handleSuccess();
+        handleSuccess("Request rejected", "error");
     };
 
     const handleChange = async (applicationId) => {
         setShowChangePopup(false);
         setRequestToChange("");
         await RequestProposalService.changeRequestProposalProf(applicationId, changeMessage, JSON.parse(user).id);
-        handleSuccess();
+        handleSuccess("Request to change sent");
     };
 
     const filteredRequests = myRequests.filter((request) => {

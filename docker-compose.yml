@@ -6,63 +6,19 @@ services:
     container_name: mongo_db_se
     ports:
       - '27017:27017'
-      #environment:
-      #MONGO_INITDB_ROOT_USERNAME: mongo
-      #MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      #- mongodata:/data/db
     networks:
       - network
-
-#  postgres:
-#    image: postgres
-#    container_name: keycloak_db
-#    ports:
-#      - '5432:5432'
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    environment:
-#      POSTGRES_DB: keycloak_db
-#      POSTGRES_USERNAME: keycloak_db
-#      POSTGRES_PASSWORD: password
-#    networks:
-#      - network
-#
-#  keycloak:
-#    image: quay.io/keycloak/keycloak:latest
-#    container_name: keycloak
-#    environment:
-#      KEYCLOAK_ADMIN: "admin"
-#      KEYCLOAK_ADMIN_PASSWORD: "password"
-#    ports:
-#      - "8082:8080"
-#      - "8443:8443"
-#    depends_on:
-#      - postgres
-#    volumes:
-#      - ./docker/SpringBootKeycloak-realm.json:/opt/keycloak/data/import/SpringBootKeycloak-realm.json
-#    command:
-#      - start-dev
-#      - --import-realm
-#    networks:
-#      - network
-
 
   keycloak:
     image: nico331/custom_keycloak
     container_name: custom_keycloak
-  #    environment:
-  #      KEYCLOAK_ADMIN: "admin"
-  #      KEYCLOAK_ADMIN_PASSWORD: "password"
     ports:
       - "8082:8080"
       - "8443:8443"
-  #    volumes:
-  #      - ./docker/SpringBootKeycloak-realm.json:/opt/keycloak/data/import/SpringBootKeycloak-realm.json
     command:
       - start-dev
-  #      - --import-realm
     networks:
       - network
 
@@ -74,12 +30,7 @@ services:
 #    depends_on:
 #      - mongoDB
 #      - keycloak
-#      - postgres
 #    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://keycloak_db:5432/postgres
-#      SPRING_DATASOURCE_USERNAME: "keycloak_db"
-#      SPRING_DATASOURCE_PASSWORD: "password"
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: create
 #      SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
 #      KEYCLOAK_ADMIN: "admin"
 #      KEYCLOAK_ADMIN_PASSWORD: "password"
@@ -100,10 +51,6 @@ services:
       - mongoDB
       - keycloak
     environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://keycloak_db:5432/postgres
-#      SPRING_DATASOURCE_USERNAME: "keycloak_db"
-#      SPRING_DATASOURCE_PASSWORD: "password"
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: create
       SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
       KEYCLOAK_ADMIN: "admin"
       KEYCLOAK_ADMIN_PASSWORD: "password"

@@ -98,6 +98,7 @@ services:
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
     networks:
       - network
+      - mailcow-network
 
   unbound-mailcow:
     image: mailcow/unbound:1.18
