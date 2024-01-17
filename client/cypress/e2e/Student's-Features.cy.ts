@@ -93,19 +93,22 @@ describe("Student features", () => {
         cy.get("#menu-myThesisRequests").click();
     });
 
-    /* const newTopic = "Test Topic";
-    const topicThesis = "Test Proposal Modified";
+    const newTopic = "Details of Thesis Request of Student 1";
+    const topicThesis = "Thesis Reqeusst of Student 1";
     const topicDescription = "Test Description";
     const topicVisibility = "Public";
 
-    it("Create a new topic in the forum", () => {
+    it("Create a new topic in the forum and send a meesage", () => {
     cy.get("#forum").click();
     cy.get("#new-topic-btn").click();
     cy.get("#name-input").type(newTopic);
-    cy.get("#thesis-input").select(topicThesis);
+    cy.get("#thesis-input").type(topicThesis + "{enter}");
     cy.get("#description-input").type(topicDescription);
     cy.get("#visibility-input").select(topicVisibility);
     cy.get("#create-btn").click();
-    }); */
+    cy.contains(newTopic).then(() => {cy.get("#open-discussion-btn").click()});
+    cy.get("#message-input").type("Please, give me more details about your thesis request");
+    cy.get("#send-btn").click();
+  });
 
 });
