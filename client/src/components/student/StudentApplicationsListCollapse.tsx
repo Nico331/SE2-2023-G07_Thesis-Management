@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
-import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
 import ProfessorService from "../../services/ProfessorService";
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import RequestProposalService from "../../services/RequestProposalService";
 import {handleDownload} from "../professor/ArchivedProposals";
-
+// import Request from "../../types/Request";
 interface Request {
     id: string | null;
     title: string;
@@ -54,10 +53,8 @@ const StudentApplicationsListCollapse = () => {
         setStudentApplications(apps.data);
         setStudentProposals(props.data);
         setSupervisors(profs.data);
-        if(reqs.data.some((req) => req.studentId === user.id.toString() ) )
+        if(reqs.data.some((req: Request) => req.studentId === user.id.toString() && (req.secretaryStatus === 'PENDING' || req.supervisorStatus === 'PENDING') ) )
             setHasRequest(true);
-
-
     }
 
 
@@ -236,7 +233,7 @@ const StudentApplicationsListCollapse = () => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to withdraw the application? ?
+                    Are you sure you want to withdraw the application?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={() => setShowWithdrawPopup(false)} id="withdraw-no-btn">No</Button>

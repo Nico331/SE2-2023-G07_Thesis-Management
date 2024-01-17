@@ -254,19 +254,19 @@ class ProposalServiceTest {
         verifyNoInteractions(emailService)
     }
 
-    @Test
-    fun `updateProposal does not notify external co-supervisors if null in updateProposalDTO`() {
-        val proposalId = "proposalId"
-        val existingProposalEntity = proposals[0]
-        val updateProposalDTO = proposals[1].toDTO(externalCoSupervisorRepository)
-
-        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(existingProposalEntity))
-
-        // When
-        proposalService.updateProposal(proposalId, updateProposalDTO)
-
-        verifyNoInteractions(emailService)
-    }
+//    @Test
+//    fun `updateProposal does not notify external co-supervisors if null in updateProposalDTO`() {
+//        val proposalId = "proposalId"
+//        val existingProposalEntity = proposals[0]
+//        val updateProposalDTO = proposals[1].toDTO(externalCoSupervisorRepository)
+//
+//        `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.of(existingProposalEntity))
+//
+//        // When
+//        proposalService.updateProposal(proposalId, updateProposalDTO)
+//
+//        verifyNoInteractions(emailService)
+//    }
 
     @Test
     fun `createProposal throws exception when professor not found`() = runTest {

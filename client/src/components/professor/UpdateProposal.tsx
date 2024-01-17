@@ -9,7 +9,6 @@ import ProfessorService from "../../services/ProfessorService";
 import {useNavigate} from "react-router-dom";
 import ProposalService from "../../services/ProposalService";
 import { UserContext } from "../../contexts/UserContexts";
-import { Prev } from "react-bootstrap/esm/PageItem";
 
 
 function UpdateProposal (props) {
@@ -54,12 +53,10 @@ function UpdateProposal (props) {
         })
     }, []); */
 
-    const navigate = useNavigate()
 
+    const [coAlert, setCoAlert] = useState({type: "", message: "", show: false});
 
-    const [coalert, setCoAlert] = useState({type: "", message: "", show: false});
-
-    const [supalert, setSupAlert] = useState({type: "", message: "", show: false});
+    const [suPalert, setSuPalert] = useState({type: "", message: "", show: false});
 
     const [alert, setAlert] = useState({type: "", message: ""});
 
@@ -81,17 +78,17 @@ function UpdateProposal (props) {
         };
     }, []);
 
-    const updateSupervisor = (newsupervisor) => {
-        if (!updatedprop.coSupervisors.find((cs) => cs === newsupervisor ? true : false)) {
-            setSupAlert({type: "", message: "", show: false});
-            setUpdatedprop({...updatedprop, supervisor: newsupervisor});
-        } else {
-            setSupAlert({type: "danger", message: "The new supervisor is in the co-supervisors list.", show: true});
-            setTimeout(() => {
-                setSupAlert({type: "", message: "", show: false});
-            }, 5000);
-        }
-    };
+    // const updateSupervisor = (newsupervisor) => {
+    //     if (!updatedprop.coSupervisors.find((cs) => cs === newsupervisor ? true : false)) {
+    //         setSuPalert({type: "", message: "", show: false});
+    //         setUpdatedprop({...updatedprop, supervisor: newsupervisor});
+    //     } else {
+    //         setSuPalert({type: "danger", message: "The new supervisor is in the co-supervisors list.", show: true});
+    //         setTimeout(() => {
+    //             setSuPalert({type: "", message: "", show: false});
+    //         }, 5000);
+    //     }
+    // };
 
     console.log({updatedprop})
 
@@ -208,12 +205,12 @@ function UpdateProposal (props) {
                 onHide={() => props.setShowModifyPage(false)}
             >
                 <Modal.Header closeButton>
-                    {props.pagetype === "modify" ? 
-                        <Modal.Title>Update proposal</Modal.Title> 
-                        : 
+                    {props.pagetype === "modify" ?
+                        <Modal.Title>Update proposal</Modal.Title>
+                        :
                         <Modal.Title>Create a copy</Modal.Title>
                     }
-                    
+
                 </Modal.Header>
 
                 <Modal.Body>
@@ -294,11 +291,11 @@ function UpdateProposal (props) {
                                     <Form.Label className="h3">Supervisor</Form.Label>
                                     <Form.Control type="text"
                                         placeholder={JSON.parse(user).name + ' ' + JSON.parse(user).surname}
-                                        disabled 
+                                        disabled
                                         readOnly/>
-                                    {supalert.show ?
-                                        <Alert className="mt-3" variant={supalert.type} show={supalert.show} onClose={() => setSupAlert(false)} dismissible>
-                                            {supalert.message}
+                                    {suPalert.show ?
+                                        <Alert className="mt-3" variant={suPalert.type} show={suPalert.show} onClose={() => setSuPalert(false)} dismissible>
+                                            {suPalert.message}
                                         </Alert>
                                     : null}
                                 </Form.Group>
@@ -311,7 +308,7 @@ function UpdateProposal (props) {
                                 <Form.Label className="h3">Co-Supervisors</Form.Label>
                                 <Card className={"mb-3"}>
                                     <Card.Body>
-                                        <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coalert={coalert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
+                                        <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coAlert={coAlert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
                                         <br/>
                                         {/*<ListGroup className={"mt-3"}>*/}
                                         {/*    {updatedprop.coSupervisors.concat(updatedprop.externalCoSupervisors && updatedprop.externalCoSupervisors.map((it: ExternalCoSupervisor)=>it.email)).map((cs, index) => (<ListGroup.Item key={index}>*/}
@@ -413,7 +410,7 @@ function UpdateProposal (props) {
                                                 </div>
                                             </div>
                                             <div className="mt-3">
-                                                {console.log(updatedprop.keywords)}
+                                                {/*{console.log(updatedprop.keywords)}*/}
                                                 {updatedprop.keywords.map((keyword, index) => (
                                                     <Button variant="primary" key={index} className="m-2"
                                                             onClick={() => removeKeyword(index)}

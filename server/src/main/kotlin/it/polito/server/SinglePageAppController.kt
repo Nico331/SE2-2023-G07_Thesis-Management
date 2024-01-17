@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 class SinglePageAppController {
-
-    @RequestMapping(value = ["/{path:[^\\.]*}"])
+//    @RequestMapping(value = ["/{path:[^\\.]*}"])
+    @RequestMapping(value = ["/{path:^(?!ws)[^\\.]*}"])
     fun redirect(): String {
-        return "forward:/index.html"
-    }
+            return "forward:/index.html"
+        }
 }

@@ -17,15 +17,15 @@ jobs:
         options: >-
           --name mongo_db_se
           -v ./docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      postgres:
-        image: postgres
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_DB: keycloak_db
-          POSTGRES_USER: keycloak_db
-          POSTGRES_PASSWORD: password
-        options: --name keycloak_db
+#      postgres:
+#        image: postgres
+#        ports:
+#          - 5432:5432
+#        env:
+#          POSTGRES_DB: keycloak_db
+#          POSTGRES_USER: keycloak_db
+#          POSTGRES_PASSWORD: password
+#        options: --name keycloak_db
       keycloak:
         image: nico331/custom_keycloak
         ports:

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Container, Row, Image, Col, Card} from 'react-bootstrap';
+import { Container, Row, Image, Col, Card} from 'react-bootstrap';
 import {useNavigate} from "react-router-dom";
 
 const ZoomableContainer = (props) => {

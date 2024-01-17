@@ -6,13 +6,17 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsConfigurationSource
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
+import org.springframework.web.socket.WebSocketMessage
+import java.net.Socket
 import java.net.http.WebSocket
+import java.util.logging.SocketHandler
 
 
 @Configuration
@@ -20,11 +24,12 @@ import java.net.http.WebSocket
 class WebSecurityConfig {
     @Autowired
     private lateinit var jwtAuthConverter: JwtAuthConverter
+
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
-            it.requestMatchers("/ws/**").permitAll()
+            it.requestMatchers("/ws/**", "/socket.io/**").permitAll()
             it.requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
             it.requestMatchers(HttpMethod.PUT,"/API/**").permitAll()
             it.requestMatchers(HttpMethod.GET,"/websocket/**").permitAll()
@@ -62,6 +67,7 @@ class WebSecurityConfig {
 
         http.csrf { csrf->
             csrf.ignoringRequestMatchers("/API/**")
+            csrf.disable() // Disabilita CSRF per i WebSocket
         }
             http.oauth2ResourceServer { oauth->
                 oauth.jwt{ jwt->
@@ -87,10 +93,8 @@ class WebSecurityConfig {
         //configuration.allowedMethods = mutableListOf("GET", "POST")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
-
         return source
     }
-
 
     companion object {
         const val PROFESSOR = "PROFESSOR"

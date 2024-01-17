@@ -61,7 +61,6 @@ class AppliedProposalServiceTest {
             professorRepository,
             proposalService,
             emailService,
-            externalCoSupervisorRepository
             )
     }
 

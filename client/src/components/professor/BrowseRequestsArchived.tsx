@@ -232,7 +232,7 @@ const BrowseRequestsArchived = () => {
                                                         <Accordion.Header className={"w-100"}>
                                                             <Row className={"w-100"}>
                                                                 <div className="col-sm-8">
-                                                                    <strong>Student:</strong> {student.name} {student.surname} &nbsp;&nbsp;
+                                                                    <strong>Student:</strong> {student && student.name} {student && student.surname} &nbsp;&nbsp;
                                                                     <strong>Status:</strong> {request.supervisorStatus}
                                                                 </div>
                                                                 <div className="col-sm-4">
@@ -250,33 +250,33 @@ const BrowseRequestsArchived = () => {
                                                         <Accordion.Body style={{textAlign: 'left'}}>
                                                             <Row>
                                                                 <Col md={6}>
-                                                                    <b>Student id:</b> {student.id}
+                                                                    <b>Student id:</b> {student && student.id}
                                                                 </Col>
                                                                 <Col md={6}>
-                                                                    <b>Name:</b> {student.name + " "+student.surname}
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col md={6}>
-                                                                    <b>Gender:</b> {student.gender}
-                                                                </Col>
-                                                                <Col md={6}>
-                                                                    <b>Nationality:</b> {student.nationality}
+                                                                    <b>Name:</b> {student && student.name + " "+student && student.surname}
                                                                 </Col>
                                                             </Row>
                                                             <Row>
                                                                 <Col md={6}>
-                                                                    <b>Email:</b> {student.email}
+                                                                    <b>Gender:</b> {student && student.gender}
+                                                                </Col>
+                                                                <Col md={6}>
+                                                                    <b>Nationality:</b> {student && student.nationality}
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col md={6}>
+                                                                    <b>Email:</b> {student && student.email}
                                                                 </Col>
 
                                                             </Row>
                                                             <div>
                                                                 <h4>Degree Details</h4>
                                                                 <p>
-                                                                    <strong>Degree:</strong> {student.codDegree}
+                                                                    <strong>Degree:</strong> {student && student.codDegree}
                                                                 </p>
                                                                 <p>
-                                                                    <strong>Enrollment Year:</strong> {student.enrollmentYear}
+                                                                    <strong>Enrollment Year:</strong> {student && student.enrollmentYear}
                                                                 </p>
                                                             </div>
                                                             <div>

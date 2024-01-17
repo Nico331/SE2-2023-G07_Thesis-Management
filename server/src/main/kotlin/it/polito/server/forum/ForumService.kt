@@ -41,7 +41,7 @@ class ForumService(
         }
 
         val personalForums = forumRepository.findByVisibility(ForumVisibility.PRIVATE)
-        accessibleForums.addAll(protectedForums.filter { forum ->
+        accessibleForums.addAll(personalForums.filter { forum ->
             requestProposalRepository.findById(forum.thesis).get().let { thesis ->
                 userId == thesis.supervisorId ||
                         userId == thesis.studentId ||

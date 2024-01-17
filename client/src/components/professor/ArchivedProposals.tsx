@@ -137,7 +137,7 @@ const ArchivedProposals = () => {
                                             </Row>
 
                                         </Accordion.Header>
-                                        <Accordion.Body>
+                                        <Accordion.Body style={{textAlign: 'left'}}>
                                             <Row>
                                                 <Col md={6}>
                                                     <b>Thesis Title:</b> {proposal.title}
