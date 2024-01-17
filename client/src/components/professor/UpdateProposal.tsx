@@ -9,7 +9,6 @@ import ProfessorService from "../../services/ProfessorService";
 import {useNavigate} from "react-router-dom";
 import ProposalService from "../../services/ProposalService";
 import { UserContext } from "../../contexts/UserContexts";
-import { Prev } from "react-bootstrap/esm/PageItem";
 
 
 function UpdateProposal (props) {
@@ -208,12 +207,12 @@ function UpdateProposal (props) {
                 onHide={() => props.setShowModifyPage(false)}
             >
                 <Modal.Header closeButton>
-                    {props.pagetype === "modify" ? 
-                        <Modal.Title>Update proposal</Modal.Title> 
-                        : 
+                    {props.pagetype === "modify" ?
+                        <Modal.Title>Update proposal</Modal.Title>
+                        :
                         <Modal.Title>Create a copy</Modal.Title>
                     }
-                    
+
                 </Modal.Header>
 
                 <Modal.Body>
@@ -294,7 +293,7 @@ function UpdateProposal (props) {
                                     <Form.Label className="h3">Supervisor</Form.Label>
                                     <Form.Control type="text"
                                         placeholder={JSON.parse(user).name + ' ' + JSON.parse(user).surname}
-                                        disabled 
+                                        disabled
                                         readOnly/>
                                     {supalert.show ?
                                         <Alert className="mt-3" variant={supalert.type} show={supalert.show} onClose={() => setSupAlert(false)} dismissible>
