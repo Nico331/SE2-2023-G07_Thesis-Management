@@ -24,7 +24,6 @@ import kotlinx.coroutines.launch
 class WebSocketHandler(
     private val messageService: MessageService,
     private val objectMapper: ObjectMapper,
-    private val emailService: EmailService
 ) : TextWebSocketHandler() {
 
     private var sessions: MutableMap<String, MutableList<WebSocketSession>> = mutableMapOf()

@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import './App.css';
 import './custom.scss';
 import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
 import AuthCheck from "./components/login/AuthCheck";
 import {
     LogOutContext,
-    RoleContext,
     RoleProvider,
     TokenProvider,
     UserContext,
@@ -17,7 +16,6 @@ import StudentRoutes from "./components/student/StudentRoutes";
 import ProfessorRoutes from "./components/professor/ProfessorRoutes";
 import GuestRoutes from "./components/guest/GuestRoutes";
 import { Container } from 'react-bootstrap';
-import RequestedProposals from './components/Secretary/RequestedProposals';
 import SecretaryRoutes from './components/Secretary/SecretaryRoutes';
 
 
@@ -89,15 +87,3 @@ function Main() {
     );
 }
 export default App;
-
-    /*
-    <Container fluid className="App">
-                            <Routes>
-                                <Route path="/" element={<Main />} />
-                                <Route path="/proposal-list" element={<ProposalList setStudentProposalID={setStudentProposalID} />} />
-                                <Route path="/professor/add-proposal" element={<ProposalForm />} />
-                                <Route path="/professor/browse-proposals" element={<ProfessorBrowseProposals setProfessorProposalID={setProfessorProposalID} />} />
-                                <Route path="/apply" element={<StudentApplyForm studentProposalID={studentProposalID} />} />
-                            </Routes>
-                        </Container>
-     */

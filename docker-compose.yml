@@ -15,19 +15,19 @@ services:
     networks:
       - network
 
-  postgres:
-    image: postgres
-    container_name: keycloak_db
-    ports:
-      - '5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak_db
-      POSTGRES_USERNAME: keycloak_db
-      POSTGRES_PASSWORD: password
-    networks:
-      - network
+#  postgres:
+#    image: postgres
+#    container_name: keycloak_db
+#    ports:
+#      - '5432:5432'
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: keycloak_db
+#      POSTGRES_USERNAME: keycloak_db
+#      POSTGRES_PASSWORD: password
+#    networks:
+#      - network
 #
 #  keycloak:
 #    image: quay.io/keycloak/keycloak:latest
@@ -68,37 +68,9 @@ services:
     networks:
       - network
 
-  backend:
-    image: "server:0.0.1-SNAPSHOT"
-    container_name: backend
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mongoDB
-      - keycloak
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://keycloak_db:5432/postgres
-      SPRING_DATASOURCE_USERNAME: "keycloak_db"
-      SPRING_DATASOURCE_PASSWORD: "password"
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create
-      SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
-      KEYCLOAK_ADMIN: "admin"
-      KEYCLOAK_ADMIN_PASSWORD: "password"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://custom_keycloak:8080/realms/ThesisManagementRealm
-      SPRING_MAIL_HOST: localhost
-      SPRING_MAIL_PORT: 25
-      SPRING_MAIL_username: no-reply@studenti.polito.it
-      SPRING_MAIL_PASSWORD: password
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_auth: true
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
-
-    networks:
-      - network
-
 #  backend:
-#    image: "nico331/thesis_management_g07"
-#    container_name: custom_backend
+#    image: "server:0.0.1-SNAPSHOT"
+#    container_name: backend
 #    ports:
 #      - "8081:8081"
 #    depends_on:
@@ -114,8 +86,40 @@ services:
 #      KEYCLOAK_ADMIN: "admin"
 #      KEYCLOAK_ADMIN_PASSWORD: "password"
 #      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://custom_keycloak:8080/realms/ThesisManagementRealm
-#    networks:
-#      - network
+#      SPRING_MAIL_HOST: postfix-mailcow
+#      SPRING_MAIL_PORT: 25
+#      SPRING_MAIL_username: no-reply@studenti.polito.it
+#      SPRING_MAIL_PASSWORD: password
+#      SPRING_MAIL_PROPERTIES_MAIL_SMTP_auth: true
+#      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
+
+  backend:
+    image: "nico331/thesis_management_g07"
+    container_name: custom_backend
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongoDB
+      - keycloak
+      - postgres
+    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://keycloak_db:5432/postgres
+#      SPRING_DATASOURCE_USERNAME: "keycloak_db"
+#      SPRING_DATASOURCE_PASSWORD: "password"
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "password"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://custom_keycloak:8080/realms/ThesisManagementRealm
+      SPRING_MAIL_HOST: postfix-mailcow
+      SPRING_MAIL_PORT: 25
+      SPRING_MAIL_username: no-reply@studenti.polito.it
+      SPRING_MAIL_PASSWORD: password
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_auth: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
+
+    networks:
+      - network
 
 volumes:
   mongodata:

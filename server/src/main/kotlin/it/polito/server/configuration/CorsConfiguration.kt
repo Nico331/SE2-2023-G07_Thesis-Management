@@ -27,6 +27,7 @@ class WebApplicationConfig : WebMvcConfigurer {
 
 }
 @Configuration
+//@EnableWebMvc
 class WebConfig: WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
