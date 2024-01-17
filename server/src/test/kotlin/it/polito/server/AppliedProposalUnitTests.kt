@@ -27,7 +27,7 @@ class AppliedProposalUnitTests {
         proposalRepository = mock(ProposalRepository::class.java)
         studentRepository = mock(StudentRepository::class.java)
         appliedProposalRepository= mock(AppliedProposalRepository::class.java)
-        appliedProposalController = AppliedProposalController(appliedProposalService,proposalRepository, studentRepository)
+        appliedProposalController = AppliedProposalController(appliedProposalService)
     }
 
     @Test
