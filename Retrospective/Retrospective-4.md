@@ -76,7 +76,7 @@ Moreover the #102 for some reason was not counted in the reports.</span>
   - Actual:
     - Average = 1h 32m
     - Standard deviation = 2h 19m
-- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 116 / 112,5 - 1 = 0.03
+- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 116 / 113,5 - 1 = 0.02
 
 ## QUALITY MEASURES
 
