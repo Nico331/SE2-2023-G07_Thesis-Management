@@ -30,7 +30,7 @@ const BrowseRequestsArchived = () => {
     const [exams, setExams] = useState([]);
 
 
-    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
+    const [showSuccessModal, setShowSuccessModal] = useState({show: false, text: "", type: ""});
 
     const [filter, setFilter] = useState('all'); // 'all', 'supervisor', 'cosupervisor'
 
@@ -76,11 +76,11 @@ const BrowseRequestsArchived = () => {
     }, [refresh]);
 
     useEffect(() => {
-        if (!showsuccessmodal.show) {
+        if (!showSuccessModal.show) {
             // Aggiorna la pagina dopo la chiusura del popup di successo
             setRefresh((r) => !r);
         }
-    }, [showsuccessmodal.show]);
+    }, [showSuccessModal.show]);
 
     const filteredRequests = myRequests.filter((request) => {
         const userId = JSON.parse(user).id;
@@ -102,20 +102,20 @@ const BrowseRequestsArchived = () => {
             <Container className="d-flex flex-column">
                 <h2 style={{marginTop: "110px"}}>Archived Requests</h2>
 
-                {showsuccessmodal.show ?
+                {showSuccessModal.show ?
                         <Modal
-                            show={showsuccessmodal.show}
+                            show={showSuccessModal.show}
                         >
                             <Modal.Header>
                                 <Modal.Title>
-                                    {showsuccessmodal.type === "success" ? "Success" : "Error"}
+                                    {showSuccessModal.type === "success" ? "Success" : "Error"}
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {showsuccessmodal.text}
+                                {showSuccessModal.text}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({
+                                <Button variant={showSuccessModal.type} onClick={() => setShowSuccessModal({
                                     show: false,
                                     type: "",
                                     text: ""
@@ -222,7 +222,7 @@ const BrowseRequestsArchived = () => {
                                                         <Accordion.Header className={"w-100"}>
                                                             <Row className={"w-100"}>
                                                                 <div className="col-sm-8">
-                                                                    <strong>Student:</strong> {student && student.name} {student && student.surname} &nbsp;&nbsp;
+                                                                    <strong>Student:</strong> {student?.name} {student?.surname} &nbsp;&nbsp;
                                                                     <strong>Status:</strong> {request.supervisorStatus}
                                                                 </div>
                                                                 <div className="col-sm-4">
@@ -240,33 +240,33 @@ const BrowseRequestsArchived = () => {
                                                         <Accordion.Body style={{textAlign: 'left'}}>
                                                             <Row>
                                                                 <Col md={6}>
-                                                                    <b>Student id:</b> {student && student.id}
+                                                                    <b>Student id:</b> {student?.id}
                                                                 </Col>
                                                                 <Col md={6}>
-                                                                    <b>Name:</b> {student && student.name + " "+student && student.surname}
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col md={6}>
-                                                                    <b>Gender:</b> {student && student.gender}
-                                                                </Col>
-                                                                <Col md={6}>
-                                                                    <b>Nationality:</b> {student && student.nationality}
+                                                                    <b>Name:</b> {student?.name + " "+student?.surname}
                                                                 </Col>
                                                             </Row>
                                                             <Row>
                                                                 <Col md={6}>
-                                                                    <b>Email:</b> {student && student.email}
+                                                                    <b>Gender:</b> {student?.gender}
+                                                                </Col>
+                                                                <Col md={6}>
+                                                                    <b>Nationality:</b> {student?.nationality}
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col md={6}>
+                                                                    <b>Email:</b> {student?.email}
                                                                 </Col>
 
                                                             </Row>
                                                             <div>
                                                                 <h4>Degree Details</h4>
                                                                 <p>
-                                                                    <strong>Degree:</strong> {student && student.codDegree}
+                                                                    <strong>Degree:</strong> {student?.codDegree}
                                                                 </p>
                                                                 <p>
-                                                                    <strong>Enrollment Year:</strong> {student && student.enrollmentYear}
+                                                                    <strong>Enrollment Year:</strong> {student?.enrollmentYear}
                                                                 </p>
                                                             </div>
                                                             <div>
