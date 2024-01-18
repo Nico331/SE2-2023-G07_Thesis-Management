@@ -104,6 +104,11 @@ Moreover the #102 for some reason was not counted in the reports.</span>
     - Security: A
     - Maintainability: A
       (Modified after the retrospective feedback from the professor)
+-Frontend automated tests:
+  - Total hours estimated: 10h
+  - Total hours spent: 10h
+  - Nr of automated unit test cases: 16
+
 
 ## ASSESSMENT
 
