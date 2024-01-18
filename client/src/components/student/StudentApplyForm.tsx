@@ -1,17 +1,16 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState,  useEffect} from 'react';
 import { useParams } from "react-router-dom";
-import {Form, Button, Table, Container, Navbar, Image, Row} from 'react-bootstrap';
+import {Form, Button, Table, Container} from 'react-bootstrap';
 import CareerService from "../../services/CareerService";
 import Modal from 'react-bootstrap/Modal';
-import {Link, useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import DegreeService from "../../services/DegreeService";
 import ApplicationService from "../../services/ApplicationService";
 import '../componentsStyle.css'
-import {UserContext} from '../../contexts/UserContexts';
 
 function StudentApplyForm(props) {
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [user] = useState(JSON.parse(localStorage.getItem("user")));
     // const [studentData, setStudentData] = useState({});
 
     //questo deve essere un vettore di oggetti con campi (cod_course, title_course, cfu, grade, date)
@@ -34,15 +33,15 @@ function StudentApplyForm(props) {
 
     const [file, setFile] = useState(null);
 
-    const getCareer = async (id) => {
-        const response = await CareerService.fetchCareer(id);
-        setStudentCareer(response.data);
-    }
+    // const getCareer = async (id) => {
+    //     const response = await CareerService.fetchCareer(id);
+    //     setStudentCareer(response.data);
+    // }
 
-    const getDegree = async (codDegree) => {
-        const response = await DegreeService.fetchDegree(codDegree);
-        setStudentDegree(response.data);
-    }
+    // const getDegree = async (codDegree) => {
+    //     const response = await DegreeService.fetchDegree(codDegree);
+    //     setStudentDegree(response.data);
+    // }
 
     // useEffect(() => {
     //     getCareer(user.id);

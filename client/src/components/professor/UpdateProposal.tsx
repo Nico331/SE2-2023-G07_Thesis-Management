@@ -6,14 +6,13 @@ import GroupInput from "./GroupInput";
 import {FaTimes} from "react-icons/fa";
 import CdsInput from "./CdsInput";
 import ProfessorService from "../../services/ProfessorService";
-import {useNavigate} from "react-router-dom";
 import ProposalService from "../../services/ProposalService";
 import { UserContext } from "../../contexts/UserContexts";
 
 
 function UpdateProposal (props) {
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const [updatedprop, setUpdatedprop] = useState({
         id: null,
