@@ -31,17 +31,35 @@ All the unit and e2e tests for the completed stories are passing.
 ### Detailed statistics
 
 | Story | # Tasks | Points | Hours est. | Hours actual |
-| ----- | ------- | ------ |------------|--------------|
-| _#0_  | 28      |        | 66h        | 72h 15m      |
-| _#10_  | 1       | 8      | 6h         | 3h           |
-| _#12_  | 2       | 2      | 3h         | 3h           |
-| _#13_  | 3       | 3      | 3h         | 3h 30m       |
-| _#14_  | 1       | 3      | 1h         | 1h           |
-| _#15_  | 1       | 5      | 1h         | 30m          |
-| _#16_  | 1       | 3      | 2h         | 1h           |
-| _#17_ (NC)  | 3/4       | 3      | 6h         | 7h 30m       |
-| _#115_  | 3       | 3      | 9h         | 9h           |
-| _#116_ (NC)  | 4/7       | 5      | 15h        | 15h 15m      |
+| ----- | ------- | ------ | ---------- | ------------ |
+| _#0_  | 24      |        | 68h 15m    | 68h 10m      |
+| _#17_ | 2       | 3      | 45m        | 45m          |
+| _#18_ | 1       | 3      | 30m        | 30m          |
+| _#19_ | 1       | 5      | 15m        | 20m          |
+| _#20_ | 4       | 3      | 3h 30m     | 4h           |
+| _#21_ | 1       | 1      | 15m        | 20m          |
+| _#22_ | 1       | 1      | 15m        | 15m          |
+| _#23_ | 1       | 0      | 30m        | 30m          |
+| _#24_ | 1       | 1      | 15m        | 10m          |
+| _#25_ | 1       | 0      | 30m        | 30m          |
+| _#26_ | 1       | 0      | 30m        | 30m          |
+| _#27_ | 2       | 5      | 30m        | 35m          |
+| _#28_ | 4       | 3      | 7h         | 5h 30m       |
+| _#29_ | 1       | 3      | 15m        | 5m           |
+| _#30_ | 3       | 5      | 4h 30m     | 4h 35m       |
+| _#31_ | 8       | 3      | 8h 30m     | 8h 30m       |
+| _#32_ | 1       | 1      | 15m        | 10m          |
+| _#33_ | 4       | 2      | 8h 15m     | 7h 35m       |
+| _#34_ | 1       | 1      | 15m        | 15m          |
+| _#35_ | 1       | 0      | 30m        | 30m          |
+| _#36_ | 2       | 2      | 2h 15m     | 1h 45m       |
+| _#37_ | 1       | 1      | 1h 30m     | 1h           |
+| _#38_ | 2       | 3      | 3h         | 2h 30m       |
+| _#39_ | 2       | 2      | 2h         | 3h           |
+| _#40_ | 1       | 1      | 15m        | 10m          |
+| _#41_ | 1       | 2      | 1h         | 1h           |
+| _#42_ | 1       | 1      | 15m        | 15m          |
+| _#43_ | 1       | 1      | 15m        | 5m           |
 
 <span style="color:green">
 Note that the story id is consistent with the one on YouTrack, but not with the one provided by the professors.</span>
@@ -49,80 +67,72 @@ Note that the story id is consistent with the one on YouTrack, but not with the 
 <span style="color:green">
 Moreover the #102 for some reason was not counted in the reports.</span>
 
-
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
 - Hours per task average, standard deviation (estimate and actual)
-    - Estimate:
-        - Average = 1h 34m
-        - Standard deviation = 2h 9m
-    - Actual:
-        - Average = 1h 32m
-        - Standard deviation = 2h 19m
+  - Estimate:
+    - Average = 1h 34m
+    - Standard deviation = 2h 9m
+  - Actual:
+    - Average = 1h 32m
+    - Standard deviation = 2h 19m
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 : 116 / 112,5 - 1 = 0.03
 
 ## QUALITY MEASURES
 
 - Unit Testing:
-    - Total hours estimated: 7h 30m
-    - Total hours spent: 7h
-    - Nr of automated unit test cases: 217
-    - Coverage (if available): 55.9% (back-end)
+  - Total hours estimated: 7h 30m
+  - Total hours spent: 7h
+  - Nr of automated unit test cases: 217
+  - Coverage (if available): 55.9% (back-end)
 - E2E testing:
-    - Total hours estimated: 4h
-    - Total hours spent: 6h
+  - Total hours estimated: 4h
+  - Total hours spent: 6h
 - Code review:
-    - Total hours estimated : 2h
-    - Total hours spent: 2h
+  - Total hours estimated : 2h
+  - Total hours spent: 2h
 - Technical Debt management:
-    - Total hours estimated: 9h 30m (Tasks: General previous APIs fix, API security (chained), Code review frontend, Insert external supervisor, Sonarcube setup)
-    - Total hours spent: 16h 45m
-    - Hours estimated for remediation by SonarQube:
-        - Remediation effort: 0 (Reliability) + 2h (Security) + 15h (Maintainability) = 17h
-    - Hours estimated for remediation by SonarQube only for the selected and planned issues: 4h
-    - Hours spent on remediation: 3h (The Sonarcube report have gone from 2d 1h to 1d 2h) 
-    - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0,4 %
-    - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability ):
-        - Reliability: A
-        - Security: A
-        - Maintainability: A
-     (Modified after the retrospective feedback from the professor)
+  - Total hours estimated: 9h 30m (Tasks: General previous APIs fix, API security (chained), Code review frontend, Insert external supervisor, Sonarcube setup)
+  - Total hours spent: 16h 45m
+  - Hours estimated for remediation by SonarQube:
+    - Remediation effort: 0 (Reliability) + 2h (Security) + 15h (Maintainability) = 17h
+  - Hours estimated for remediation by SonarQube only for the selected and planned issues: 4h
+  - Hours spent on remediation: 3h (The Sonarcube report have gone from 2d 1h to 1d 2h)
+  - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0,4 %
+  - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability ):
+    - Reliability: A
+    - Security: A
+    - Maintainability: A
+      (Modified after the retrospective feedback from the professor)
 
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
 
- > Due to the experience acquired in the previous sprints we didn't get outstanding errors.
+> Due to the experience acquired in the previous sprints we didn't get outstanding errors.
 
 - What lessons did you learn (both positive and negative) in this sprint?
 
- > We have to test better a task before committing it.
+> During this sprint we have learnt that is better to finish the stories some time before the deadline in order to have some days to test the system.
 
- > If something isn't working properly (a story not completed) better not to show it during the demo.
-
- > Build the environment some time before the demo.
+> Next time we could get involved right from the beginning not to write duplicated or dirty code it could be a good way to save much time.
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
 
- > We have prepared some realistic test data for the demo.
+> The entire environment was built in time for the demo and worked properly.
 
- > The tasks have been split properly between team members, in particular the mole of work for backend was
- > approximately equal to the one for frontend.
+> During this sprint we didn't lose much time fixing bugs and possible problems.
 
- > We are trying to consider also the technical debt when we plan the sprint.
+> We have tested the application properly.
 
 - Which ones you were not able to achieve? Why?
 
- > We think that we achieved the improvement goals set in the previous sprint.
+> We think that we achieved the improvement goals set in the previous sprint.
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
- > For the next sprint we must test the entire system and prepare the environment some hour before the demo.
-
- > The frontend team have to manage in a better way the errors in order not to lose much time when some problem arises.
+> For the next sprint we could commit less stories and put more focus on testing.
 
 - One thing you are proud of as a Team!
 
- > We finished all the stories planned for this sprint.
- > We have a good team coordination.
- > We have a good team spirit.
+> We have committed a lot of stories without exceeding the sprint working hours.
