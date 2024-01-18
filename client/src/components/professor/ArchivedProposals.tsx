@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Accordion, Button, Badge, Table, Row, Col, Container, Form,} from 'react-bootstrap';
+import {Accordion, Button, Badge, Row, Col, Container, Form,} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import {UserContext} from "../../contexts/UserContexts";
 import dayjs from "dayjs";
@@ -31,7 +31,7 @@ const ArchivedProposals = () => {
 
     const [refresh, setRefresh] = useState(false);
     // @ts-ignore
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     useEffect(() => {
         if (user) {
             ApplicationService.getByProfessorIdArchived(JSON.parse(user).id).then((res) => {

@@ -49,7 +49,6 @@ const ZoomableContainer = (props) => {
 
 const SecretaryMain = () => {
     return (
-        <>
         <Container className="d-flex flex-column" style={{height:"100vh"}}>
             <Container className="d-flex flex-column justify-content-between" style={{marginTop:"120px", height:"100%", paddingBottom:"40px"}}>
                 <Container className="p-3 text-center">
@@ -66,7 +65,6 @@ const SecretaryMain = () => {
                 </Container>
             </Container>
         </Container>
-        </>
     );
 };
 

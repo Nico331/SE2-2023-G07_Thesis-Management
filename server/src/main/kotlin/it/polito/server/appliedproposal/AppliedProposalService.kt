@@ -407,14 +407,6 @@ class AppliedProposalService(
                             appliedProposalDTO.file
                         )
                     }
-                    //val nameSupervisor = professorRepository.findById(proposal.supervisor)
-                    /*
-                    val coSup = proposal.coSupervisors.map { it ->
-                        val prof = professorRepository.findById(it).get();
-                        return@map "${prof.name} ${prof.surname}"
-                    }
-
-                     */
                     return@map StrangeObjectRequestedByDarione(
                             proposal.id,
                             proposal.title,

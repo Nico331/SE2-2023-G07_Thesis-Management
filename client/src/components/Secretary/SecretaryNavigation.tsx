@@ -10,7 +10,7 @@ type ProfessorNavigationProps = {
 };
 
 const ProfessorNavigation: React.FC<ProfessorNavigationProps> = ({ setRole }) =>{
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [user] = useState(JSON.parse(localStorage.getItem("user")));
     const location = useLocation();
     const [showDropdown, setShowDropdown] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);

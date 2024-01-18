@@ -42,7 +42,6 @@ const ForumForm: React.FC = () => {
     };
 
     return (
-        <>
             <Container>
                 <h1 style={{ marginTop: "110px" }}>New Topic</h1>
                 {error!=="" && <h4 style={{color: "red"}}>{error}</h4>}
@@ -110,7 +109,6 @@ const ForumForm: React.FC = () => {
                     <br /><br />
                 </Form>
             </Container>
-        </>
 
     );
 };

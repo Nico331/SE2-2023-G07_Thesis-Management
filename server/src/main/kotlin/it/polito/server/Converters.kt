@@ -1,8 +1,6 @@
 package it.polito.server
 
 import org.springframework.core.convert.converter.Converter
-import org.springframework.stereotype.Component
-import java.sql.Timestamp
 import java.util.Date
 
 import java.time.ZonedDateTime
@@ -15,7 +13,6 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver
 import org.springframework.data.mongodb.MongoDatabaseFactory
-import java.util.Arrays
 
 class DateToZonedDateTimeConverter : Converter<Date, ZonedDateTime> {
     override fun convert(source: Date): ZonedDateTime? {
@@ -28,13 +25,6 @@ class ZonedDateTimeToDateConverter : Converter<ZonedDateTime, Date> {
         return Date.from(source.toInstant())
     }
 }
-
-//@Component
-//class DateToTimestampConverter : Converter<Date, Timestamp> {
-//    override fun convert(source: Date): Timestamp? {
-//        return Timestamp(source.time)
-//    }
-//}
 
 
 

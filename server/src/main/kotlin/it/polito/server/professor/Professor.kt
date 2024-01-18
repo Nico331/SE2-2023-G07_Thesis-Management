@@ -15,13 +15,6 @@ data class Professor (
     //private var passwordHash: String? = null
 
 ): ForumUserInterface {
-    /*fun setPassword(password: String) {
-        this.passwordHash = BCryptPasswordEncoder().encode(password)
-    }
-
-    fun checkPassword(password: String): Boolean {
-        return BCryptPasswordEncoder().matches(password, this.passwordHash)
-    }*/
 
     fun toDTO () : ProfessorDTO = ProfessorDTO(
         id = this.id,

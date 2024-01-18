@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 export default function MainNavBar({role, undef_user, setRole}) {
     const [show, setShow] = useState(false);
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
     const [helloScreenSmall, setHelloScreenSmall] = useState(window.matchMedia('(max-width: 1000px)').matches);
@@ -440,29 +440,4 @@ export default function MainNavBar({role, undef_user, setRole}) {
             </Navbar>
         </>
     )
-}
-
-
-{/* {role === "" ? (
-                    <Row lg={6}>
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                        <Navbar.Offcanvas style={{background:'#005574', width: '50%'}} className={"justify-content-end"} placement='end'>
-                            <Offcanvas.Header closeButton closeVariant='white'>
-                                <Offcanvas.Title style={{color:'white'}}>Menu</Offcanvas.Title>
-                            </Offcanvas.Header>
-                            <Offcanvas.Body>
-                                <Nav.Link 
-                                    href="/login"
-                                    style={{color: 'white',
-                                            border: hover ? '1px solid rgba(247, 247, 247, 0.5)' : "0px solid gray" ,
-                                            borderRadius: '3px',
-                                            padding: hover ? '3px 9px 4px 8px' : '4px 10px 5px 9px',
-                                            background: hover ? 'rgba(247, 247, 247, 0.1)' : 'transparent'}}
-                                    onMouseEnter={() => setHover(true)} 
-                                    onMouseOut={() => setHover(false)}
-                                    onTouchStart={() => setHover(true)}
-                                    onTouchEnd={() => setHover(false)} > Login</Nav.Link>
-                            </Offcanvas.Body>
-                        </Navbar.Offcanvas>
-                    </Row>) : null} */
 }

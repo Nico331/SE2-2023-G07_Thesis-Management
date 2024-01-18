@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-//import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
 import ProposalService from "../../services/ProposalService";
 import ApplicationService from "../../services/ApplicationService";
@@ -32,48 +31,6 @@ const StudentApplicationList = () => {
     useEffect(()=>{
         getDatas();
     },[])
-
-    // useEffect(() => {
-    //
-    //     const fetchUser = () => {
-    //         setStudentData(user);
-    //     };
-    //     const fetchData = async () => {
-    //
-    //         try {
-    //             const apps = await ApplicationService.getApplicationByStudentId(user);
-    //             console.log("apps.data "+apps.data);
-    //             setStudentApplications(apps.data);
-    //         } catch (error) {
-    //             // Gestione degli errori, ad esempio set della variabile d'errore o log
-    //             console.error("Error fetching data:", error);
-    //         }
-    //     };
-    //     fetchUser();
-    //     fetchData(); // Chiamata alla funzione fetchData
-    //
-    // }, [user]); // Assicurati di includere tutte le dipendenze necessarie, come ad esempio user.id
-
-
-    // useEffect(() => {
-    //
-    //     const fetchProposals = async () => {
-    //         console.log(studentApplications);
-    //         const props = [];
-    //         studentApplications.map( async (app) => {
-    //             console.log(app.proposalId);
-    //             const propID = app.proposalId;
-    //             const prop = await ProposalService.getProposalById(propID);
-    //             props.push(prop.data);
-    //
-    //         })
-    //         setStudentProposals(props);
-    //
-    //     }
-    //
-    //     fetchProposals();
-    //
-    // }, [studentApplications.length]);
 
     return (
         <>

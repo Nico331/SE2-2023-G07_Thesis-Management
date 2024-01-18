@@ -20,7 +20,7 @@ import CareerService from "../../services/CareerService"; // Import icons as nee
 const BrowseRequestsArchived = () => {
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const [professors, setProfessors] = useState([]);
 
@@ -99,12 +99,10 @@ const BrowseRequestsArchived = () => {
     });
 
     return (
-        <>
             <Container className="d-flex flex-column">
                 <h2 style={{marginTop: "110px"}}>Archived Requests</h2>
 
                 {showsuccessmodal.show ?
-                    <>
                         <Modal
                             show={showsuccessmodal.show}
                         >
@@ -124,7 +122,6 @@ const BrowseRequestsArchived = () => {
                                 })}>Close</Button>
                             </Modal.Footer>
                         </Modal>
-                    </>
                     : null}
 
                 <div>
@@ -163,14 +160,7 @@ const BrowseRequestsArchived = () => {
                                     console.log(exams);
                                     console.log(ex);
                                     let isSupervisor;
-                                    let isCosupervisor;
-
-
                                     isSupervisor = request.supervisorId === JSON.parse(user).id;
-
-                                    isCosupervisor = !!request.coSupervisors.some(prof => prof === JSON.parse(user).id);
-
-
                                     return (request.supervisorStatus === "ACCEPTED" || request.supervisorStatus === "REJECTED") ? (
                                         <Accordion.Item eventKey={request.id} key={request.id}>
                                             <Accordion.Header>
@@ -315,10 +305,6 @@ const BrowseRequestsArchived = () => {
                     }
                 </Accordion>
             </Container>
-
-
-
-        </>
     );
 
 

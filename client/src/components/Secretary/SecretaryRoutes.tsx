@@ -1,12 +1,9 @@
 import {Route, Routes} from "react-router-dom";
 import { NotFound } from "../Layouts";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import Logout from "../login/Logout";
-import Student from "../../types/Student";
 import MainNavBar from "../NavBar";
 import RequestedProposals from "../Secretary/RequestedProposals";
-import Login from "../login/Login";
-import GuestMain from "../guest/GuestMain";
 import SecretaryMain from "./SecretaryMain";
 
 type ProfessorRoutesProps = {

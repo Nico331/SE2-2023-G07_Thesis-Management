@@ -20,7 +20,7 @@ const Forum: React.FC = () => {
             })
         })
     },[50])
-    const { role, setRole } = useContext(RoleContext)
+    const { role } = useContext(RoleContext)
 
     return (
         <div>

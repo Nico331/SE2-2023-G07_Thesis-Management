@@ -1,5 +1,4 @@
 import React from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const GuestMain: React.FC = () => {
@@ -26,17 +25,6 @@ const GuestMain: React.FC = () => {
                         </Card>
                     </Col>
                 </Row>
-
-                // {/*<Row className="mt-4">*/}
-                // {/*    <Col>*/}
-                // {/*        <h2>Come Funziona</h2>*/}
-                // {/*        <p>*/}
-                // {/*            Gli studenti possono consultare le proposte di tesi e contattare i professori per ulteriori informazioni.*/}
-                // {/*            Registrati per rimanere aggiornato sulle ultime proposte.*/}
-                // {/*        </p>*/}
-                // {/*    </Col>*/}
-                // {/*</Row>*/}
-
     );
 };
 

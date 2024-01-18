@@ -2,9 +2,7 @@ package it.polito.server.forum
 
 import it.polito.server.professor.Professor
 import org.springframework.data.annotation.Id
-import java.sql.Timestamp
 import java.time.Instant
-import java.util.Date
 
 data class ForumDTO (
     @Id val id: String? = null,

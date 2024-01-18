@@ -1,6 +1,5 @@
 package it.polito.server.student
 
-import it.polito.server.forum.ForumUser
 import it.polito.server.forum.ForumUserInterface
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -15,16 +14,7 @@ data class Student(
     var email: String,
     var codDegree: String,
     var enrollmentYear: Int,
-    //private var passwordHash: String? = null
 ) : ForumUserInterface {
-    /*fun setPassword(password: String) {
-        this.passwordHash = BCryptPasswordEncoder().encode(password)
-    }
-
-    fun checkPassword(password: String): Boolean {
-        return BCryptPasswordEncoder().matches(password, this.passwordHash)
-    } */
-
     fun toDTO(): StudentDTO = StudentDTO(
         id = this.id,
         surname = this.surname,

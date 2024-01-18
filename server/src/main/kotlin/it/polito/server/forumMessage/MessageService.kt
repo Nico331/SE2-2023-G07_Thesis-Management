@@ -22,9 +22,6 @@ class MessageService(
         val pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "date"))
         return messageRepository.findByForumId(forumId, pageable).content.map { it.toDTO() }
     }
-//    fun getFirstMessage(forumId: String): MessageDTO? {
-//        return messageRepository.findFirstByForumIdOrderByDateAsc(forumId)?.toDTO()
-//    }
 
     fun getMessagesByPage(forumId: String, page: Int): List<Message> {
         val pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "date"))

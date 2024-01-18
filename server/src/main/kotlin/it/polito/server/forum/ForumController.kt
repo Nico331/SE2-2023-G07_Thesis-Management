@@ -54,29 +54,4 @@ class ForumController(
         } else
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to create this forum.")
     }
-
-//    // Delete
-//    @DeleteMapping("/{forumId}")
-//    fun deleteForum(@PathVariable forumId: String, @AuthenticationPrincipal jwt: Jwt): ResponseEntity<Void> {
-//        val userId: String = jwt.getClaimAsString("preferred_username").split("@")[0] ?: "Unknown"
-//
-//        forumService.deleteForum(forumId, userId)
-//        return ResponseEntity.ok().build()
-//    }
-//
-//    // Close
-//    @PutMapping("/{forumId}/close")
-//    fun closeForum(@PathVariable forumId: String, @AuthenticationPrincipal jwt: Jwt): ResponseEntity<Any> {
-//        val userId: String = jwt.getClaimAsString("preferred_username").split("@")[0] ?: "Unknown"
-//        return forumService.closeForum(forumId, userId)
-//    }
-//
-//    // Change visibility
-//    @PutMapping("/{forumId}/visibility")
-//    fun updateForumVisibility(@PathVariable forumId: String,
-//                              @RequestParam visibility: ForumVisibility,
-//                              @AuthenticationPrincipal jwt: Jwt): ResponseEntity<Any> {
-//        val userId: String = jwt.getClaimAsString("preferred_username").split("@")[0] ?: "Unknown"
-//        return forumService.updateForumVisibility(forumId, visibility, userId)
-//    }
 }

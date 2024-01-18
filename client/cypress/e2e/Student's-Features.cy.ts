@@ -1,4 +1,3 @@
-import { filter } from "cypress/types/bluebird";
 
 describe("Student features", () => {
 

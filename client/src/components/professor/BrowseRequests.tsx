@@ -21,11 +21,10 @@ import CareerService from "../../services/CareerService"; // Import icons as nee
 const BrowseRequests = () => {
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const [professors, setProfessors] = useState([]);
 
-    const [allRequests, setAllRequests] = useState([]);
     const [myRequests, setMyRequests] = useState([])
 
     const [students, setStudents] = useState([]);
@@ -180,7 +179,6 @@ const BrowseRequests = () => {
                 <h2 style={{marginTop: "110px"}}>Pending Requests</h2>
 
                 {showsuccessmodal.show ?
-                    <>
                         <Modal
                             show={showsuccessmodal.show}
                         >
@@ -201,7 +199,6 @@ const BrowseRequests = () => {
                                 id="close-btn">Close</Button>
                             </Modal.Footer>
                         </Modal>
-                    </>
                     : null}
                 {/* Aggiungi un toggle button per il filtro */}
                 <div className="mt-5">
@@ -247,7 +244,6 @@ const BrowseRequests = () => {
                                                     </Row>
                                                     <Row className={isScreenSmall ? "mt-3 me-5" : "col-sm-4 me-5"}>
                                                         {isSupervisor && request.secretaryStatus === 'ACCEPTED' && (
-                                                            <>
                                                                 <ButtonGroup>
                                                                     <Button variant="success"
                                                                             onClick={(e) => {
@@ -277,8 +273,6 @@ const BrowseRequests = () => {
                                                                         Reject
                                                                     </Button>
                                                                 </ButtonGroup>
-                                                            </>
-
                                                         )
 
                                                         }

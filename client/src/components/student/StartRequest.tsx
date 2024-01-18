@@ -26,7 +26,7 @@ interface Request {
 }
 
 const StartRequest: React.FC = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [request, setRequest] = useState<Request>({
         id: null,
         title: '',

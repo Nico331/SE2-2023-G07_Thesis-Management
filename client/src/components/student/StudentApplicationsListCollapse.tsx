@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Accordion, Card, Button, Badge, ListGroup, Modal, Table, Row, Col, Container, Form} from 'react-bootstrap';
+import {Accordion, Button, Badge, Modal, Row, Col, Container} from 'react-bootstrap';
 import ApplicationService from "../../services/ApplicationService";
 import dayjs from "dayjs";
 import ProposalService from "../../services/ProposalService";
@@ -7,7 +7,6 @@ import ProfessorService from "../../services/ProfessorService";
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import RequestProposalService from "../../services/RequestProposalService";
 import {handleDownload} from "../professor/ArchivedProposals";
-// import Request from "../../types/Request";
 interface Request {
     id: string | null;
     title: string;

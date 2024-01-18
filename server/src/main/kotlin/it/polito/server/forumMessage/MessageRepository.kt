@@ -1,6 +1,5 @@
 package it.polito.server.forumMessage
 
-import it.polito.server.forum.Forum
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.mongodb.repository.MongoRepository

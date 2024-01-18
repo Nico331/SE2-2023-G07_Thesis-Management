@@ -7,38 +7,14 @@ import SecretaryService from '../../services/SecretaryService';
 import Request from '../../types/Request';
 import Professor from "../../types/Professor";
 
-// interface Request {
-//     id: string | null;
-//     title: string;
-//     studentId: string;
-//     supervisorId: string;
-//     coSupervisors: string[];
-//     description: string;
-//     acceptanceDate: dayjs.Dayjs;
-//     secretaryStatus: string;
-//     supervisorStatus: string;
-// }
-
 const RequestedProposals = () => {
 
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [confirmed, setConfirmed] = useState({show: false, type: "", id: ""});
     const [result, setResult] = useState({show: false, type: "", text: ""});
     const [rps, setRps] = useState<Array<Request>>([]);
-
-    // const [rp, setRp] = useState<Request>({
-    //     id: null,
-    //     title: '',
-    //     studentId: JSON.parse(user).id,
-    //     supervisorId: '',
-    //     coSupervisors: [],
-    //     description: '',
-    //     acceptanceDate: null,
-    //     secretaryStatus: 'PENDING',
-    //     supervisorStatus: 'PENDING'
-    // });
 
     const [isScreenSmall, setIsScreenSmall] = useState(window.matchMedia('(max-width: 650px)').matches);
 
@@ -130,7 +106,7 @@ const RequestedProposals = () => {
                                 <><Row>{proposal.title}</Row>
                                     <Row className="mt-3">
                                         {
-                                            proposal.secretaryStatus === "PENDING" ? <>
+                                            proposal.secretaryStatus === "PENDING" ?
                                                 <Container className="d-flex flex-row">
                                                     <Button style={{marginRight: '10px'}}
                                                             onClick={(e) => {
@@ -146,7 +122,7 @@ const RequestedProposals = () => {
                                                             }
                                                         }
                                                     variant='danger' id="reject-btn">Reject</Button>
-                                                </Container></>
+                                                </Container>
                                             :
 
                                                 <div>

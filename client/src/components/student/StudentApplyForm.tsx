@@ -189,7 +189,6 @@ function StudentApplyForm(props) {
 
 
     return (
-        <>
             <Container className="content-container p-0">
                 <div>
                     {isScreenSmall ?
@@ -366,8 +365,6 @@ function StudentApplyForm(props) {
                 </Modal>
 
             </Container>
-        </>
-
     );
 }
 

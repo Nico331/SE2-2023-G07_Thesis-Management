@@ -23,7 +23,6 @@ function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; p
     }, []);
 
     return (
-        <>
             <Modal
                 show={props.showModal}
                 onHide={() => props.setShowModal(false)}
@@ -93,7 +92,6 @@ function StudentModalOfProposal(props: { professorData: { [x: string]: any; }; p
                     </LinkContainer>
                 </Modal.Footer>
             </Modal>
-        </>
     )
 }
 

@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import dayjs from "dayjs";
 import MessageText from "./MessageText";
-import {getTopic, getTopics} from "../../services/ForumService";
+import {getTopic} from "../../services/ForumService";
 
 interface Message {
     id: string;
@@ -25,10 +25,9 @@ interface MessagePayload {
 
 const TopicPage: React.FC = (  ) => {
     const [messages, setMessages] = useState<Message[]>([]);
-    // const [firstMessage, setFirstMessage] = useState<Message | null>(null);
     const [text, setText] = useState<string>('');
     const webSocket = useRef<WebSocket | null>(null);
-    const {user, setUser} = useContext(UserContext)
+    const {user} = useContext(UserContext)
     const { forumId } = useParams()
     const audio = new Audio('../iphone_sound.mp3');
     const [soundEnabled, setSoundEnabled] = useState("false");
@@ -79,13 +78,6 @@ const TopicPage: React.FC = (  ) => {
                     }
                 }
             };
-
-            // return () => {
-            //     if (webSocket.current) {
-            //         webSocket.current.close();
-            //         webSocket.current = null;
-            //     }
-            // };
         }
     }, [topic, soundEnabled]);
 
@@ -159,7 +151,7 @@ const TopicPage: React.FC = (  ) => {
                     <Button onClick={GetPrevAndswers}> Get previous answers </Button>
                     <div style={{paddingTop:10}}>
                     {messages.map((message) => (
-                        <div style={{margin: 16}}>
+                        <div key={message.id} style={{margin: 16}}>
                             <Card key={message.id} className="mb-3">
                                 <Card.Body>
                                     <Row>

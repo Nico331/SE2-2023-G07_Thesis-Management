@@ -1,4 +1,4 @@
-import {Accordion, Badge, Button, Col, Container, Row, Table} from "react-bootstrap";
+import {Accordion, Badge, Button, Col, Row, Table} from "react-bootstrap";
 import dayjs from "dayjs";
 import {handleDownload} from "./professor/ArchivedProposals";
 import React from "react";

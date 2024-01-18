@@ -1,10 +1,8 @@
 package it.polito.server.forum
 
 import it.polito.server.professor.Professor
-import it.polito.server.requestproposal.RequestProposal
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.sql.Timestamp
 import java.time.Instant
 
 @Document

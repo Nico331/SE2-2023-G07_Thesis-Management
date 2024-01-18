@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Form, Button, Accordion, Card, Row, Alert } from 'react-bootstrap';
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Form, Button, Accordion, Row, Alert, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { UserContext } from '../../contexts/UserContexts';
 import Professor from "../../types/Professor";
 
@@ -32,7 +31,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
         email: '',
     });
     const [isExternal, setIsExternal] = useState(false);
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const addCoSupervisor = () => {
         if (isExternal && externalCoSupervisor.name && externalCoSupervisor.surname && externalCoSupervisor.email) {

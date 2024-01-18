@@ -60,7 +60,6 @@ function Main() {
     }
 
     return (
-        <>
             <Container style={{height: "100vh"}} fluid >
                 <Container className="text-center p-0" style={{width:"100%"}} fluid>
                         <TokenProvider>
@@ -83,7 +82,6 @@ function Main() {
                         </TokenProvider>
                 </Container>
             </Container>
-        </>
     );
 }
 export default App;

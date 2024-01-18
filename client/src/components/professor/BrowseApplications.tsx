@@ -19,7 +19,6 @@ import ProfessorService from '../../services/ProfessorService';
 import {VirtualClockContext} from "../../contexts/VirtualClockContext";
 import { FaRegCopy } from "react-icons/fa";
 import { BsPencil, BsTrash, BsArchive } from 'react-icons/bs';
-import Browse from "../Browse";
 import {handleDownload} from "./ArchivedProposals";
 import dayjs from "dayjs"; // Import icons as needed
 
@@ -236,7 +235,6 @@ const BrowseApplications = () => {
                 />
 
                 {showsuccessmodal.show ?
-                    <>
                         <Modal
                             show={showsuccessmodal.show}
                         >
@@ -256,7 +254,6 @@ const BrowseApplications = () => {
                                 })} id="close-modal-btn">Close</Button>
                             </Modal.Footer>
                         </Modal>
-                    </>
                     : null}
                 {/*<Browse proposals={filteredProposals} professors={professors}/>*/}
                 <Accordion className="mt-5">
@@ -288,7 +285,7 @@ const BrowseApplications = () => {
                                                 </Row>
                                             </Container>
                                             :
-                                            <><Row className={"w-100"}>
+                                            <Row className={"w-100"}>
                                                 <div className="col-sm-8">
                                                     {proposal.title}&nbsp;
                                                     {proposal.level === "Bachelor" && <Badge>
@@ -302,7 +299,7 @@ const BrowseApplications = () => {
                                                     </Badge>}
                                                 </div>
                                                 <ProposalButtonGroup proposal={proposal}></ProposalButtonGroup>
-                                            </Row></>
+                                            </Row>
                                         }
                                     </Accordion.Header>
                                     <Accordion.Body style={{textAlign: 'left'}}>
@@ -368,7 +365,7 @@ const BrowseApplications = () => {
                                         <h3 className="mt-3">Applications</h3>
                                         <Accordion className="mt-3">
                                             {proposal.applications.map((application, index) => (
-                                                <Accordion.Item eventKey={application.id} id="applicaitons-btn">
+                                                <Accordion.Item key={application.id} eventKey={application.id} id="applicaitons-btn">
                                                     <Accordion.Header className={"w-100"}>
                                                         <Row className={"w-100"}>
                                                             <div className="col-sm-8">

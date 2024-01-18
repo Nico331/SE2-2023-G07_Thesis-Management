@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import ProfessorService from "../../services/ProfessorService";
 import {UserContext} from "../../contexts/UserContexts";
 import {BsPencil, BsTrash} from "react-icons/bs";
-import ProposalService from "../../services/ProposalService";
 
 interface Professor {
     id: string;
@@ -28,7 +27,7 @@ interface Request {
 }
 
 const MyRequest: React.FC = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [request, setRequest] = useState<Request>({
         id: null,

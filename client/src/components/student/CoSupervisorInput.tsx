@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Form, Button, Accordion, Card, Row, Alert } from 'react-bootstrap';
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Form, Button, Accordion, Alert } from 'react-bootstrap';
 import { UserContext } from '../../contexts/UserContexts';
 import Professor from "../../types/Professor";
 
@@ -27,7 +26,7 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                                              }) => {
     const [coSupervisor, setCoSupervisor] = useState('');
 
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const addCoSupervisor = () => {
       if (coSupervisor) {

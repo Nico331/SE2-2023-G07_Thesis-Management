@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProfessorService (private val professorRepository: ProfessorRepository) {
-    /*fun checkPassword(professor: Professor, password: String): Boolean =
-        professor.checkPassword(password) */
 
     fun findProfessorById(id: String): ProfessorDTO? {
         return professorRepository.findById(id).map(Professor::toDTO).orElse(null)

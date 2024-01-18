@@ -1,14 +1,10 @@
 package it.polito.server.forum
 
-import it.polito.server.ForumNotFoundException
 import it.polito.server.professor.ProfessorRepository
 import it.polito.server.requestproposal.RequestProposalRepository
-import it.polito.server.requestproposal.RequestProposalService
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
 import java.time.Instant
 
 @Service

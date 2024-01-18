@@ -78,18 +78,6 @@ function UpdateProposal (props) {
         };
     }, []);
 
-    // const updateSupervisor = (newsupervisor) => {
-    //     if (!updatedprop.coSupervisors.find((cs) => cs === newsupervisor ? true : false)) {
-    //         setSuPalert({type: "", message: "", show: false});
-    //         setUpdatedprop({...updatedprop, supervisor: newsupervisor});
-    //     } else {
-    //         setSuPalert({type: "danger", message: "The new supervisor is in the co-supervisors list.", show: true});
-    //         setTimeout(() => {
-    //             setSuPalert({type: "", message: "", show: false});
-    //         }, 5000);
-    //     }
-    // };
-
     console.log({updatedprop})
 
     const addCoSupervisor = (coSupervisor, externalCosupervisor) => {
@@ -198,7 +186,6 @@ function UpdateProposal (props) {
     // -------------------------------------------
 
     return (
-        <>
             <Modal
                 show={true}
                 size={"xl"}
@@ -214,8 +201,6 @@ function UpdateProposal (props) {
                 </Modal.Header>
 
                 <Modal.Body>
-
-                {/*/----------------------/*/}
 
                 <Container>
 
@@ -310,20 +295,6 @@ function UpdateProposal (props) {
                                     <Card.Body>
                                         <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coAlert={coAlert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
                                         <br/>
-                                        {/*<ListGroup className={"mt-3"}>*/}
-                                        {/*    {updatedprop.coSupervisors.concat(updatedprop.externalCoSupervisors && updatedprop.externalCoSupervisors.map((it: ExternalCoSupervisor)=>it.email)).map((cs, index) => (<ListGroup.Item key={index}>*/}
-                                        {/*        {professors.filter((p) => p.id == cs).length ? (professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)) : cs} &nbsp;*/}
-                                        {/*        <Button*/}
-                                        {/*            variant="danger"*/}
-                                        {/*            size="sm"*/}
-                                        {/*            className="float-right"*/}
-                                        {/*            onClick={() => removeCoSupervisor(index)}*/}
-                                        {/*            id={"remove-" + cs}*/}
-                                        {/*        >*/}
-                                        {/*            Remove*/}
-                                        {/*        </Button>*/}
-                                        {/*    </ListGroup.Item>))}*/}
-                                        {/*</ListGroup>*/}
                                         <h5>
                                             Internal Co-Supervisors
                                         </h5>
@@ -410,7 +381,6 @@ function UpdateProposal (props) {
                                                 </div>
                                             </div>
                                             <div className="mt-3">
-                                                {/*{console.log(updatedprop.keywords)}*/}
                                                 {updatedprop.keywords.map((keyword, index) => (
                                                     <Button variant="primary" key={index} className="m-2"
                                                             onClick={() => removeKeyword(index)}
@@ -489,13 +459,11 @@ function UpdateProposal (props) {
                     </Form>
                 </Container>
                 </Modal.Body>
-                {/*-----------------------*/}
                 <Modal.Footer className="mt-3">
                     <Button variant="danger" onClick={() => props.setShowModifyPage(false)}>Cancel</Button>
                     {props.pagetype === "modify" ? <Button onClick={(e) => handleSubmit(e)} id="update-btn">Update</Button> : <Button variant="success" onClick={(e) => handleSubmit(e)} id="create-copy-btn">Create a Copy</Button>}
                 </Modal.Footer>
             </Modal>
-        </>
     )
 }
 

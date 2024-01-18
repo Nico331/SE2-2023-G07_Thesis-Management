@@ -28,7 +28,6 @@ package it.polito.server
 //
 //    override fun getBytes(): ByteArray = content.clone()
 //    override fun transferTo(dest: File) {
-//        TODO("Not yet implemented")
 //    }
 //
 //    override fun getInputStream(): InputStream {

@@ -1,5 +1,4 @@
 import React, {Dispatch, SetStateAction, useContext, useEffect} from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import {LogOutContext, UserContext} from "../../contexts/UserContexts";
 import {useNavigate} from "react-router-dom";
 export type LogoutProps = {

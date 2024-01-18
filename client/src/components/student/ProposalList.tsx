@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-//import 'bootstrap/dist/css/bootstrap.css';
 import '../componentsStyle.css'
 import { FaFilter } from "react-icons/fa";
 import {
