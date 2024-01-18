@@ -1,8 +1,8 @@
 package it.polito.server.security
 
-import io.micrometer.observation.annotation.Observed
-import org.springframework.web.bind.annotation.*
-import org.keycloak.representations.idm.UserRepresentation
+//import io.micrometer.observation.annotation.Observed
+//import org.springframework.web.bind.annotation.*
+//import org.keycloak.representations.idm.UserRepresentation
 
 //@RestController
 //@Observed

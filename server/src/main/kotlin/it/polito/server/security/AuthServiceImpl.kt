@@ -2,16 +2,11 @@ package it.polito.server.security
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.transaction.Transactional
-import org.keycloak.representations.idm.UserRepresentation
 import org.springframework.http.*
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestTemplate
 import java.io.File
-import org.springframework.security.oauth2.jwt.Jwt
-import org.springframework.security.oauth2.jwt.JwtClaimNames
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 
 @Service
 @Transactional

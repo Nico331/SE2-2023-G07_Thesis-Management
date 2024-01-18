@@ -1,16 +1,16 @@
 package it.polito.server.security
 
-import org.keycloak.OAuth2Constants
-import org.keycloak.admin.client.Keycloak
-import org.keycloak.admin.client.KeycloakBuilder
-import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Bean
-import org.springframework.stereotype.Component
-import java.io.File
+//import org.keycloak.OAuth2Constants
+//import org.keycloak.admin.client.Keycloak
+//import org.keycloak.admin.client.KeycloakBuilder
+//import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl
+//import org.springframework.beans.factory.InitializingBean
+//import org.springframework.beans.factory.annotation.Autowired
+//import org.springframework.beans.factory.annotation.Value
+//import org.springframework.boot.context.properties.ConfigurationProperties
+//import org.springframework.context.annotation.Bean
+//import org.springframework.stereotype.Component
+//import java.io.File
 //
 //@Component
 //object KeycloakConfig {

@@ -1,8 +1,8 @@
 package it.polito.server.security
 
-import org.keycloak.admin.client.resource.UsersResource
-import org.keycloak.representations.idm.UserRepresentation
-import org.springframework.stereotype.Service
+//import org.keycloak.admin.client.resource.UsersResource
+//import org.keycloak.representations.idm.UserRepresentation
+//import org.springframework.stereotype.Service
 //
 //@Service
 //class KeycloakServiceImpl(): KeycloakService {

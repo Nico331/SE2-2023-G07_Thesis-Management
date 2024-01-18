@@ -18,14 +18,14 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 class WebSecurityConfig {
     @Autowired
     private lateinit var jwtAuthConverter: JwtAuthConverter
-
+    private val apis = "/API/**"
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests {
             it.requestMatchers("/ws/**", "/socket.io/**").permitAll()
-            it.requestMatchers(HttpMethod.OPTIONS,"/API/**").permitAll()
-            it.requestMatchers(HttpMethod.PUT,"/API/**").permitAll()
+            it.requestMatchers(HttpMethod.OPTIONS,).permitAll()
+            it.requestMatchers(HttpMethod.PUT,apis).permitAll()
             it.requestMatchers(HttpMethod.GET,"/websocket/**").permitAll()
             it.requestMatchers(HttpMethod.GET,"/index.html/**").permitAll()
 
@@ -50,17 +50,17 @@ class WebSecurityConfig {
             it.requestMatchers(HttpMethod.DELETE,"/API/appliedProposal/*").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.PUT,"/API/appliedProposal/**").hasAnyRole(PROFESSOR, STUDENT,SECRETARY)
             it.requestMatchers(HttpMethod.GET, "/realms/").permitAll()
-            it.requestMatchers(HttpMethod.GET,"/API/**").authenticated()
-            it.requestMatchers(HttpMethod.POST,"/API/**").authenticated()
-            it.requestMatchers(HttpMethod.PUT,"/API/**").authenticated()
-            it.requestMatchers(HttpMethod.DELETE,"/API/**").authenticated()
+            it.requestMatchers(HttpMethod.GET,apis).authenticated()
+            it.requestMatchers(HttpMethod.POST,apis).authenticated()
+            it.requestMatchers(HttpMethod.PUT,apis).authenticated()
+            it.requestMatchers(HttpMethod.DELETE,apis).authenticated()
             it.requestMatchers(HttpMethod.GET,"/**").permitAll()
         }
 
 
 
         http.csrf { csrf->
-            csrf.ignoringRequestMatchers("/API/**")
+            csrf.ignoringRequestMatchers(apis)
             csrf.disable() // Disabilita CSRF per i WebSocket
         }
             http.oauth2ResourceServer { oauth->
