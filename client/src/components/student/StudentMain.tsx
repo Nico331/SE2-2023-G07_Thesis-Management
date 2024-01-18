@@ -44,8 +44,8 @@ const ZoomableContainer = (props) => {
 };
 
 const StudentMain = () => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-    let navigate = useNavigate();
+    const [user] = useState(JSON.parse(localStorage.getItem("user")));
+    // let navigate = useNavigate();
 
     return (
         <Container className="d-flex flex-column p-0" style={{height:"100vh"}}>

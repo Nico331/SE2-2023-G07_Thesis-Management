@@ -1,5 +1,4 @@
 import {Route, Routes} from "react-router-dom";
-import StudentNavigation from "./StudentNavigation";
 import StudentMain from "./StudentMain";
 import { NotFound } from "../Layouts";
 import ProposalList from "./ProposalList"

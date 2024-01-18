@@ -20,7 +20,7 @@ interface Request {
 }
 
 const StudentApplicationsListCollapse = () => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [user] = useState(JSON.parse(localStorage.getItem("user")));
     const [studentApplications, setStudentApplications] = useState([]);
     const [studentProposals, setStudentProposals] = useState([]);
     const [supervisors, setSupervisors] = useState([]);
@@ -89,9 +89,7 @@ const StudentApplicationsListCollapse = () => {
                     {studentApplications.map((application, index) => {
                         const proposal = studentProposals.find(proposal => proposal.id === application.proposalId);
                         const supervisor = supervisors.find(s => s.id === proposal.supervisor);
-                        const expiration = new Date(proposal.expiration).toDateString();
-
-
+                        // const expiration = new Date(proposal.expiration).toDateString();
 
                         return (
                             <Accordion.Item eventKey={proposal.id} key={proposal.id}>

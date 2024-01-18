@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Form, Button, Accordion, Row, Alert, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { UserContext } from '../../contexts/UserContexts';
 import Professor from "../../types/Professor";
+import SupervisorSelect from "../FormControllCoSupervisors";
 
 interface CoSupervisorInputProps {
     onAddCoSupervisor: (coSupervisor: string | { name: string; surname: string; email: string }) => void;
@@ -113,33 +114,40 @@ const CoSupervisorInput: React.FC<CoSupervisorInputProps> = ({
                                 </div>
                             </Row>
                         ) : (
-                            <Form.Control
-                                as="select"
-                                value={coSupervisor}
-                                onChange={(e) => setCoSupervisor(e.target.value)}
-                                id="cosupervisor-input"
-                            >
-                                <option value="">Select the supervisor</option>
-                                {updatedprop
-                                    ? professors
-                                        .filter(
-                                            (professor) =>
-                                                professor.id !== JSON.parse(user).id &&
-                                                !updatedprop.coSupervisors.includes(professor.id)
-                                        )
-                                        .map((professor) => (
-                                            <option value={professor.id} key={professor.id}>
-                                                {professor.name} {professor.surname}
-                                            </option>
-                                        ))
-                                    : professors
-                                        .filter((professor) => professor.id !== JSON.parse(user).id)
-                                        .map((professor) => (
-                                            <option value={professor.id} key={professor.id}>
-                                                {professor.name} {professor.surname}
-                                            </option>
-                                        ))}
-                            </Form.Control>
+                            <SupervisorSelect
+                                coSupervisor={coSupervisor}
+                                setCoSupervisor={setCoSupervisor}
+                                user={user}
+                                updatedprop={updatedprop}
+                                professors={professors}
+                            />
+                            // <Form.Control
+                            //     as="select"
+                            //     value={coSupervisor}
+                            //     onChange={(e) => setCoSupervisor(e.target.value)}
+                            //     id="cosupervisor-input"
+                            // >
+                            //     <option value="">Select the supervisor</option>
+                            //     {updatedprop
+                            //         ? professors
+                            //             .filter(
+                            //                 (professor) =>
+                            //                     professor.id !== JSON.parse(user).id &&
+                            //                     !updatedprop.coSupervisors.includes(professor.id)
+                            //             )
+                            //             .map((professor) => (
+                            //                 <option value={professor.id} key={professor.id}>
+                            //                     {professor.name} {professor.surname}
+                            //                 </option>
+                            //             ))
+                            //         : professors
+                            //             .filter((professor) => professor.id !== JSON.parse(user).id)
+                            //             .map((professor) => (
+                            //                 <option value={professor.id} key={professor.id}>
+                            //                     {professor.name} {professor.surname}
+                            //                 </option>
+                            //             ))}
+                            // </Form.Control>
                         )}
                     </Form.Group>
                     <Button id="add-cosup-button" className="mt-3" variant="primary" onClick={addCoSupervisor}>
