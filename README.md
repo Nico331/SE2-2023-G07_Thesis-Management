@@ -34,3 +34,13 @@ professors (the password is "password" for every user):
 - p300003@polito.it
 - p300004@polito.it
 - p300005@polito.it
+
+If you want to test the notifications, you should change email settings in the backend service using your smtp settings. 
+In alternative you can go to the mail_server package and run:
+```
+   docker-compose up
+```
+But you should change permissions of some files.
+Then you should create email domains for the students, professors and external co-supervisors in the admin page ("localhost"). And then their mail boxes. Finally you should be able to access like a user in the page "localhost/sogo".
+
+But the simplest way to test the notifications is to open the backend container and see the log, every sent email (also if failed because of the lack of the smtp server settings) will be printed in the log. 

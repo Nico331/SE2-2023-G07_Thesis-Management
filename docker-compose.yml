@@ -22,26 +22,6 @@ services:
     networks:
       - network
 
-#  backend:
-#    image: "server:0.0.1-SNAPSHOT"
-#    container_name: backend
-#    ports:
-#      - "8081:8081"
-#    depends_on:
-#      - mongoDB
-#      - keycloak
-#    environment:
-#      SPRING_DATA_MONGODB_URI: mongodb://mongo_db_se:27017 #/mongo_db
-#      KEYCLOAK_ADMIN: "admin"
-#      KEYCLOAK_ADMIN_PASSWORD: "password"
-#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://custom_keycloak:8080/realms/ThesisManagementRealm
-#      SPRING_MAIL_HOST: postfix-mailcow
-#      SPRING_MAIL_PORT: 25
-#      SPRING_MAIL_username: no-reply@studenti.polito.it
-#      SPRING_MAIL_PASSWORD: password
-#      SPRING_MAIL_PROPERTIES_MAIL_SMTP_auth: true
-#      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
-
   backend:
     image: "nico331/thesis_management_g07"
     container_name: custom_backend
