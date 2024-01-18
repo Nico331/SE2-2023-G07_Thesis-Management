@@ -81,23 +81,23 @@ Moreover the #102 for some reason was not counted in the reports.</span>
 ## QUALITY MEASURES
 
 - Unit Testing:
-  - Total hours estimated: 7h 30m
-  - Total hours spent: 7h
+  - Total hours estimated: 5h 15m
+  - Total hours spent: 5h 15m
   - Nr of automated unit test cases: 217
-  - Coverage (if available): 55.9% (back-end)
+  - Coverage (if available): 55,9% (back-end)
 - E2E testing:
-  - Total hours estimated: 4h
-  - Total hours spent: 6h
+  - Total hours estimated: 5h 45m
+  - Total hours spent: 7h 10m
 - Code review:
-  - Total hours estimated : 2h
-  - Total hours spent: 2h
+  - Total hours estimated : 4h
+  - Total hours spent: 2h 25m
 - Technical Debt management:
-  - Total hours estimated: 9h 30m (Tasks: General previous APIs fix, API security (chained), Code review frontend, Insert external supervisor, Sonarcube setup)
-  - Total hours spent: 16h 45m
+  - Total hours estimated: 12h (Tasks: Improve test coverage, remove duplicated code, mobile responsitivity)
+  - Total hours spent: 19h 20m
   - Hours estimated for remediation by SonarQube:
-    - Remediation effort: 0 (Reliability) + 2h (Security) + 15h (Maintainability) = 17h
-  - Hours estimated for remediation by SonarQube only for the selected and planned issues: 4h
-  - Hours spent on remediation: 3h (The Sonarcube report have gone from 2d 1h to 1d 2h)
+    - Remediation effort: 0 (Reliability) + 0h (Security) + 1d 2h (Maintainability) = 3d 2h
+  - Hours estimated for remediation by SonarQube only for the selected and planned issues: 7h
+  - Hours spent on remediation: 8h 50m (The Sonarcube report have gone from 1d 2h to 3d 2h to 2d 3h)
   - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0,4 %
   - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability ):
     - Reliability: A
