@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
-import {Container, Row, Col, Form, Button, Image, Alert} from 'react-bootstrap';
+import {Container, Form, Button, Image, Alert} from 'react-bootstrap';
 import {RoleContext, TokenContext, UserContext} from "../../contexts/UserContexts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -14,13 +14,13 @@ const Login: React.FC<LoginProps> = ({setRoleState}) => {
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
     // @ts-ignore
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [hover, setHover] = useState(false);
     // @ts-ignore
-    const { token, setToken } = useContext(TokenContext)
+    const { setToken } = useContext(TokenContext)
     // @ts-ignore
-    const { role, setRole } = useContext(RoleContext)
+    const { setRole } = useContext(RoleContext)
 
     const credentialsWrong = () => {
         setAlert(true);

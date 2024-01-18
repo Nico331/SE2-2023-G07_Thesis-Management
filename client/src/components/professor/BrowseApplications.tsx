@@ -26,7 +26,7 @@ import dayjs from "dayjs"; // Import icons as needed
 const BrowseApplications = () => {
     const {refresh, setRefresh} = useContext(VirtualClockContext);
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     useEffect(() => {
         if (user) {
             ApplicationService.getByProfessorId(JSON.parse(user).id).then((res) => {
@@ -48,9 +48,9 @@ const BrowseApplications = () => {
     const [proposalToDelete, setProposalToDelete] = useState("");
     const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [showModifyPage, setShowModifyPage] = useState(false);
-    const [modifyproposal, setModifyProposal] = useState([]);
-    const [showsuccessmodal, setShowAlertModal] = useState({show: false, text: "", type: ""});
-    const [successcopy, setSuccessCopy] = useState(false);
+    const [modifyProposal, setModifyProposal] = useState([]);
+    const [showSuccessModal, setShowSuccessModal] = useState({show: false, text: "", type: ""});
+    const [successCopy, setSuccessCopy] = useState(false);
 
     const [pageType, setPageType] = useState("");
 
@@ -80,18 +80,18 @@ const BrowseApplications = () => {
     }, []);
 
     useEffect(() => {
-        if (!showsuccessmodal.show) {
+        if (!showSuccessModal.show) {
             // Aggiorna la pagina dopo la chiusura del popup di successo
             setRefresh((r) => !r);
         }
-    }, [showsuccessmodal.show]);
+    }, [showSuccessModal.show]);
 
 
     const handleAccept = async (applicationId) => {
         setShowAcceptPopup(false);
         setApplicationToAccept("");
         ApplicationService.acceptApplication(applicationId).then(() => {
-            setShowAlertModal({
+            setShowSuccessModal({
                 show: true,
                 type: "success",
                 text: "Application accepted"
@@ -99,7 +99,7 @@ const BrowseApplications = () => {
 
             // Chiudi automaticamente il popup dopo 3 secondi
             setTimeout(() => {
-                setShowAlertModal({
+                setShowSuccessModal({
                     show: false,
                     type: "",
                     text: ""
@@ -115,7 +115,7 @@ const BrowseApplications = () => {
         setShowRejectPopup(false);
         setApplicationToReject("");
         ApplicationService.rejectApplication(applicationId).then(() => {
-            setShowAlertModal({
+            setShowSuccessModal({
                 show: true,
                 type: "success",
                 text: "Application rejected"
@@ -123,7 +123,7 @@ const BrowseApplications = () => {
 
             // Chiudi automaticamente il popup dopo 3 secondi
             setTimeout(() => {
-                setShowAlertModal({
+                setShowSuccessModal({
                     show: false,
                     type: "",
                     text: ""
@@ -234,20 +234,20 @@ const BrowseApplications = () => {
                     id="search-bar-input"
                 />
 
-                {showsuccessmodal.show ?
+                {showSuccessModal.show ?
                         <Modal
-                            show={showsuccessmodal.show}
+                            show={showSuccessModal.show}
                         >
                             <Modal.Header>
                                 <Modal.Title>
-                                    {showsuccessmodal.type === "success" ? "Success" : "Error"}
+                                    {showSuccessModal.type === "success" ? "Success" : "Error"}
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {showsuccessmodal.text}
+                                {showSuccessModal.text}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant={showsuccessmodal.type} onClick={() => setShowAlertModal({
+                                <Button variant={showSuccessModal.type} onClick={() => setShowSuccessModal({
                                     show: false,
                                     type: "",
                                     text: ""
@@ -464,9 +464,9 @@ const BrowseApplications = () => {
                 </Accordion>
             </Container>
 
-            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyproposal={modifyproposal}
-                                              setShowAlertModal={setShowAlertModal} setRefresh={setRefresh}
-                                              pagetype={pageType} setsuccesscopy={setSuccessCopy}/> : null}
+            {showModifyPage ? <UpdateProposal setShowModifyPage={setShowModifyPage} modifyProposal={modifyProposal}
+                                              setShowSuccessModal={setShowSuccessModal} setRefresh={setRefresh}
+                                              pagetype={pageType} setSuccessCopy={setSuccessCopy}/> : null}
 
             <Modal
                 show={showDeletePopup}
@@ -543,7 +543,7 @@ const BrowseApplications = () => {
             </Modal>
 
             <Modal
-                show={successcopy}
+                show={successCopy}
                 onHide={() => setSuccessCopy(false)}
                 size="xl"
                 centered

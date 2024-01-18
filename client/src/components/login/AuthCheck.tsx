@@ -9,7 +9,7 @@ interface AuthCheckProps {
 const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
     // @ts-ignore
     const { role, setRole } = useContext(TokenContext);
-    const [isLoginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
     const handleLogin = (): void => {
         setRole('student');
@@ -17,14 +17,14 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
 
     useEffect(() => {
         if (!role) {
-            setLoginModalOpen(true);
+            setIsLoginModalOpen(true);
         }
     }, [role]);
 
     return (
         <>
             {isLoginModalOpen && (
-                <LoginModal onLogin={handleLogin} onClose={() => setLoginModalOpen(false)} />
+                <LoginModal onLogin={handleLogin} onClose={() => setIsLoginModalOpen(false)} />
             )}
             {children}
         </>

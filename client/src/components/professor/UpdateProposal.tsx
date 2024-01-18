@@ -14,22 +14,22 @@ function UpdateProposal (props) {
 
     const {user} = useContext(UserContext);
 
-    const [updatedprop, setUpdatedprop] = useState({
+    const [updatedProp, setUpdatedProp] = useState({
         id: null,
-        title: props.modifyproposal.title,
+        title: props.modifyProposal.title,
         supervisor: JSON.parse(user).id,
-        coSupervisors: props.modifyproposal.coSupervisors,
-        externalCoSupervisors: props.modifyproposal.externalCoSupervisors || [],
-        keywords: props.modifyproposal.keywords,
-        type: props.modifyproposal.type,
-        groups: props.modifyproposal.groups,
-        description: props.modifyproposal.description,
-        requiredKnowledge: props.modifyproposal.requiredKnowledge,
-        notes: props.modifyproposal.notes,
-        expiration: dayjs(props.modifyproposal.expiration),
-        level: props.modifyproposal.level,
-        cdS: props.modifyproposal.cdS,
-        archived: props.modifyproposal.archived,
+        coSupervisors: props.modifyProposal.coSupervisors,
+        externalCoSupervisors: props.modifyProposal.externalCoSupervisors || [],
+        keywords: props.modifyProposal.keywords,
+        type: props.modifyProposal.type,
+        groups: props.modifyProposal.groups,
+        description: props.modifyProposal.description,
+        requiredKnowledge: props.modifyProposal.requiredKnowledge,
+        notes: props.modifyProposal.notes,
+        expiration: dayjs(props.modifyProposal.expiration),
+        level: props.modifyProposal.level,
+        cdS: props.modifyProposal.cdS,
+        archived: props.modifyProposal.archived,
     });
 
     interface ExternalCoSupervisor {
@@ -47,7 +47,7 @@ function UpdateProposal (props) {
     }, []);
 
     /* useEffect(() => {
-        ProposalService.getProposalById(props.modifyproposal.id).then((res) =>{
+        ProposalService.getProposalById(props.modifyProposal.id).then((res) =>{
             console.log("getbyid: " + res.data.title);
         })
     }, []); */
@@ -77,16 +77,16 @@ function UpdateProposal (props) {
         };
     }, []);
 
-    console.log({updatedprop})
+    console.log({updatedProp})
 
     const addCoSupervisor = (coSupervisor, externalCosupervisor) => {
         if(externalCosupervisor){
-            setUpdatedprop({...updatedprop, externalCoSupervisors: [...updatedprop.externalCoSupervisors, externalCosupervisor]});
+            setUpdatedProp({...updatedProp, externalCoSupervisors: [...updatedProp.externalCoSupervisors, externalCosupervisor]});
             return
         }
-        if (coSupervisor !== updatedprop.supervisor) {
+        if (coSupervisor !== updatedProp.supervisor) {
             setCoAlert({type: "", message: "", show: false});
-            setUpdatedprop({...updatedprop, coSupervisors: [...updatedprop.coSupervisors, coSupervisor]});
+            setUpdatedProp({...updatedProp, coSupervisors: [...updatedProp.coSupervisors, coSupervisor]});
         } else {
             setCoAlert({type: "danger", message: "The supervisor cannot be the same as the co-supervisor!", show: true});
             setTimeout(() => {
@@ -97,47 +97,47 @@ function UpdateProposal (props) {
     };
 
     const removeCoSupervisor = (index) => {
-        const updatedCoSupervisors = [...updatedprop.coSupervisors];
+        const updatedCoSupervisors = [...updatedProp.coSupervisors];
         updatedCoSupervisors.splice(index, 1);
-        setUpdatedprop({...updatedprop, coSupervisors: updatedCoSupervisors});
+        setUpdatedProp({...updatedProp, coSupervisors: updatedCoSupervisors});
     };
     const removeCoSupervisorExt = (index: number) => {
-        const updatedCoSupervisors = [...updatedprop.externalCoSupervisors];
+        const updatedCoSupervisors = [...updatedProp.externalCoSupervisors];
         updatedCoSupervisors.splice(index, 1);
-        setUpdatedprop({...updatedprop, externalCoSupervisors: updatedCoSupervisors});
+        setUpdatedProp({...updatedProp, externalCoSupervisors: updatedCoSupervisors});
     };
 
     const addKeyword = () => {
         if (newKeyword) {
-            setUpdatedprop({...updatedprop, keywords: [...updatedprop.keywords, newKeyword]});
+            setUpdatedProp({...updatedProp, keywords: [...updatedProp.keywords, newKeyword]});
             setNewKeyword('');
         }
     };
 
     const removeKeyword = (index) => {
-        const updatedKeywords = [...updatedprop.keywords];
+        const updatedKeywords = [...updatedProp.keywords];
         updatedKeywords.splice(index, 1);
-        setUpdatedprop({...updatedprop, keywords: updatedKeywords});
+        setUpdatedProp({...updatedProp, keywords: updatedKeywords});
     };
 
 
     const addGroup = (group) => {
-        setUpdatedprop({...updatedprop, groups: [...updatedprop.groups, group]});
+        setUpdatedProp({...updatedProp, groups: [...updatedProp.groups, group]});
     };
 
     const removeGroup = (index) => {
-        const updatedGroups = [...updatedprop.groups];
+        const updatedGroups = [...updatedProp.groups];
         updatedGroups.splice(index, 1);
-        setUpdatedprop({...updatedprop, groups: updatedGroups});
+        setUpdatedProp({...updatedProp, groups: updatedGroups});
     };
     const addCds = (cds) => {
-        setUpdatedprop({...updatedprop, cdS: [...updatedprop.cdS, cds]});
+        setUpdatedProp({...updatedProp, cdS: [...updatedProp.cdS, cds]});
     };
 
     const removeCds = (index) => {
-        const updatedCds = [...updatedprop.cdS];
+        const updatedCds = [...updatedProp.cdS];
         updatedCds.splice(index, 1);
-        setUpdatedprop({...updatedprop, cdS: updatedCds});
+        setUpdatedProp({...updatedProp, cdS: updatedCds});
     };
 
     const handleSubmit = (e) => {
@@ -145,40 +145,40 @@ function UpdateProposal (props) {
         props.setShowModifyPage(false);
         let valid = true;
         let errorMessage = "";
-        if(updatedprop.title.length === 0){
+        if(updatedProp.title.length === 0){
             valid = false;
             errorMessage += `Title should have a value`
         }
-        if(updatedprop.type.length === 0){
+        if(updatedProp.type.length === 0){
             valid = false;
             errorMessage += `Type should have a value`
         }
-        if(updatedprop.level.length === 0){
+        if(updatedProp.level.length === 0){
             valid = false;
             errorMessage += `Level should have a value`
         }
-        if(updatedprop.supervisor.length === 0){
+        if(updatedProp.supervisor.length === 0){
             valid = false;
             errorMessage += `Supervisor should have a value`
         }
 
         if(valid && props.pagetype === "modify"){
-            updatedprop.id = props.modifyproposal.id;
-            ProposalService.updateProposal(updatedprop.id, updatedprop).then(() => {
-                props.setShowAlertModal({show: true, text: "Proposal updated successfully!", type: "success"});
+            updatedProp.id = props.modifyProposal.id;
+            ProposalService.updateProposal(updatedProp.id, updatedProp).then(() => {
+                props.setSuccessCopy({show: true, text: "Proposal updated successfully!", type: "success"});
                 props.setRefresh((r)=> !r)
             }).catch(() => {
-                props.setShowAlertModal({show: true, text: "Something unexpexted happened!", type: "danger"});
+                props.setSuccessCopy({show: true, text: "Something unexpexted happened!", type: "danger"});
             });
         } else if (valid && props.pagetype === "copy") {
-            ProposalService.createProposal(updatedprop).then(() => {
-                props.setShowAlertModal({show: true, text: "Proposal created successfully!", type: "success"});
+            ProposalService.createProposal(updatedProp).then(() => {
+                props.setSuccessCopy({show: true, text: "Proposal created successfully!", type: "success"});
                 props.setRefresh((r)=> !r)
             }).catch(() => {
-                props.setShowAlertModal({show: true, text: "Something unexpexted happened!", type: "danger"});
+                props.setSuccessCopy({show: true, text: "Something unexpexted happened!", type: "danger"});
             });
         } else {
-            props.setShowAlertModal({show: true, text: errorMessage, type: "danger"});
+            props.setSuccessCopy({show: true, text: errorMessage, type: "danger"});
         }
     };
 
@@ -214,9 +214,9 @@ function UpdateProposal (props) {
                                     <Form.Label className="h3">Title</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        placeholder= {props.modifyproposal.title}
-                                        value={updatedprop.title}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, title: e.target.value})}
+                                        placeholder= {props.modifyProposal.title}
+                                        value={updatedProp.title}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, title: e.target.value})}
                                         id="title-input"
                                     />
                                 </Form.Group>
@@ -225,8 +225,8 @@ function UpdateProposal (props) {
                                 <Form.Group id="type">
                                     <Form.Label className="h3">Type</Form.Label>
                                     <Form.Control as="select"
-                                        value={updatedprop.type}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, type: e.target.value})}
+                                        value={updatedProp.type}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, type: e.target.value})}
                                         id="type-input"
                                     >
                                         <option value="">Select the type</option>
@@ -244,8 +244,8 @@ function UpdateProposal (props) {
                             <div className="col-lg-6 col-md-12 mt-4">
                                 <Form.Group id="level">
                                     <Form.Label className="h3">Level</Form.Label>
-                                    <Form.Control as="select"  value={updatedprop.level}
-                                                  onChange={(e) => setUpdatedprop({...updatedprop, level: e.target.value})}
+                                    <Form.Control as="select"  value={updatedProp.level}
+                                                  onChange={(e) => setUpdatedProp({...updatedProp, level: e.target.value})}
                                                   id="level-input"
                                     >
                                         <option value="">Select the type</option>
@@ -260,8 +260,8 @@ function UpdateProposal (props) {
                                     <Form.Control
                                         type="date"
                                         placeholder="Enter expiration"
-                                        value={updatedprop.expiration.format("YYYY-MM-DD")}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, expiration: dayjs(e.target.value)})}
+                                        value={updatedProp.expiration.format("YYYY-MM-DD")}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, expiration: dayjs(e.target.value)})}
                                         min={new Date().toISOString().split("T")[0]}
                                         id="exp-input"
                                     />
@@ -292,13 +292,13 @@ function UpdateProposal (props) {
                                 <Form.Label className="h3">Co-Supervisors</Form.Label>
                                 <Card className={"mb-3"}>
                                     <Card.Body>
-                                        <CoSupervisorInput updatedprop={updatedprop} setCoAlert={setCoAlert} coAlert={coAlert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
+                                        <CoSupervisorInput updatedProp={updatedProp} setCoAlert={setCoAlert} coAlert={coAlert} onAddCoSupervisor={addCoSupervisor} professors={professors}/>
                                         <br/>
                                         <h5>
                                             Internal Co-Supervisors
                                         </h5>
                                         <ListGroup className={"mt-3"}>
-                                            {updatedprop.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
+                                            {updatedProp.coSupervisors.map((cs, index) => (<ListGroup.Item key={index}>
                                                 {professors.filter((p) => p.id == cs).map((professor) => professor.name + ' ' + professor.surname)} &nbsp;
                                                 <Button
                                                     variant="danger"
@@ -316,7 +316,7 @@ function UpdateProposal (props) {
                                             External Co-Supervisors
                                         </h5>
                                         <ListGroup className={"mt-3"}>
-                                            {updatedprop.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
+                                            {updatedProp.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
                                                 <ListGroup.Item key={index}>
                                                     { cs.email} &nbsp;
                                                     <Button
@@ -339,7 +339,7 @@ function UpdateProposal (props) {
                                     <Card.Body>
                                         <GroupInput onAddGroup={addGroup}/>
                                         <ListGroup className={"mt-3"}>
-                                            {updatedprop.groups.map((g, index) => (<ListGroup.Item key={index}>
+                                            {updatedProp.groups.map((g, index) => (<ListGroup.Item key={index}>
                                                 {g} &nbsp;
                                                 <Button
                                                     variant="danger"
@@ -380,7 +380,7 @@ function UpdateProposal (props) {
                                                 </div>
                                             </div>
                                             <div className="mt-3">
-                                                {updatedprop.keywords.map((keyword, index) => (
+                                                {updatedProp.keywords.map((keyword, index) => (
                                                     <Button variant="primary" key={index} className="m-2"
                                                             onClick={() => removeKeyword(index)}
                                                             id={"remove-" + index}>
@@ -398,8 +398,8 @@ function UpdateProposal (props) {
                                         as="textarea"
                                         rows={4}
                                         placeholder="Enter description"
-                                        value={updatedprop.description}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, description: e.target.value})}
+                                        value={updatedProp.description}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, description: e.target.value})}
                                     />
                                 </Form.Group>
                             </div>
@@ -413,8 +413,8 @@ function UpdateProposal (props) {
                                         as="textarea"
                                         rows={4}
                                         placeholder="Enter required knowloedge"
-                                        value={updatedprop.requiredKnowledge}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, requiredKnowledge: e.target.value})}
+                                        value={updatedProp.requiredKnowledge}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, requiredKnowledge: e.target.value})}
                                     />
                                 </Form.Group>
                             </div>
@@ -425,8 +425,8 @@ function UpdateProposal (props) {
                                         as="textarea"
                                         rows={4}
                                         placeholder="Enter notes"
-                                        value={updatedprop.notes}
-                                        onChange={(e) => setUpdatedprop({...updatedprop, notes: e.target.value})}
+                                        value={updatedProp.notes}
+                                        onChange={(e) => setUpdatedProp({...updatedProp, notes: e.target.value})}
                                     />
                                 </Form.Group>
                             </div>
@@ -440,7 +440,7 @@ function UpdateProposal (props) {
                                     <CdsInput onAddCds={addCds}/>
 
                                     <ListGroup className={"mt-3"}>
-                                        {updatedprop.cdS.map((cds, index) => (<ListGroup.Item key={index}>
+                                        {updatedProp.cdS.map((cds, index) => (<ListGroup.Item key={index}>
                                             {cds} &nbsp;
                                             <Button
                                                 variant="danger"
