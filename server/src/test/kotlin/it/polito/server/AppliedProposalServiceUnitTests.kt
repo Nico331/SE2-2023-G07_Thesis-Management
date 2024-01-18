@@ -96,7 +96,7 @@ class AppliedProposalServiceTest {
         archived = archiviation_type.NOT_ARCHIVED
     )
     @Test
-    fun `findAll returns all applied proposals as DTOs`() {
+    fun findAllAppliedProposalsAsDTOs() {
         // Given
 
         val appliedProposalDTOs = appliedProposals.map { it.toDTO() }
@@ -111,7 +111,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `deleteAppliedProposal return NOT_FOUND if not exists`() {
+    fun deleteAppliedProposalIfExists() {
         // Given
         val proposalId = "nonExistingId"
         `when`(appliedProposalRepository.existsById(proposalId)).thenReturn(false)
@@ -124,7 +124,7 @@ class AppliedProposalServiceTest {
         assertEquals("this Application does NOT EXIST", response.body)
     }
     @Test
-    fun `deleteAppliedProposal deleted successfully`() {
+    fun deleteAppliedProposal() {
         // Given
         val proposalId = "existingId"
         `when`(appliedProposalRepository.existsById(proposalId)).thenReturn(true)
@@ -139,7 +139,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se la proposta non esiste`() {
+    fun applyForProposalNotPresent() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -153,7 +153,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR in creating the application (PROPOSAL NOT PRESENT in the database).", response.body)
     }
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se lo studente non esiste`() {
+    fun applyForProposalBadRequest() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -169,7 +169,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR in creating the application (STUDENT NOT PRESENT in the database).", response.body)
     }
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se l'applicazione esiste gia`() {
+    fun applyForProposalExisting() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -186,7 +186,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR in creating the application (APPLICATION ALREADY EXISTS).", response.body)
     }
     @Test
-    fun `applyForProposal ritorna BAD_REQUEST se lo studente ha gia un'altra applicazione in stato PENDING o ACCEPTED`() {
+    fun applyForProposalExistingApplicationPendingOrAccepted() {
         // Given
         val proposalId = "proposalId"
         val studentId = "studentId"
@@ -207,7 +207,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `appliesByStudentId should return NOT_FOUND when student does not exist`() {
+    fun appliesByStudentIdStudentNotExists() {
         // Given
         val studentId = "nonExistingStudentId"
         `when`(studentRepository.findById(studentId)).thenReturn(Optional.empty())
@@ -220,7 +220,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR: this student NOT EXISTS", response.body)
     }
     @Test
-    fun `appliesByStudentId should return the list of applications for a student`() {
+    fun appliesByStudentIdReturnList() {
         // Given
         val studentId = "existingStudentId"
         val student = mock(Student::class.java)
@@ -240,7 +240,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `appliesByProposalId should return NOT_FOUND when proposal does not exist`() {
+    fun appliesByProposalIdNotFound() {
         // Given
         val proposalId = "nonExistingProposalId"
         `when`(proposalRepository.findById(proposalId)).thenReturn(Optional.empty())
@@ -253,7 +253,7 @@ class AppliedProposalServiceTest {
         assertEquals("ERROR: this Proposal NOT EXISTS", response.body)
     }
     @Test
-    fun `appliesByProposalId should return the list of applications for a proposal`() {
+    fun appliesByProposalIdListOfApplications() {
         // Given
         val proposalId = "existingProposalId"
         val appliedProposalsDTOs = appliedProposals.map { it.toDTO() }
@@ -270,7 +270,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `findByProfessor returns filtered proposals and maps to StrangeObjectRequestedByDarione`() {
+    fun findByProfessorFilteredProposals() {
         // Given
         val professorId = "professorId"
         val proposalId = "proposalId"
@@ -319,7 +319,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `updateApplicationsStatus sets applications to CANCELLED for expired or manually archived proposals`() {
+    fun updateApplicationsStatusSetsCancelled() {
         // Given
         val proposalId = "proposalId"
         val proposal = mock(Proposal::class.java)
@@ -339,7 +339,7 @@ class AppliedProposalServiceTest {
         }
     }
     @Test
-    fun `updateApplicationsStatus sets applications to PENDING for other archived types`() {
+    fun updateApplicationsStatusSetsPending() {
         // Given
         val proposalId = "proposalId"
         val proposal = mock(Proposal::class.java)
@@ -360,7 +360,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `withdrawProposal sets status to CANCELLED and saves when application exists`() {
+    fun withdrawProposalSetsCancelled() {
         // Given
         val appliedProposalId = "existingId"
         val appliedProposal = mock(AppliedProposal::class.java)
@@ -374,7 +374,7 @@ class AppliedProposalServiceTest {
         assertEquals(ApplicationStatus.CANCELLED, (response.body as AppliedProposal).status)
     }
     @Test
-    fun `withdrawProposal returns NOT_FOUND when application does not exist`() {
+    fun withdrawProposalNotExists() {
         // Given
         val appliedProposalId = "nonExistingId"
         `when`(appliedProposalRepository.findById(appliedProposalId)).thenReturn(Optional.empty())
@@ -388,7 +388,7 @@ class AppliedProposalServiceTest {
     }
 
     @Test
-    fun `findByCoSupervisor returns filtered proposals and maps to StrangeObjectRequestedByDarione`() {
+    fun findByCoSupervisorReturnsFilteredApps() {
         // Given
         val coSupervisorId = "coSupervisorId"
         val proposalId = "proposalId"

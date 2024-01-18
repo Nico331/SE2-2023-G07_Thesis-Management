@@ -9,7 +9,7 @@ import kotlin.test.assertNotNull
 class AppliedProposalTest {
 
     @Test
-    fun `toDTO correctly maps fields when file is not null`() {
+    fun toDTOCorrectlyMapsFileNotNull() {
         // Given
         val appliedProposal = AppliedProposal(
             id = "1",
@@ -32,7 +32,7 @@ class AppliedProposalTest {
     }
 
     @Test
-    fun `toDTO correctly maps fields when file is null`() {
+    fun toDTOMapsFieldsFileIsNull() {
         // Given
         val appliedProposal = AppliedProposal(
             id = "1",

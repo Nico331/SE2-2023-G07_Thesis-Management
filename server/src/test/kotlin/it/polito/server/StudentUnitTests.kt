@@ -22,7 +22,8 @@ class StudentUnitTests {
         studentService = mock(StudentService::class.java)
         studentController = StudentController(studentService)
     }
-
+    private val updatedStudentEmail = "updatedstudent@student.it"
+    private val newStudentEmail = "newstudent@student.it"
     @Test
     fun testGetStudent() {
         val studentId = "1"
@@ -86,7 +87,7 @@ class StudentUnitTests {
                 name = "Student",
                 gender = "Male",
                 nationality = "Italy",
-                email = "newstudent@student.it",
+                email = newStudentEmail,
                 codDegree = "33333",
                 enrollmentYear = 2023
         )
@@ -126,7 +127,7 @@ class StudentUnitTests {
                 name = "Student",
                 gender = "Male",
                 nationality = "Italy",
-                email = "newstudent@student.it",
+                email = newStudentEmail,
                 codDegree = "22222",
                 enrollmentYear = 2023
         )
@@ -148,14 +149,14 @@ class StudentUnitTests {
                 name = "Student",
                 gender = "Male",
                 nationality = "US",
-                email = "updatedstudent@student.it",
+                email = updatedStudentEmail,
                 codDegree = "11111",
                 enrollmentYear = 2023
         )
         // Configuro il mock del servizio che ritorna StudentDTO
         `when`(studentService.updateStudent(studentId, updatedStudentDTO)).thenReturn(
                 StudentDTO(id = studentId, surname = "Updated", name = "Student", gender = "Male",
-                        nationality = "US", email = "updatedstudent@student.it", codDegree = "11111", enrollmentYear = 2023)
+                        nationality = "US", email = updatedStudentEmail, codDegree = "11111", enrollmentYear = 2023)
         )
         // Eseguo la chiamata all'API UPDATESTUDENT
         val responseEntity = studentController.updateStudent(studentId, updatedStudentDTO)
@@ -171,7 +172,7 @@ class StudentUnitTests {
                 name = "Student",
                 gender = "Male",
                 nationality = "US",
-                email = "updatedstudent@student.it",
+                email = updatedStudentEmail,
                 codDegree = "11111",
                 enrollmentYear = 2023
         )
@@ -238,7 +239,7 @@ class StudentUnitTests {
                 name = "Student",
                 gender = "Male",
                 nationality = "US",
-                email = "updatedstudent@student.it",
+                email = updatedStudentEmail,
                 codDegree = "11111",
                 enrollmentYear = 2023
         )

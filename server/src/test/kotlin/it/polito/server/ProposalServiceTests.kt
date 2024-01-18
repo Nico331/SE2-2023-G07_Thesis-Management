@@ -269,7 +269,7 @@ class ProposalServiceTest {
 //    }
 
     @Test
-    fun `createProposal throws exception when professor not found`() = runTest {
+    fun createProposalThrowsExceptionWhenProfessorNotFound() = runTest {
         // Given
         val coSupervisorId = "coSupervisorId"
         val proposalTitle = "New Proposal"
@@ -290,7 +290,7 @@ class ProposalServiceTest {
         assertEquals("proposalRepository.save(proposal.toDBObj()) must not be null", exception.message)
     }
     @Test
-    fun `createProposal does not save external co-supervisors when none are provided`() = runTest {
+    fun createProposalDoesNotSaveExternalCoSupervisorsWhenNoneAreProvided() = runTest {
         // Given
         val proposalDTO = mock(ProposalDTO::class.java).apply {
             `when`(externalCoSupervisors).thenReturn(null)
@@ -343,7 +343,7 @@ class ProposalServiceTest {
 
 
     @Test
-    fun `findProposalById returns ProposalDTO if proposal exists`() {
+    fun findProposalByIdReturnsProposalDTOIfProposalExists() {
         // Given
         val proposalId = "proposalId"
 
@@ -358,7 +358,7 @@ class ProposalServiceTest {
         assertEquals("John Doe", response?.supervisor)
     }
     @Test
-    fun `findProposalById returns null if proposal does not exist`() {
+    fun findProposalByIdReturnsNullIfProposalDoesNotExist() {
         // Given
         val nonExistentProposalId = "nonExistentProposalId"
         `when`(proposalRepository.findById(nonExistentProposalId)).thenReturn(Optional.empty())
@@ -371,7 +371,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `findAll returns all proposals as DTOs`() {
+    fun findAllReturnsAllProposalsAsDTOs() {
         // Given
         val proposalDTOs = proposals.map { it.toDTO(externalCoSupervisorRepository) }
 
@@ -385,7 +385,7 @@ class ProposalServiceTest {
         assertEquals(proposalDTOs, result)
     }
     @Test
-    fun `findActiveByStudent returns active proposals for given student`() {
+    fun findActiveByStudentReturnsActiveProposalsForGivenStudent() {
         // Given
         val studentId = "studentId"
 
@@ -432,7 +432,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `deleteProposal returns NOT_FOUND if proposal does not exist`() {
+    fun deleteProposalReturnsNOT_FOUNDIfProposalDoesNotExist() {
         // Given
         val nonExistentProposalId = "nonExistentProposalId"
         `when`(proposalRepository.existsById(nonExistentProposalId)).thenReturn(false)
@@ -447,7 +447,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `deleteProposal returns BAD_REQUEST if proposal is already archived`() {
+    fun deleteProposalReturnsBAD_REQUESTIfProposalIsAlreadyArchived() {
         // Given
         val archivedProposalId = "archivedProposalId"
         val archivedProposalEntity = proposalEntity.copy(archived = archiviation_type.EXPIRED)
@@ -464,7 +464,7 @@ class ProposalServiceTest {
         verifyNoInteractions(emailService)
     }
     @Test
-    fun `findActiveProposalsBySupervisor returns active proposals for an existing supervisor with active proposals`() {
+    fun findActiveProposalsBySupervisorReturnsActiveProposalsForAnExistingSupervisorWithActiveProposals() {
         // Given
         val supervisorId = "supervisorId"
         `when`(professorService.findProfessorById(supervisorId)).thenReturn(
@@ -489,7 +489,7 @@ class ProposalServiceTest {
         assertEquals(2, activeProposalsDTOs.size)
     }
     @Test
-    fun `findActiveProposalsBySupervisor returns NOT_FOUND if supervisor does not exist`() {
+    fun findActiveProposalsBySupervisorReturnsNOT_FOUNDIfSupervisorDoesNotExist() {
         // Given
         val nonExistentSupervisorId = "nonExistentSupervisorId"
         `when`(professorService.findProfessorById(nonExistentSupervisorId)).thenReturn(null)
@@ -502,7 +502,7 @@ class ProposalServiceTest {
         assertTrue((response.body as String).contains("Error: Supervisor '$nonExistentSupervisorId' does NOT exist."))
     }
     @Test
-    fun `findActiveProposalsBySupervisor returns BAD_REQUEST if supervisor has no proposals`() {
+    fun findActiveProposalsBySupervisorReturnsBAD_REQUESTIfSupervisorHasNoProposals() {
         // Given
         val supervisorId = "supervisorId"
         `when`(professorService.findProfessorById(supervisorId)).thenReturn(
@@ -525,7 +525,7 @@ class ProposalServiceTest {
         assertTrue((response.body as String).contains("Error: Supervisor '$supervisorId' has NO proposals."))
     }
     @Test
-    fun `findActiveProposalsBySupervisor returns BAD_REQUEST if supervisor has no active proposals`() {
+    fun findActiveProposalsBySupervisorReturnsBAD_REQUESTIfSupervisorHasNoActiveProposals() {
         // Given
         val supervisorId = "supervisorId"
         `when`(professorService.findProfessorById(supervisorId)).thenReturn(
@@ -551,7 +551,7 @@ class ProposalServiceTest {
 
 
     @Test
-    fun `manuallyArchivedProposal archives a proposal successfully`() {
+    fun manuallyArchivedProposalArchivesProposalSuccessfully() {
         // Given
         val proposalId = "proposalId"
 
@@ -567,7 +567,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `manuallyArchivedProposal returns NOT_FOUND if proposal does not exist`() {
+    fun manuallyArchivedProposalReturnsNOT_FOUNDProposalNotExist`() {
         // Given
         val nonExistentProposalId = "nonExistentProposalId"
         `when`(proposalRepository.findById(nonExistentProposalId)).thenReturn(Optional.empty())
@@ -581,7 +581,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `manuallyArchivedProposal returns BAD_REQUEST if proposal is already archived`() {
+    fun manuallyArchivedProposalReturnsBAD_REQUESTIfProposalIsAlreadyArchived() {
         // Given
         val archivedProposalId = "archivedProposalId"
         val archivedProposalEntity = proposalEntity.copy(archived = archiviation_type.MANUALLY_ARCHIVED)
@@ -596,7 +596,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `manuallyArchivedProposal cancels pending applications`() {
+    fun manuallyArchivedProposalCancelsPendingApplications() {
         // Given
 
         val pendingApplication = AppliedProposalDTO(
@@ -619,7 +619,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `findProposalBySupervisor returns proposals by supervisor`() {
+    fun findProposalBySupervisorReturnsProposalsBySupervisor() {
         // Given
         val supervisorId = "supervisorId"
 
@@ -633,7 +633,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `existsByTitleAndSupervisor returns true if proposal exists with given title and supervisor`() {
+    fun existsByTitleAndSupervisorReturnsTrueIfProposalExistsWithGivenTitleAndSupervisor() {
         // Given
         val proposalTitle = "Proposal 1"
         val proposalSupervisor = "John Doe"
@@ -648,7 +648,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `existsByTitleAndSupervisor returns false if proposal does not exist with given title and supervisor`() {
+    fun existsByTitleAndSupervisorReturnsFalseIfProposalDoesNotExistWithGivenTitleAndSupervisor() {
         // Given
         val proposalTitle = "Nonexistent Proposal"
         val proposalSupervisor = "John Doe"
@@ -691,7 +691,7 @@ class ProposalServiceTest {
 //    }
 
     @Test
-    fun `findArchivedProposalsBySupervisor returns archived proposals if supervisor exists`() {
+    fun findArchivedProposalsBySupervisorReturnsArchivedProposalsIfSupervisorExists() {
         // Given
         `when`(professorService.findProfessorById(supervisorId)).thenReturn(
             ProfessorDTO(
@@ -718,7 +718,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `findArchivedProposalsBySupervisor returns NOT_FOUND if supervisor does not exist`() {
+    fun findArchivedProposalsBySupervisorReturnsNOT_FOUNDIfSupervisorDoesNotExist() {
         // Given
         val supervisorId = "supervisorIdNotExists"
         `when`(professorService.findProfessorById(supervisorId)).thenReturn(null)
@@ -732,7 +732,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `findProposalsByCoSupervisor returns proposals if coSupervisor exists`() {
+    fun findProposalsByCoSupervisorReturnsProposalsIfCoSupervisorExists() {
         // Given
 
         `when`(professorService.findProfessorById(coSupervisorId)).thenReturn(
@@ -756,7 +756,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun `findProposalsByCoSupervisor returns NOT_FOUND if coSupervisor does not exist`() {
+    fun findProposalsByCoSupervisorReturnsNOT_FOUNDIfCoSupervisorDoesNotExist() {
         // Given
         val coSupervisorId = "coSupervisorIdnot"
         `when`(professorService.findProfessorById(coSupervisorId)).thenReturn(null)

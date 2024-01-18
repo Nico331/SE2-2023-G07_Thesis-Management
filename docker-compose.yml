@@ -61,7 +61,6 @@ services:
       SPRING_MAIL_PASSWORD: password
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_auth: true
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: false
-
     networks:
       - network
 

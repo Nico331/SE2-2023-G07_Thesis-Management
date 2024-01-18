@@ -12,6 +12,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.time.LocalDate
+
 @CoderseeGenerated
 class AppliedProposalUnitTests {
 
