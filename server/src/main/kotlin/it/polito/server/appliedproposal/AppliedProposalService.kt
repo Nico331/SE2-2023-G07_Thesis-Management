@@ -23,7 +23,9 @@ class AppliedProposalService(
     private val emailService: EmailService,
 ) {
 
-
+    private val regards = "\nBest regards,\nGestione Didattica"
+    private val noReplyEmailProfessors = "no-reply@polito.it"
+    private val noReplyEmailStudents = "no-reply@studenti.polito.it"
     fun findAll() : List<AppliedProposalDTO> {
         //return list of application (in case nothing exists yet empty list)
         return appliedProposalRepository.findAll().map{ (it.toDTO())}
@@ -75,9 +77,8 @@ class AppliedProposalService(
                 professor.email,
                 "New application",
                 "There is a new application for \"${proposal.get().title}\" proposal by the student ${student.get().name} ${student.get().surname}" +
-                        "\nBest regards" +
-                        "\nGestione Didattica",
-                "no-reply@polito.it"
+                        regards,
+                noReplyEmailProfessors
             )
         }
         return  ResponseEntity.ok(appliedProposal.toDTO())
@@ -125,9 +126,8 @@ class AppliedProposalService(
                             "${applicationToReject.studentId}@studenti.polito.it",
                             "Application cancelled",
                             "The thesis application for \"${proposal.title}\" was automatically cancelled. " +
-                                    "\nBest regards" +
-                                    "\nGestione Didattica",
-                            "no-reply@studenti.polito.it"
+                                    regards,
+                            noReplyEmailStudents
                         )
                     }
                     if(proposal.coSupervisors.isNotEmpty()){
@@ -139,9 +139,8 @@ class AppliedProposalService(
                                         coSupervisorId,
                                         "Application cancelled",
                                         "The thesis application for \"${proposal.title}\" was automatically cancelled}" +
-                                                "\nBest regards" +
-                                                "\nGestione Didattica",
-                                        "no-reply@polito.it"
+                                                regards,
+                                        noReplyEmailProfessors
                                     )
                                 }
                             }
@@ -154,9 +153,8 @@ class AppliedProposalService(
                                     externalCoSupervisor.email,
                                     "Application cancelled",
                                     "The thesis application for \"${proposal.title}\" was automatically cancelled" +
-                                            "\nBest regards" +
-                                            "\nGestione Didattica",
-                                    "no-reply@polito.it"
+                                            regards,
+                                    noReplyEmailProfessors
                                 )
                             }
                         }}
@@ -175,9 +173,8 @@ class AppliedProposalService(
                         "${appliedProposal.studentId}@studenti.polito.it",
                         "Application accepted",
                         "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
-                                "\nBest regards" +
-                                "\nGestione Didattica",
-                        "no-reply@studenti.polito.it"
+                                regards,
+                        noReplyEmailStudents
                     )
                 }
                 if(proposal.coSupervisors.isNotEmpty()){
@@ -189,9 +186,8 @@ class AppliedProposalService(
                                     coSupervisorId,
                                     "Application accepted",
                                     "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
-                                            "\nBest regards" +
-                                            "\nGestione Didattica",
-                                    "no-reply@polito.it"
+                                            regards,
+                                    noReplyEmailProfessors
                                 )
                             }
                         }
@@ -204,9 +200,8 @@ class AppliedProposalService(
                                 externalCoSupervisor.email,
                                 "Application accepted",
                                 "The thesis application for \"${proposal.title}\" was accepted by prof. ${professor.name} ${professor.surname}" +
-                                        "\nBest regards" +
-                                        "\nGestione Didattica",
-                                "no-reply@polito.it"
+                                        regards,
+                                noReplyEmailProfessors
                             )
                         }
                     }}
@@ -240,9 +235,8 @@ class AppliedProposalService(
                         "${appliedProposal.studentId}@studenti.polito.it",
                         "Application rejected",
                         "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
-                                "\nBest regards" +
-                                "\nGestione Didattica",
-                        "no-reply@studenti.polito.it"
+                                regards,
+                        noReplyEmailStudents
                     )
                 }
                 if(proposal.coSupervisors.isNotEmpty()){
@@ -269,9 +263,8 @@ class AppliedProposalService(
                                 externalCoSupervisor.email,
                                 "Application rejected",
                                 "The thesis application for \"${proposal.title}\" was rejected by prof. ${professor.name} ${professor.surname}" +
-                                        "\nBest regards" +
-                                        "\nGestione Didattica",
-                                "no-reply@polito.it"
+                                        regards,
+                                noReplyEmailProfessors
                             )
                         }
                     }}
