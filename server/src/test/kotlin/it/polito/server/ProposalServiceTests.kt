@@ -567,7 +567,7 @@ class ProposalServiceTest {
     }
 
     @Test
-    fun manuallyArchivedProposalReturnsNOT_FOUNDProposalNotExist`() {
+    fun manuallyArchivedProposalReturnsNOT_FOUNDProposalNotExist() {
         // Given
         val nonExistentProposalId = "nonExistentProposalId"
         `when`(proposalRepository.findById(nonExistentProposalId)).thenReturn(Optional.empty())
