@@ -62,7 +62,7 @@ All the unit and e2e tests for the completed stories are passing.
 | _#43_ | 1       | 1      | 15m        | 5m           |
 
 <span style="color:green">
-Note that the story id is consistent with the one provided by the professors, but not with the one on YouTrack.</span>
+Note that the story id is consistent with the one on YouTrack, but not with the one provided by the professors.</span>
 
 <span style="color:green">
 Moreover the #102 for some reason was not counted in the reports.</span>
