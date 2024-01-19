@@ -137,6 +137,7 @@ Moreover the #102 for some reason was not counted in the reports.</span>
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
 > For the next sprint we could commit less stories and put more focus on testing.
+> Increase the coverage, decrease code duplications and solve code smells
 
 - One thing you are proud of as a Team!
 
