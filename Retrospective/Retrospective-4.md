@@ -103,7 +103,6 @@ Moreover the #102 for some reason was not counted in the reports.</span>
     - Reliability: A
     - Security: A
     - Maintainability: A
-      (Modified after the retrospective feedback from the professor)
 -Frontend automated tests:
   - Total hours estimated: 10h
   - Total hours spent: 10h
