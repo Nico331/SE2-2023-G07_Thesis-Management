@@ -18,8 +18,8 @@ function UpdateProposal (props) {
         id: null,
         title: props.modifyProposal.title,
         supervisor: JSON.parse(user).id,
-        coSupervisors: props.modifyProposal.coSupervisors,
-        externalCoSupervisors: props.modifyProposal.externalCoSupervisors || [],
+        coSupervisors: props.modifyProposal.coSupervisors.filter((a) => !a.includes("@")),
+        externalCoSupervisors: props.modifyProposal.coSupervisors.filter((a) => a.includes("@")) || [],
         keywords: props.modifyProposal.keywords,
         type: props.modifyProposal.type,
         groups: props.modifyProposal.groups,
@@ -31,6 +31,7 @@ function UpdateProposal (props) {
         cdS: props.modifyProposal.cdS,
         archived: props.modifyProposal.archived,
     });
+    console.log({updatedProp})
 
     interface ExternalCoSupervisor {
         email: string;
@@ -318,7 +319,7 @@ function UpdateProposal (props) {
                                         <ListGroup className={"mt-3"}>
                                             {updatedProp.externalCoSupervisors.map((cs: ExternalCoSupervisor, index) => (
                                                 <ListGroup.Item key={index}>
-                                                    { cs.email} &nbsp;
+                                                    { cs} &nbsp;
                                                     <Button
                                                         variant="danger"
                                                         size="sm"
