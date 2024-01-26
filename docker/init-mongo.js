@@ -167,8 +167,8 @@ db.proposal.insertMany([
 db.student.insertMany([
     {
         _id: "s300001",
-        surname: "Johnson",
-        name: "Michael",
+        surname: "Moss",
+        name: "Elmo",
         gender: "Male",
         nationality: "American",
         email: "s300001@studenti.polito.it",
@@ -178,8 +178,8 @@ db.student.insertMany([
     },
     {
         _id: "s300002",
-        surname: "Williams",
-        name: "Emma",
+        surname: "Woods",
+        name: "Bryan",
         gender: "Female",
         nationality: "Canadian",
         email: "s300002@studenti.polito.it",
@@ -225,8 +225,8 @@ db.student.insertMany([
 db.professor.insertMany([
     {
         _id: "p300001",
-        name: "Elizabeth",
-        surname: "Taylor",
+        name: "Juan Stefano",
+        surname: "Pauli",
         email: "p300001@polito.it",
         codGroup: "MATH-CG",
         codDepartment: "MATH-DEP",
@@ -234,8 +234,8 @@ db.professor.insertMany([
     },
     {
         _id: "p300002",
-        name: "John",
-        surname: "Smith",
+        name: "Giulia",
+        surname: "Saracco",
         email: "p300002@polito.it",
         codGroup: "PHYS-CG",
         codDepartment: "PHYS-DEP",
@@ -372,7 +372,7 @@ const applications = [
     { "_id": "4", "proposalId": "4", "studentId": "s300001", "status": "CANCELLED" },
     // { "_id": "5", "proposalId": "5", "studentId": "s300001", "status": "PENDING" },
     { "_id": "6", "proposalId": "6", "studentId": "s300001", "status": "CANCELLED" },
-    { "_id": "7", "proposalId": "7", "studentId": "s300002", "status": "PENDING" },
+    // { "_id": "7", "proposalId": "7", "studentId": "s300002", "status": "PENDING" },
     // { "_id": "8", "proposalId": "8", "studentId": "s300002", "status": "PENDING" },
     // { "_id": "9", "proposalId": "9", "studentId": "s300002", "status": "PENDING" },
     // { "_id": "10", "proposalId": "10", "studentId": "s300002", "status": "PENDING" },
@@ -391,8 +391,8 @@ db.appliedProposal.insertMany(applications)
 
 db.secretary.insertMany([{
     "_id": "secretary01",
-    "name": "Alex",
-    "surname" : "Smith",
+    "name": "Pam",
+    "surname" : "Beesly",
     "email" : "secretary01@polito.it",
 }])
 
@@ -417,28 +417,28 @@ const externalCoSupervisors = [
 db.externalCoSupervisor.insertMany(externalCoSupervisors)
 
 const requestForProposals = [
-    {
-        "_id": "1",
-        "title": "Smart Home Automation System",
-        "description": "Develop a system that intelligently automates various tasks in a home, such as lighting, temperature control, and security, using IoT devices.",
-        "studentId": "s300001",
-        "supervisorId" : "p300001",
-        "coSupervisors" : ["p300002"],
-        "acceptanceDate" : null,
-        "secretaryStatus" : "PENDING",
-        "supervisorStatus" : "PENDING"
-    },
-    {
-        "_id": "2",
-        "title": "Machine Learning for Medical Diagnosis",
-        "description": "Apply machine learning techniques to analyze medical data and assist in the early diagnosis of diseases, improving healthcare efficiency.",
-        "studentId": "s300002",
-        "supervisorId" : "p300003",
-        "coSupervisors" : ["p300001", "p300005"],
-        "acceptanceDate" : null,
-        "secretaryStatus" : "PENDING",
-        "supervisorStatus" : "PENDING"
-    },
+    // {
+    //     "_id": "1",
+    //     "title": "Smart Home Automation System",
+    //     "description": "Develop a system that intelligently automates various tasks in a home, such as lighting, temperature control, and security, using IoT devices.",
+    //     "studentId": "s300001",
+    //     "supervisorId" : "p300001",
+    //     "coSupervisors" : ["p300002"],
+    //     "acceptanceDate" : null,
+    //     "secretaryStatus" : "PENDING",
+    //     "supervisorStatus" : "PENDING"
+    // },
+    // {
+    //     "_id": "2",
+    //     "title": "Machine Learning for Medical Diagnosis",
+    //     "description": "Apply machine learning techniques to analyze medical data and assist in the early diagnosis of diseases, improving healthcare efficiency.",
+    //     "studentId": "s300002",
+    //     "supervisorId" : "p300003",
+    //     "coSupervisors" : ["p300001", "p300005"],
+    //     "acceptanceDate" : null,
+    //     "secretaryStatus" : "PENDING",
+    //     "supervisorStatus" : "PENDING"
+    // },
     {
         "_id": "3",
         "title": "Blockchain-based Supply Chain Management",

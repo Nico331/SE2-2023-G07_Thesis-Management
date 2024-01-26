@@ -187,27 +187,27 @@ const ProposalForm: React.FC = () => {
     return (
         <Container className={isScreenSmall ? "p-0" : ""}>
             <h1 style={{marginTop: "110px"}}>New Thesis Proposal</h1>
-            <Button variant="info" onClick={()=>{
-                setProposal({
-                    id: null,
-                    archived: 'NOT_ARCHIVED',
-                    title: 'Machine learning techniques for optimizing energy consumption in buildings',
-                    supervisor: JSON.parse(user).id,
-                    coSupervisors: ['p300002'],
-                    externalCoSupervisors: [{name:"Dario", surname:"Marchitelli", email:"dario002@hotmail.it"}],
-                    keywords: ['Artificial Intelligence', 'Artificial Neural Networks', 'Neural Networks'],
-                    type: 'Development',
-                    groups: ['DAUIN'],
-                    description: 'Development of a predictive control model with innovative techniques of machine learning for the control of heating and cooling of buildings',
-                    requiredKnowledge: 'C++, machine learning',
-                    notes: 'The thesis project could be used by an external company',
-                    expiration: dayjs('2024-02-04').add(1, 'hour'),
-                    level: 'Masters',
-                    cdS: ['Computer Engineering'],
-                });
-            }}>
-                <i className="bi bi-database"></i> Populate with Test Data
-            </Button>
+            {/*<Button variant="info" onClick={()=>{*/}
+            {/*    setProposal({*/}
+            {/*        id: null,*/}
+            {/*        archived: 'NOT_ARCHIVED',*/}
+            {/*        title: 'Machine learning techniques for optimizing energy consumption in buildings',*/}
+            {/*        supervisor: JSON.parse(user).id,*/}
+            {/*        coSupervisors: ['p300002'],*/}
+            {/*        externalCoSupervisors: [{name:"Dario", surname:"Marchitelli", email:"dario002@hotmail.it"}],*/}
+            {/*        keywords: ['Artificial Intelligence', 'Artificial Neural Networks', 'Neural Networks'],*/}
+            {/*        type: 'Development',*/}
+            {/*        groups: ['DAUIN'],*/}
+            {/*        description: 'Development of a predictive control model with innovative techniques of machine learning for the control of heating and cooling of buildings',*/}
+            {/*        requiredKnowledge: 'C++, machine learning',*/}
+            {/*        notes: 'The thesis project could be used by an external company',*/}
+            {/*        expiration: dayjs('2024-02-04').add(1, 'hour'),*/}
+            {/*        level: 'Masters',*/}
+            {/*        cdS: ['Computer Engineering'],*/}
+            {/*    });*/}
+            {/*}}>*/}
+            {/*    <i className="bi bi-database"></i> Populate with Test Data*/}
+            {/*</Button>*/}
             <Form noValidate validated={validated} className="mt-4" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}

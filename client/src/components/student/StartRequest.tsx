@@ -106,22 +106,22 @@ const StartRequest: React.FC = () => {
     return (
         <Container>
             <h1 style={{marginTop: "110px"}}>New Thesis Request</h1>
-            <Button variant="info" onClick={()=>{
-                setRequest({
-                        id: null,
-                        title: 'Blockchain applied to the sharing mobility',
-                        studentId: JSON.parse(user).id,
-                        supervisorId: 'p300001',
-                        coSupervisors: ['p300002'],
-                        description: 'Development of a blockchain system to apply at the sharing mobility',
-                        acceptanceDate: null,
-                        secretaryStatus: 'PENDING',
-                        supervisorStatus: 'PENDING'
-                    }
-                );
-            }}>
-                <i className="bi bi-database"></i> Populate with Test Data
-            </Button>
+            {/*<Button variant="info" onClick={()=>{*/}
+            {/*    setRequest({*/}
+            {/*            id: null,*/}
+            {/*            title: 'Blockchain applied to the sharing mobility',*/}
+            {/*            studentId: JSON.parse(user).id,*/}
+            {/*            supervisorId: 'p300001',*/}
+            {/*            coSupervisors: ['p300002'],*/}
+            {/*            description: 'Development of a blockchain system to apply at the sharing mobility',*/}
+            {/*            acceptanceDate: null,*/}
+            {/*            secretaryStatus: 'PENDING',*/}
+            {/*            supervisorStatus: 'PENDING'*/}
+            {/*        }*/}
+            {/*    );*/}
+            {/*}}>*/}
+            {/*    <i className="bi bi-database"></i> Populate with Test Data*/}
+            {/*</Button>*/}
             <Form noValidate validated={validated} className="mt-5" onSubmit={handleSubmit}>
                 <Row>
                     {alert.type && <Alert variant={alert.type}>{alert.message}</Alert>}
