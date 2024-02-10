@@ -1,5 +1,6 @@
 # SE2-2023-G07_Thesis-Management
-Final project of the Software Engineering II course.
+Final project of the Software Engineering II course.  
+[YouTube Demo and Presentation](https://www.youtube.com/watch?v=6udFu_1RUHo)
 
 ## Prerequisites
 
